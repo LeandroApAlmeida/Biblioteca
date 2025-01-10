@@ -1,0 +1,131 @@
+﻿@model LoanModel
+
+@using Newtonsoft.Json;
+@using Library.Utils;
+
+@{
+
+    ViewData["Title"] = "Editar Livro Emprestado";
+
+    var persons = ViewBag.Persons as List<PersonModel>;
+
+    var personsJson = JsonConvert.SerializeObject(persons, Formatting.Indented);
+
+    var personJson = JsonConvert.SerializeObject(Model.Person, Formatting.Indented);
+
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="conteiner">
+
+        @if (TempData[Constants.error_message] != null) {
+            <div class="alert alert-danger text-black" role="alert">
+                @TempData[Constants.error_message]
+            </div>
+        }
+
+        <div class="d-flex justify-content-between align-items-center mb-1">
+            <h3>Editar Livro Emprestado</h3>
+        </div>
+
+        <div class="mb-3"></div>
+
+        <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Edit">
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Livro</label>
+                <input type="text" class="form-control" id="title" value="@Model.Book.Title" disabled>
+            </div>
+
+            <div class="mb-2" id="img-preview"><img src="@Model.Book.Cover" class="center" /></div>
+
+            <div class="mb-3"></div>
+
+            <div class="row g-3" display="flex">
+
+                <div class="form-group mb-3" style="width: 80%;">
+                    <label for="select-person" class="form-label">Tomador</label>
+                    <select id="select-person" class="form-control classic">
+                        @if (persons != null) {
+                            @foreach (var person in persons) {
+                                <option value="@person.Id">@person.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3 col-sm-2" style="width: 20%;">
+                    <label for="loan-date" class="form-label">Data</label>
+                    <input type="datetime-local" class="form-control" asp-for="Date" id="loan-date">
+                    <span class="text-danger" asp-validation-for="Date"></span>
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="notes" class="form-label">Anotações</label>
+                <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" rows="10" cols="50" placeholder="Anotações sobre o empréstimo"></textarea>
+                <span class="text-danger" asp-validation-for="Notes"></span>
+            </div>
+
+            <div class="left gap-2 mt-1">
+                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+                <a class="btn btn-primary left" style="width:200px" asp-controller="Loan" asp-action="Manage">Cancelar</a>
+            </div>
+
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.RegistrationDate)
+            @Html.HiddenFor(m => m.LastUpdateDate)
+            @Html.HiddenFor(m => m.IsDeleted)
+            @Html.HiddenFor(m => m.IsReturned)
+
+            @Html.Hidden("Book.Cover", Model.Book.Cover)
+            @Html.Hidden("Book.Id", Model.Book.Id)
+            @Html.Hidden("Book.Title", Model.Book.Title)
+            @Html.Hidden("Book.Subtitle", Model.Book.Subtitle)
+            @Html.Hidden("Book.Author", Model.Book.Author)
+            @Html.Hidden("Book.Publisher", Model.Book.Publisher)
+            @Html.Hidden("Book.Isbn", Model.Book.Isbn)
+            @Html.Hidden("Book.Edition", Model.Book.Edition)
+            @Html.Hidden("Book.Volume", Model.Book.Volume)
+            @Html.Hidden("Book.NumberOfPages", Model.Book.NumberOfPages)
+            @Html.Hidden("Book.ReleaseYear", Model.Book.ReleaseYear)
+            @Html.Hidden("Book.AcquisitionDate", Model.Book.AcquisitionDate)
+            @Html.Hidden("Book.RegistrationDate", Model.Book.RegistrationDate)
+            @Html.Hidden("Book.LastUpdateDate", Model.Book.LastUpdateDate)
+            @Html.Hidden("Book.Summary", Model.Book.Summary)
+            @Html.Hidden("Book.IsDeleted", Model.Book.IsDeleted)
+
+            @Html.Hidden("Person.Id", "")
+            @Html.Hidden("Person.Name", "")
+            @Html.Hidden("Person.City", "")
+            @Html.Hidden("Person.FederalState", "")
+            @Html.Hidden("Person.Street", "")
+            @Html.Hidden("Person.Number", "")
+            @Html.Hidden("Person.District", "")
+            @Html.Hidden("Person.PostalCode", "")
+            @Html.Hidden("Person.Complement", "")
+            @Html.Hidden("Person.Country", "")
+            @Html.Hidden("Person.Description", "")
+            @Html.Hidden("Person.RegistrationDate", "")
+            @Html.Hidden("Person.LastUpdateDate", "")
+            @Html.Hidden("Person.IsDeleted", "")
+
+        </form>
+
+    </div>
+
+    <script type="module" src="~/js/edit-loan.js" asp-append-version="true"></script>
+
+    <script> window.personsData = @Html.Raw(personsJson); </script>
+    <script>window.personData = @Html.Raw(personJson);</script>
+
+</body>

@@ -1,0 +1,90 @@
+﻿@model BookModel
+
+@using Library.Utils
+
+@{
+    
+    ViewData["Title"] = "Detalhes do Livro";
+    
+    var navInfo = ViewBag.NavInfo as List<Boolean>;
+
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="~/css/book-details.css" asp-append-version="false"/>
+</head>
+
+<body>
+
+    <div class="container" id="book-details">
+
+        <input type="hidden" asp-for="Id" />
+
+        @if (TempData[Constants.error_message] != null) {
+            <div class="alert alert-danger text-black" role="alert">
+                @TempData[Constants.error_message]
+            </div>
+        }
+
+        <div class="mb-2"><img id="img-preview" src="@Model.Cover" class="center" /></div>
+
+        <div class="text" id="book-data">
+            <p><b>Título:</b> @Model.Title</p>
+            <p><b>Subtítulo:</b> @Model.Subtitle</p>
+            <p><b>Autor:</b> @Model.Author</p>
+            <p><b>Editora:</b> @Model.Publisher</p>
+            <p><b>ISBN:</b> @Model.Isbn</p>
+            <p><b>Edição:</b> @Model.Edition</p>
+            <p><b>Volume:</b> @Model.Volume</p>
+            <p><b>Nº Páginas:</b> @Model.NumberOfPages</p>
+            <p><b>Ano Publicação:</b> @Model.ReleaseYear</p>
+            <p><b>Data Aquisição:</b> @Model.AcquisitionDate.ToString("dd/MM/yyyy")</p>
+            <button class="btn-success" style="color:white;width:150px" onclick="showDialog()">Ver sinopse...</button>
+        </div>
+      
+    </div>
+    
+    <dialog id="summary-dialog">
+        
+        @if (Model.Subtitle != null && Model.Subtitle.Length > 0) {
+            <p>@Model.Title - @Model.Subtitle </p>
+        } else {
+            <p>@Model.Title</p>
+        }
+        
+        <textarea class="form-control" asp-for="Summary" rows="17" cols="120" style="resize:none" disabled></textarea>
+        
+        <br />
+        
+        <button id="close-button" type="reset" onclick="closeDialog()">Fechar</button>
+    
+    </dialog>
+
+    <div id="nav-buttons">
+        
+        @if (navInfo[0] == false) {
+            <a id="button-first" asp-controller="Book" asp-action="FirstBook" ><img class="m-2" src="~/img/first_item_icon.png" /> Primeiro</a>
+            <a id="button-previous" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id"><img class="m-2" src="~/img/previous_item_icon.png" /> Anterior</a>
+        } else {
+            <a id="button-first" style="pointer-events: none;background-color:darkgrey;"><img class="m-2" src="~/img/first_item_icon.png" /> Primeiro</a>
+            <a id="button-previous" style="pointer-events: none;background-color:darkgrey;"><img class="m-2" src="~/img/previous_item_icon.png" /> Anterior</a>
+        }
+        
+        @if (navInfo[1] == false) {
+            <a id="button-next" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">Próximo <img class="m-2" src="~/img/next_item_icon.png" /></a>
+            <a id="button-last" asp-controller="Book" asp-action="LastBook">Último <img class="m-2" src="~/img/last_item_icon.png" /></a>
+        } else {
+            <a id="button-next" style="pointer-events: none;background-color:darkgrey;">Próximo <img class="m-2" src="~/img/next_item_icon.png" /></a>
+            <a id="button-last" style="pointer-events: none;background-color:darkgrey;">Último <img class="m-2" src="~/img/last_item_icon.png" /></a>
+        }
+
+        <a id="button-filter" asp-controller="Book" asp-action="FirstBook"><img class="m-2" src="~/img/search_item_icon.png" /> Pesquisar</a>
+        <a id="button-filter" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank"><img class="m-2" src="~/img/printer_icon_16_w.png" /> Imprimir</a>
+    
+    </div>
+
+    <script src="~/js/book-details.js" asp-append-version="true"></script>
+
+</body>

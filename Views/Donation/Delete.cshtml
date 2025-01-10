@@ -1,0 +1,81 @@
+﻿@model DonatedBookModel
+
+@using Library.Utils;
+
+@{
+    ViewData["title"] = "Excluir Livro Doado";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="conteiner">
+
+        @if (TempData[Constants.error_message] != null) {
+            <div class="alert alert-danger text-black" role="alert">
+                @TempData[Constants.error_message]
+            </div>
+        }
+
+        <form method="post" enctype="multipart/form-data" asp-controller="Donation" asp-action="Delete">
+
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <h3>Excluir o livro doado "@Model.Book.Title"?</h3>
+                <div class="left gap-2 mt-1">
+                    <button type="submit" class="btn btn-danger left" style="width:150px;margin-right:10px">Excluir</button>
+                    <a class="btn btn-primary left" style="width:150px" asp-controller="Donation" asp-action="Manage">Cancelar</a>
+                </div>
+            </div>
+
+            <div class="mb-3"></div>
+
+            <div class="mb-2" id="img-preview"><img src="@Model.Book.Cover" class="center" /></div>
+
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Date)
+            @Html.HiddenFor(m => m.RegistrationDate)
+            @Html.HiddenFor(m => m.LastUpdateDate)
+            @Html.HiddenFor(m => m.Notes)
+
+            @Html.HiddenFor(m => m.Book.Id)
+            @Html.HiddenFor(m => m.Book.Cover)
+            @Html.HiddenFor(m => m.Book.Title)
+            @Html.HiddenFor(m => m.Book.Subtitle)
+            @Html.HiddenFor(m => m.Book.Author)
+            @Html.HiddenFor(m => m.Book.Publisher)
+            @Html.HiddenFor(m => m.Book.Isbn)
+            @Html.HiddenFor(m => m.Book.Edition)
+            @Html.HiddenFor(m => m.Book.Volume)
+            @Html.HiddenFor(m => m.Book.NumberOfPages)
+            @Html.HiddenFor(m => m.Book.ReleaseYear)
+            @Html.HiddenFor(m => m.Book.AcquisitionDate)
+            @Html.HiddenFor(m => m.Book.RegistrationDate)
+            @Html.HiddenFor(m => m.Book.LastUpdateDate)
+            @Html.HiddenFor(m => m.Book.Summary)
+            @Html.HiddenFor(m => m.Book.IsDeleted)
+
+            @Html.HiddenFor(m => m.Person.Id)
+            @Html.HiddenFor(m => m.Person.Name)
+            @Html.HiddenFor(m => m.Person.City)
+            @Html.HiddenFor(m => m.Person.FederalState)
+            @Html.HiddenFor(m => m.Person.Street)
+            @Html.HiddenFor(m => m.Person.Number)
+            @Html.HiddenFor(m => m.Person.District)
+            @Html.HiddenFor(m => m.Person.PostalCode)
+            @Html.HiddenFor(m => m.Person.Complement)
+            @Html.HiddenFor(m => m.Person.Country)
+            @Html.HiddenFor(m => m.Person.Description)
+            @Html.HiddenFor(m => m.Person.RegistrationDate)
+            @Html.HiddenFor(m => m.Person.LastUpdateDate)
+            @Html.HiddenFor(m => m.Person.IsDeleted)
+
+        </form>
+
+    </div>
+
+</body>

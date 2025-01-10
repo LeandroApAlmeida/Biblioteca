@@ -1,0 +1,151 @@
+﻿@model IEnumerable<LoanModel>
+
+@using Library.Utils
+
+@{
+    ViewData["Title"] = "Livros Emprestados";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/loan-manager.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="conteiner">
+
+        <div class="d-flex justify-content-between alignalign-items-center mb-5" id="button-box">
+            <h3>Livros Emprestados</h3>
+            <div>
+                <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Loan" asp-action="Register2">Emprestar livro</a>
+                <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank"><img class="m-0" src="~/img/printer_icon_16_w.png" /></a>
+            </div>
+        </div>
+
+        @if (TempData[Constants.success_message] != null) {
+            <div class="alert alert-success text-black" role="alert">
+                @TempData[Constants.success_message]
+            </div>
+        }
+
+        @if (TempData[Constants.error_message] != null) {
+            <div class="alert alert-danger text-black" role="alert">
+                @TempData[Constants.error_message]
+            </div>
+        }
+
+        <div class="tab">
+            <button class="tablinks" onclick="setTabIndex(event, 'tab-1')" style="height:40px;width:220px" id="btn-tab-1">Livros Emprestados</button>
+            <button class="tablinks" onclick="setTabIndex(event, 'tab-2')" style="height:40px;width:220px" id="btn-tab-2">Livros Devolvidos</button>
+        </div>
+
+        <div id="tab-1" class="tabcontent">
+
+            <table class="table table-light table hover table-striped" id="book-table" border="1">
+
+                <thead>
+
+                    <tr>
+                        <th scope="col" style="width: 20%;">Título</th>
+                        <th scope="col" style="width: 15%;">Autor</th>
+                        <th scope="col" style="width: 12%;">ISBN</th>
+                        <th scope="col" style="width: 2%;">Edic.</th>
+                        <th scope="col" style="width: 2%;">Vol.</th>
+                        <th scope="col" style="width: 12%;">Tomador</th>
+                        <th scope="col" style="width: 3%;">Ret.</th>
+                        <th scope="col"></th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null) {
+
+                        @foreach (var loan in Model) {
+                            if (!loan.IsReturned) {
+                                <tr>
+                                    <td scope="row">@loan.Book.Title</td>
+                                    <td scope="row">@loan.Book.Author</td>
+                                    <td scope="row">@loan.Book.Isbn</td>
+                                    <td class="num-span" scope="row">@loan.Book.Edition</td>
+                                    <td class="num-span" scope="row">@loan.Book.Volume</td>
+                                    <td scope="row">@loan.Person.Name</td>
+                                    <td scope="row">@loan.Date.ToString("dd/MM/yyyy")</td>
+                                    <td scope="row" id="controls-td">
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Return" asp-route-id="@loan.Id"><img src="~/img/return_icon.png" title="Devolver o livro emprestado" /></a>
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Edit" asp-route-id="@loan.Id"><img src="~/img/edit_icon2.png" title="Editar o livro emprestado" /></a>
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Delete" asp-route-id="@loan.Id"><img src="~/img/delete_icon.png" title="Excluir o livro emprestado" /></a>
+                                        <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id"><img src="~/img/view_icon.png" title="Detalhes do livro emprestado" /></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div id="tab-2" class="tabcontent">
+
+            <table class="table table-light table hover table-striped" id="book-table-2" border="1">
+
+                <thead>
+
+                    <tr>
+                        <th scope="col" style="width: 20%;">Título</th>
+                        <th scope="col" style="width: 15%;">Autor</th>
+                        <th scope="col" style="width: 12%;">ISBN</th>
+                        <th scope="col" style="width: 2%;">Edic.</th>
+                        <th scope="col" style="width: 2%;">Vol.</th>
+                        <th scope="col" style="width: 12%;">Tomador</th>
+                        <th scope="col" style="width: 3%;">Ret.</th>
+                        <th scope="col" style="width: 3%;">Dev.</th>
+                        <th scope="col"></th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null) {
+
+                        @foreach (var loan in Model) {
+                            if (loan.IsReturned) {
+                                <tr>
+                                    <td scope="row">@loan.Book.Title</td>
+                                    <td scope="row">@loan.Book.Author</td>
+                                    <td scope="row">@loan.Book.Isbn</td>
+                                    <td class="num-span" scope="row">@loan.Book.Edition</td>
+                                    <td class="num-span" scope="row">@loan.Book.Volume</td>
+                                    <td scope="row">@loan.Person.Name</td>
+                                    <td scope="row">@loan.Date.ToString("dd/MM/yyyy")</td>
+                                    <td scope="row">@loan.ReturnDate.ToString("dd/MM/yyyy")</td>
+                                    <td scope="row" id="controls-td">
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Cancel" asp-route-id="@loan.Id"><img src="~/img/delete_icon.png" title="Restaurar o empréstimo" /></a>
+                                        <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id"><img src="~/img/view_icon.png" title="Detalhes do livro" /></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script type="text/javascript" src="~/js/loan-manager.js" asp-append-version="true"></script>
+
+</body>
