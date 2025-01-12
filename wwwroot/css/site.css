@@ -27,4 +27,7 @@ body {
 
 #page-footer {
     margin-top: 20px;
+    height: 60px;
+    max-height: 60px;
+    overflow: hidden;
 }

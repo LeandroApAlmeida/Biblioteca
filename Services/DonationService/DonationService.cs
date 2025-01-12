@@ -208,6 +208,7 @@ namespace Library.Services.DonationService {
                     await _context.SaveChangesAsync();
 
                     response.Message = "Livro cadastrado com sucesso!";
+                    response.Data = donatedBook;
 
                     return response;
 
@@ -249,6 +250,7 @@ namespace Library.Services.DonationService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro alterado com sucesso!";
+                response.Data = donatedBook;
 
                 return response;
 
@@ -277,6 +279,7 @@ namespace Library.Services.DonationService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro excluído com sucesso!";
+                response.Data = donatedBook;
 
                 return response;
 

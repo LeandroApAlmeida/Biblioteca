@@ -77,7 +77,6 @@ namespace Library.Services.DiscardService {
 
             }
 
-
         }
 
 
@@ -172,6 +171,7 @@ namespace Library.Services.DiscardService {
                     await _context.SaveChangesAsync();
 
                     response.Message = "Livro cadastrado com sucesso!";
+                    response.Data = discardedBook;
 
                     return response;
 
@@ -213,6 +213,7 @@ namespace Library.Services.DiscardService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro alterado com sucesso!";
+                response.Data = discardedBook;
 
                 return response;
 
@@ -241,6 +242,7 @@ namespace Library.Services.DiscardService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro excluído com sucesso!";
+                response.Data = discardedBook;
 
                 return response;
 

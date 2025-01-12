@@ -167,7 +167,8 @@ namespace Library.Migrations
                     PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastUpdateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -184,7 +185,7 @@ namespace Library.Migrations
                 name: "Session",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     LoginDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LogoutDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
@@ -233,6 +234,12 @@ namespace Library.Migrations
                 name: "IX_User_RoleId",
                 table: "User",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_UserName",
+                table: "User",
+                column: "UserName",
+                unique: true);
         }
 
         /// <inheritdoc />

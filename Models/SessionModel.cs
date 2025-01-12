@@ -6,8 +6,8 @@ namespace Library.Models {
     [Table("Session")]
     public class SessionModel {
 
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid Id { get; set; }
 
         public required UserModel User { get; set; }
 

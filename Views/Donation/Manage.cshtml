@@ -1,6 +1,6 @@
-﻿@model IEnumerable<DonatedBookModel>
+﻿@using Library.Utils;
 
-@using Library.Utils
+@model IEnumerable<DonatedBookModel>
 
 @{
     ViewData["Title"] = "Livros Doados";
@@ -24,15 +24,15 @@
             </div>
         </div>
 
-        @if (TempData[Constants.success_message] != null) {
+        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
             <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.success_message]
+                @TempData[Constants.SUCCESS_MESSAGE]
             </div>
         }
 
-        @if (TempData[Constants.error_message] != null) {
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
             <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.error_message]
+                @TempData[Constants.ERROR_MESSAGE]
             </div>
         }
 

@@ -1,8 +1,8 @@
 ﻿using Library.Models;
 
 namespace Library.Services.DiscardService {
-    
-    
+
+
     public interface IDiscardService {
 
         public Task<ResponseModel<List<DiscardedBookModel>>> GetDiscardedBooks();

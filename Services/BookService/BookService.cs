@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 namespace Library.Services.BookService {
 
 
+    /// <summary>
+    /// Service para a manutenção de livros do acervo.
+    /// </summary>
     public class BookService : IBookService {
 
 
@@ -280,6 +283,7 @@ namespace Library.Services.BookService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro cadastrado com sucesso!";
+                response.Data = book;
 
                 return response;
 
@@ -312,6 +316,7 @@ namespace Library.Services.BookService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro alterado com sucesso!";
+                response.Data = book;
 
                 return response;
 
@@ -353,6 +358,7 @@ namespace Library.Services.BookService {
                     await _context.SaveChangesAsync();
 
                     response.Message = "Livro excluído com sucesso!";
+                    response.Data = book;
 
                     return response;
 

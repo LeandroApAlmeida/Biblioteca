@@ -1,8 +1,8 @@
 ﻿using Library.Models;
 
 namespace Library.Services.PersonService {
-    
-    
+
+
     public interface IPersonService {
 
         public Task<ResponseModel<List<PersonModel>>> GetPersons();

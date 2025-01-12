@@ -1,8 +1,8 @@
 ﻿using Library.Models;
 
 namespace Library.Services.CollectionService {
-    
-    
+
+
     public interface ICollectionService {
 
         public Task<ResponseModel<List<BookModel>>> GetAvailableBooks();

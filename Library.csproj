@@ -7,10 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20250111163003_migration_1.cs" />
+    <Compile Remove="Migrations\20250111163003_migration_1.Designer.cs" />
+    <Compile Remove="Migrations\20250112062147_m-1.cs" />
+    <Compile Remove="Migrations\20250112062147_m-1.Designer.cs" />
+    <Compile Remove="Migrations\20250112062305_m2.cs" />
+    <Compile Remove="Migrations\20250112062305_m2.Designer.cs" />
+    <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Remove="Views\Discard\DiscardBook.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.0" />
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
@@ -27,7 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dto\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

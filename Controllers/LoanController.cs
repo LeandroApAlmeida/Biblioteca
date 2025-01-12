@@ -3,6 +3,8 @@ using Library.Services.BookService;
 using Library.Services.CollectionService;
 using Library.Services.LoanService;
 using Library.Services.PersonService;
+using Library.Services.SessionService;
+using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,18 +22,27 @@ namespace Library.Controllers {
 
         private readonly IPersonService _personService;
 
+        private readonly ISessionService _sessionService;
+
 
         public LoanController(ILoanService loanService, IPersonService personService, 
-        IBookService bookService, ICollectionService collectionService) {
+        IBookService bookService, ICollectionService collectionService, ISessionService sessionService) {
             _collectionService = collectionService;
             _loanService = loanService;
             _bookService = bookService;
             _personService = personService;
+            _sessionService = sessionService;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> Manage() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var loansResp = await _loanService.GetLoans();
 
@@ -50,6 +61,12 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
 
@@ -72,9 +89,9 @@ namespace Library.Controllers {
                 } else {
 
                     if (!bookResp.Successful) {
-                        TempData[Constants.error_message] = bookResp.Message;
+                        TempData[Constants.ERROR_MESSAGE] = bookResp.Message;
                     } else {
-                        TempData[Constants.error_message] = personsResp.Message;
+                        TempData[Constants.ERROR_MESSAGE] = personsResp.Message;
                     }
 
                     return RedirectToAction("Manage", "Book");
@@ -83,7 +100,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "O livro consta como emprestado. Faça a devolução!";
+                TempData[Constants.ERROR_MESSAGE] = "O livro consta como emprestado. Faça a devolução!";
 
                 return RedirectToAction("Manage", "Book");
 
@@ -95,19 +112,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register(LoanModel loan) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var registerLoanResp = await _loanService.RegisterLoan(loan);
 
                 if (registerLoanResp.Successful) {
 
-                    TempData[Constants.success_message] = registerLoanResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = registerLoanResp.Message;
 
                     return RedirectToAction("Manage", "Book");
 
                 } else {
 
-                    TempData[Constants.error_message] = registerLoanResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = registerLoanResp.Message;
 
                     return RedirectToAction("Register", new { id = loan.Id });
 
@@ -115,7 +136,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do empréstimo incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do empréstimo incorretos!";
 
                 return RedirectToAction("Register", new { id = loan.Id });
 
@@ -126,6 +147,12 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task <IActionResult> Register2() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var availableBooksResp = await _collectionService.GetAvailableBooks();
 
@@ -142,9 +169,9 @@ namespace Library.Controllers {
             } else {
 
                 if (!availableBooksResp.Successful) {
-                    TempData[Constants.error_message] = availableBooksResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = availableBooksResp.Message;
                 } else {
-                    TempData[Constants.error_message] = personsResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = personsResp.Message;
                 }
 
                 return RedirectToAction("Manage");
@@ -157,19 +184,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register2(LoanModel loan) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var registerLoanResp = await _loanService.RegisterLoan(loan);
 
                 if (registerLoanResp.Successful) {
 
-                    TempData[Constants.success_message] = registerLoanResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = registerLoanResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = registerLoanResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = registerLoanResp.Message;
 
                     return RedirectToAction("Register2");
 
@@ -177,7 +208,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do empréstimo incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do empréstimo incorretos!";
 
                 return RedirectToAction("Register2");
 
@@ -188,6 +219,12 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var loanResp = await _loanService.GetLoan(id);
 
@@ -202,9 +239,9 @@ namespace Library.Controllers {
             } else {
 
                 if (!loanResp.Successful) {
-                    TempData[Constants.error_message] = loanResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = loanResp.Message;
                 } else {
-                    TempData[Constants.error_message] = personsResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = personsResp.Message;
                 }
 
                 return RedirectToAction("Manage");
@@ -217,19 +254,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(LoanModel loan) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var editLoanResp = await _loanService.EditLoan(loan);
 
                 if (editLoanResp.Successful) {
 
-                    TempData[Constants.success_message] = editLoanResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = editLoanResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = editLoanResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = editLoanResp.Message;
 
                     return RedirectToAction("Edit", new { id = loan.Id });
 
@@ -237,7 +278,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do empréstimo incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do empréstimo incorretos!";
 
                 return RedirectToAction("Edit", new { id = loan.Id });
 
@@ -249,6 +290,12 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
+
             var loanResp = await _loanService.GetLoan(id);
 
             if (loanResp.Successful) {
@@ -257,7 +304,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = loanResp.Message;
+                TempData[Constants.ERROR_MESSAGE] = loanResp.Message;
 
                 return RedirectToAction("Manage");
 
@@ -269,19 +316,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(LoanModel loan) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var deleteLoanResp = await _loanService.DeleteLoan(loan);
 
                 if (deleteLoanResp.Successful) {
 
-                    TempData[Constants.success_message] = deleteLoanResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = deleteLoanResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = deleteLoanResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = deleteLoanResp.Message;
 
                     return RedirectToAction("Delete", new { id = loan.Id });
 
@@ -289,7 +340,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do empréstimo incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do empréstimo incorretos!";
 
                 return RedirectToAction("Delete", new { id = loan.Id });
 
@@ -301,6 +352,12 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Return(Guid id) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
+
             var loanResp = await _loanService.GetLoan(id);
 
             if (loanResp.Successful) {
@@ -309,7 +366,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = loanResp.Message;
+                TempData[Constants.ERROR_MESSAGE] = loanResp.Message;
 
                 return RedirectToAction("Manage");
 
@@ -321,19 +378,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Return(LoanModel loan) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var returnLoanResp = await _loanService.ReturnLoan(loan);
 
                 if (returnLoanResp.Successful) {
 
-                    TempData[Constants.success_message] = returnLoanResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = returnLoanResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = returnLoanResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = returnLoanResp.Message;
 
                     return RedirectToAction("Return", new { id = loan.Id });
 
@@ -341,7 +402,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do empréstimo incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do empréstimo incorretos!";
 
                 return RedirectToAction("Return", new { id = loan.Id });
 
@@ -352,6 +413,12 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Cancel(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
 
@@ -369,7 +436,7 @@ namespace Library.Controllers {
 
                 } else {
 
-                    TempData[Constants.error_message] = loanResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = loanResp.Message;
 
                     return RedirectToAction("Manage");
 
@@ -377,7 +444,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "O livro consta como emprestado. Faça a devolução!";
+                TempData[Constants.ERROR_MESSAGE] = "O livro consta como emprestado. Faça a devolução!";
 
                 return RedirectToAction("Manage");
 
@@ -389,19 +456,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Cancel(LoanModel loan) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var cancelReturnResp = await _loanService.CancelReturn(loan);
 
                 if (cancelReturnResp.Successful) {
 
-                    TempData[Constants.success_message] = cancelReturnResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = cancelReturnResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = cancelReturnResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = cancelReturnResp.Message;
 
                     return RedirectToAction("Cancel", new { id = loan.Id });
 
@@ -409,7 +480,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do empréstimo incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do empréstimo incorretos!";
 
                 return RedirectToAction("Cancel", new { id = loan.Id });
 

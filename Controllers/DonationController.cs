@@ -3,6 +3,8 @@ using Library.Services.BookService;
 using Library.Services.CollectionService;
 using Library.Services.DonationService;
 using Library.Services.PersonService;
+using Library.Services.SessionService;
+using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,18 +22,27 @@ namespace Library.Controllers {
 
         private readonly IPersonService _personService;
 
+        private readonly ISessionService _sessionService;
+
 
         public DonationController(IDonationService donationService, IBookService bookService,
-        IPersonService personService, ICollectionService collectionService) {
+        IPersonService personService, ICollectionService collectionService, ISessionService sessionService) {
             _collectionService = collectionService;
             _bookService = bookService;
             _personService = personService;
             _donationService = donationService;
+            _sessionService = sessionService;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> Manage() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var donatedBooksResp = await _donationService.GetDonatedBooks();
 
@@ -50,6 +61,12 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
 
@@ -72,9 +89,9 @@ namespace Library.Controllers {
                 } else {
 
                     if (!bookResp.Successful) {
-                        TempData[Constants.error_message] = bookResp.Message;
+                        TempData[Constants.ERROR_MESSAGE] = bookResp.Message;
                     } else {
-                        TempData[Constants.error_message] = personsResp.Message;
+                        TempData[Constants.ERROR_MESSAGE] = personsResp.Message;
                     }
 
                     return RedirectToAction("Manage", "Book");
@@ -83,7 +100,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "O livro consta como emprestado. Faça a devolução!";
+                TempData[Constants.ERROR_MESSAGE] = "O livro consta como emprestado. Faça a devolução!";
 
                 return RedirectToAction("Manage", "Book");
 
@@ -95,19 +112,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task <IActionResult> Register(DonatedBookModel donatedBook) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var registerDonatedBookResp = await _donationService.RegisterDonatedBook(donatedBook);
 
                 if (registerDonatedBookResp.Successful) {
 
-                    TempData[Constants.success_message] = registerDonatedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = registerDonatedBookResp.Message;
 
                     return RedirectToAction("Manage", "Book");
 
                 } else {
 
-                    TempData[Constants.error_message] = registerDonatedBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = registerDonatedBookResp.Message;
 
                     return RedirectToAction("Register", new {id = donatedBook.Id});
 
@@ -115,7 +136,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados da doação incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados da doação incorretos!";
 
                 return RedirectToAction("Register", new {id = donatedBook.Id});
 
@@ -126,6 +147,12 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Register2() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var availableBooksResp = await _collectionService.GetAvailableBooks();
 
@@ -142,9 +169,9 @@ namespace Library.Controllers {
             } else {
 
                 if (!availableBooksResp.Successful) {
-                    TempData[Constants.error_message] = availableBooksResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = availableBooksResp.Message;
                 } else {
-                    TempData[Constants.error_message] = personsResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = personsResp.Message;
                 }
 
                 return RedirectToAction("Manage");
@@ -157,19 +184,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register2(DonatedBookModel donatedBook) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var registerDonatedBookResp = await _donationService.RegisterDonatedBook(donatedBook);
 
                 if (registerDonatedBookResp.Successful) {
 
-                    TempData[Constants.success_message] = registerDonatedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = registerDonatedBookResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = registerDonatedBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = registerDonatedBookResp.Message;
 
                     return RedirectToAction("Register2");
 
@@ -177,7 +208,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados da doação incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados da doação incorretos!";
 
                 return RedirectToAction("Register2");
 
@@ -188,6 +219,12 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var donatedBookResp = await _donationService.GetDonatedBook(id);
 
@@ -202,9 +239,9 @@ namespace Library.Controllers {
             } else {
 
                 if (!donatedBookResp.Successful) {
-                    TempData[Constants.error_message] = donatedBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = donatedBookResp.Message;
                 } else {
-                    TempData[Constants.error_message] = personsResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = personsResp.Message;
                 }
 
                 return RedirectToAction("Manage");
@@ -217,19 +254,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(DonatedBookModel donatedBook) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var editDonatedBookResp = await _donationService.EditDonatedBook(donatedBook);
 
                 if (editDonatedBookResp.Successful) {
 
-                    TempData[Constants.success_message] = editDonatedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = editDonatedBookResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = editDonatedBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = editDonatedBookResp.Message;
 
                     return RedirectToAction("Edit", new {id = donatedBook.Id});
 
@@ -237,7 +278,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados da doação incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados da doação incorretos!";
 
                 return RedirectToAction("Edit", new {id = donatedBook.Id});
 
@@ -248,6 +289,12 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var donatedBookResp = await _donationService.GetDonatedBook(id);
 
@@ -267,19 +314,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(DonatedBookModel donatedBook) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var deleteDonatedBookResp = await _donationService.DeleteDonatedBook(donatedBook);
 
                 if (deleteDonatedBookResp.Successful) {
 
-                    TempData[Constants.success_message] = deleteDonatedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = deleteDonatedBookResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = deleteDonatedBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = deleteDonatedBookResp.Message;
 
                     return RedirectToAction("Delete", new { id = donatedBook.Id });
 
@@ -287,7 +338,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados da doação incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados da doação incorretos!";
 
                 return RedirectToAction("Delete", new { id = donatedBook.Id });
 

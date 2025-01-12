@@ -1,6 +1,6 @@
-﻿@model BookModel
+﻿@using Library.Utils;
 
-@using Library.Utils;
+@model BookModel
 
 @{
     ViewData["title"] = "Cadastrar Livro";
@@ -9,16 +9,16 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="~/css/register-book.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
 </head> 
 
 <body>
 
     <div class="conteiner">
 
-        @if (TempData[Constants.error_message] != null) {
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
             <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.error_message]
+                @TempData[Constants.ERROR_MESSAGE]
             </div>
         }
 

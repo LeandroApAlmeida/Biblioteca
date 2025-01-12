@@ -221,6 +221,7 @@ namespace Library.Services.LoanService {
                     await _context.SaveChangesAsync();
 
                     response.Message = "Livro cadastrado com sucesso!";
+                    response.Data = loan;
 
                     return response;
 
@@ -261,6 +262,7 @@ namespace Library.Services.LoanService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro alterado com sucesso!";
+                response.Data = loan;
 
                 return response;
 
@@ -295,6 +297,7 @@ namespace Library.Services.LoanService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro excluído com sucesso!";
+                response.Data = loan;
 
                 return response;
 
@@ -328,6 +331,7 @@ namespace Library.Services.LoanService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Livro devolvido com sucesso!";
+                response.Data = loan;
 
                 return response;
 
@@ -349,20 +353,37 @@ namespace Library.Services.LoanService {
 
             try {
 
-                _context.Attach(loan);
+                var isBorrowedBookResp = await _collectionService.IsBorrowedBook(loan.Book.Id);
 
-                loan.LastUpdateDate = DateTime.Now;
-                loan.IsReturned = false;
+                if (!isBorrowedBookResp.Successful) throw new Exception(isBorrowedBookResp.Message);
 
-                _context.Entry(loan).State = EntityState.Modified;
+                Boolean isBorrowed = isBorrowedBookResp.Data;
 
-                _context.Loans.Update(loan);
+                if (!isBorrowed) {
 
-                await _context.SaveChangesAsync();
+                    _context.Attach(loan);
 
-                response.Message = "Devolução cancelada com sucesso!";
+                    loan.LastUpdateDate = DateTime.Now;
+                    loan.IsReturned = false;
 
-                return response;
+                    _context.Entry(loan).State = EntityState.Modified;
+
+                    _context.Loans.Update(loan);
+
+                    await _context.SaveChangesAsync();
+
+                    response.Message = "Devolução cancelada com sucesso!";
+                    response.Data = loan;
+
+                    return response;
+
+                } else {
+
+                    response.Message = "O livro consta como emprestado. Faça a devolução!";
+
+                    return response;
+
+                }
 
             } catch (Exception ex) {
 

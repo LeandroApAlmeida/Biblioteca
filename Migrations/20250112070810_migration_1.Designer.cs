@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250110094353_migration_1")]
+    [Migration("20250112070810_migration_1")]
     partial class migration_1
     {
         /// <inheritdoc />
@@ -227,8 +227,9 @@ namespace Library.Migrations
 
             modelBuilder.Entity("Library.Models.SessionModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("LoginDate")
                         .HasColumnType("timestamp without time zone");
@@ -250,6 +251,9 @@ namespace Library.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -278,6 +282,9 @@ namespace Library.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("User");
                 });

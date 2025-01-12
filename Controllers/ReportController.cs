@@ -4,6 +4,7 @@ using Library.Services.DiscardService;
 using Library.Services.DonationService;
 using Library.Services.LoanService;
 using Library.Services.ReportService;
+using Library.Services.SessionService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers {
@@ -22,19 +23,27 @@ namespace Library.Controllers {
 
         private readonly ReportService _reportService;
 
+        private readonly ISessionService _sessionService;
+
         
         public ReportController(IBookService bookService, IDiscardService discardService,
-        IDonationService donationService, ILoanService loanService,  ReportService reportService) {
+        IDonationService donationService, ILoanService loanService,  ReportService reportService,
+        ISessionService sessionService) {
             _reportService = reportService;
             _bookService = bookService;
             _discardService = discardService;
             _donationService = donationService;
             _loanService = loanService;
+            _sessionService = sessionService;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> BookDetailedReport(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
 
             var bookResp = await _bookService.GetBook(id);
 
@@ -75,6 +84,10 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> BooksInTheCollectionReport() {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             var booksResp = await _bookService.GetBooks();
 
             if (booksResp.Successful) {
@@ -101,6 +114,10 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> DiscardedBooksReport() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
 
             var discardedBooksResp = await _discardService.GetDiscardedBooks();
 
@@ -135,6 +152,10 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> DonatedBooksReport() {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             var donatedBooksResp = await _donationService.GetDonatedBooks();
 
             if (donatedBooksResp.Successful) {
@@ -159,6 +180,10 @@ namespace Library.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> BorrowedBooksReport() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
 
             var loansResp = await _loanService.GetLoans();
 

@@ -6,6 +6,9 @@ using Library.Services.CollectionService;
 using Library.Services.DiscardService;
 using Library.Services.DonationService;
 using Library.Services.LoanService;
+using Library.Services.LoginService;
+using Library.Services.LogService;
+using Library.Services.PasswordService;
 using Library.Services.PersonService;
 using Library.Services.ReportService;
 using Library.Services.SessionService;
@@ -44,6 +47,20 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<IPasswordService, PasswordService>();
+
+builder.Services.AddScoped<ILoginService, LoginService>();
+
+builder.Services.AddScoped<ILogService, LogService>();
+
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddSession(options => {
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 
 builder.Services.AddControllersWithViews();
 
@@ -62,8 +79,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Book}/{action=Details}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}"
+);
 
 app.Run();

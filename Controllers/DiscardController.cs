@@ -2,6 +2,8 @@
 using Library.Services.BookService;
 using Library.Services.CollectionService;
 using Library.Services.DiscardService;
+using Library.Services.SessionService;
+using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +22,15 @@ namespace Library.Controllers {
 
         private readonly IBookService _bookService;
 
+        private readonly ISessionService _sessionService;
+
 
         public DiscardController(IDiscardService discardService, IBookService bookService,
-        ICollectionService collectionService) {
+        ICollectionService collectionService, ISessionService sessionService) {
             _collectionService = collectionService;
             _discardService = discardService;
             _bookService = bookService;
+            _sessionService = sessionService;
         }
 
 
@@ -35,6 +40,12 @@ namespace Library.Controllers {
         /// <returns>Página de manutenção de livros descartados.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var discardedBooksResp = await _discardService.GetDiscardedBooks();
 
@@ -52,12 +63,20 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página para descarte de um livro selecionado na página de manutenção do acervo.
+        /// Retornar a página para descarte de um livro selecionado na página de
+        /// manutenção do acervo. Caso o livro esteja emprestado, não permite o 
+        /// descarte antes que seja devolvido.
         /// </summary>
         /// <param name="id">Identificador do livro</param>
         /// <returns>Página para descarte de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
 
@@ -67,17 +86,21 @@ namespace Library.Controllers {
 
             if (!isBorrowed) {
 
+                // A página de descarte obtida a partir da página de manutenção do acervo
+                // deve listar o livro selecionado e os campos para informação do descarte.
+                // O livro selecionado é retornado em ViewBag.Book.
+
                 var bookResp = await _bookService.GetBook(id);
 
                 if (bookResp.Successful) {
 
-                    ViewBag.Books = bookResp.Data;
+                    ViewBag.Book = bookResp.Data;
 
                     return View();
 
                 } else {
 
-                    TempData[Constants.error_message] = bookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = bookResp.Message;
 
                     return RedirectToAction("Manage", "Book");
 
@@ -85,7 +108,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "O livro consta como emprestado. Faça a devolução!";
+                TempData[Constants.ERROR_MESSAGE] = "O livro consta como emprestado. Faça a devolução!";
 
                 return RedirectToAction("Manage", "Book");
 
@@ -102,19 +125,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register(DiscardedBookModel discardedBook) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var registerDiscardedBookResp = await _discardService.RegisterDiscardedBook(discardedBook);
 
                 if (registerDiscardedBookResp.Successful) {
 
-                    TempData[Constants.success_message] = registerDiscardedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = registerDiscardedBookResp.Message;
 
                     return RedirectToAction("Manage", "Book");
 
                 } else {
 
-                    TempData[Constants.error_message] = registerDiscardedBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = registerDiscardedBookResp.Message;
 
                     return RedirectToAction("Register", new { id = discardedBook.Book.Id });
 
@@ -122,7 +149,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do descarte incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do descarte incorretos!";
 
                 return RedirectToAction("Register", new { id = discardedBook.Book.Id });
 
@@ -138,6 +165,12 @@ namespace Library.Controllers {
         /// <returns>Página para descarte de um livro.</returns>
         [HttpGet]
         public async Task <IActionResult> Register2() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var availableBooksResp = await _collectionService.GetAvailableBooks();
 
@@ -164,19 +197,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register2(DiscardedBookModel discardedBook) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var registerDiscardedBookResp = await _discardService.RegisterDiscardedBook(discardedBook);
 
                 if (registerDiscardedBookResp.Successful) {
 
-                    TempData[Constants.success_message] = registerDiscardedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = registerDiscardedBookResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = registerDiscardedBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = registerDiscardedBookResp.Message;
 
                     return RedirectToAction("Register2");
 
@@ -184,7 +221,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do descarte incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do descarte incorretos!";
 
                 return RedirectToAction("Register2");
 
@@ -200,6 +237,12 @@ namespace Library.Controllers {
         /// <returns>Página para edição de um livro descartado.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var discardedBookResp = await _discardService.GetDiscardedBook(id);
 
@@ -228,19 +271,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(DiscardedBookModel discardedBook) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var editDiscardedBookResp = await _discardService.EditDiscardedBook(discardedBook);
 
                 if (editDiscardedBookResp.Successful) {
 
-                    TempData[Constants.success_message] = editDiscardedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = editDiscardedBookResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = editDiscardedBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = editDiscardedBookResp.Message;
 
                     return View(discardedBook);
 
@@ -248,7 +295,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do descarte incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do descarte incorretos!";
 
                 return View(discardedBook);
 
@@ -264,6 +311,12 @@ namespace Library.Controllers {
         /// <returns>Página para a exclusão de um livro descartado.</returns>
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var discardedBookResp = await _discardService.GetDiscardedBook(id);
 
@@ -292,19 +345,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(DiscardedBookModel discardedBook) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var deleteDiscardedBooksResp = await _discardService.DeleteDiscardedBook(discardedBook);
 
                 if (deleteDiscardedBooksResp.Successful) {
 
-                    TempData[Constants.success_message] = deleteDiscardedBooksResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = deleteDiscardedBooksResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = deleteDiscardedBooksResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = deleteDiscardedBooksResp.Message;
 
                     return View(discardedBook);
 
@@ -312,7 +369,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do descarte incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do descarte incorretos!";
 
                 return View(discardedBook);
 

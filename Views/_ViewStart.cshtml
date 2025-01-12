@@ -1,3 +1,9 @@
-﻿@{
-    Layout = "_Layout";
+﻿@using Library.Utils;
+
+@{
+    
+    var layout = ViewBag.Layout ?? Constants.LOGIN_LAYOUT; 
+    
+    Layout = layout;
+
 }

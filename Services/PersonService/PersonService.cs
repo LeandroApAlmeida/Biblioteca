@@ -4,8 +4,8 @@ using Library.Services.CollectionService;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Services.PersonService {
-   
-    
+
+
     public class PersonService : IPersonService {
 
 
@@ -108,6 +108,7 @@ namespace Library.Services.PersonService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Pessoa cadastrada com sucesso!";
+                response.Data = person;
 
                 return response;
 
@@ -141,6 +142,7 @@ namespace Library.Services.PersonService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Pessoa alterada com sucesso!";
+                response.Data = person;
 
                 return response;
 
@@ -174,6 +176,7 @@ namespace Library.Services.PersonService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Pessoa excluída com sucesso!";
+                response.Data = person;
 
                 return response;
 

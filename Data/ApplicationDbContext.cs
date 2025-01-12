@@ -1,5 +1,6 @@
 ﻿using Library.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Library.Data {
 
@@ -24,6 +25,12 @@ namespace Library.Data {
 
             );
 
+            modelBuilder.Entity<UserModel>().HasIndex(um => um.UserName).IsUnique();
+
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
 
 

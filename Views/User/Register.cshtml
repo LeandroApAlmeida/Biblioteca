@@ -1,0 +1,74 @@
+﻿@using Library.Dto
+@using Library.Utils;
+
+@model UserDto
+
+@{
+
+    ViewData["title"] = "Cadastrar Usuário";
+
+    int? role = ViewBag.UserRole as int?;
+
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+</head>
+
+<body>
+
+    <div class="conteiner bg-white">
+
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
+            <div class="alert alert-danger text-black" role="alert">
+                @TempData[Constants.ERROR_MESSAGE]
+            </div>
+        }
+
+        <div class="mb-1">
+            <h3 class="text-black">Cadastrar Usuário</h3>
+        </div>
+
+        <div class="mb-5"></div>
+
+        <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Register">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" asp-for="Name" id="name" placeholder="Nome completo">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="user-name" class="form-label">Usuário</label>
+                <input type="text" class="form-control" asp-for="UserName" id="user-name" placeholder="Nome da usuário">
+                <span class="text-danger" asp-validation-for="UserName"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Senha de acesso</label>
+                <input type="password" class="form-control" asp-for="Password" id="password" placeholder="Senha de acesso">
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="conf-password" class="form-label">Confirme a Senha</label>
+                <input type="password" class="form-control" asp-for="ConfPassword" id="conf-password" placeholder="Confirme a senha de acesso">
+                <span class="text-danger" asp-validation-for="ConfPassword"></span>
+            </div>
+
+            <div class="left gap-2 mt-4">
+                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+                <a class="btn btn-primary left" style="width:200px" asp-controller="User" asp-action="Manage">Cancelar</a>
+            </div>
+
+            @Html.Hidden("Role", role)
+
+        </form>
+
+    </div>
+
+    <script type="module" src="~/js/register-person.js" asp-append-version="true"></script>
+
+</body>

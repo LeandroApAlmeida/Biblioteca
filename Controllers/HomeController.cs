@@ -1,22 +1,30 @@
-using System.Diagnostics;
-using Library.Data;
 using Library.Models;
+using Library.Services.SessionService;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace Library.Controllers {
 
     public class HomeController : Controller {
 
 
-        private readonly ApplicationDbContext _db;
+        private readonly ISessionService _sessionService;
 
 
-        public HomeController(ApplicationDbContext db) {
-            _db = db;
+        public HomeController(ISessionService sessionService) {
+            _sessionService = sessionService;
         }
 
 
+        [HttpGet]
         public IActionResult About() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
+
             return View();
         }
 

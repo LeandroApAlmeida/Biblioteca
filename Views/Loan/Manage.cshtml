@@ -1,6 +1,6 @@
-﻿@model IEnumerable<LoanModel>
+﻿@using Library.Utils;
 
-@using Library.Utils
+@model IEnumerable<LoanModel>
 
 @{
     ViewData["Title"] = "Livros Emprestados";
@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/loan-manager.css" asp-append-version="true" />
 </head>
 
 <body>
@@ -25,15 +24,15 @@
             </div>
         </div>
 
-        @if (TempData[Constants.success_message] != null) {
+        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
             <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.success_message]
+                @TempData[Constants.SUCCESS_MESSAGE]
             </div>
         }
 
-        @if (TempData[Constants.error_message] != null) {
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
             <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.error_message]
+                @TempData[Constants.ERROR_MESSAGE]
             </div>
         }
 

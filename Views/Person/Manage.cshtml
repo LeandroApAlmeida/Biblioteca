@@ -1,9 +1,10 @@
-﻿@model IEnumerable<PersonModel>
+﻿@using Library.Utils;
 
-@using Library.Utils
+@model IEnumerable<PersonModel>
 
 @{
     ViewData["Title"] = "Pessoas";
+    Layout = ViewBag.Layout;
 }
 
 <head>
@@ -18,18 +19,18 @@
 
         <div class="d-flex justify-content-between alignalign-items-center mb-5">
             <h3>Pessoas</h3>
-            <a class="btn btn-success" style="width:150px" asp-controller="Person" asp-action="Register">Cadastrar pessoa</a>
+            <a class="btn btn-success" style="width:150px;height:38px" asp-controller="Person" asp-action="Register">Cadastrar pessoa</a>
         </div>
 
-        @if (TempData[Constants.success_message] != null) {
+        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
             <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.success_message]
+                @TempData[Constants.SUCCESS_MESSAGE]
             </div>
         }
 
-        @if (TempData[Constants.error_message] != null) {
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
             <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.error_message]
+                @TempData[Constants.ERROR_MESSAGE]
             </div>
         }
 

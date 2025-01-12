@@ -1,14 +1,12 @@
-﻿@model DiscardedBookModel
+﻿@using Library.Utils;
 
-@using Library.Utils;
+@model DiscardedBookModel
 
 @{
     
     ViewData["title"] = "Descartar o Livro";
     
-    var books = ViewBag.Books as List<BookModel>;
-    
-    BookModel book = ViewBag.Books as BookModel;
+    BookModel book = ViewBag.Book as BookModel;
 
 }
 
@@ -22,9 +20,9 @@
 
     <div class="conteiner">
 
-        @if (TempData[Constants.error_message] != null) {
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
             <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.error_message]
+                @TempData[Constants.ERROR_MESSAGE]
             </div>
         }
 

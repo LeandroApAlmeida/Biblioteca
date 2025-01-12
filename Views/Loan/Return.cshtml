@@ -1,10 +1,9 @@
-﻿@model LoanModel
-
-@using Newtonsoft.Json;
+﻿@using Newtonsoft.Json;
 @using Library.Utils;
 
-@{
+@model LoanModel
 
+@{
     ViewData["Title"] = "Devolver o Livro";
 }
 
@@ -19,9 +18,9 @@
 
     <div class="conteiner">
 
-        @if (TempData[Constants.error_message] != null) {
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
             <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.error_message]
+                @TempData[Constants.ERROR_MESSAGE]
             </div>
         }
 

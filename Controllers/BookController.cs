@@ -1,6 +1,8 @@
 ﻿using Library.Models;
 using Library.Services.BookService;
 using Library.Services.CollectionService;
+using Library.Services.SessionService;
+using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +19,14 @@ namespace Library.Controllers {
 
         private readonly ICollectionService _collectionService;
 
+        private readonly ISessionService _sessionService;
 
-        public BookController(IBookService bookService, ICollectionService collectionService) {
+
+        public BookController(IBookService bookService, ICollectionService collectionService,
+        ISessionService sessionService) {
             _collectionService = collectionService;
             _bookService = bookService;
+            _sessionService = sessionService;
         }
 
 
@@ -30,6 +36,12 @@ namespace Library.Controllers {
         /// <returns>Página de manutenção do acervo.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var booksResp = await _bookService.GetBooks();
 
@@ -51,8 +63,16 @@ namespace Library.Controllers {
         /// </summary>
         /// <returns>Página de detalhes do livro, sem dados.</returns>
         [HttpGet]
-        public IActionResult Empty() { 
+        public IActionResult Empty() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
+
             return View();
+
         }
 
 
@@ -64,6 +84,12 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Details(Guid id) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
+
             var booksIdsResp = await _collectionService.GetBooksIds();
 
             if (!booksIdsResp.Successful) return BadRequest(booksIdsResp.Message);
@@ -74,6 +100,11 @@ namespace Library.Controllers {
 
                 BookModel? book;
 
+                // Esta lista guarda dois valores boolean. O primeiro diz se o livro é
+                // o primeiro da lista. O segundo diz se o livro é o último da lista.
+                // Obviamente que se houver apenas um livro cadastrado no banco de dados,
+                // este será o primeiro e também o último.
+                
                 List<Boolean> navInfo = [];
 
                 if (id == Guid.Empty) {
@@ -96,10 +127,13 @@ namespace Library.Controllers {
 
                 }
 
+                // Passa a lista para a Razor Page.
                 ViewBag.NavInfo = navInfo;
 
                 if (book != null) {
                     
+                    // Passa o livro na Razor Page, incluindo a capa do mesmo.
+
                     return View(book);
                 
                 } else {
@@ -110,6 +144,10 @@ namespace Library.Controllers {
 
             } else {
 
+                // Caso não exista nenhum livro cadastrado no banco de dados, retorna uma
+                // página vazia, apenas com o contorno da capa, o títulos dos campos e sem
+                // os botões de navegação.
+
                 return RedirectToAction("Empty");
 
             }
@@ -118,12 +156,18 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página com os detalhes do livro adiante ao atual na consulta.
+        /// Retornar a página com os detalhes do livro adiante do atual na consulta.
         /// </summary>
         /// <param name="id">Identificador do livro atual</param>
         /// <returns>Página com os detalhes do livro.</returns>
         [HttpGet]
         public async Task<IActionResult> NextBook(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var nextBookResp = await _bookService.NextBookId(id);
 
@@ -148,6 +192,12 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> PreviousBook(Guid id) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
+
             var previousBookResp = await _bookService.PreviousBookId(id);
 
             if (previousBookResp.Successful) {
@@ -169,6 +219,12 @@ namespace Library.Controllers {
         /// <returns>Página com os detalhes do livro.</returns>
         [HttpGet]
         public async Task<IActionResult> FirstBook() {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var firstBookResp = await _bookService.FirstBookId();
 
@@ -192,6 +248,12 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> LastBook() {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
+
             var lastBookResp = await _bookService.LastBookId();
 
             if (lastBookResp.Successful) {
@@ -214,6 +276,12 @@ namespace Library.Controllers {
         [HttpGet]
         public IActionResult Register() {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
+
             return View();
 
         }
@@ -227,19 +295,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register(BookModel book) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var registerBookResp = await _bookService.RegisterBook(book);
 
                 if (registerBookResp.Successful) {
                     
-                    TempData[Constants.success_message] = registerBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = registerBookResp.Message;
                     
                     return RedirectToAction("Manage");
                 
                 } else {
                     
-                    TempData[Constants.error_message] = registerBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = registerBookResp.Message;
                     
                     return View(book);
                 
@@ -247,7 +319,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do livro incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do livro incorretos!";
 
                 return View(book);
 
@@ -263,6 +335,12 @@ namespace Library.Controllers {
         /// <returns>Página para edição de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var bookResp = await _bookService.GetBook(id);
 
@@ -287,19 +365,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(BookModel book) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var editBookResp = await _bookService.EditBook(book);
 
                 if (editBookResp.Successful) {
                     
-                    TempData[Constants.success_message] = editBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = editBookResp.Message;
                     
                     return RedirectToAction("Manage");
                 
                 } else {
 
-                    TempData[Constants.error_message] = editBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = editBookResp.Message;
 
                     return View(book);
                 
@@ -307,7 +389,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do livro incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do livro incorretos!";
 
                 return View(book);
 
@@ -323,6 +405,12 @@ namespace Library.Controllers {
         /// <returns>Página para a exclusão de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _sessionService.SetLayout(this);
 
             var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
 
@@ -348,7 +436,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "O livro consta como emprestado. Faça a devolução!";
+                TempData[Constants.ERROR_MESSAGE] = "O livro consta como emprestado. Faça a devolução!";
 
                 return RedirectToAction("Manage");
 
@@ -365,19 +453,23 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(BookModel book) {
 
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             if (ModelState.IsValid) {
 
                 var deleteBookResp = await _bookService.DeleteBook(book);
 
                 if (deleteBookResp.Successful) {
 
-                    TempData[Constants.success_message] = deleteBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = deleteBookResp.Message;
 
                     return RedirectToAction("Manage");
 
                 } else {
 
-                    TempData[Constants.error_message] = deleteBookResp.Message;
+                    TempData[Constants.ERROR_MESSAGE] = deleteBookResp.Message;
 
                     return View(book);
 
@@ -385,7 +477,7 @@ namespace Library.Controllers {
 
             } else {
 
-                TempData[Constants.error_message] = "Dados do livro incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = "Dados do livro incorretos!";
 
                 return View(book);
 

@@ -29,6 +29,8 @@ if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/Empty")) 
     setMenuOption(6);
 } else if (pathname.startsWith("/User")) {
     setMenuOption(7);
+} else if (pathname.startsWith("/Log")) {
+    setMenuOption(9);
 } else if (pathname.startsWith("/Home/About")) {
     setMenuOption(8);
 } else {
@@ -81,6 +83,11 @@ function setMenuOption(menuIndex) {
         case 8:
             relativePath = '~/img/about_icon_24.png';
             menuId = 'menu-8';
+            break;
+
+        case 9:
+            relativePath = '~/img/report_icon_24.png';
+            menuId = 'menu-9';
             break;
 
         default:
