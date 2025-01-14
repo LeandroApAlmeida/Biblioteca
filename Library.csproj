@@ -49,4 +49,13 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="argon2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="libwkhtmltox.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -135,7 +135,7 @@ namespace Library.Controllers {
 
                 if (registerDiscardedBookResp.Successful) {
 
-                    TempData[Constants.SUCCESS_MESSAGE] = registerDiscardedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = "Livro descartado com sucesso!";
 
                     return RedirectToAction("Manage", "Book");
 

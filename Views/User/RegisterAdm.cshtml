@@ -34,7 +34,7 @@
 
         <div class="mb-5"></div>
 
-        <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="RegisterAdm">
+        <form id="adm-form" method="post" enctype="multipart/form-data" asp-controller="User" asp-action="RegisterAdm">
 
             <div class="mb-3">
                 <label for="name" class="form-label">Nome</label>
@@ -60,9 +60,11 @@
                 <span class="text-danger" asp-validation-for="ConfPassword"></span>
             </div>
 
+            <div id="spinner" class="spinner" style="display: none;"></div>
+
             <div class="left gap-2 mt-4">
-                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
-                <a class="btn btn-primary left" style="width:200px" asp-controller="Login" asp-action="Login">Cancelar</a>
+                <button id="save-button" type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+                <a id="cancel-button" class="btn btn-primary left" style="width:200px" asp-controller="Login" asp-action="Login">Cancelar</a>
             </div>
 
             @Html.Hidden("Role", role)
@@ -71,6 +73,6 @@
 
     </div>
 
-    <script type="module" src="~/js/register-person.js" asp-append-version="true"></script>
+    <script src="~/js/register-adm.js" asp-append-version="true"></script>
 
 </body>

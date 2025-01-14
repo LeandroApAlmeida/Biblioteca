@@ -20,21 +20,21 @@
 
 <body>
 
+    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
+        <div class="alert alert-success text-black" role="alert">
+            @TempData[Constants.SUCCESS_MESSAGE]
+        </div>
+    }
+
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
+
     <div class="conteiner">
 
-        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-            <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.SUCCESS_MESSAGE]
-            </div>
-        }
-
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
-
-        <form method="post" asp-asp-controller="Login" asp-action="Login">
+        <form id="login-form" method="post" asp-asp-controller="Login" asp-action="Login">
 
             <div id="login-container">
 
@@ -46,8 +46,6 @@
 
                 </div>
 
-                
-
                 <div class="mb-3">
                     <label for="user-name" class="form-label" style="color:white; font-weight:bold;">Usuário</label>
                     <input type="text" class="form-control" asp-for="UserName" id="user-name" aria-describedby="emailHelp">
@@ -58,11 +56,14 @@
                     <input type="password" class="form-control" asp-for="Password" id="password">
                 </div>
 
-                <div class="mt-5">
-                    <button type="submit" class="btn btn-light" style="width: 200px;height:38px;">Entrar</button>
+                <div id="spinner" class="spinner" style="display: none;"></div>
+
+                <div class="mt-5" id="buttons">
+                    <button id="login-button" type="submit" class="btn btn-light" style="width: 200px;height:38px;margin-right:10px;">Entrar</button>
                     @if (!registeredAdmin) {
-                        <a class="btn btn-light" asp-controller="User" asp-action="RegisterAdm" style="width: 200px;height:38px;">Cadastrar</a>
+                        <a class="btn btn-light" asp-controller="User" asp-action="RegisterAdm" style="width: 200px;height:38px;margin-right:10px;">Cadastrar Admin.</a>
                     }
+                    @*<a class="btn btn-light" asp-controller="Home" asp-action="About" style="width: 200px;height:38px;" target="_blank">Sobre...</a>*@
                 </div>
 
             </div>
@@ -70,5 +71,7 @@
         </form>
 
     </div>
+
+    <script src="~/js/login.js" asp-append-version="true"></script>
 
 </body>

@@ -1,6 +1,26 @@
-﻿#login-container {
-    background: #47b867;
-    /*background-image: linear-gradient(90deg, #47b867 50%, #8bf0a9 100%);*/
+﻿body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.conteiner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-container {
+    background-image: linear-gradient(90deg, #58cd79 0%, #7cf5a0 100%);
     box-shadow: 5px 5px #888888;
     border: 1px solid #5b5b5b;
     border-radius: 10px;
@@ -8,4 +28,32 @@
     padding-top: 30px;
     padding-bottom: 40px;
     padding-right: 40px;
+    width: 750px;
+    position: relative;
+}
+
+
+
+.spinner {
+    border: 20px solid #135d8f;
+    border-top: 20px solid #2fc64d;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    position: absolute;
+    top: 162px;
+    left: 305px;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

@@ -31,6 +31,15 @@ builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new 
 builder.Services.AddScoped<ReportService>();
 
 
+builder.Services.AddSingleton<Argon2Params>(provider => {
+    try {
+        return new Argon2FileReader(Path.Combine(Directory.GetCurrentDirectory(), "argon2.xml")).Read();
+    } catch {
+        return new Argon2Params(16, 15, 4);
+    }
+});
+
+
 builder.Services.AddScoped<IBookService, BookService>();
 
 builder.Services.AddScoped<ICollectionService, CollectionService>();

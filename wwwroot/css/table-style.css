@@ -1,8 +1,23 @@
-﻿td {
-    text-align: left;
-    vertical-align: middle;
-}
+﻿
+/*
+    Estilos adicionais para <table> </table>. As tabelas são configuradas por meio do
+    Boostrap, definido no CSS baixado de https://datatables.net/download/builder?dt/dt-2.2.1
+    com o nome "datatables.css". Dessa forma, o sistema pode funcionar mesmo sem ter acesso à
+    internet com o estilo definido. Para que isso aconteça, foi importado também o arquivo
+    "datatables.js" para a pasta ~\wwwroot\js. 
+*/
+
 
 #controls-td {
     text-align: right;
+}
+
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+
+.table td {
+    text-align: left;
 }

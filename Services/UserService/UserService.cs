@@ -95,7 +95,7 @@ namespace Library.Services.UserService {
 
                     UserName = um.UserName,
 
-                    PasswordHash = new byte[0],
+                    PasswordHash = new byte[] { 0 },
 
                     RegistrationDate = um.RegistrationDate,
 
@@ -147,7 +147,7 @@ namespace Library.Services.UserService {
 
                     UserName = um.UserName,
 
-                    PasswordHash = new byte[0],
+                    PasswordHash = new byte[] { 0 },
 
                     RegistrationDate = um.RegistrationDate,
 
@@ -310,11 +310,15 @@ namespace Library.Services.UserService {
                     var registeredAdminResp = await RegisteredAdmin();
 
                     if (!registeredAdminResp.Successful) {
+
                         throw new Exception(registeredAdminResp.Message);
+
                     }
                         
                     if (registeredAdminResp.Data == true) {
+
                         throw new Exception("Já existe um usuário administrador cadastrado!");
+
                     }
 
                 }
@@ -371,20 +375,74 @@ namespace Library.Services.UserService {
         }
 
 
-        public Task<ResponseModel<UserModel>> EditUser(UserDto user) {
-            throw new NotImplementedException();
+        public async Task<ResponseModel<UserModel>> EditUser(UserModel user) {
+
+            ResponseModel<UserModel> response = new();
+
+            try {
+
+                DateTime date = DateTime.Now;
+
+                var userResp = await GetUser(user.Id);
+
+                if (!userResp.Successful) throw new Exception(userResp.Message);
+
+                if (userResp.Data!.UserName != user.UserName) {
+
+                    var userNameAlreadyExistResp = await UserNameAlreadyExist(user.UserName);
+
+                    if (!userNameAlreadyExistResp.Successful) {
+
+                        throw new Exception(userNameAlreadyExistResp.Message);
+
+                    }
+
+                    if (userNameAlreadyExistResp.Data == true) {
+
+                        throw new Exception("Usuário " + user.UserName + " já está cadastrado!");
+
+                    }
+
+                }
+
+                UserModel model = _context.Users.Where(m => m.Id == user.Id).First();
+
+                model.LastUpdateDate = DateTime.Now;
+                model.UserName = user.UserName;
+                model.Name = user.Name;
+
+                _context.Entry(model).State = EntityState.Modified;
+
+                _context.Users.Update(model);
+
+                await _context.SaveChangesAsync();
+
+                response.Message = "Usuário alterado com sucesso!";
+                response.Data = model;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
         }
 
 
-        public Task<ResponseModel<UserModel>> DeleteUser(UserDto user) {
+        public Task<ResponseModel<UserModel>> DeleteUser(UserModel user) {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseModel<UserModel>> DismissUser(UserDto user) {
+        public Task<ResponseModel<UserModel>> DismissUser(UserModel user) {
             throw new NotImplementedException();
         }
 
-        public Task<ResponseModel<UserModel>> RestoreUser(UserDto user) {
+        public Task<ResponseModel<UserModel>> RestoreUser(UserModel user) {
             throw new NotImplementedException();
         }
 

@@ -1,9 +1,14 @@
-﻿#img-preview {
+﻿
+/*Estilos utilizados pelas páginas que exibem miniaturas da capa do livro.*/
+
+
+#img-preview {
     border-radius: 5px;
     background-color: #fdfdfd;
     padding: 20px;
     border: 1px solid #cccc;
 }
+
 
 .center {
     display: block;

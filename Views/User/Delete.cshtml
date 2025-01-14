@@ -1,0 +1,79 @@
+﻿@using Library.Utils;
+
+@model PersonModel
+
+@{
+    ViewData["title"] = "Excluir Usuário";
+    Layout = ViewBag.Layout;
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+</head>
+
+<body>
+
+    <div class="conteiner">
+
+        @if (TempData[Constants.ERROR_MESSAGE] != null)
+        {
+            <div class="alert alert-danger text-black" role="alert">
+                @TempData[Constants.ERROR_MESSAGE]
+            </div>
+        }
+
+        <form method="post" enctype="multipart/form-data" asp-controller="Person" asp-action="Delete">
+
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <h3>Excluir esta Pessoa?</h3>
+                <div class="left gap-2 mt-1">
+                    <button type="submit" class="btn btn-danger left" style="width:150px;margin-right:10px">Excluir</button>
+                    <a class="btn btn-primary left" style="width:150px" asp-controller="Person" asp-action="Manage">Cancelar</a>
+                </div>
+            </div>
+
+            <div class="mb-3"></div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" value="@Model.Name" id="name" disabled>
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+            <div class="row g-3" display="flex">
+
+                <div class="mb-3 col-sm-2" style="width: 25%;">
+                    <label for="city" class="form-label">Município</label>
+                    <input type="text" class="form-control" value="@Model.City" id="city" placeholder="Município não informado" disabled>
+                    <span class="text-danger" asp-validation-for="City"></span>
+                </div>
+
+                <div class="mb-3 col-sm-2" style="width: 25%;">
+                    <label for="federal-state" class="form-label">Estado</label>
+                    <input type="text" class="form-control" value="@Model.FederalState" id="federal-state" placeholder="Estado não informado" disabled>
+                    <span class="text-danger" asp-validation-for="FederalState"></span>
+                </div>
+
+            </div>
+
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.Name)
+            @Html.HiddenFor(m => m.City)
+            @Html.HiddenFor(m => m.FederalState)
+            @Html.HiddenFor(m => m.Street)
+            @Html.HiddenFor(m => m.Number)
+            @Html.HiddenFor(m => m.District)
+            @Html.HiddenFor(m => m.PostalCode)
+            @Html.HiddenFor(m => m.Complement)
+            @Html.HiddenFor(m => m.Country)
+            @Html.HiddenFor(m => m.Description)
+            @Html.HiddenFor(m => m.RegistrationDate)
+            @Html.HiddenFor(m => m.LastUpdateDate)
+            @Html.HiddenFor(m => m.IsDeleted)
+
+        </form>
+
+    </div>
+
+</body>

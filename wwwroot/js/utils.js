@@ -15,4 +15,16 @@
 };
 
 
-export { formatToDatetimeLocal };
+function formatToDateLocal(refDate) {
+    var date = refDate,
+        ten = function (i) {
+            return (i < 10 ? '0' : '') + i;
+        },
+        YYYY = date.getFullYear(),
+        MM = ten(date.getMonth() + 1),
+        DD = ten(date.getDate());
+    return YYYY + '-' + MM + '-' + DD;
+};
+
+
+export { formatToDatetimeLocal, formatToDateLocal };

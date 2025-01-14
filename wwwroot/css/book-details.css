@@ -1,6 +1,6 @@
-﻿* {
-    box-sizing: border-box;
-}
+﻿
+/*Estilos utilizados pelas páginas ~\Views\Book\Details.cshtml e ~\Views\Book\Empty.cshtml*/
+
 
 #book-details {
     border-radius: 10px;
@@ -12,6 +12,7 @@
     height: 505px;
     border: 1px solid #cccc;
 }
+
 
 #img-preview {
     width: 300px;
@@ -25,14 +26,17 @@
     border: 1px solid #282828;
 }
 
+
 #book-data {
     margin-top: 20px
 }
+
 
 .text {
     font-size: 16px;
     padding-left: 40px;
 }
+
 
 #button-first, #button-previous, #button-next, #button-last, #button-filter {
     background-color: #8c87fa;
@@ -49,6 +53,7 @@
     vertical-align: middle;
     align-items: center;
 }
+
 
 #nav-buttons {
     margin-top: 15px;

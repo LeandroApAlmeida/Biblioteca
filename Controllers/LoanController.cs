@@ -122,7 +122,7 @@ namespace Library.Controllers {
 
                 if (registerLoanResp.Successful) {
 
-                    TempData[Constants.SUCCESS_MESSAGE] = registerLoanResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = "Livro emprestado com sucesso!";
 
                     return RedirectToAction("Manage", "Book");
 

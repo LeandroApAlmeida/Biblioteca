@@ -1,4 +1,5 @@
 ﻿using Library.Dto;
+using Library.Models;
 using Library.Services.SessionService;
 using Library.Services.UserService;
 using Library.Utils;
@@ -66,6 +67,10 @@ namespace Library.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> RegisterAdm(UserDto admin) {
+
+            if (_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Details", "Book");
+            }
 
             if (ModelState.IsValid) {
 
@@ -140,6 +145,69 @@ namespace Library.Controllers {
                 } else {
 
                     TempData[Constants.ERROR_MESSAGE] = registerUserResp.Message;
+
+                    return View(user);
+
+                }
+
+            } else {
+
+                TempData[Constants.ERROR_MESSAGE] = "Dados do usuário incorretos!";
+
+                return View(user);
+
+            }
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            if (_sessionService.GetSessionData()!.User.Role.Id != (int)UserRole.Admin) {
+                return RedirectToAction("Details", "Book");
+            }
+
+            _sessionService.SetLayout(this);
+
+            ViewBag.UserRole = (int)UserRole.Guest;
+
+            var userResp = await _userService.GetUser(id);
+
+            if (userResp.Successful) {
+                return View(userResp.Data);
+            } else {
+                TempData[Constants.ERROR_MESSAGE] = userResp.Message;
+                return RedirectToAction("Manage");
+            }
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserModel user) {
+
+            if (!_sessionService.IsTheSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            if (ModelState.IsValid) {
+
+                var editUserResp = await _userService.EditUser(user);
+
+                if (editUserResp.Successful) {
+
+                    TempData[Constants.SUCCESS_MESSAGE] = editUserResp.Message;
+
+                    return RedirectToAction("Manage");
+
+                } else {
+
+                    TempData[Constants.ERROR_MESSAGE] = editUserResp.Message;
 
                     return View(user);
 

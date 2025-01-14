@@ -122,7 +122,7 @@ namespace Library.Controllers {
 
                 if (registerDonatedBookResp.Successful) {
 
-                    TempData[Constants.SUCCESS_MESSAGE] = registerDonatedBookResp.Message;
+                    TempData[Constants.SUCCESS_MESSAGE] = "Livro doado com sucesso!";
 
                     return RedirectToAction("Manage", "Book");
 

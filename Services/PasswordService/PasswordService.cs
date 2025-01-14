@@ -9,14 +9,15 @@ namespace Library.Services.PasswordService {
     public class PasswordService : IPasswordService {
 
 
-        private const int PARALLELISM = 8;
-        
-        private const int MEMORY_POW_OF_TWO = 13;
-        
-        private const int ITERATIONS = 4;
-        
+        private readonly Argon2Params _argon2Params;
+
         private const int HASH_LENGTH = 32;
-         
+
+
+        public PasswordService(Argon2Params argon2Params) {
+            _argon2Params = argon2Params;
+        }
+
 
         public static byte[] GenerateSalt(int length) {
             var random = new SecureRandom();
@@ -30,13 +31,17 @@ namespace Library.Services.PasswordService {
 
             byte[] salt = GenerateSalt(16);
 
+            int parallelism = _argon2Params.Parallelism;
+            int memoryPowOfTwo = _argon2Params.MemoryPowOfTwo;
+            int iterations = _argon2Params.Iterations;
+
             Argon2BytesGenerator argon2 = new Argon2BytesGenerator();
             Argon2Parameters.Builder builder = new Argon2Parameters
             .Builder(Argon2Parameters.Argon2id)
             .WithSalt(salt)
-            .WithParallelism(PARALLELISM)
-            .WithMemoryPowOfTwo(MEMORY_POW_OF_TWO)
-            .WithIterations(ITERATIONS); 
+            .WithParallelism(parallelism)
+            .WithMemoryPowOfTwo(memoryPowOfTwo)
+            .WithIterations(iterations); 
             
             Argon2Parameters parameters = builder.Build(); 
             
@@ -48,23 +53,45 @@ namespace Library.Services.PasswordService {
 
             argon2.GenerateBytes(passwordBytes, hash);
 
-            return [.. salt, .. hash];
+            byte[] parallelismArray = BitConverter.GetBytes(parallelism);
+            byte[] memoryPowOfTwoArray = BitConverter.GetBytes(memoryPowOfTwo);
+            byte[] iterationsArray = BitConverter.GetBytes(iterations);
+
+            return [
+                .. salt,
+                .. parallelismArray,
+                .. memoryPowOfTwoArray,
+                .. iterationsArray,
+                .. hash
+            ];
             
         }
 
         public bool IsItTheSamePassword(string password, byte[] passwordHash) {
 
-            byte[] salt = passwordHash.Take(16).ToArray();
-            byte[] hash = passwordHash.Skip(16).Take(32).ToArray();
+            byte[] salt = new byte[16];
+            byte[] parallelismArray = new byte[4];
+            byte[] memoryPowOfTwoArray = new byte[4];
+            byte[] iterationsArray = new byte[4];
+            byte[] hash = new byte[HASH_LENGTH]; 
+            
+            Array.Copy(passwordHash, 0, salt, 0, 16);
+            Array.Copy(passwordHash, 16, parallelismArray, 0, 4);
+            Array.Copy(passwordHash, 20, memoryPowOfTwoArray, 0, 4);
+            Array.Copy(passwordHash, 24, iterationsArray, 0, 4);
+            Array.Copy(passwordHash, 28, hash, 0, HASH_LENGTH);
 
+            int parallelism = BitConverter.ToInt32(parallelismArray, 0);
+            int memoryPowOfTwo = BitConverter.ToInt32(memoryPowOfTwoArray, 0);
+            int iterations = BitConverter.ToInt32(iterationsArray, 0);
 
             Argon2BytesGenerator argon2 = new Argon2BytesGenerator();
             Argon2Parameters.Builder builder = new Argon2Parameters
             .Builder(Argon2Parameters.Argon2id)
             .WithSalt(salt)
-            .WithParallelism(PARALLELISM)
-            .WithMemoryPowOfTwo(MEMORY_POW_OF_TWO)
-            .WithIterations(ITERATIONS);
+            .WithParallelism(parallelism)
+            .WithMemoryPowOfTwo(memoryPowOfTwo)
+            .WithIterations(iterations);
 
             Argon2Parameters parameters = builder.Build();
 
@@ -79,6 +106,7 @@ namespace Library.Services.PasswordService {
             return hash.SequenceEqual(newHash);
 
         }
+
 
     }
 

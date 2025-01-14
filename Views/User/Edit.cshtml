@@ -1,0 +1,68 @@
+﻿@using Library.Utils;
+
+@model UserModel
+
+@{
+
+    ViewData["title"] = "Editar Usuário";
+
+    int? role = ViewBag.UserRole as int?;
+
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+</head>
+
+<body>
+
+    <div class="conteiner bg-white">
+
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
+            <div class="alert alert-danger text-black" role="alert">
+                @TempData[Constants.ERROR_MESSAGE]
+            </div>
+        }
+
+        <div class="mb-1">
+            <h3 class="text-black">Editar Usuário</h3>
+        </div>
+
+        <div class="mb-5"></div>
+
+        <form method="post" asp-controller="User" asp-action="Edit">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" asp-for="Name" id="name" placeholder="Nome completo">
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="user-name" class="form-label">Usuário</label>
+                <input type="text" class="form-control" asp-for="UserName" id="user-name" placeholder="Nome da usuário">
+                <span class="text-danger" asp-validation-for="UserName"></span>
+            </div>
+
+            <div class="left gap-2 mt-4">
+                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+                <a class="btn btn-primary left" style="width:200px" asp-controller="User" asp-action="Manage">Cancelar</a>
+            </div>
+
+            @Html.HiddenFor(u => u.Id)
+            @Html.HiddenFor(u => u.PasswordHash)
+            @Html.HiddenFor(u => u.RegistrationDate)
+            @Html.HiddenFor(u => u.LastUpdateDate)
+            @Html.HiddenFor(u => u.Role.Id)
+            @Html.HiddenFor(u => u.Role.Description)
+            @Html.HiddenFor(u => u.IsDeleted)
+            @Html.HiddenFor(u => u.IsActive)
+
+        </form>
+
+    </div>
+
+    <script type="module" src="~/js/register-person.js" asp-append-version="true"></script>
+
+</body>

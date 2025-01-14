@@ -20,13 +20,13 @@ namespace Library.Services.UserService {
 
         public Task<ResponseModel<UserModel>> RegisterUser(UserDto user);
 
-        public Task<ResponseModel<UserModel>> EditUser(UserDto user);
+        public Task<ResponseModel<UserModel>> EditUser(UserModel user);
 
-        public Task<ResponseModel<UserModel>> DeleteUser(UserDto user);
+        public Task<ResponseModel<UserModel>> DeleteUser(UserModel user);
 
-        public Task<ResponseModel<UserModel>> DismissUser(UserDto user);
+        public Task<ResponseModel<UserModel>> DismissUser(UserModel user);
 
-        public Task<ResponseModel<UserModel>> RestoreUser(UserDto user);
+        public Task<ResponseModel<UserModel>> RestoreUser(UserModel user);
 
     }
 

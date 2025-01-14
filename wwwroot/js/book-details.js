@@ -1,5 +1,6 @@
-﻿// Tratador de eventos da página "BookDetails.cshtml". Neste caso, apenas codifica
-// a ação de abrir e fechar o diálogo que exibe a sinopse do livro em exibição.
+﻿
+// Tratador de eventos da página "~\Views\Book\Details.cshtml". Neste caso, apenas
+// codifica a ação de abrir e fechar o diálogo que exibe a sinopse do livro.
 
 
 // Diálogo exibido ao clicar no botão "Ver sinopse".

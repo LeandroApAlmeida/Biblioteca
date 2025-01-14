@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Argon2>
+
+	<Iterations>8</Iterations>
+
+	<MemoryPowOfTwo>16</MemoryPowOfTwo>
+	
+	<Parallelism>16</Parallelism>
+	
+</Argon2>
