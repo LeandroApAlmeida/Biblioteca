@@ -34,7 +34,7 @@
             </div>
         }
 
-        <table class="table table-light table hover table-striped" id="person-table" border="1">
+        <table id="person-table" class="table table-light table hover table-striped" border="1">
 
             <thead>
 
@@ -58,7 +58,7 @@
                             <td scope="row">@person.City</td>
                             <td scope="row">@person.FederalState</td>
                             <td class="" scope="row">@person.RegistrationDate</td>
-                            <td scope="row" id="controls-td">
+                            <td id="controls-td" scope="row">
                                 <a class="btn btn-light" asp-controller="Person" asp-action="Edit" asp-route-id="@person.Id"><img src="~/img/edit_icon2.png" title="Editar a pessoa" /></a>
                                 <a class="btn btn-light" asp-controller="Person" asp-action="Delete" asp-route-id="@person.Id"><img src="~/img/delete_icon.png" title="Excluir a pessoa" /></a>
                             </td>

@@ -32,7 +32,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -58,9 +58,9 @@ namespace Library.Controllers {
         /// </summary>
         /// <returns>Página para cadastro de uma nova pessoa.</returns>
         [HttpGet]
-        public async Task<IActionResult> Register() {
+        public IActionResult Register() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -79,7 +79,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register(PersonModel person) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -120,7 +120,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -153,7 +153,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(PersonModel person) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -194,7 +194,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -227,7 +227,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(PersonModel person) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 

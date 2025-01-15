@@ -187,6 +187,7 @@ namespace Library.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Ip = table.Column<string>(type: "text", nullable: true),
                     LoginDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LogoutDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },

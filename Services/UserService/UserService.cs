@@ -3,6 +3,8 @@ using Library.Dto;
 using Library.Models;
 using Library.Services.PasswordService;
 using Microsoft.EntityFrameworkCore;
+using Library.Utils;
+using System;
 
 namespace Library.Services.UserService {
 
@@ -106,6 +108,7 @@ namespace Library.Services.UserService {
                     IsActive = um.IsActive
 
                 })
+                //.Where(um => !um.IsDeleted && um.IsActive)
                 .OrderBy(um => um.Role.Id)
                 .ThenBy(um => um.Name)
                 .AsNoTracking()
@@ -375,7 +378,7 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<UserModel>> EditUser(UserModel user) {
+        public async Task<ResponseModel<UserModel>> EditUser(UserDto user) {
 
             ResponseModel<UserModel> response = new();
 
@@ -386,6 +389,10 @@ namespace Library.Services.UserService {
                 var userResp = await GetUser(user.Id);
 
                 if (!userResp.Successful) throw new Exception(userResp.Message);
+
+                if (userResp.Data!.Role.Id != user.Role) {
+                    throw new Exception("Não é permitido alterar o privilégio de acesso.");
+                }
 
                 if (userResp.Data!.UserName != user.UserName) {
 
@@ -411,6 +418,10 @@ namespace Library.Services.UserService {
                 model.UserName = user.UserName;
                 model.Name = user.Name;
 
+                if (user.Password != Constants.NULL_PASSWORD) {
+                    model.PasswordHash = _passwordService.GeneratePasswordHash(user.Password);
+                }
+
                 _context.Entry(model).State = EntityState.Modified;
 
                 _context.Users.Update(model);
@@ -434,18 +445,75 @@ namespace Library.Services.UserService {
         }
 
 
-        public Task<ResponseModel<UserModel>> DeleteUser(UserModel user) {
-            throw new NotImplementedException();
+        public async Task<ResponseModel<UserModel>> DeleteUser(UserModel user) {
+
+            ResponseModel<UserModel> response = new();
+
+            try {
+
+                if (user.Role.Id == (int)UserRole.Admin) {
+                    throw new Exception("Não é permitido excluir um usuário administrador.");
+                }
+
+                _context.Attach(user);
+
+                user.IsDeleted = true;
+                user.LastUpdateDate = DateTime.Now;
+
+                _context.Entry(user).State = EntityState.Modified;
+
+                _context.Users.Update(user);
+
+                await _context.SaveChangesAsync();
+
+                response.Message = "Usuário excluído com sucesso!";
+                response.Data = user;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
         }
 
-        public Task<ResponseModel<UserModel>> DismissUser(UserModel user) {
-            throw new NotImplementedException();
-        }
+        public async Task<ResponseModel<UserModel>> UndeleteUser(UserModel user) {
 
-        public Task<ResponseModel<UserModel>> RestoreUser(UserModel user) {
-            throw new NotImplementedException();
-        }
+            ResponseModel<UserModel> response = new();
 
+            try {
+
+                _context.Attach(user);
+
+                user.IsDeleted = false;
+                user.LastUpdateDate = DateTime.Now;
+
+                _context.Entry(user).State = EntityState.Modified;
+
+                _context.Users.Update(user);
+
+                await _context.SaveChangesAsync();
+
+                response.Message = "Usuário restaurado com sucesso!";
+                response.Data = user;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
     }
 
 

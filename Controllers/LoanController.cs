@@ -38,7 +38,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -62,7 +62,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -112,7 +112,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register(LoanModel loan) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -148,7 +148,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task <IActionResult> Register2() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -184,7 +184,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register2(LoanModel loan) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -220,7 +220,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -254,7 +254,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(LoanModel loan) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -290,7 +290,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -316,7 +316,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(LoanModel loan) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -352,7 +352,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Return(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -378,7 +378,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Return(LoanModel loan) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -414,7 +414,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Cancel(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -456,7 +456,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Cancel(LoanModel loan) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 

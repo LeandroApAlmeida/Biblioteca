@@ -19,14 +19,14 @@ namespace Library.Models {
 
         public string? Notes { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Digite a data de doação do livro")]
         public required DateTime Date { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public required DateTime RegistrationDate { get; set; } = DateTime.Now;
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public required DateTime LastUpdateDate { get; set; } = DateTime.Now;
 
     }

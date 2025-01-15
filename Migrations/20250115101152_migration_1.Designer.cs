@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250112070810_migration_1")]
+    [Migration("20250115101152_migration_1")]
     partial class migration_1
     {
         /// <inheritdoc />
@@ -230,6 +230,9 @@ namespace Library.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Ip")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("LoginDate")
                         .HasColumnType("timestamp without time zone");

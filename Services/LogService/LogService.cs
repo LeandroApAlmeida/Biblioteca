@@ -28,6 +28,8 @@ namespace Library.Services.LogService {
                 .Select(s => new SessionModel {
                     
                     Id = s.Id,
+
+                    Ip = s.Ip,
                     
                     LoginDate = s.LoginDate,
                     

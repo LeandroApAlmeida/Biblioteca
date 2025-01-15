@@ -11,10 +11,12 @@ namespace Library.Models {
 
         public required UserModel User { get; set; }
 
-        [DataType(DataType.Date)]
+        public string? Ip { get; set; }
+
+        [DataType(DataType.DateTime)]
         public required DateTime LoginDate { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public required DateTime LogoutDate { get; set; }
 
     }

@@ -12,6 +12,9 @@
 // sejam atualizados.
 
 
+import { setPersonData } from "./data-person.js"
+
+
 // Campo seletor de pessoas.
 var selector = document.getElementById('select-person');
 
@@ -33,7 +36,7 @@ for (var i = 0; i < personsData.length; i++) {
 
         selector.options.selectedIndex = i;
 
-        setPerson(person);
+        setPersonData(document, person);
 
         break;
 
@@ -60,37 +63,12 @@ function onSelectedPerson() {
 
         if (person.Id == selector.value) {
 
-            setPerson(person);
+            setPersonData(document, person);
 
             break;
 
         }
 
     }
-
-}
-
-
-/**
- * Atualiza os dados da pessoa selecionada na página.
- * 
- * @param {any} person pessoa selecionada.
- */
-function setPerson(person) {
-
-    document.getElementsByName("Person.Id")[0].value = person.Id;
-    document.getElementsByName("Person.Name")[0].value = person.Name;
-    document.getElementsByName("Person.City")[0].value = person.City;
-    document.getElementsByName("Person.FederalState")[0].value = person.FederalState;
-    document.getElementsByName("Person.Street")[0].value = person.Street;
-    document.getElementsByName("Person.Number")[0].value = person.Number;
-    document.getElementsByName("Person.District")[0].value = person.District;
-    document.getElementsByName("Person.PostalCode")[0].value = person.PostalCode;
-    document.getElementsByName("Person.Complement")[0].value = person.Complement;
-    document.getElementsByName("Person.Country")[0].value = person.Country;
-    document.getElementsByName("Person.Description")[0].value = person.Description;
-    document.getElementsByName("Person.RegistrationDate")[0].value = person.RegistrationDate;
-    document.getElementsByName("Person.LastUpdateDate")[0].value = person.LastUpdateDate;
-    document.getElementsByName("Person.IsDeleted")[0].value = person.IsDeleted;
 
 }

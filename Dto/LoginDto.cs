@@ -7,11 +7,11 @@ namespace Library.Dto {
 
 
         [Required(ErrorMessage = "Digite o nome de usuário")]
-        public string UserName { get; set; }
+        public required string UserName { get; set; }
 
 
         [Required(ErrorMessage = "Digite a senha de acesso")]
-        public string Password { get; set; }
+        public required string Password { get; set; }
 
     
     }

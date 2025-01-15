@@ -5,6 +5,7 @@ using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace Library.Services.SessionService {
 
@@ -23,7 +24,7 @@ namespace Library.Services.SessionService {
         }
 
 
-        public async Task<ResponseModel<SessionModel>> CreateSession(UserModel user) {
+        public async Task<ResponseModel<SessionModel>> CreateSession(UserModel user, string? ip) {
 
             ResponseModel<SessionModel> response = new();
 
@@ -33,6 +34,7 @@ namespace Library.Services.SessionService {
 
                 SessionModel session = new SessionModel() {
                     Id = Guid.NewGuid(),
+                    Ip = ip,
                     User = user,
                     LoginDate = DateTime.Now,
                     LogoutDate = DateTime.Now
@@ -115,13 +117,27 @@ namespace Library.Services.SessionService {
 
         }
 
-        public bool IsTheSessionActive() {
+        public bool IsSessionActive() {
             
             var sessionData = GetSessionData();
 
             return sessionData != null;
 
         }
+
+
+        public bool IsAdminSession() {
+
+            var sessionData = GetSessionData();
+
+            if (sessionData != null) {
+                return sessionData.User.Role.Id == (int) UserRole.Admin;
+            } else {
+                return false;
+            }
+            
+        }
+
 
         public void SetLayout(Controller c) {
             c.ViewBag.Layout = GetSessionData()!.User.Role.Id switch {
@@ -131,7 +147,7 @@ namespace Library.Services.SessionService {
             };
         }
 
-
+        
     }
 
 

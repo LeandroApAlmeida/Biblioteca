@@ -21,13 +21,13 @@ namespace Library.Controllers {
 
         private readonly ILoanService _loanService;
 
-        private readonly ReportService _reportService;
+        private readonly IReportService _reportService;
 
         private readonly ISessionService _sessionService;
 
         
         public ReportController(IBookService bookService, IDiscardService discardService,
-        IDonationService donationService, ILoanService loanService,  ReportService reportService,
+        IDonationService donationService, ILoanService loanService,  IReportService reportService,
         ISessionService sessionService) {
             _reportService = reportService;
             _bookService = bookService;
@@ -41,7 +41,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> BookDetailedReport(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -84,7 +84,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> BooksInTheCollectionReport() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -115,7 +115,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> DiscardedBooksReport() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -152,7 +152,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> DonatedBooksReport() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -181,7 +181,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> BorrowedBooksReport() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 

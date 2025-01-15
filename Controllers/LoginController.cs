@@ -5,6 +5,7 @@ using Library.Services.SessionService;
 using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Library.Controllers {
 
@@ -30,7 +31,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Login() {
 
-            if (_sessionService.IsTheSessionActive()) {
+            if (_sessionService.IsSessionActive()) {
                 return RedirectToAction("Details", "Book");
             }
 
@@ -50,13 +51,19 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto login) {
 
-            if (_sessionService.IsTheSessionActive()) {
-                return RedirectToAction("Details", "Book");
-            }
-
             if (ModelState.IsValid) {
 
-                var loginResp = await _loginService.Login(login);
+                string host = Dns.GetHostName();
+
+                string ip;
+
+                try {
+                    ip = "[local]"; // Dns.GetHostAddresses(host)[2].ToString();
+                } catch {
+                    ip = "[local]";
+                }
+                 
+                var loginResp = await _loginService.Login(login, ip);
 
                 if (loginResp.Successful) {
 
@@ -94,15 +101,19 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Logout() {
 
-            var removeSessionResp = await _sessionService.RemoveSession();
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
 
-            if (removeSessionResp.Successful) {
+            var logoutResp = await _loginService.Logout();
+
+            if (logoutResp.Successful) {
 
                 return RedirectToAction("Login");
 
             } else {
 
-                TempData[Constants.ERROR_MESSAGE] += removeSessionResp.Message;
+                TempData[Constants.ERROR_MESSAGE] += logoutResp.Message;
 
                 return RedirectToAction("Details", "Book");
 

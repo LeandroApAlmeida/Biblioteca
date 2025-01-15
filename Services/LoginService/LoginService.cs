@@ -3,6 +3,7 @@ using Library.Models;
 using Library.Services.PasswordService;
 using Library.Services.SessionService;
 using Library.Services.UserService;
+using System.Net;
 
 namespace Library.Services.LoginService {
 
@@ -25,7 +26,7 @@ namespace Library.Services.LoginService {
         }
 
 
-        public async Task<ResponseModel<SessionModel?>> Login(LoginDto login) {
+        public async Task<ResponseModel<SessionModel?>> Login(LoginDto login, string? ip) {
 
             ResponseModel<SessionModel?> response = new();
 
@@ -37,6 +38,10 @@ namespace Library.Services.LoginService {
 
                 if (userResp.Data != null) {
 
+                    if (userResp.Data.IsDeleted) {
+                        throw new Exception("Acesso negado!");
+                    }
+
                     var isItTheSamePassword = _passwordService.IsItTheSamePassword(
                         login.Password,
                         userResp.Data.PasswordHash
@@ -44,7 +49,7 @@ namespace Library.Services.LoginService {
 
                     if (isItTheSamePassword) {
 
-                        var createSessionResp = await _sessionService.CreateSession(userResp.Data);
+                        var createSessionResp = await _sessionService.CreateSession(userResp.Data, ip);
 
                         if (!createSessionResp.Successful) {
                             throw new Exception(createSessionResp.Message);
@@ -85,6 +90,32 @@ namespace Library.Services.LoginService {
                 return response;
 
             }
+
+        }
+
+
+        public async Task<ResponseModel<bool?>> Logout() {
+
+            ResponseModel<bool?> response = new();
+
+            var removeSessionResp = await _sessionService.RemoveSession();
+
+            if (removeSessionResp.Successful) {
+
+                response.Data = true;
+
+                return response;
+
+            } else {
+
+                response.Data = false;
+
+                response.Message = removeSessionResp.Message;
+
+                return response;
+
+            }
+
 
         }
 

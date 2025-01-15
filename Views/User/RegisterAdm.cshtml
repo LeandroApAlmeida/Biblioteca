@@ -38,25 +38,25 @@
 
             <div class="mb-3">
                 <label for="name" class="form-label">Nome</label>
-                <input type="text" class="form-control" asp-for="Name" id="name" placeholder="Nome completo">
+                <input id="name" type="text" class="form-control" asp-for="Name" placeholder="Nome completo">
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
             <div class="mb-3">
                 <label for="user-name" class="form-label">Usuário</label>
-                <input type="text" class="form-control" asp-for="UserName" id="user-name" placeholder="Nome da usuário">
+                <input id="user-name" type="text" class="form-control" asp-for="UserName" placeholder="Nome da usuário">
                 <span class="text-danger" asp-validation-for="UserName"></span>
             </div>
 
             <div class="mb-3">
                 <label for="password" class="form-label">Senha de acesso</label>
-                <input type="password" class="form-control" asp-for="Password" id="password" placeholder="Senha de acesso">
+                <input id="password" type="password" class="form-control" asp-for="Password" placeholder="Senha de acesso">
                 <span class="text-danger" asp-validation-for="Password"></span>
             </div>
 
             <div class="mb-3">
                 <label for="conf-password" class="form-label">Confirme a Senha</label>
-                <input type="password" class="form-control" asp-for="ConfPassword" id="conf-password" placeholder="Confirme a senha de acesso">
+                <input id="conf-password" type="password" class="form-control" asp-for="ConfPassword" placeholder="Confirme a senha de acesso">
                 <span class="text-danger" asp-validation-for="ConfPassword"></span>
             </div>
 

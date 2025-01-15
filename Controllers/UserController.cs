@@ -25,11 +25,11 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (_sessionService.GetSessionData()!.User.Role.Id != (int)UserRole.Admin) {
+            if (!_sessionService.IsAdminSession()) {
                 return RedirectToAction("Details", "Book");
             }
 
@@ -54,7 +54,7 @@ namespace Library.Controllers {
         public IActionResult RegisterAdm() {
 
 
-            if (_sessionService.IsTheSessionActive()) {
+            if (_sessionService.IsSessionActive()) {
                 return RedirectToAction("Details", "Book");
             }
 
@@ -68,7 +68,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> RegisterAdm(UserDto admin) {
 
-            if (_sessionService.IsTheSessionActive()) {
+            if (_sessionService.IsSessionActive()) {
                 return RedirectToAction("Details", "Book");
             }
 
@@ -102,13 +102,13 @@ namespace Library.Controllers {
 
 
         [HttpGet]
-        public async Task<IActionResult> Register() {
+        public IActionResult Register() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (_sessionService.GetSessionData()!.User.Role.Id != (int)UserRole.Admin) {
+            if (!_sessionService.IsAdminSession()) {
                 return RedirectToAction("Details", "Book");
             }
 
@@ -124,11 +124,11 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register(UserDto user) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (_sessionService.GetSessionData()!.User.Role.Id != (int)UserRole.Admin) {
+            if (!_sessionService.IsAdminSession()) {
                 return RedirectToAction("Details", "Book");
             }
 
@@ -164,11 +164,11 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (_sessionService.GetSessionData()!.User.Role.Id != (int)UserRole.Admin) {
+            if (!_sessionService.IsAdminSession()) {
                 return RedirectToAction("Details", "Book");
             }
 
@@ -179,19 +179,41 @@ namespace Library.Controllers {
             var userResp = await _userService.GetUser(id);
 
             if (userResp.Successful) {
-                return View(userResp.Data);
+
+                if (userResp.Data == null) {
+
+                    TempData[Constants.ERROR_MESSAGE] = userResp.Message;
+
+                    return RedirectToAction("Manage");
+
+                }
+                
+                UserDto user = new UserDto() {
+                    Id = userResp.Data.Id,
+                    Role = userResp.Data.Role.Id,
+                    Name = userResp.Data.Name,
+                    UserName = userResp.Data.UserName,
+                    Password = Constants.NULL_PASSWORD,
+                    ConfPassword = Constants.NULL_PASSWORD
+                };
+
+                return View(user);
+            
             } else {
+            
                 TempData[Constants.ERROR_MESSAGE] = userResp.Message;
+                
                 return RedirectToAction("Manage");
+            
             }
 
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UserModel user) {
+        public async Task<IActionResult> Edit(UserDto user) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -208,6 +230,138 @@ namespace Library.Controllers {
                 } else {
 
                     TempData[Constants.ERROR_MESSAGE] = editUserResp.Message;
+
+                    return View(user);
+
+                }
+
+            } else {
+
+                TempData[Constants.ERROR_MESSAGE] = "Dados do usuário incorretos!";
+
+                return View(user);
+
+            }
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id) {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            if (!_sessionService.IsAdminSession()) {
+                return RedirectToAction("Details", "Book");
+            }
+
+            _sessionService.SetLayout(this);
+
+            var userResp = await _userService.GetUser(id);
+
+            if (userResp.Successful) {
+            
+                return View(userResp.Data);
+            
+            } else {
+                
+                TempData[Constants.ERROR_MESSAGE] = userResp.Message;
+                
+                return RedirectToAction("Manage");
+            
+            }
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(UserModel user) {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            if (ModelState.IsValid) {
+
+                var deleteUserResp = await _userService.DeleteUser(user);
+
+                if (deleteUserResp.Successful) {
+
+                    TempData[Constants.SUCCESS_MESSAGE] = deleteUserResp.Message;
+
+                    return RedirectToAction("Manage");
+
+                } else {
+
+                    TempData[Constants.ERROR_MESSAGE] = deleteUserResp.Message;
+
+                    return View(user);
+
+                }
+
+            } else {
+
+                TempData[Constants.ERROR_MESSAGE] = "Dados do usuário incorretos!";
+
+                return View(user);
+
+            }
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Undelete(Guid id) {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            if (!_sessionService.IsAdminSession()) {
+                return RedirectToAction("Details", "Book");
+            }
+
+            _sessionService.SetLayout(this);
+
+            var userResp = await _userService.GetUser(id);
+
+            if (userResp.Successful) {
+
+                return View(userResp.Data);
+
+            } else {
+
+                TempData[Constants.ERROR_MESSAGE] = userResp.Message;
+
+                return RedirectToAction("Manage");
+
+            }
+
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> Undelete(UserModel user) {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            if (ModelState.IsValid) {
+
+                var undeleteUserResp = await _userService.UndeleteUser(user);
+
+                if (undeleteUserResp.Successful) {
+
+                    TempData[Constants.SUCCESS_MESSAGE] = undeleteUserResp.Message;
+
+                    return RedirectToAction("Manage");
+
+                } else {
+
+                    TempData[Constants.ERROR_MESSAGE] = undeleteUserResp.Message;
 
                     return View(user);
 

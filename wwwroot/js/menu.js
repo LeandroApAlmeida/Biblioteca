@@ -15,7 +15,7 @@ const {
 } = window.location
 
 
-if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/Empty")) {
+if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/NoBook")) {
     setMenuOption(1);
 } else if (pathname.startsWith("/Book")) {
     setMenuOption(2);
@@ -29,7 +29,7 @@ if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/Empty")) 
     setMenuOption(6);
 } else if (pathname.startsWith("/User")) {
     setMenuOption(7);
-} else if (pathname.startsWith("/Log")) {
+} else if (pathname.startsWith("/Session")) {
     setMenuOption(9);
 } else if (pathname.startsWith("/Home/About")) {
     setMenuOption(8);

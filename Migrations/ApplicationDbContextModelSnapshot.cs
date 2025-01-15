@@ -228,6 +228,9 @@ namespace Library.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Ip")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("LoginDate")
                         .HasColumnType("timestamp without time zone");
 

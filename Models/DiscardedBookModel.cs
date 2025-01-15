@@ -15,14 +15,14 @@ namespace Library.Models {
 
         public string? Reason { get; set; }
 
-        [DataType(DataType.Date)]
-        [Required(ErrorMessage = "Digite a data de aquisição do livro")]
+        [DataType(DataType.DateTime)]
+        [Required(ErrorMessage = "Digite a data de descarte do livro")]
         public required DateTime Date { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public required DateTime RegistrationDate { get; set; } = DateTime.Now;
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public required DateTime LastUpdateDate { get; set; } = DateTime.Now;
 
     }

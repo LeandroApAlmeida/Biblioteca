@@ -34,7 +34,7 @@
             </div>
         }
 
-        <table class="table table-light table hover table-striped" id="user-table" border="1">
+        <table id="user-table" class="table table-light table hover table-striped" border="1">
 
             <thead>
 
@@ -59,18 +59,24 @@
                             <td scope="row">@user.UserName</td>
                             
                             <td scope="row">@user.Role.Description</td>
-                            
-                            <td scope="row" id="controls-td">
-                                
+
+                            <td id="controls-td" scope="row">
+
                                 <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id"><img src="~/img/edit_icon2.png" title="Editar o usuário" /></a>
                                 
-                                @if (user.Role.Id != (int) UserRole.Admin) {
-                                    <a class="btn btn-light" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id"><img src="~/img/delete_icon.png" title="Excluir o usuário" /></a>
-                                } else {
-                                    <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;"><img src="~/img/delete_icon.png" title="Excluir o usuário" /></a>
-                                }
+                                @if (!user.IsDeleted) {
+                                
+                                    @if (user.Role.Id != (int) UserRole.Admin) {
+                                        <a class="btn btn-light" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id"><img src="~/img/delete_icon.png" title="Excluir o usuário" /></a>
+                                    } else {
+                                        <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;"><img src="~/img/delete_icon.png" title="Excluir o usuário" /></a>
+                                    }
 
-                                <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@user.Id"><img src="~/img/padlock_icon_24.png" title="Alterar a senha" /></a>
+                                } else {
+
+                                    <a class="btn btn-light" asp-controller="User" asp-action="Undelete" asp-route-id="@user.Id"><img src="~/img/return_icon.png" title="Restaurar o usuário" /></a>
+
+                                }
                                 
                             </td>
 

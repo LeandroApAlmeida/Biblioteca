@@ -3,10 +3,11 @@
 @model BookModel
 
 @{
-    
+
     ViewData["Title"] = "Detalhes do Livro";
     
-    var navInfo = ViewBag.NavInfo as List<Boolean>;
+    bool isFirstBook = ViewBag.IsFirstBook;
+    bool isLastBook = ViewBag.IsLastBook;
 
 }
 
@@ -18,7 +19,7 @@
 
 <body>
 
-    <div class="container" id="book-details">
+    <div id="book-details" class="container">
 
         <input type="hidden" asp-for="Id" />
 
@@ -30,7 +31,7 @@
 
         <div class="mb-2"><img id="img-preview" src="@Model.Cover" class="center" /></div>
 
-        <div class="text" id="book-data">
+        <div id="book-data" class="text">
             <p><b>Título:</b> @Model.Title</p>
             <p><b>Subtítulo:</b> @Model.Subtitle</p>
             <p><b>Autor:</b> @Model.Author</p>
@@ -64,7 +65,7 @@
 
     <div id="nav-buttons">
         
-        @if (navInfo[0] == false) {
+        @if (!isFirstBook) {
             <a id="button-first" asp-controller="Book" asp-action="FirstBook" ><img class="m-2" src="~/img/first_item_icon.png" /> Primeiro</a>
             <a id="button-previous" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id"><img class="m-2" src="~/img/previous_item_icon.png" /> Anterior</a>
         } else {
@@ -72,7 +73,7 @@
             <a id="button-previous" style="pointer-events: none;background-color:darkgrey;"><img class="m-2" src="~/img/previous_item_icon.png" /> Anterior</a>
         }
         
-        @if (navInfo[1] == false) {
+        @if (!isLastBook) {
             <a id="button-next" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">Próximo <img class="m-2" src="~/img/next_item_icon.png" /></a>
             <a id="button-last" asp-controller="Book" asp-action="LastBook">Último <img class="m-2" src="~/img/last_item_icon.png" /></a>
         } else {

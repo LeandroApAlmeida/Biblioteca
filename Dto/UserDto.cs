@@ -6,6 +6,8 @@ namespace Library.Dto {
     
     public class UserDto {
 
+        public Guid Id { get; set; }
+
         public required int Role { get; set; }
 
         [Required(ErrorMessage = "Digite o nome completo")]

@@ -28,15 +28,9 @@ new CustomAssemblyLoadContext().LoadUnmanagedLibrary(Path.Combine(Directory.GetC
 
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
-builder.Services.AddScoped<ReportService>();
-
 
 builder.Services.AddSingleton<Argon2Params>(provider => {
-    try {
-        return new Argon2FileReader(Path.Combine(Directory.GetCurrentDirectory(), "argon2.xml")).Read();
-    } catch {
-        return new Argon2Params(16, 15, 4);
-    }
+    return new Argon2Reader(Path.Combine(Directory.GetCurrentDirectory(), "argon2.xml")).Read(16, 16, 4);
 });
 
 
@@ -61,6 +55,8 @@ builder.Services.AddScoped<IPasswordService, PasswordService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 
 builder.Services.AddScoped<ILogService, LogService>();
+
+builder.Services.AddScoped<IReportService, PdfReportService>();
 
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

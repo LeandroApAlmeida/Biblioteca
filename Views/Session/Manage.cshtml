@@ -1,0 +1,75 @@
+﻿@using Library.Utils
+
+@model IEnumerable<SessionModel>
+
+@{
+    ViewData["Title"] = "Log de Sessão";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div class="conteiner">
+
+        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+            <h3>Log de Sessão</h3>
+        </div>
+
+        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
+            <div class="alert alert-success text-black" role="alert">
+                @TempData[Constants.SUCCESS_MESSAGE]
+            </div>
+        }
+
+        @if (TempData[Constants.ERROR_MESSAGE] != null) {
+            <div class="alert alert-danger text-black" role="alert">
+                @TempData[Constants.ERROR_MESSAGE]
+            </div>
+        }
+
+        <table id="log-table" class="table table-light table hover table-striped" border="1">
+
+            <thead>
+
+                <tr>
+                    <th scope="col" style="width: 25%;">Usuário</th>
+                    <th scope="col" style="width: 25%;">Tipo</th>
+                    <th scope="col" style="width: 15%;">Data login</th>
+                    <th scope="col" style="width: 15%;">Data logout</th>
+                    <th scope="col" style="width: 15%;">IP</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @if (Model != null) {
+
+                    @foreach (var session in Model) {
+                        <tr>
+                            <td scope="row">@session.User.Name</td>
+                            <td scope="row">@session.User.Role.Description</td>
+                            <td scope="row">@session.LoginDate.ToString()</td>
+                            <td scope="row">@session.LogoutDate.ToString()</td>
+                            @if (session.Ip != null) {
+                                <td scope="row">@session.Ip</td>
+                            } else {
+                                <td scope="row">""</td>
+                            }
+                        </tr>
+                    }
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>

@@ -36,7 +36,7 @@
             </div>
         }
 
-        <table class="table table-light table hover table-striped" id="book-table" border="1">
+        <table id="book-table" class="table table-light table hover table-striped" border="1">
 
             <thead class="text-start">
 
@@ -62,7 +62,7 @@
                             <td scope="row">@book.Isbn</td>
                             <td class="num-span" scope="row">@book.Edition</td>
                             <td class="num-span" scope="row">@book.Volume</td>
-                            <td scope="row" id="controls-td">
+                            <td id="controls-td" scope="row">
                                 <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id"><img src="~/img/edit_icon2.png" title="Editar o livro" /></a>
                                 <a class="btn btn-light" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id"><img src="~/img/delete_icon.png" title="Excluir o livro" /></a>
                                 <a class="btn btn-light" asp-controller="Discard" asp-action="Register" asp-route-id="@book.Id"><img src="~/img/recycle_icon.png" title="Descartar o livro" /></a>

@@ -1,0 +1,33 @@
+﻿
+
+// Definir a capa do livro, de acordo com o arquivo selecionado na caixa de diálogo.
+// Assim que o arquivo é selecionado, renderiza o bitmap no campo visível img-preview
+// da página e armazena a string em formato base64 com os dados do arquivo no campo
+// oculto cover-data. Esta string será gravada no banco de dados assim que o POST da
+// página é realizado.
+function setCoverData(file, imgPreview, imgData) {
+
+    if (file) {
+
+        const fileReader = new FileReader();
+
+        fileReader.readAsDataURL(file);
+
+        fileReader.addEventListener("load", function () {
+
+            imgPreview.style.display = "block";
+
+            imgPreview.innerHTML = '<img src="' + this.result + '" class="center"/>';
+
+            imgPreview.removeAttribute("hidden");
+
+            imgData.value = this.result;
+
+        });
+
+    }
+
+}
+
+
+export { setCoverData };

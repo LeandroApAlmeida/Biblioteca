@@ -4,51 +4,45 @@
 
 
 import { formatToDatetimeLocal } from "./utils.js"
-
-
-// Caixa de diálogo para localizar o arquivo de capa no navegador.
-const chooseFile = document.getElementById("choose-file");
-
-// Atribui o tratador de evento para que quando o arquivo é selecionado, se faça o
-// processamento do mesmo.
-chooseFile.addEventListener("change", function () {
-    setCover(chooseFile.files[0]);
-});
+import { setCoverData } from "./data-cover.js"
 
 
 // Formata a data atual para opção defaul no campo acquisition-date.
 document.getElementById("acquisition-date").value = formatToDatetimeLocal(new Date());
 
 
+// Caixa de diálogo para localizar o arquivo de capa no navegador.
+const chooseFile = document.getElementById("choose-file");
 
-// Definir a capa do livro, de acordo com o arquivo selecionado na caixa de diálogo.
-// Assim que o arquivo é selecionado, renderiza o bitmap no campo visível img-preview
-// da página e armazena a string em formato base64 com os dados do arquivo no campo
-// oculto cover-data. Esta string será gravada no banco de dados assim que o POST da
-// página é realizado.
-function setCover(file) {
 
-    if (file) {
+// Atribui o tratador de evento para que quando o arquivo é selecionado, se faça o
+// processamento do mesmo.
+chooseFile.addEventListener("change", function () {
 
-        const imgPreview = document.getElementById("img-preview");
-        const imgData = document.getElementById("cover-data");
+    const imgPreview = document.getElementById("img-preview");
+    const imgData = document.getElementById("cover-data");
 
-        const fileReader = new FileReader();
+    setCoverData(chooseFile.files[0], imgPreview, imgData);
 
-        fileReader.readAsDataURL(file);
+});
 
-        fileReader.addEventListener("load", function () {
 
-            imgPreview.style.display = "block";
+document.getElementById('book-form').addEventListener('submit', function (event) {
 
-            imgPreview.innerHTML = '<img src="' + this.result + '" class="center"/>';
+    document.getElementById('title').setAttribute('readonly', 'readonly');
+    document.getElementById('subtitle').setAttribute('readonly', 'readonly');
+    document.getElementById('author').setAttribute('readonly', 'readonly');
+    document.getElementById('publisher').setAttribute('readonly', 'readonly');
+    document.getElementById('isbn').setAttribute('readonly', 'readonly');
+    document.getElementById('edition').setAttribute('readonly', 'readonly');
+    document.getElementById('volume').setAttribute('readonly', 'readonly');
+    document.getElementById('release-year').setAttribute('readonly', 'readonly');
+    document.getElementById('num-of-pages').setAttribute('readonly', 'readonly');
+    document.getElementById('acquisition-date').setAttribute('readonly', 'readonly');
+    document.getElementById('summary').setAttribute('readonly', 'readonly');
+    document.getElementById('choose-file').disabled = true;
 
-            imgPreview.removeAttribute("hidden");
+    document.getElementById('save-button').disabled = true;
+    document.getElementById('cancel-button').classList.add('disabled');
 
-            imgData.value = this.result;
-
-        });
-
-    }
-
-}
+});

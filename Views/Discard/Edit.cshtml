@@ -30,11 +30,11 @@
 
         <form method="post" enctype="multipart/form-data" asp-controller="Discard" asp-action="Edit">
 
-            <div class="mb-2" id="img-preview"><img src="@Model.Book.Cover" class="center" /></div>
+            <div id="img-preview" class="mb-2"><img src="@Model.Book.Cover" class="center" /></div>
 
             <div class="mb-3 col-sm-2">
                 <label for="discard-date" class="form-label">Data</label>
-                <input type="datetime-local" class="form-control" asp-for="Date" id="discard-date" required>
+                <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date" required>
                 <span class="text-danger" asp-validation-for="Date"></span>
             </div>
 

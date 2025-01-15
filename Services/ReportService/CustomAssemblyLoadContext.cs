@@ -18,7 +18,7 @@ namespace Library.Services.ReportService {
 
 
         protected override Assembly Load(AssemblyName assemblyName) {
-            throw new NotImplementedException();
+            return LoadFromAssemblyName(assemblyName);
         }
 
 

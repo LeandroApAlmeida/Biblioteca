@@ -48,17 +48,17 @@
 
                 <div class="mb-3">
                     <label for="user-name" class="form-label" style="color:white; font-weight:bold;">Usuário</label>
-                    <input type="text" class="form-control" asp-for="UserName" id="user-name" aria-describedby="emailHelp">
+                    <input id="user-name" type="text" class="form-control" asp-for="UserName" aria-describedby="emailHelp">
                 </div>
 
                 <div class="mb-5">
                     <label for="password" class="form-label" style="color:white;font-weight:bold;">Senha</label>
-                    <input type="password" class="form-control" asp-for="Password" id="password">
+                    <input id="password" type="password" class="form-control" asp-for="Password">
                 </div>
 
                 <div id="spinner" class="spinner" style="display: none;"></div>
 
-                <div class="mt-5" id="buttons">
+                <div id="buttons" class="mt-5">
                     <button id="login-button" type="submit" class="btn btn-light" style="width: 200px;height:38px;margin-right:10px;">Entrar</button>
                     @if (!registeredAdmin) {
                         <a class="btn btn-light" asp-controller="User" asp-action="RegisterAdm" style="width: 200px;height:38px;margin-right:10px;">Cadastrar Admin.</a>

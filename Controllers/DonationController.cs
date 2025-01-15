@@ -38,7 +38,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -62,7 +62,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -112,7 +112,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task <IActionResult> Register(DonatedBookModel donatedBook) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -148,7 +148,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Register2() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -184,7 +184,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register2(DonatedBookModel donatedBook) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -220,7 +220,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -254,7 +254,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(DonatedBookModel donatedBook) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -290,7 +290,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -314,7 +314,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(DonatedBookModel donatedBook) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 

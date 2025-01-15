@@ -37,7 +37,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -63,9 +63,9 @@ namespace Library.Controllers {
         /// </summary>
         /// <returns>Página de detalhes do livro, sem dados.</returns>
         [HttpGet]
-        public IActionResult Empty() {
+        public IActionResult NoBook() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -84,7 +84,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Details(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -104,8 +104,9 @@ namespace Library.Controllers {
                 // o primeiro da lista. O segundo diz se o livro é o último da lista.
                 // Obviamente que se houver apenas um livro cadastrado no banco de dados,
                 // este será o primeiro e também o último.
-                
-                List<Boolean> navInfo = [];
+
+                Boolean isFirstBook;
+                Boolean isLastBook;
 
                 if (id == Guid.Empty) {
 
@@ -113,8 +114,9 @@ namespace Library.Controllers {
 
                     book = firstBookResp.Data;
 
-                    navInfo.Add(true);
-                    navInfo.Add(booksIds.First() == booksIds.Last());
+                    isFirstBook = true;
+
+                    isLastBook = booksIds.First() == booksIds.Last();
 
                 } else {
 
@@ -122,13 +124,15 @@ namespace Library.Controllers {
 
                     book = bookResp.Data;
 
-                    navInfo.Add(id == booksIds.First());
-                    navInfo.Add(id == booksIds.Last());
+                    isFirstBook = id == booksIds.First();
+
+                    isLastBook = id == booksIds.Last();
 
                 }
 
-                // Passa a lista para a Razor Page.
-                ViewBag.NavInfo = navInfo;
+                // Passa os parâmetros para a Razor Page.
+                ViewBag.IsFirstBook = isFirstBook;
+                ViewBag.IsLastBook = isLastBook;
 
                 if (book != null) {
                     
@@ -148,7 +152,7 @@ namespace Library.Controllers {
                 // página vazia, apenas com o contorno da capa, o títulos dos campos e sem
                 // os botões de navegação.
 
-                return RedirectToAction("Empty");
+                return RedirectToAction("NoBook");
 
             }
 
@@ -163,7 +167,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> NextBook(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -192,7 +196,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> PreviousBook(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -220,7 +224,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> FirstBook() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -248,7 +252,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> LastBook() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -276,7 +280,7 @@ namespace Library.Controllers {
         [HttpGet]
         public IActionResult Register() {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -295,7 +299,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Register(BookModel book) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -336,7 +340,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -365,7 +369,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Edit(BookModel book) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -406,7 +410,7 @@ namespace Library.Controllers {
         [HttpGet]
         public async Task<IActionResult> Delete(Guid id) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
@@ -453,7 +457,7 @@ namespace Library.Controllers {
         [HttpPost]
         public async Task<IActionResult> Delete(BookModel book) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 

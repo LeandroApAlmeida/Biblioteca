@@ -32,18 +32,18 @@
 
         <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Return">
 
-            <div class="mb-2" id="img-preview"><img src="@Model.Book.Cover" class="center" /></div>
+            <div id="img-preview" class="mb-2"><img src="@Model.Book.Cover" class="center" /></div>
 
             <div class="mb-3"></div>
 
             <div class="mb-3">
                 <label for="person" class="form-label">Tomador</label>
-                <input type="text" class="form-control" id="person" value="@Model.Person.Name" disabled>
+                <input id="person" type="text" class="form-control" value="@Model.Person.Name" disabled>
             </div>
 
             <div class="mb-3 col-sm-2" style="width: 20%;">
                 <label for="return-date" class="form-label">Data da Devolução</label>
-                <input type="datetime-local" class="form-control" asp-for="ReturnDate" id="return-date">
+                <input id="return-date" type="datetime-local" class="form-control" asp-for="ReturnDate">
                 <span class="text-danger" asp-validation-for="ReturnDate"></span>
             </div>
 

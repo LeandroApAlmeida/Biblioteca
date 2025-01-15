@@ -16,6 +16,8 @@
         public const string ADMIN_LAYOUT = "_LayoutAdmin";
 
 
+        public const string NULL_PASSWORD = "##########";
+
     }
 
 

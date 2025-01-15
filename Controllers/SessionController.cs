@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.Controllers {
 
 
-    public class LogController : Controller {
+    public class SessionController : Controller {
 
 
         private readonly ISessionService _sessionService;
@@ -14,20 +14,20 @@ namespace Library.Controllers {
         private readonly ILogService _logService;
 
 
-        public LogController(ISessionService sessionService, ILogService logService) {
+        public SessionController(ISessionService sessionService, ILogService logService) {
             _sessionService = sessionService;
             _logService = logService;
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> Log(DateTime beginData, DateTime endDate) {
+        public async Task<IActionResult> Manage(DateTime beginData, DateTime endDate) {
 
-            if (!_sessionService.IsTheSessionActive()) {
+            if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (_sessionService.GetSessionData()!.User.Role.Id != (int)UserRole.Admin) {
+            if (!_sessionService.IsAdminSession()) {
                 return RedirectToAction("Details", "Book");
             }
 

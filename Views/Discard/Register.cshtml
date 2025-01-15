@@ -6,7 +6,7 @@
     
     ViewData["title"] = "Descartar o Livro";
     
-    BookModel book = ViewBag.Book as BookModel;
+    BookModel? book = ViewBag.Book as BookModel;
 
 }
 
@@ -34,11 +34,11 @@
 
         <form method="post" enctype="multipart/form-data" asp-controller="Discard" asp-action="Register">
 
-            <div class="mb-2" id="img-preview"><img src="@book.Cover" class="center" /></div>
+            <div id="img-preview" class="mb-2"><img src="@book!.Cover" class="center" /></div>
 
             <div class="mb-3 col-sm-2">
                 <label for="discard-date" class="form-label">Data</label>
-                <input type="datetime-local" class="form-control" asp-for="Date" id="discard-date">
+                <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date">
                 <span class="text-danger" asp-validation-for="Date"></span>
             </div>
 

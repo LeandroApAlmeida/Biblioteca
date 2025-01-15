@@ -36,7 +36,7 @@
 
             <div class="mb-3">
                 <label for="name" class="form-label">Nome</label>
-                <input type="text" class="form-control" value="@Model.Name" id="name" disabled>
+                <input id="name" type="text" class="form-control" value="@Model.Name" disabled>
                 <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
@@ -44,13 +44,13 @@
 
                 <div class="mb-3 col-sm-2" style="width: 25%;">
                     <label for="city" class="form-label">Município</label>
-                    <input type="text" class="form-control" value="@Model.City" id="city" placeholder="Município não informado" disabled>
+                    <input id="city" type="text" class="form-control" value="@Model.City" placeholder="Município não informado" disabled>
                     <span class="text-danger" asp-validation-for="City"></span>
                 </div>
 
                 <div class="mb-3 col-sm-2" style="width: 25%;">
                     <label for="federal-state" class="form-label">Estado</label>
-                    <input type="text" class="form-control" value="@Model.FederalState" id="federal-state" placeholder="Estado não informado" disabled>
+                    <input id="federal-state" type="text" class="form-control" value="@Model.FederalState" placeholder="Estado não informado" disabled>
                     <span class="text-danger" asp-validation-for="FederalState"></span>
                 </div>
 

@@ -6,13 +6,13 @@ using System.Text;
 namespace Library.Services.ReportService {
 
 
-    public class ReportService {
+    public class PdfReportService: IReportService {
 
 
         private readonly IConverter _converter;
 
 
-        public ReportService(IConverter converter) {
+        public PdfReportService(IConverter converter) {
             _converter = converter;
         }
 

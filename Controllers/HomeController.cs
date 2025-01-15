@@ -19,7 +19,7 @@ namespace Library.Controllers {
         [HttpGet]
         public IActionResult About() {
 
-            if (_sessionService.IsTheSessionActive()) {
+            if (_sessionService.IsSessionActive()) {
                 _sessionService.SetLayout(this);
             }
 

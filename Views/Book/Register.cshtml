@@ -28,28 +28,28 @@
 
         <div class="mb-5"></div>
 
-        <form method="post" enctype="multipart/form-data" asp-controller="Book" asp-action="Register">
+        <form id="book-form" method="post" enctype="multipart/form-data" asp-controller="Book" asp-action="Register">
 
             <div class="mb-3">
                 <label for="title" class="form-label">Título</label>
-                <input type="text" class="form-control" asp-for="Title" id="title" placeholder="Título do livro">
+                <input id="title" type="text" class="form-control" asp-for="Title" placeholder="Título do livro">
                 <span class="text-danger" asp-validation-for="Title"></span>
             </div>
         
             <div class="mb-3">
                 <label for="subtitle" class="form-label">Subtítulo</label>
-                <input type="text" class="form-control" asp-for="Subtitle" id="subtitle" placeholder="Subtítulo do livro">
+                <input id="subtitle" type="text" class="form-control" asp-for="Subtitle" placeholder="Subtítulo do livro">
             </div>
 
             <div class="mb-3">
                 <label for="author" class="form-label">Autor</label>
-                <input type="text" class="form-control" asp-for="Author" id="author" placeholder="Autor do livro">
+                <input id="author" type="text" class="form-control" asp-for="Author" placeholder="Autor do livro">
                 <span class="text-danger" asp-validation-for="Author"></span>
             </div>
 
             <div class="mb-3">
                 <label for="publisher" class="form-label">Editora</label>
-                <input type="text" class="form-control" asp-for="Publisher" id="publisher" placeholder="Editora do livro">
+                <input id="publisher" type="text" class="form-control" asp-for="Publisher" placeholder="Editora do livro">
                 <span class="text-danger" asp-validation-for="Publisher"></span>
             </div>
 
@@ -57,37 +57,37 @@
 
                 <div class="mb-3 col-sm-2">
                     <label for="isbn" class="form-label">ISBN</label>
-                    <input type="text" class="form-control" asp-for="Isbn" id="isbn" placeholder="ISBN do livro">
+                    <input id="isbn" type="text" class="form-control" asp-for="Isbn" placeholder="ISBN do livro">
                     <span class="text-danger" asp-validation-for="Isbn"></span>
                 </div>
 
                 <div class="mb-3 col-sm-2">
                     <label for="edition" class="form-label">Edição</label>
-                    <input type="number" value="1" min="1" class="form-control" asp-for="Edition" id="edition" placeholder="Número da edição">
+                    <input id="edition" type="number" value="1" min="1" class="form-control" asp-for="Edition" placeholder="Número da edição">
                     <span class="text-danger" asp-validation-for="Edition"></span>
                 </div>
 
                 <div class="mb-3 col-sm-2">
                     <label for="volume" class="form-label">Volume</label>
-                    <input type="number" value="1" min="1" class="form-control" asp-for="Volume" id="volume" placeholder="Número do volume">
+                    <input id="volume" type="number" value="1" min="1" class="form-control" asp-for="Volume" placeholder="Número do volume">
                     <span class="text-danger" asp-validation-for="Volume"></span>
                 </div>
 
                 <div class="mb-3 col-sm-2">
                     <label for="release-year" class="form-label">Ano de lançamento</label>
-                    <input type="number" value="2000" min="1" class="form-control" asp-for="ReleaseYear" id="release-year" placeholder="Ano de lançamento do livro">
+                    <input id="release-year" type="number" value="2000" min="1" class="form-control" asp-for="ReleaseYear" placeholder="Ano de lançamento do livro">
                     <span class="text-danger" asp-validation-for="ReleaseYear"></span>
                 </div>
 
                 <div class="mb-3 col-sm-2">
                     <label for="num-of-pages" class="form-label">Número de páginas</label>
-                    <input type="number" value="1" min="1" class="form-control" asp-for="NumberOfPages" id="num-of-pages" placeholder="Número de páginas do livro">
+                    <input id="num-of-pages" type="number" value="1" min="1" class="form-control" asp-for="NumberOfPages" placeholder="Número de páginas do livro">
                     <span class="text-danger" asp-validation-for="NumberOfPages"></span>
                 </div>
 
                 <div class="mb-3 col-sm-2">
                     <label for="acquisition-date"  class="form-label">Data da aquisição</label>
-                    <input type="datetime-local" class="form-control" asp-for="AcquisitionDate" id="acquisition-date">
+                    <input id="acquisition-date" type="datetime-local" class="form-control" asp-for="AcquisitionDate">
                     <span class="text-danger" asp-validation-for="AcquisitionDate"></span>
                 </div>
 
@@ -99,20 +99,20 @@
             </div>
 
             <div class="mb-3">
-                <label for="cover" class="form-label">Capa</label>
-                <input class="form-control mb-3" type="file" accept="image/*" id="choose-file" name="choose-file" />
+                <label for="choose-file" class="form-label">Capa</label>
+                <input id="choose-file" class="form-control mb-3" type="file" accept="image/*" name="choose-file" />
                 <span class="text-danger" asp-validation-for="Cover"></span>
             </div>
 
-            <div class="mb-2" id="img-preview" hidden></div>
+            <div id="img-preview" class="mb-2" hidden></div>
 
-            <div class="mb-2" id="img-data" hidden>
-                <input class="form-control" asp-for="Cover" id="cover-data">
+            <div id="img-data" class="mb-2" hidden>
+                <input id="cover-data" class="form-control" asp-for="Cover">
             </div>
         
             <div class="left gap-2 mt-4">
-                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
-                <a class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
+                <button id="save-button" type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+                <a id="cancel-button" class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
             </div>
 
         </form>

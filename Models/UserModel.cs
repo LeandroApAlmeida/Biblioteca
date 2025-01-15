@@ -19,10 +19,10 @@ namespace Library.Models {
 
         public required byte[] PasswordHash { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public required DateTime RegistrationDate { get; set; } = DateTime.Now;
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public required DateTime LastUpdateDate { get; set; } = DateTime.Now;
 
         public required bool IsDeleted { get; set; } = false;
