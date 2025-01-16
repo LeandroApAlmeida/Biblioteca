@@ -62,7 +62,7 @@ namespace Library.Services.LogService {
 
                 })
                 .Where(s =>
-                    s.LoginDate > beginDate && s.LoginDate < endDate 
+                    s.LoginDate >= beginDate && s.LoginDate <= endDate 
                 )
                 .OrderByDescending(s => s.LoginDate)
                 .AsNoTracking()

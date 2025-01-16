@@ -3,7 +3,12 @@
 @model IEnumerable<SessionModel>
 
 @{
+    
     ViewData["Title"] = "Log de Sessão";
+    
+    var beginDate = ViewData["BeginDate"] as string;
+    var endDate = ViewData["EndDate"] as string;
+
 }
 
 <head>
@@ -32,43 +37,69 @@
             </div>
         }
 
-        <table id="log-table" class="table table-light table hover table-striped" border="1">
+        <form method="get" action="/Session/Manage" class="form-inline">
 
-            <thead>
+            <div class="row g-3" display="flex">
 
-                <tr>
-                    <th scope="col" style="width: 25%;">Usuário</th>
-                    <th scope="col" style="width: 25%;">Tipo</th>
-                    <th scope="col" style="width: 15%;">Data login</th>
-                    <th scope="col" style="width: 15%;">Data logout</th>
-                    <th scope="col" style="width: 15%;">IP</th>
-                </tr>
+                <hr />
 
-            </thead>
+                <div class="mb-2 col-sm-2" style="margin-top: 0px; margin-left: 0px;">
+                    <label for="beginDate">Data Inicial</label>
+                    <input type="date" id="beginDate" name="beginDate" value="@beginDate" class="form-control mb-1" required />
+                </div>
+            
+                <div class="mb-2 col-sm-2" style="margin-top: 0px;">
+                    <label for="endDate">Data Final</label>
+                    <input type="date" id="endDate" name="endDate" value="@endDate" class="form-control mb-1" required />
+                </div>
 
-            <tbody>
+                <div class="mb-2 col-sm-2">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 15px;">Filtrar</button>
+                </div>
 
-                @if (Model != null) {
+                <hr />
 
-                    @foreach (var session in Model) {
-                        <tr>
-                            <td scope="row">@session.User.Name</td>
-                            <td scope="row">@session.User.Role.Description</td>
-                            <td scope="row">@session.LoginDate.ToString()</td>
-                            <td scope="row">@session.LogoutDate.ToString()</td>
-                            @if (session.Ip != null) {
-                                <td scope="row">@session.Ip</td>
-                            } else {
-                                <td scope="row">""</td>
-                            }
-                        </tr>
+            </div>
+
+            <table id="log-table" class="table table-light table hover table-striped" border="1">
+
+                <thead>
+
+                    <tr>
+                        <th scope="col" style="width: 25%;">Usuário</th>
+                        <th scope="col" style="width: 25%;">Tipo</th>
+                        <th scope="col" style="width: 15%;">Data do login</th>
+                        <th scope="col" style="width: 15%;">Data do logout</th>
+                        <th scope="col" style="width: 15%;">IP de origem</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null) {
+
+                        @foreach (var session in Model) {
+                            <tr>
+                                <td scope="row">@session.User.Name</td>
+                                <td scope="row">@session.User.Role.Description</td>
+                                <td scope="row">@session.LoginDate.ToString()</td>
+                                <td scope="row">@session.LogoutDate.ToString()</td>
+                                @if (session.Ip != null) {
+                                    <td scope="row">@session.Ip</td>
+                                } else {
+                                    <td scope="row">""</td>
+                                }
+                            </tr>
+                        }
+
                     }
 
-                }
+                </tbody>
 
-            </tbody>
+            </table>
 
-        </table>
+        </form>
 
     </div>
 

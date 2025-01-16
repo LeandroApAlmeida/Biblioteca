@@ -28,7 +28,7 @@
                     <a id="menu-5" asp-controller="Loan" asp-action="Manage">Empréstimo</a>
                     <a id="menu-6" asp-controller="Person" asp-action="Manage">Pessoa</a>
                     <a id="menu-7" asp-controller="User" asp-action="Manage">Usuário</a>
-                    <a id="menu-9" asp-controller="Session" asp-action="Manage">Log</a>
+                    <a id="menu-9" href="#" onclick="redirectToManage()">Log</a>
                     <a id="menu-8" asp-controller="Home" asp-action="About">Sobre</a>
                     <a id="menu-10" asp-controller="Login" asp-action="Logout"><img class="m-2" sizes="16x16" src="~/img/exit_icon_24.png" />Sair</a>
                 </div>
@@ -53,7 +53,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/menu.js" asp-append-version="true"></script>
-    @*<script src="~/js/app-events.js" asp-append-version="true"></script>*@
+    <script src="~/js/layout-admin.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

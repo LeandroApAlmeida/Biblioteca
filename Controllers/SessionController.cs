@@ -2,6 +2,7 @@
 using Library.Services.SessionService;
 using Library.Services.UserService;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace Library.Controllers {
 
@@ -21,7 +22,7 @@ namespace Library.Controllers {
 
 
         [HttpGet]
-        public async Task<IActionResult> Manage(DateTime beginData, DateTime endDate) {
+        public async Task<IActionResult> Manage(DateTime beginDate, DateTime endDate) {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
@@ -33,11 +34,37 @@ namespace Library.Controllers {
 
             _sessionService.SetLayout(this);
 
-            DateTime date1 = DateTime.MinValue;
+            if (beginDate == DateTime.MinValue) {
 
-            DateTime date2 = DateTime.MaxValue;
+                DateTime date;
+                
+                if (DateTime.TryParseExact("01/01/1900", "dd/MM/yyyy", CultureInfo.InvariantCulture, 
+                DateTimeStyles.None, out date)) {
+                    beginDate = date;
+                }
 
-            var sessionLogResp = await _logService.GetSessionLog(date1, date2);
+            } else {
+                int i = 1;
+            }
+
+            if (endDate == DateTime.MinValue) {
+
+                DateTime date;
+
+                if (DateTime.TryParseExact("31/12/9999", "dd/MM/yyyy", CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out date)) {
+                    beginDate = date;
+                }
+
+            }
+
+            ViewData["BeginDate"] = beginDate.ToString("yyyy-MM-dd");
+            ViewData["EndDate"] = endDate.ToString("yyyy-MM-dd");
+
+            DateTime adjustedBeginDate = new DateTime(beginDate.Year, beginDate.Month, beginDate.Day, 0, 0, 0);
+            DateTime adjustedEndDate = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 59);
+            
+            var sessionLogResp = await _logService.GetSessionLog(adjustedBeginDate, adjustedEndDate);
 
             if (sessionLogResp.Successful) {
 

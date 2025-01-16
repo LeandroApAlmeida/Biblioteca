@@ -40,11 +40,6 @@
 
         <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Edit">
 
-            <div class="mb-3">
-                <label for="title" class="form-label">Livro</label>
-                <input type="text" class="form-control" id="title" value="@Model.Book.Title" disabled>
-            </div>
-
             <div id="img-preview" class="mb-2"><img src="@Model.Book.Cover" class="center" /></div>
 
             <div class="mb-3"></div>
@@ -126,6 +121,6 @@
     <script type="module" src="~/js/edit-loan.js" asp-append-version="true"></script>
 
     <script> window.personsData = @Html.Raw(personsJson); </script>
-    <script>window.personData = @Html.Raw(personJson);</script>
+    <script> window.personData = @Html.Raw(personJson); </script>
 
 </body>

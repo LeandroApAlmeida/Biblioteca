@@ -130,9 +130,9 @@ namespace Library.Services.ReportService {
                         
                         <div class='field'><b>Volume:</b> {book.Volume}</div>
                         
-                        <div class='field'><b>Ano Lançamento:</b> {book.ReleaseYear}</div>
+                        <div class='field'><b>Ano da publicação:</b> {book.ReleaseYear}</div>
                         
-                        <div class='field'><b>Num. Páginas:</b> {book.NumberOfPages}</div>
+                        <div class='field'><b>Núm. de Páginas:</b> {book.NumberOfPages}</div>
                         
                         <div class='field'><b>Data da Aquisição:</b> {book.AcquisitionDate:dd/MM/yyyy}</div>
                         
@@ -395,7 +395,7 @@ namespace Library.Services.ReportService {
                                     <th style=""width: 2%;"">Ano</th>
                                     <th style=""width: 4%;"">Pgs</th>
                                     <th style=""width: 5%;"">Data Aq.</th>
-                                    <th style=""width: 5%;"">Recebedor</th>
+                                    <th style=""width: 5%;"">Beneficiário</th>
                                 </tr>
 
                             </thead>
