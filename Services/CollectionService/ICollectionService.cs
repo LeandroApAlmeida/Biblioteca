@@ -5,17 +5,17 @@ namespace Library.Services.CollectionService {
 
     public interface ICollectionService {
 
-        public Task<ResponseModel<List<BookModel>>> GetAvailableBooks();
+        public Task<Response<List<BookModel>>> GetAvailableBooks();
 
-        public Task<ResponseModel<bool>> IsBorrowedBook(Guid id);
+        public Task<Response<bool>> IsBorrowedBook(Guid id);
 
-        public Task<ResponseModel<List<Guid>>> GetBooksIds();
+        public Task<Response<List<Guid>>> GetBooksIds();
 
-        public Task<ResponseModel<List<Guid>>> BorrowedBooksIds();
+        public Task<Response<List<Guid>>> BorrowedBooksIds();
 
-        public Task<ResponseModel<List<Guid>>> DiscardedBooksIds();
+        public Task<Response<List<Guid>>> DiscardedBooksIds();
 
-        public Task<ResponseModel<List<Guid>>> DonatedBooksIds();
+        public Task<Response<List<Guid>>> DonatedBooksIds();
 
     }
 

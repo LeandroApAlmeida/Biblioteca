@@ -23,9 +23,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<List<UserRoleModel>>> GetUserRoles() {
+        public async Task<Response<List<UserRoleModel>>> GetUserRoles() {
 
-            ResponseModel<List<UserRoleModel>> response = new();
+            Response<List<UserRoleModel>> response = new();
 
             try {
 
@@ -50,9 +50,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<UserRoleModel>> GetUserRole(int id) {
+        public async Task<Response<UserRoleModel>> GetUserRole(int id) {
 
-            ResponseModel<UserRoleModel> response = new();
+            Response<UserRoleModel> response = new();
 
             try {
 
@@ -77,9 +77,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<List<UserModel>>> GetUsers() {
+        public async Task<Response<List<UserModel>>> GetUsers() {
 
-            ResponseModel<List<UserModel>> response = new();
+            Response<List<UserModel>> response = new();
 
             try {
 
@@ -130,9 +130,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<UserModel>> GetUser(Guid id) {
+        public async Task<Response<UserModel>> GetUser(Guid id) {
 
-            ResponseModel<UserModel> response = new();
+            Response<UserModel> response = new();
 
             try {
 
@@ -181,9 +181,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<UserModel>> GetUser(string userName) {
+        public async Task<Response<UserModel>> GetUser(string userName) {
 
-            ResponseModel<UserModel> response = new();
+            Response<UserModel> response = new();
 
             try {
 
@@ -236,9 +236,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<Boolean>> RegisteredAdmin() {
+        public async Task<Response<Boolean>> RegisteredAdmin() {
 
-            ResponseModel<Boolean> response = new();
+            Response<Boolean> response = new();
 
             try {
 
@@ -264,9 +264,9 @@ namespace Library.Services.UserService {
         }
 
 
-        private async Task<ResponseModel<Boolean>> UserNameAlreadyExist(string userName) {
+        private async Task<Response<Boolean>> UserNameAlreadyExist(string userName) {
 
-            ResponseModel<Boolean> response = new();
+            Response<Boolean> response = new();
 
             try {
 
@@ -292,9 +292,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<UserModel>> RegisterUser(UserDto user) {
+        public async Task<Response<UserModel>> RegisterUser(UserDto user) {
 
-            ResponseModel<UserModel> response = new();
+            Response<UserModel> response = new();
 
             try {
 
@@ -378,9 +378,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<UserModel>> EditUser(UserDto user) {
+        public async Task<Response<UserModel>> EditUser(UserDto user) {
 
-            ResponseModel<UserModel> response = new();
+            Response<UserModel> response = new();
 
             try {
 
@@ -445,9 +445,9 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<ResponseModel<UserModel>> DeleteUser(UserModel user) {
+        public async Task<Response<UserModel>> DeleteUser(UserModel user) {
 
-            ResponseModel<UserModel> response = new();
+            Response<UserModel> response = new();
 
             try {
 
@@ -482,9 +482,9 @@ namespace Library.Services.UserService {
 
         }
 
-        public async Task<ResponseModel<UserModel>> UndeleteUser(UserModel user) {
+        public async Task<Response<UserModel>> UndeleteUser(UserModel user) {
 
-            ResponseModel<UserModel> response = new();
+            Response<UserModel> response = new();
 
             try {
 

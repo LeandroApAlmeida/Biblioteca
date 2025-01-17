@@ -1,7 +1,7 @@
 ﻿namespace Library.Services {
 
 
-    public class ResponseModel<T> {
+    public class Response<T> {
 
         public T? Data {
             get; set;

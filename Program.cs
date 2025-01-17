@@ -13,6 +13,7 @@ using Library.Services.PersonService;
 using Library.Services.ReportService;
 using Library.Services.SessionService;
 using Library.Services.UserService;
+using Library.Utils;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -29,7 +30,7 @@ new CustomAssemblyLoadContext().LoadUnmanagedLibrary(Path.Combine(Directory.GetC
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 
-builder.Services.AddSingleton<Argon2Params>(provider => {
+builder.Services.AddTransient<Argon2Params>(provider => {
     return new Argon2Reader(Path.Combine(Directory.GetCurrentDirectory(), "argon2.xml")).Read(16, 16, 4);
 });
 
@@ -50,7 +51,7 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddScoped<IPasswordService, PasswordService>();
+builder.Services.AddScoped<IPasswordService, Argon2Service>();
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 

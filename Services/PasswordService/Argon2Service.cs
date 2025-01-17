@@ -6,7 +6,7 @@ using System.Text;
 namespace Library.Services.PasswordService {
 
 
-    public class PasswordService : IPasswordService {
+    public class Argon2Service : IPasswordService {
 
 
         private readonly Argon2Params _argon2Params;
@@ -14,12 +14,12 @@ namespace Library.Services.PasswordService {
         private const int HASH_LENGTH = 32;
 
 
-        public PasswordService(Argon2Params argon2Params) {
+        public Argon2Service(Argon2Params argon2Params) {
             _argon2Params = argon2Params;
         }
 
 
-        public static byte[] GenerateSalt(int length) {
+        private byte[] GenerateSalt(int length) {
             var random = new SecureRandom();
             var salt = new byte[length];
             random.NextBytes(salt);
@@ -36,6 +36,7 @@ namespace Library.Services.PasswordService {
             int iterations = _argon2Params.Iterations;
 
             Argon2BytesGenerator argon2 = new Argon2BytesGenerator();
+            
             Argon2Parameters.Builder builder = new Argon2Parameters
             .Builder(Argon2Parameters.Argon2id)
             .WithSalt(salt)
@@ -67,7 +68,7 @@ namespace Library.Services.PasswordService {
             
         }
 
-        public bool IsItTheSamePassword(string password, byte[] passwordHash) {
+        public bool IsTheSamePassword(string password, byte[] passwordHash) {
 
             byte[] salt = new byte[16];
             byte[] parallelismArray = new byte[4];
@@ -86,6 +87,7 @@ namespace Library.Services.PasswordService {
             int iterations = BitConverter.ToInt32(iterationsArray, 0);
 
             Argon2BytesGenerator argon2 = new Argon2BytesGenerator();
+            
             Argon2Parameters.Builder builder = new Argon2Parameters
             .Builder(Argon2Parameters.Argon2id)
             .WithSalt(salt)

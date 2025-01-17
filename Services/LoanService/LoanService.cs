@@ -20,9 +20,9 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<ResponseModel<List<LoanModel>>> GetLoans() {
+        public async Task<Response<List<LoanModel>>> GetLoans() {
 
-            ResponseModel<List<LoanModel>> response = new();
+            Response<List<LoanModel>> response = new();
 
             try {
 
@@ -104,9 +104,9 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<ResponseModel<LoanModel?>> GetLoan(Guid id) {
+        public async Task<Response<LoanModel?>> GetLoan(Guid id) {
 
-            ResponseModel<LoanModel?> response = new();
+            Response<LoanModel?> response = new();
 
             try {
 
@@ -195,9 +195,9 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<ResponseModel<LoanModel>> RegisterLoan(LoanModel loan) {
+        public async Task<Response<LoanModel>> RegisterLoan(LoanModel loan) {
 
-            ResponseModel<LoanModel> response = new();
+            Response<LoanModel> response = new();
 
             try {
 
@@ -245,9 +245,9 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<ResponseModel<LoanModel>> EditLoan(LoanModel loan) {
+        public async Task<Response<LoanModel>> EditLoan(LoanModel loan) {
 
-            ResponseModel<LoanModel> response = new();
+            Response<LoanModel> response = new();
 
             try {
 
@@ -278,9 +278,9 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<ResponseModel<LoanModel>> DeleteLoan(LoanModel loan) {
+        public async Task<Response<LoanModel>> DeleteLoan(LoanModel loan) {
 
-            ResponseModel<LoanModel> response = new();
+            Response<LoanModel> response = new();
 
             try {
 
@@ -313,9 +313,9 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<ResponseModel<LoanModel>> ReturnLoan(LoanModel loan) {
+        public async Task<Response<LoanModel>> ReturnLoan(LoanModel loan) {
 
-            ResponseModel<LoanModel> response = new();
+            Response<LoanModel> response = new();
 
             try {
 
@@ -347,9 +347,9 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<ResponseModel<LoanModel>> CancelReturn(LoanModel loan) {
+        public async Task<Response<LoanModel>> CancelReturn(LoanModel loan) {
 
-            ResponseModel<LoanModel> response = new();
+            Response<LoanModel> response = new();
 
             try {
 

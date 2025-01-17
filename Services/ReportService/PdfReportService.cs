@@ -28,7 +28,7 @@ namespace Library.Services.ReportService {
 
                 PaperSize = paperSize,
 
-                Margins = new MarginSettings { Top = 27, Bottom = 27, Left = 15, Right = 15 },
+                Margins = new MarginSettings { Top = 18, Bottom = 18, Left = 10, Right = 10 },
 
                 DocumentTitle = title
 
@@ -55,7 +55,7 @@ namespace Library.Services.ReportService {
                     FontSize = 11,
                     Left = footerText,
                     Line = true,
-                    Spacing = 10
+                    Spacing = 5
                 },
 
                 FooterSettings = {
@@ -64,7 +64,7 @@ namespace Library.Services.ReportService {
                     Line = true,
                     Left = "Impresso em: " + DateTime.Now.ToString(),
                     Right = "Pág. [page] de [toPage]",
-                    Spacing = 10
+                    Spacing = 5
                 }
 
             };
@@ -256,14 +256,14 @@ namespace Library.Services.ReportService {
                             <thead>
 
                                 <tr>
-                                    <th style=""width: 40%;""><u>Título e Subtítulo</u></th>
-                                    <th style=""width: 18%;"">Autor</th>
-                                    <th style=""width: 18%;"">Editora</th>
+                                    <th ><u>Título e Subtítulo</u></th>
+                                    <th style=""width: 16%;"">Autor</th>
+                                    <th style=""width: 14%;"">Editora</th>
                                     <th style=""width: 12%;"">ISBN</th>
                                     <th style=""width: 2%;"">Ed.</th>
                                     <th style=""width: 2%;"">Vol.</th>
-                                    <th style=""width: 2%;"">Ano</th>
-                                    <th style=""width: 5%;"">Pgs</th>
+                                    <th style=""width: 2%;"">Pub.</th>
+                                    <th style=""width: 2%;"">Pgs</th>
                                     <th style=""width: 5%;"">Data Aq.</th>
                                 </tr>
 

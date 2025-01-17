@@ -7,9 +7,9 @@ namespace Library.Services.SessionService {
 
     public interface ISessionService {
 
-        public Task<ResponseModel<SessionModel>> CreateSession(UserModel user, string? ip);
+        public Task<Response<SessionModel>> CreateSession(UserModel user, string? ip);
 
-        public Task<ResponseModel<SessionModel>> RemoveSession();
+        public Task<Response<SessionModel>> RemoveSession();
 
         public SessionModel? GetSessionData();
 

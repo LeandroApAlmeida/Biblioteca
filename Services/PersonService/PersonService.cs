@@ -17,9 +17,9 @@ namespace Library.Services.PersonService {
         }
 
 
-        public async Task<ResponseModel<List<PersonModel>>> GetPersons() {
+        public async Task<Response<List<PersonModel>>> GetPersons() {
 
-            ResponseModel<List<PersonModel>> response = new();
+            Response<List<PersonModel>> response = new();
 
             try {
 
@@ -47,9 +47,9 @@ namespace Library.Services.PersonService {
         }
 
 
-        public async Task<ResponseModel<PersonModel?>> GetPerson(Guid id) {
+        public async Task<Response<PersonModel?>> GetPerson(Guid id) {
 
-            ResponseModel<PersonModel?> response = new();
+            Response<PersonModel?> response = new();
 
             try {
 
@@ -93,9 +93,9 @@ namespace Library.Services.PersonService {
         }
 
 
-        public async Task<ResponseModel<PersonModel>> RegisterPerson(PersonModel person) {
+        public async Task<Response<PersonModel>> RegisterPerson(PersonModel person) {
 
-            ResponseModel<PersonModel> response = new();
+            Response<PersonModel> response = new();
 
             try {
 
@@ -125,9 +125,9 @@ namespace Library.Services.PersonService {
         }
 
 
-        public async Task<ResponseModel<PersonModel>> EditPerson(PersonModel person) {
+        public async Task<Response<PersonModel>> EditPerson(PersonModel person) {
 
-            ResponseModel<PersonModel> response = new();
+            Response<PersonModel> response = new();
 
             try {
 
@@ -158,9 +158,9 @@ namespace Library.Services.PersonService {
         }
 
 
-        public async Task<ResponseModel<PersonModel>> DeletePerson(PersonModel person) {
+        public async Task<Response<PersonModel>> DeletePerson(PersonModel person) {
 
-            ResponseModel<PersonModel> response = new();
+            Response<PersonModel> response = new();
 
             try {
 

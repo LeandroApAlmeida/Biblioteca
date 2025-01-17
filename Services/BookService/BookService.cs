@@ -23,9 +23,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<List<BookModel>>> GetBooks() {
+        public async Task<Response<List<BookModel>>> GetBooks() {
 
-            ResponseModel<List<BookModel>> response = new();
+            Response<List<BookModel>> response = new();
 
             try {
 
@@ -80,9 +80,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<BookModel>> GetBook(Guid id) {
+        public async Task<Response<BookModel>> GetBook(Guid id) {
 
-            ResponseModel<BookModel> response = new();
+            Response<BookModel> response = new();
 
             try {
 
@@ -126,9 +126,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<Guid>> NextBookId(Guid id) {
+        public async Task<Response<Guid>> NextBookId(Guid id) {
 
-            ResponseModel<Guid> response = new();
+            Response<Guid> response = new();
 
             try {
 
@@ -173,9 +173,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<Guid>> PreviousBookId(Guid id) {
+        public async Task<Response<Guid>> PreviousBookId(Guid id) {
 
-            ResponseModel<Guid> response = new();
+            Response<Guid> response = new();
 
             try {
 
@@ -217,9 +217,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<Guid>> FirstBookId() {
+        public async Task<Response<Guid>> FirstBookId() {
 
-            ResponseModel<Guid> response = new();
+            Response<Guid> response = new();
 
             try {
 
@@ -241,9 +241,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<Guid>> LastBookId() {
+        public async Task<Response<Guid>> LastBookId() {
 
-            ResponseModel<Guid> response = new();
+            Response<Guid> response = new();
 
             try {
 
@@ -265,9 +265,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<BookModel>> RegisterBook(BookModel book) {
+        public async Task<Response<BookModel>> RegisterBook(BookModel book) {
 
-            ResponseModel<BookModel> response = new();
+            Response<BookModel> response = new();
 
             try {
 
@@ -299,9 +299,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<BookModel>> EditBook(BookModel book) {
+        public async Task<Response<BookModel>> EditBook(BookModel book) {
 
-            ResponseModel<BookModel> response = new();
+            Response<BookModel> response = new();
 
             try {
 
@@ -332,9 +332,9 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<ResponseModel<BookModel>> DeleteBook(BookModel book) {
+        public async Task<Response<BookModel>> DeleteBook(BookModel book) {
 
-            ResponseModel<BookModel> response = new();
+            Response<BookModel> response = new();
 
             try {
 

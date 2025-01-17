@@ -16,9 +16,9 @@ namespace Library.Services.CollectionService {
         }
 
 
-        public async Task<ResponseModel<List<BookModel>>> GetAvailableBooks() {
+        public async Task<Response<List<BookModel>>> GetAvailableBooks() {
 
-            ResponseModel<List<BookModel>> response = new();
+            Response<List<BookModel>> response = new();
 
             try {
 
@@ -76,9 +76,9 @@ namespace Library.Services.CollectionService {
         }
 
 
-        public async Task<ResponseModel<Boolean>> IsBorrowedBook(Guid id) {
+        public async Task<Response<Boolean>> IsBorrowedBook(Guid id) {
 
-            ResponseModel<Boolean> response = new();
+            Response<Boolean> response = new();
 
             try {
 
@@ -125,9 +125,9 @@ namespace Library.Services.CollectionService {
         /// Obter os identificadores (id) dos livros no acervo.
         /// </summary>
         /// <returns></returns>
-        public async Task<ResponseModel<List<Guid>>> GetBooksIds() {
+        public async Task<Response<List<Guid>>> GetBooksIds() {
 
-            ResponseModel<List<Guid>> response = new();
+            Response<List<Guid>> response = new();
 
             try {
 
@@ -154,9 +154,9 @@ namespace Library.Services.CollectionService {
         }
 
 
-        public async Task<ResponseModel<List<Guid>>> BorrowedBooksIds() {
+        public async Task<Response<List<Guid>>> BorrowedBooksIds() {
 
-            ResponseModel<List<Guid>> response = new();
+            Response<List<Guid>> response = new();
 
             try {
 
@@ -181,9 +181,9 @@ namespace Library.Services.CollectionService {
         }
 
 
-        public async Task<ResponseModel<List<Guid>>> DiscardedBooksIds() {
+        public async Task<Response<List<Guid>>> DiscardedBooksIds() {
 
-            ResponseModel<List<Guid>> response = new();
+            Response<List<Guid>> response = new();
 
             try {
 
@@ -206,9 +206,9 @@ namespace Library.Services.CollectionService {
         }
 
 
-        public async Task<ResponseModel<List<Guid>>> DonatedBooksIds() {
+        public async Task<Response<List<Guid>>> DonatedBooksIds() {
 
-            ResponseModel<List<Guid>> response = new();
+            Response<List<Guid>> response = new();
 
             try {
 

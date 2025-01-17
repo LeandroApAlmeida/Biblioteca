@@ -39,10 +39,10 @@
             <thead>
 
                 <tr>
-                    <th scope="col" style="width: 25%;">Nome</th>
+                    <th scope="col" style="width: 30%;">Nome</th>
                     <th scope="col" style="width: 20%;">Cidade</th>
                     <th scope="col" style="width: 20%;">Estado</th>
-                    <th scope="col" style="width: 15%;">Data do Cadastro</th>
+                    <th scope="col" style="width: 15%;">Cadastro</th>
                     <th scope="col"></th>
                 </tr>
 
@@ -57,7 +57,7 @@
                             <td scope="row">@person.Name</td>
                             <td scope="row">@person.City</td>
                             <td scope="row">@person.FederalState</td>
-                            <td class="" scope="row">@person.RegistrationDate</td>
+                            <td class="" scope="row">@person.RegistrationDate.ToString("dd/MM/yyyy")</td>
                             <td id="controls-td" scope="row">
                                 <a class="btn btn-light" asp-controller="Person" asp-action="Edit" asp-route-id="@person.Id"><img src="~/img/edit_icon2.png" title="Editar a pessoa" /></a>
                                 <a class="btn btn-light" asp-controller="Person" asp-action="Delete" asp-route-id="@person.Id"><img src="~/img/delete_icon.png" title="Excluir a pessoa" /></a>

@@ -6,25 +6,25 @@ namespace Library.Services.UserService {
 
     public interface IUserService {
 
-        public Task<ResponseModel<List<UserRoleModel>>> GetUserRoles();
+        public Task<Response<List<UserRoleModel>>> GetUserRoles();
 
-        public Task<ResponseModel<UserRoleModel>> GetUserRole(Int32 id);
+        public Task<Response<UserRoleModel>> GetUserRole(Int32 id);
 
-        public Task<ResponseModel<List<UserModel>>> GetUsers();
+        public Task<Response<List<UserModel>>> GetUsers();
 
-        public Task<ResponseModel<UserModel>> GetUser(Guid id);
+        public Task<Response<UserModel>> GetUser(Guid id);
 
-        public Task<ResponseModel<UserModel>> GetUser(string userName);
+        public Task<Response<UserModel>> GetUser(string userName);
 
-        public Task<ResponseModel<Boolean>> RegisteredAdmin();
+        public Task<Response<Boolean>> RegisteredAdmin();
 
-        public Task<ResponseModel<UserModel>> RegisterUser(UserDto user);
+        public Task<Response<UserModel>> RegisterUser(UserDto user);
 
-        public Task<ResponseModel<UserModel>> EditUser(UserDto user);
+        public Task<Response<UserModel>> EditUser(UserDto user);
 
-        public Task<ResponseModel<UserModel>> DeleteUser(UserModel user);
+        public Task<Response<UserModel>> DeleteUser(UserModel user);
 
-        public Task<ResponseModel<UserModel>> UndeleteUser(UserModel user);
+        public Task<Response<UserModel>> UndeleteUser(UserModel user);
 
     }
 

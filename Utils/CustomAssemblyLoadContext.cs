@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Library.Services.ReportService {
+namespace Library.Utils {
 
 
     public class CustomAssemblyLoadContext : AssemblyLoadContext {

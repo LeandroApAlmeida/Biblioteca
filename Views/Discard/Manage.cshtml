@@ -47,6 +47,7 @@
                     <th scope="col" style="width: 15%;">ISBN</th>
                     <th scope="col" style="width: 2%;">Edic.</th>
                     <th scope="col" style="width: 2%;">Vol.</th>
+                    <th scope="col" style="width: 5%;">Data</th>
                     <th scope="col"></th>
                 </tr>
 
@@ -63,6 +64,7 @@
                             <td scope="row">@discardedBook.Book.Isbn</td>
                             <td scope="row">@discardedBook.Book.Edition</td>
                             <td scope="row">@discardedBook.Book.Volume</td>
+                            <td scope="row">@discardedBook.Date.ToString("dd/MM/yyyy")</td>
                             <td id="controls-td" scope="row">
                                 <a class="btn btn-light" asp-controller="Discard" asp-action="Edit" asp-route-id="@discardedBook.Id"><img src="~/img/edit_icon2.png" title="Editar o livro descartado" /></a>
                                 <a class="btn btn-light" asp-controller="Discard" asp-action="Delete" asp-route-id="@discardedBook.Id"><img src="~/img/delete_icon.png" title="Excluir o livro descartado" /></a>

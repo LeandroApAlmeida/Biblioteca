@@ -17,10 +17,10 @@ namespace Library.Services.LogService {
         }
 
 
-        public async Task<ResponseModel<List<SessionModel>>> GetSessionLog(DateTime beginDate, DateTime endDate) {
+        public async Task<Response<List<SessionModel>>> GetSessionLog(DateTime beginDate, DateTime endDate) {
 
 
-            ResponseModel<List<SessionModel>> response = new();
+            Response<List<SessionModel>> response = new();
 
             try {
 

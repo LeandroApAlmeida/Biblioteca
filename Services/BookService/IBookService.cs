@@ -17,7 +17,7 @@ namespace Library.Services.BookService {
         /// </summary>
         /// <returns>Instância de ResponseModel contendo a Lista com todos os livros que 
         /// estão no acervo.</returns>
-        public Task<ResponseModel<List<BookModel>>> GetBooks();
+        public Task<Response<List<BookModel>>> GetBooks();
 
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Library.Services.BookService {
         /// <param name="id">Identificador do livro</param>
         /// <returns>Instância de ResponseModel contendo o livro com o Identificador passado 
         /// no parâmetro</returns>
-        public Task<ResponseModel<BookModel>> GetBook(Guid id);
+        public Task<Response<BookModel>> GetBook(Guid id);
 
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Library.Services.BookService {
         /// <param name="id">Identificador do livro atual</param>
         /// <returns>Instância de ResponseModel contendo o identificador do livro seguinte
         /// na lista</returns>
-        public Task<ResponseModel<Guid>> NextBookId(Guid id);
+        public Task<Response<Guid>> NextBookId(Guid id);
 
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Library.Services.BookService {
         /// <param name="id">Identificador do livro atual</param>
         /// <returns>Instância de ResponseModel contendo o identificador do livro anterior
         /// na lista</returns>
-        public Task<ResponseModel<Guid>> PreviousBookId(Guid id);
+        public Task<Response<Guid>> PreviousBookId(Guid id);
 
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Library.Services.BookService {
         /// </summary>
         /// <returns>Instância de ResponseModel contendo o identificador do primeiro livro
         /// da lista</returns>
-        public Task<ResponseModel<Guid>> FirstBookId();
+        public Task<Response<Guid>> FirstBookId();
 
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Library.Services.BookService {
         /// </summary>
         /// <returns>Instância de ResponseModel contendo o identificador do último livro
         /// da lista</returns>
-        public Task<ResponseModel<Guid>> LastBookId();
+        public Task<Response<Guid>> LastBookId();
 
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Library.Services.BookService {
         /// </summary>
         /// <param name="book">Livro a ser cadastrado.</param>
         /// <returns>Instância de ResponseModel contendo o livro cadastrado</returns>
-        public Task<ResponseModel<BookModel>> RegisterBook(BookModel book);
+        public Task<Response<BookModel>> RegisterBook(BookModel book);
 
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Library.Services.BookService {
         /// </summary>
         /// <param name="book">Identificador do livro alterado</param>
         /// <returns>Instância de ResponseModel contendo o livro alterado</returns>
-        public Task<ResponseModel<BookModel>> EditBook(BookModel book);
+        public Task<Response<BookModel>> EditBook(BookModel book);
 
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Library.Services.BookService {
         /// </summary>
         /// <param name="book">Identificador do livro a ser excluído</param>
         /// <returns>Instância de ResponseModel contendo o livro excluído</returns>
-        public Task<ResponseModel<BookModel>> DeleteBook(BookModel book);
+        public Task<Response<BookModel>> DeleteBook(BookModel book);
 
 
     }

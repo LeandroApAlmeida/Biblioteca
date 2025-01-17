@@ -26,9 +26,9 @@ namespace Library.Services.LoginService {
         }
 
 
-        public async Task<ResponseModel<SessionModel?>> Login(LoginDto login, string? ip) {
+        public async Task<Response<SessionModel?>> Login(LoginDto login, string? ip) {
 
-            ResponseModel<SessionModel?> response = new();
+            Response<SessionModel?> response = new();
 
             try {
 
@@ -42,12 +42,12 @@ namespace Library.Services.LoginService {
                         throw new Exception("Acesso negado!");
                     }
 
-                    var isItTheSamePassword = _passwordService.IsItTheSamePassword(
+                    var isTheSamePassword = _passwordService.IsTheSamePassword(
                         login.Password,
                         userResp.Data.PasswordHash
                     );
 
-                    if (isItTheSamePassword) {
+                    if (isTheSamePassword) {
 
                         var createSessionResp = await _sessionService.CreateSession(userResp.Data, ip);
 
@@ -94,9 +94,9 @@ namespace Library.Services.LoginService {
         }
 
 
-        public async Task<ResponseModel<bool?>> Logout() {
+        public async Task<Response<bool?>> Logout() {
 
-            ResponseModel<bool?> response = new();
+            Response<bool?> response = new();
 
             var removeSessionResp = await _sessionService.RemoveSession();
 

@@ -20,9 +20,9 @@ namespace Library.Services.DonationService {
         }
 
 
-        public async Task<ResponseModel<List<DonatedBookModel>>> GetDonatedBooks() {
+        public async Task<Response<List<DonatedBookModel>>> GetDonatedBooks() {
 
-            ResponseModel<List<DonatedBookModel>> response = new();
+            Response<List<DonatedBookModel>> response = new();
 
             try {
 
@@ -98,9 +98,9 @@ namespace Library.Services.DonationService {
         }
 
 
-        public async Task<ResponseModel<DonatedBookModel>> GetDonatedBook(Guid id) {
+        public async Task<Response<DonatedBookModel>> GetDonatedBook(Guid id) {
 
-            ResponseModel<DonatedBookModel> response = new();
+            Response<DonatedBookModel> response = new();
 
             try {
 
@@ -183,9 +183,9 @@ namespace Library.Services.DonationService {
         }
 
 
-        public async Task<ResponseModel<DonatedBookModel>> RegisterDonatedBook(DonatedBookModel donatedBook) {
+        public async Task<Response<DonatedBookModel>> RegisterDonatedBook(DonatedBookModel donatedBook) {
 
-            ResponseModel<DonatedBookModel> response = new();
+            Response<DonatedBookModel> response = new();
 
             try {
 
@@ -233,9 +233,9 @@ namespace Library.Services.DonationService {
         }
 
 
-        public async Task<ResponseModel<DonatedBookModel>> EditDonatedBook(DonatedBookModel donatedBook) {
+        public async Task<Response<DonatedBookModel>> EditDonatedBook(DonatedBookModel donatedBook) {
 
-            ResponseModel<DonatedBookModel> response = new();
+            Response<DonatedBookModel> response = new();
 
             try {
 
@@ -266,9 +266,9 @@ namespace Library.Services.DonationService {
         }
 
 
-        public async Task<ResponseModel<DonatedBookModel>> DeleteDonatedBook(DonatedBookModel donatedBook) {
+        public async Task<Response<DonatedBookModel>> DeleteDonatedBook(DonatedBookModel donatedBook) {
 
-            ResponseModel<DonatedBookModel> response = new();
+            Response<DonatedBookModel> response = new();
 
             try {
 

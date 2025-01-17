@@ -41,11 +41,12 @@
             <thead class="text-start">
 
                 <tr>
-                    <th scope="col" style="width: 25%;">Título</th>
-                    <th scope="col" style="width: 20%;">Autor</th>
+                    <th scope="col" style="width: 24%;">Título</th>
+                    <th scope="col" style="width: 17%;">Autor</th>
                     <th scope="col" style="width: 12%;">ISBN</th>
                     <th scope="col" style="width: 2%;">Edic.</th>
                     <th scope="col" style="width: 2%;">Vol.</th>
+                    <th scope="col" style="width: 5%;">Aquisição</th>
                     <th scope="col"></th>
                 </tr>
 
@@ -62,6 +63,7 @@
                             <td scope="row">@book.Isbn</td>
                             <td class="num-span" scope="row">@book.Edition</td>
                             <td class="num-span" scope="row">@book.Volume</td>
+                            <td class="num-span" scope="row">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
                             <td id="controls-td" scope="row">
                                 <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id"><img src="~/img/edit_icon2.png" title="Editar o livro" /></a>
                                 <a class="btn btn-light" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id"><img src="~/img/delete_icon.png" title="Excluir o livro" /></a>

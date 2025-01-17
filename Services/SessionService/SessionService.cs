@@ -24,9 +24,9 @@ namespace Library.Services.SessionService {
         }
 
 
-        public async Task<ResponseModel<SessionModel>> CreateSession(UserModel user, string? ip) {
+        public async Task<Response<SessionModel>> CreateSession(UserModel user, string? ip) {
 
-            ResponseModel<SessionModel> response = new();
+            Response<SessionModel> response = new();
 
             try {
 
@@ -65,9 +65,9 @@ namespace Library.Services.SessionService {
 
 
 
-        public async Task<ResponseModel<SessionModel>> RemoveSession() {
+        public async Task<Response<SessionModel>> RemoveSession() {
 
-            ResponseModel<SessionModel> response = new();
+            Response<SessionModel> response = new();
 
             try {
 

@@ -7,10 +7,10 @@ namespace Library.Services.LoginService {
 
     public interface ILoginService {
 
-        public Task<ResponseModel<SessionModel?>> Login(LoginDto login, string? ip);
+        public Task<Response<SessionModel?>> Login(LoginDto login, string? ip);
 
 
-        public Task<ResponseModel<bool?>> Logout();
+        public Task<Response<bool?>> Logout();
 
 
     }

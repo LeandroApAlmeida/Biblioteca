@@ -4,7 +4,6 @@
         language: { url: "/dic/book-table-pt_br.json" },
         order: [],
         ordering: false,
-        paging: true,
         columnDefs: [{ targets: '_all', className: 'dt-body-left' } ]
     });
 

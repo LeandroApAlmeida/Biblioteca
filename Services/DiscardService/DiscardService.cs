@@ -20,9 +20,9 @@ namespace Library.Services.DiscardService {
         }
 
 
-        public async Task<ResponseModel<List<DiscardedBookModel>>> GetDiscardedBooks() {
+        public async Task<Response<List<DiscardedBookModel>>> GetDiscardedBooks() {
 
-            ResponseModel<List<DiscardedBookModel>> response = new();
+            Response<List<DiscardedBookModel>> response = new();
 
             try {
 
@@ -80,9 +80,9 @@ namespace Library.Services.DiscardService {
         }
 
 
-        public async Task<ResponseModel<DiscardedBookModel>> GetDiscardedBook(Guid id) {
+        public async Task<Response<DiscardedBookModel>> GetDiscardedBook(Guid id) {
 
-            ResponseModel<DiscardedBookModel> response = new();
+            Response<DiscardedBookModel> response = new();
 
             try {
 
@@ -147,9 +147,9 @@ namespace Library.Services.DiscardService {
         }
 
 
-        public async Task<ResponseModel<DiscardedBookModel>> RegisterDiscardedBook(DiscardedBookModel discardedBook) {
+        public async Task<Response<DiscardedBookModel>> RegisterDiscardedBook(DiscardedBookModel discardedBook) {
 
-            ResponseModel<DiscardedBookModel> response = new();
+            Response<DiscardedBookModel> response = new();
 
             try {
 
@@ -196,9 +196,9 @@ namespace Library.Services.DiscardService {
         }
 
 
-        public async Task<ResponseModel<DiscardedBookModel>> EditDiscardedBook(DiscardedBookModel discardedBook) {
+        public async Task<Response<DiscardedBookModel>> EditDiscardedBook(DiscardedBookModel discardedBook) {
 
-            ResponseModel<DiscardedBookModel> response = new();
+            Response<DiscardedBookModel> response = new();
 
             try {
 
@@ -229,9 +229,9 @@ namespace Library.Services.DiscardService {
         }
 
 
-        public async Task<ResponseModel<DiscardedBookModel>> DeleteDiscardedBook(DiscardedBookModel discardedBook) {
+        public async Task<Response<DiscardedBookModel>> DeleteDiscardedBook(DiscardedBookModel discardedBook) {
 
-            ResponseModel<DiscardedBookModel> response = new();
+            Response<DiscardedBookModel> response = new();
 
             try {
 
