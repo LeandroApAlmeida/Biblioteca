@@ -9,7 +9,7 @@ namespace Library.Services.ReportService {
 
         public byte[] BooksInTheCollection(IEnumerable<BookModel> booksList);
 
-        public byte[] DiscardedBooks(IEnumerable<BookModel> booksList);
+        public byte[] DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList);
 
         public byte[] DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList);
 

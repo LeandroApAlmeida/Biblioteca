@@ -4,7 +4,7 @@
 // que será exibido na página. O campo cover-data contém a string em formato base64 da imagem recuperada
 // do banco de dados que será decodificada para a renderização, e permanecerá oculto na página.
 //
-// Quando este java script é executado, o que ele faz é simplesmente usar a função de decodificação
+// Quando este javascript é executado, o que ele faz é simplesmente usar a função de decodificação
 // de string base64 do próprio HTML para renderizar o conteúdo do campo oculto cover-data no campo
 // visível img-preview.
 

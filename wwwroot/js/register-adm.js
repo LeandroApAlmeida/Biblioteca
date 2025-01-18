@@ -1,6 +1,7 @@
 ﻿
 // Tratador de eventos da página ~\Views\User\RegisterAdm.cshtml.
 
+
 /**
  * Exibe o spinner para indicar um processo eventualmente longo, pois como é utilizado argon2id
  * para cifrar a senha, pode haver um pequeno atrazo na codificação, dependendo da quantidade de 

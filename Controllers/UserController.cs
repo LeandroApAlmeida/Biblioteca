@@ -193,8 +193,8 @@ namespace Library.Controllers {
                     Role = userResp.Data.Role.Id,
                     Name = userResp.Data.Name,
                     UserName = userResp.Data.UserName,
-                    Password = Constants.NULL_PASSWORD,
-                    ConfPassword = Constants.NULL_PASSWORD
+                    Password = "",
+                    ConfPassword = ""
                 };
 
                 return View(user);

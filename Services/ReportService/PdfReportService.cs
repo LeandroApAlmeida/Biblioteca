@@ -52,7 +52,7 @@ namespace Library.Services.ReportService {
 
                 HeaderSettings = {
                     FontName = "Arial",
-                    FontSize = 11,
+                    FontSize = 10,
                     Left = footerText,
                     Line = true,
                     Spacing = 5
@@ -60,7 +60,7 @@ namespace Library.Services.ReportService {
 
                 FooterSettings = {
                     FontName = "Arial",
-                    FontSize = 11,
+                    FontSize = 10,
                     Line = true,
                     Left = "Impresso em: " + DateTime.Now.ToString(),
                     Right = "Pág. [page] de [toPage]",
@@ -165,15 +165,6 @@ namespace Library.Services.ReportService {
 
 
         public byte[] BooksInTheCollection(IEnumerable<BookModel> booksList) {
-            return PrintBooksList(booksList, "Livros no Acervo");
-        }
-
-        public byte[] DiscardedBooks(IEnumerable<BookModel> booksList) {
-            return PrintBooksList(booksList, "Livros Descartados");
-        }
-
-
-        private byte[] PrintBooksList(IEnumerable<BookModel> booksList, string reportTitle) {
 
             StringBuilder sb = new StringBuilder();
 
@@ -201,7 +192,7 @@ namespace Library.Services.ReportService {
 
             var objectSettings = GetDefaultObjectSettings(
 
-                reportTitle,
+                "Livros no Acervo",
 
                 $@"
                 <html>
@@ -264,7 +255,7 @@ namespace Library.Services.ReportService {
                                     <th style=""width: 2%;"">Vol.</th>
                                     <th style=""width: 2%;"">Pub.</th>
                                     <th style=""width: 2%;"">Pgs</th>
-                                    <th style=""width: 5%;"">Data Aq.</th>
+                                    <th style=""width: 5%;"">Aquisição</th>
                                 </tr>
 
                             </thead>
@@ -288,7 +279,139 @@ namespace Library.Services.ReportService {
             var pdf = new HtmlToPdfDocument {
 
                 GlobalSettings = GetDefaultGlobalSettings(
-                    reportTitle,
+                    "Livros no Acervo",
+                    PaperKind.A4,
+                    Orientation.Landscape
+                ),
+
+                Objects = { objectSettings }
+
+            };
+
+            return _converter.Convert(pdf);
+
+        }
+
+
+        public byte[] DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList) {
+
+            StringBuilder sb = new StringBuilder();
+
+            if (discardedBooksList != null) {
+
+                foreach (DiscardedBookModel donatedBook in discardedBooksList) {
+
+                    sb.Append($@"
+                        <tr>
+                            <td>{donatedBook.Book.Title + (donatedBook.Book.Subtitle != null ? " - " + 
+                            donatedBook.Book.Subtitle : "")}<d>
+                            <td>{donatedBook.Book.Author}</td>
+                            <td>{donatedBook.Book.Publisher}</td>
+                            <td>{donatedBook.Book.Isbn}</td>
+                            <td class=""num-span"">{donatedBook.Book.Edition}</td>
+                            <td class=""num-span"">{donatedBook.Book.Volume}</td>
+                            <td class=""num-span"">{donatedBook.Book.ReleaseYear}</td>
+                            <td class=""num-span"">{donatedBook.Book.NumberOfPages}</td>
+                            <td >{donatedBook.Book.AcquisitionDate:dd/MM/yyyy}</td>
+                            <td >{donatedBook.Date:dd/MM/yyyy}</td>
+                        </tr>    
+                    ");
+
+                }
+
+            }
+
+            var objectSettings = GetDefaultObjectSettings(
+
+                "Livros Descartados",
+
+                $@"
+                <html>
+
+                    <head>
+
+                        <style> 
+
+                            table {{
+                                border-collapse: collapse;
+                                width: 100%;
+                            }}
+
+                            td {{
+                                text-align: left;
+                                padding: 8px;
+                                font-family: Arial;
+                                font-size: 16px;
+                                text-align: left;
+                                vertical-align: top;
+                            }}
+
+                            th {{
+                                text-align: left;
+                                padding: 8px;
+                                margin-bottom: 10px;
+                                font-weight: bold;
+                                font-family: Arial;
+                                font-size: 16px;
+                                color: white;
+                                background: black;
+                                text-align: left;
+                                vertical-align: top;
+                            }}
+
+                            tr:nth-child(even) {{
+                                background: #e9e9e9;
+                            }}
+
+                            thead {{display: table-header-group; }}
+
+                            tbody tr {{ page-break-inside: avoid; }}
+                            
+                        </style>
+
+                    </head>
+
+                    <body>
+                       
+                        <table class=""table"" border=""0"">
+
+                            <thead>
+
+                                <tr>
+                                    <th ><u>Título e Subtítulo</u></th>
+                                    <th style=""width: 16%;"">Autor</th>
+                                    <th style=""width: 14%;"">Editora</th>
+                                    <th style=""width: 12%;"">ISBN</th>
+                                    <th style=""width: 2%;"">Ed.</th>
+                                    <th style=""width: 2%;"">Vol.</th>
+                                    <th style=""width: 2%;"">Pub.</th>
+                                    <th style=""width: 2%;"">Pgs</th>
+                                    <th style=""width: 5%;"">Aquisição</th>
+                                    <th style=""width: 5%;"">Descarte</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {sb.ToString()}
+
+                            </tbody>
+
+                        </table>
+
+                    </body>
+
+                </html>
+
+                "
+
+            );
+
+            var pdf = new HtmlToPdfDocument {
+
+                GlobalSettings = GetDefaultGlobalSettings(
+                    "Livros Descartados",
                     PaperKind.A4,
                     Orientation.Landscape
                 ),
@@ -321,6 +444,7 @@ namespace Library.Services.ReportService {
                             <td class=""num-span"">{donatedBook.Book.ReleaseYear}</td>
                             <td class=""num-span"">{donatedBook.Book.NumberOfPages}</td>
                             <td >{donatedBook.Book.AcquisitionDate:dd/MM/yyyy}</td>
+                            <td >{donatedBook.Date:dd/MM/yyyy}</td>
                             <td >{donatedBook.Person.Name}</td>  
                         </tr>    
                     ");
@@ -386,16 +510,17 @@ namespace Library.Services.ReportService {
                             <thead>
 
                                 <tr>
-                                    <th style=""width: 40%;""><u>Título e Subtítulo</u></th>
-                                    <th style=""width: 16%;"">Autor</th>
-                                    <th style=""width: 16%;"">Editora</th>
-                                    <th style=""width: 15%;"">ISBN</th>
+                                    <th><u>Título e Subtítulo</u></th>
+                                    <th style=""width: 12%;"">Autor</th>
+                                    <th style=""width: 12%;"">Editora</th>
+                                    <th style=""width: 11%;"">ISBN</th>
                                     <th style=""width: 2%;"">Ed.</th>
                                     <th style=""width: 2%;"">Vol.</th>
-                                    <th style=""width: 2%;"">Ano</th>
+                                    <th style=""width: 2%;"">Pub.</th>
                                     <th style=""width: 4%;"">Pgs</th>
-                                    <th style=""width: 5%;"">Data Aq.</th>
-                                    <th style=""width: 5%;"">Beneficiário</th>
+                                    <th style=""width: 5%;"">Aquisição</th>
+                                    <th style=""width: 5%;"">Doação</th>
+                                    <th style=""width: 12%;"">Beneficiário</th>
                                 </tr>
 
                             </thead>
@@ -482,7 +607,7 @@ namespace Library.Services.ReportService {
                                 text-align: left;
                                 padding: 8px;
                                 font-family: Arial;
-                                font-size: 16px;
+                                font-size: 14px;
                                 text-align: left;
                                 vertical-align: top;
                             }}
@@ -493,7 +618,7 @@ namespace Library.Services.ReportService {
                                 margin-bottom: 10px;
                                 font-weight: bold;
                                 font-family: Arial;
-                                font-size: 16px;
+                                font-size: 14px;
                                 color: white;
                                 background: black;
                                 text-align: left;
@@ -519,18 +644,18 @@ namespace Library.Services.ReportService {
                             <thead>
 
                                 <tr>
-                                    <th style=""width: 35%;""><u>Título e Subtítulo</u></th>
-                                    <th style=""width: 15%;"">Autor</th>
-                                    <th style=""width: 15%;"">Editora</th>
-                                    <th style=""width: 14%;"">ISBN</th>
+                                    <th><u>Título e Subtítulo</u></th>
+                                    <th style=""width: 12%;"">Autor</th>
+                                    <th style=""width: 12%;"">Editora</th>
+                                    <th style=""width: 10%;"">ISBN</th>
                                     <th style=""width: 2%;"">Ed.</th>
                                     <th style=""width: 2%;"">Vol.</th>
-                                    <th style=""width: 2%;"">Ano</th>
+                                    <th style=""width: 2%;"">Pub.</th>
                                     <th style=""width: 4%;"">Pgs</th>
-                                    <th style=""width: 4%;"">Data Aq.</th>
-                                    <th style=""width: 4%;"">Data Emp.</th>
-                                    <th style=""width: 4%;"">Data Dev.</th>
-                                    <th style=""width: 8%;"">Tomador</th>
+                                    <th style=""width: 4%;"">Aquisição</th>
+                                    <th style=""width: 4%;"">Retirada</th>
+                                    <th style=""width: 4%;"">Devolução</th>
+                                    <th style=""width: 10%;"">Tomador</th>
                                 </tr>
 
                             </thead>

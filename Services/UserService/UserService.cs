@@ -418,8 +418,12 @@ namespace Library.Services.UserService {
                 model.UserName = user.UserName;
                 model.Name = user.Name;
 
-                if (user.Password != Constants.NULL_PASSWORD) {
-                    model.PasswordHash = _passwordService.GeneratePasswordHash(user.Password);
+                if (user.Password != "-") {
+                    if (user.Password.Length >= 5) {
+                        model.PasswordHash = _passwordService.GeneratePasswordHash(user.Password);
+                    } else {
+                        throw new Exception("A senha precisa ter pelo menos 5 caracteres");
+                    }
                 }
 
                 _context.Entry(model).State = EntityState.Modified;

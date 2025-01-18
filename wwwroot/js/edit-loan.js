@@ -1,15 +1,5 @@
 ﻿
-// Tratador de eventos da página ~\Views\Loan\Edit.cshtml. É feita a conversão da lista
-// de objetos PersonModel que contém os cadastros de todas as pessoas para o formato Json
-// na Razor Page, e passado este Json para o parâmetro "window.personsData". Da mesma forma,
-// é feita a conversão do objeto de PersonModel que representa a pessoa para quem foi feito o
-// empréstimo do livro para o formato Json, e passado para o parâmetro "window.personData".
-//
-// Quando a página é carregada, primeiramente é identificada a pessoa para quem foi feito o
-// empréstimo e seleciona esta pessoa no seletor, carregando os dados sobre a mesma nos campos
-// correspondentes da página. Feito isso, é atribuído o tratador de eventos no seletor de pessoa,
-// de tal forma que, quando for selecionada uma outra pessoa, os respectivos campos da página
-// sejam atualizados.
+// Tratador de eventos da página ~\Views\Loan\Edit.cshtml.
 
 
 import { setPersonData } from "./data-person.js"
@@ -25,7 +15,7 @@ var personsData = window.personsData;
 var personData = window.personData;
 
 
-// Seleciona no seletor de pessoas o índice da pessoa para quem foi feito o empréstimo e atualiza
+// Seleciona o índice da pessoa para quem foi feito o empréstimo no seletor e atualiza
 // os dados da mesma na página.
 
 for (var i = 0; i < personsData.length; i++) {
@@ -45,15 +35,9 @@ for (var i = 0; i < personsData.length; i++) {
 }
 
 
-// Atribui o tratador de eventos ao seletor de pessoas.
-selector.addEventListener('change', onSelectedPerson);
-
-
-/**
- * No evento do seletor, basicamente identifica a pessoa que o usuário selecionou
- * e atualiza os dados da mesma na página.
- */
-function onSelectedPerson() {
+// Atribui o tratador de eventos ao seletor de pessoas. No evento do seletor, basicamente
+// identifica a pessoa que o usuário selecionou e atualiza os dados da mesma na página.
+selector.addEventListener('change', function () {
 
     var jsonData = window.personsData;
 
@@ -71,4 +55,4 @@ function onSelectedPerson() {
 
     }
 
-}
+});

@@ -7,8 +7,6 @@
 
     ViewData["title"] = "Editar Usuário";
 
-    int? role = ViewBag.UserRole as int?;
-
 }
 
 <head>
@@ -32,7 +30,7 @@
 
         <div class="mb-5"></div>
 
-        <form method="post" asp-controller="User" asp-action="Edit">
+        <form id="user-form" method="post" asp-controller="User" asp-action="Edit">
 
             <div class="mb-3">
                 <label for="name" class="form-label">Nome</label>
@@ -48,13 +46,13 @@
 
             <div class="mb-3">
                 <label for="password" class="form-label">Senha de acesso</label>
-                <input id="password" type="password" class="form-control" asp-for="Password" value ="@Constants.NULL_PASSWORD" placeholder="Senha de acesso">
+                <input id="password" type="password" class="form-control" asp-for="Password" placeholder="Nova senha de acesso">
                 <span class="text-danger" asp-validation-for="Password"></span>
             </div>
 
             <div class="mb-3">
                 <label for="conf-password" class="form-label">Confirme a Senha</label>
-                <input id="conf-password" type="password" class="form-control" asp-for="ConfPassword" value="@Constants.NULL_PASSWORD" placeholder="Confirme a senha de acesso">
+                <input id="conf-password" type="password" class="form-control" asp-for="ConfPassword" placeholder="Confirmação da nova senha de acesso">
                 <span class="text-danger" asp-validation-for="ConfPassword"></span>
             </div>
 

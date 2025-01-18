@@ -123,15 +123,9 @@ namespace Library.Controllers {
 
             if (discardedBooksResp.Successful) {
 
-                List<DiscardedBookModel> books = discardedBooksResp.Data!;
+                List<DiscardedBookModel> discardedBooks = discardedBooksResp.Data!;
 
-                List<BookModel> booksList = new(books.Count);
-
-                foreach (DiscardedBookModel discardedBook in books) {
-                    booksList.Add(discardedBook.Book);
-                }
-
-                var pdfBytes = _reportService.DiscardedBooks(booksList);
+                var pdfBytes = _reportService.DiscardedBooks(discardedBooks);
                 
                 Response.Headers.Append(
                     "Content-Disposition",

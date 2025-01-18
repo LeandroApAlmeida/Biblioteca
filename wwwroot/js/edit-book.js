@@ -1,7 +1,5 @@
 ﻿
-// Tratador de eventos da página ~\Views\Book\Edit.cshtml. Neste caso, atribui todas
-// as funcionalidades para que a função de carregar uma imagem de capa na página
-// esteja disponível.
+// Tratador de eventos da página ~\Views\Book\Edit.cshtml.
 
 
 import { setCoverData } from "./data-cover.js"
@@ -23,6 +21,8 @@ chooseFile.addEventListener("change", function () {
 });
 
 
+// Atribui o tratador de evento para que quando o post for realizado, os campos da
+// página sejam desabilitados.
 document.getElementById('book-form').addEventListener('submit', function (event) {
 
     document.getElementById('title').setAttribute('readonly', 'readonly');
