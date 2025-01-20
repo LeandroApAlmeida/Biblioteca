@@ -1,0 +1,24 @@
+{
+  "decimal": "",
+  "emptyTable": "Nenhum livro encontrado",
+  "info": "",
+  "infoEmpty": "Nenhum livro em exibição",
+  "infoFiltered": "",
+  "infoPostFix": "",
+  "thousands": ",",
+  "lengthMenu": "Mostrar: _MENU_ livros",
+  "loadingRecords": "Exibindo...",
+  "processing": "",
+  "search": "Pesquisar: ",
+  "zeroRecords": "Nenhum livro encontrado",
+  "paginate": {
+    "first": "",
+    "last": "",
+    "next": "",
+    "previous": ""
+  },
+  "aria": {
+    "orderable": "Ordenar por esta coluna",
+    "orderableReverse": "Reverter a ordem da coluna"
+  }
+}

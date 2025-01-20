@@ -1,0 +1,30 @@
+﻿#modalDlg2 .modal-dialog {
+    height: 92%;
+    max-height: 92%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#modalDlg2 .modal-content {
+    height: 92%;
+    max-height: 92%;
+    display: flex;
+    flex-direction: column;
+}
+
+#modalDlg2 .modal-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+}
+
+#close-button {
+    background: white;
+    border: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+#close-button:hover {
+    background: #dcdcdc; /* Cor cinza */
+}

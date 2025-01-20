@@ -135,8 +135,14 @@ namespace Library.Controllers {
                 ViewBag.IsLastBook = isLastBook;
 
                 if (book != null) {
-                    
-                    // Passa o livro na Razor Page, incluindo a capa do mesmo.
+
+                    var booksResp = await _bookService.GetBooks();
+
+                    if (booksResp.Successful) {
+                        ViewBag.Books = booksResp.Data;
+                    } else {
+                        ViewBag.Books = new List<BookModel>();
+                    }
 
                     return View(book);
                 
