@@ -14,6 +14,8 @@ namespace Library.Services.UserService {
 
         public Task<Response<UserModel>> GetUser(Guid id);
 
+        public Task<Response<UserModel>> GetUserWithHash(Guid id);
+
         public Task<Response<UserModel>> GetUser(string userName);
 
         public Task<Response<Boolean>> RegisteredAdmin();

@@ -181,6 +181,57 @@ namespace Library.Services.UserService {
         }
 
 
+        public async Task<Response<UserModel>> GetUserWithHash(Guid id) {
+
+            Response<UserModel> response = new();
+
+            try {
+
+                List<UserModel> users = await _context.Users
+                .Select(um => new UserModel {
+
+                    Id = um.Id,
+
+                    Role = new UserRoleModel {
+                        Id = um.Role.Id,
+                        Description = um.Role.Description
+                    },
+
+                    Name = um.Name,
+
+                    UserName = um.UserName,
+
+                    PasswordHash = um.PasswordHash,
+
+                    RegistrationDate = um.RegistrationDate,
+
+                    LastUpdateDate = um.LastUpdateDate,
+
+                    IsDeleted = um.IsDeleted,
+
+                    IsActive = um.IsActive
+
+                })
+                .Where(um => um.Id == id)
+                .AsNoTracking()
+                .ToListAsync();
+
+                response.Data = users.First();
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
         public async Task<Response<UserModel>> GetUser(string userName) {
 
             Response<UserModel> response = new();
@@ -459,14 +510,20 @@ namespace Library.Services.UserService {
                     throw new Exception("Não é permitido excluir um usuário administrador.");
                 }
 
-                _context.Attach(user);
+                var userWithHashResp = await GetUserWithHash(user.Id);
 
-                user.IsDeleted = true;
-                user.LastUpdateDate = DateTime.Now;
+                if (!userWithHashResp.Successful) throw new Exception(userWithHashResp.Message);
 
-                _context.Entry(user).State = EntityState.Modified;
+                UserModel model = userWithHashResp.Data!;
 
-                _context.Users.Update(user);
+                _context.Attach(model);
+
+                model.IsDeleted = true;
+                model.LastUpdateDate = DateTime.Now;
+
+                _context.Entry(model).State = EntityState.Modified;
+
+                _context.Users.Update(model);
 
                 await _context.SaveChangesAsync();
 
@@ -492,14 +549,20 @@ namespace Library.Services.UserService {
 
             try {
 
-                _context.Attach(user);
+                var userWithHashResp = await GetUserWithHash(user.Id);
 
-                user.IsDeleted = false;
-                user.LastUpdateDate = DateTime.Now;
+                if (!userWithHashResp.Successful) throw new Exception(userWithHashResp.Message);
 
-                _context.Entry(user).State = EntityState.Modified;
+                UserModel model = userWithHashResp.Data!;
 
-                _context.Users.Update(user);
+                _context.Attach(model);
+
+                model.IsDeleted = false;
+                model.LastUpdateDate = DateTime.Now;
+
+                _context.Entry(model).State = EntityState.Modified;
+
+                _context.Users.Update(model);
 
                 await _context.SaveChangesAsync();
 
