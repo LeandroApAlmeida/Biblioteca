@@ -2,62 +2,58 @@
 
 <html lang="pt-br">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
-    <link rel="icon" type="image/png" sizes="16x16" href="~/img/book_icon_24.png" />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"]</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+        <link rel="icon" type="image/png" sizes="16x16" href="~/img/book_icon_24.png" />
 
-</head>
+    </head>
 
-<body>
+    <body>
 
-    <header id="main-menu">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div id="navbar" class="container-fluid">
-                <a id="logo" class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Details">Biblioteca</a>
-                <div id="navbar-right">
-                    <a id="menu-1" asp-controller="Book" asp-action="Details">Livro</a>
-                    <a id="menu-2" asp-controller="Book" asp-action="Manage">Acervo</a>
-                    <a id="menu-3" asp-controller="Discard" asp-action="Manage">Descarte</a>
-                    <a id="menu-4" asp-controller="Donation" asp-action="Manage">Doação</a>
-                    <a id="menu-5" asp-controller="Loan" asp-action="Manage">Empréstimo</a>
-                    <a id="menu-6" asp-controller="Person" asp-action="Manage">Pessoa</a>
-                    <a id="menu-7" asp-controller="User" asp-action="Manage">Usuário</a>
-                    <a id="menu-9" href="#" onclick="redirectToManage()">Log</a>
-                    <a id="menu-8" asp-controller="Home" asp-action="About">Sobre</a>
-                    <a id="menu-10" asp-controller="Login" asp-action="Logout"><img class="m-2" sizes="16x16" src="~/img/exit_icon_24.png" />Sair</a>
+        <header id="main-menu">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div id="navbar" class="container-fluid">
+                    <a id="logo" class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Details">Biblioteca</a>
+                    <div id="navbar-right">
+                        <a id="menu-1" asp-controller="Book" asp-action="Details">Livro</a>
+                        <a id="menu-2" asp-controller="Book" asp-action="Manage">Acervo</a>
+                        <a id="menu-3" asp-controller="Discard" asp-action="Manage">Descarte</a>
+                        <a id="menu-4" asp-controller="Donation" asp-action="Manage">Doação</a>
+                        <a id="menu-5" asp-controller="Loan" asp-action="Manage">Empréstimo</a>
+                        <a id="menu-6" asp-controller="Person" asp-action="Manage">Pessoa</a>
+                        <a id="menu-7" asp-controller="User" asp-action="Manage">Usuário</a>
+                        <a id="menu-9" href="#" onclick="redirectToManage()">Log</a>
+                        <a id="menu-8" asp-controller="Home" asp-action="About">Sobre</a>
+                        <a id="menu-10" asp-controller="Login" asp-action="Logout"><img class="m-2" sizes="16x16" src="~/img/exit_icon_24.png" />Sair</a>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
+            </nav>
+        </header>
 
-    <div id="content-area" class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer id="page-footer" class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Biblioteca
+        <div id="content-area" class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/datatables.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/menu.js" asp-append-version="true"></script>
-    <script src="~/js/layout-admin.js" asp-append-version="true"></script>
+        @await Html.PartialAsync("_Footer")
 
-    @await RenderSectionAsync("Scripts", required: false)
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/datatables.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/menu.js" asp-append-version="true"></script>
+        <script src="~/js/layout-admin.js" asp-append-version="true"></script>
 
-</body>
+        @await RenderSectionAsync("Scripts", required: false)
+
+    </body>
 
 </html>

@@ -43,8 +43,6 @@ namespace Library.Controllers {
                     beginDate = date;
                 }
 
-            } else {
-                int i = 1;
             }
 
             if (endDate == DateTime.MinValue) {

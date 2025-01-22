@@ -66,6 +66,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAdm(UserDto admin) {
 
             if (_sessionService.IsSessionActive()) {
@@ -122,6 +123,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserDto user) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -211,6 +213,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UserDto user) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -277,6 +280,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(UserModel user) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -343,6 +347,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Undelete(UserModel user) {
 
             if (!_sessionService.IsSessionActive()) {

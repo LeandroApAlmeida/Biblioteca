@@ -49,6 +49,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto login) {
 
             if (ModelState.IsValid) {

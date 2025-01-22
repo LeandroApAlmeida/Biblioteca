@@ -36,6 +36,8 @@
 
         <form id="adm-form" method="post" enctype="multipart/form-data" asp-controller="User" asp-action="RegisterAdm">
 
+            @Html.AntiForgeryToken()
+
             <div class="mb-3">
                 <label for="name" class="form-label">Nome</label>
                 <input id="name" type="text" class="form-control" asp-for="Name" placeholder="Nome completo">

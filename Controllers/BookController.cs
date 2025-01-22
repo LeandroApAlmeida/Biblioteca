@@ -303,6 +303,7 @@ namespace Library.Controllers {
         /// <param name="book">Novo livro</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(BookModel book) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -373,6 +374,7 @@ namespace Library.Controllers {
         /// <param name="book">Livro a ser alterado</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(BookModel book) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -461,6 +463,7 @@ namespace Library.Controllers {
         /// <param name="book">Livro a ser excluído</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(BookModel book) {
 
             if (!_sessionService.IsSessionActive()) {

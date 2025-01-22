@@ -123,6 +123,7 @@ namespace Library.Controllers {
         /// <param name="discardedBook">Livro a ser descartado</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(DiscardedBookModel discardedBook) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -195,6 +196,7 @@ namespace Library.Controllers {
         /// <param name="discardedBook">Livro a ser descartado</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register2(DiscardedBookModel discardedBook) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -269,6 +271,7 @@ namespace Library.Controllers {
         /// <param name="book">Livro a ser alterado</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(DiscardedBookModel discardedBook) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -343,6 +346,7 @@ namespace Library.Controllers {
         /// <param name="book">Livro a ser excluído</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(DiscardedBookModel discardedBook) {
 
             if (!_sessionService.IsSessionActive()) {

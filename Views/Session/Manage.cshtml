@@ -12,9 +12,13 @@
 }
 
 <head>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <meta charset="utf-8" />
+    
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+
 </head>
 
 <body>
@@ -66,11 +70,17 @@
                 <thead>
 
                     <tr>
+
                         <th scope="col" style="width: 25%;">Usuário</th>
+                        
                         <th scope="col" style="width: 25%;">Tipo</th>
+                        
                         <th scope="col" style="width: 15%;">Data do login</th>
+                        
                         <th scope="col" style="width: 15%;">Data do logout</th>
+                        
                         <th scope="col" style="width: 15%;">IP de origem</th>
+                    
                     </tr>
 
                 </thead>
@@ -80,17 +90,25 @@
                     @if (Model != null) {
 
                         @foreach (var session in Model) {
+                            
                             <tr>
+                            
                                 <td scope="row">@session.User.Name</td>
+                                
                                 <td scope="row">@session.User.Role.Description</td>
+                                
                                 <td scope="row">@session.LoginDate.ToString()</td>
+                                
                                 <td scope="row">@session.LogoutDate.ToString()</td>
+                                
                                 @if (session.Ip != null) {
                                     <td scope="row">@session.Ip</td>
                                 } else {
                                     <td scope="row">""</td>
                                 }
+                            
                             </tr>
+                        
                         }
 
                     }

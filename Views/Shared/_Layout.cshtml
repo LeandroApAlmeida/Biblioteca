@@ -19,7 +19,7 @@
         <header id="main-menu">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div id="navbar" class="container-fluid">
-                <a id="logo" class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Details">Biblioteca</a>
+                    <a id="logo" class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Details">Biblioteca</a>
                     <div id="navbar-right">
                         <a id="menu-1" asp-controller="Book" asp-action="Details">Livro</a>
                         <a id="menu-2" asp-controller="Book" asp-action="Manage">Acervo</a>
@@ -40,18 +40,13 @@
             </main>
         </div>
 
-        <footer id="page-footer" class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2025 - Biblioteca
-            </div>
-        </footer>
+        @await Html.PartialAsync("_Footer")
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/js/datatables.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/js/menu.js" asp-append-version="true"></script>
-        @*<script src="~/js/app-events.js" asp-append-version="true"></script>*@
 
         @await RenderSectionAsync("Scripts", required: false)
 

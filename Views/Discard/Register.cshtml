@@ -11,9 +11,13 @@
 }
 
 <head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <meta charset="utf-8" />
+    
     <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+
 </head>
 
 <body>
@@ -34,6 +38,8 @@
 
         <form method="post" enctype="multipart/form-data" asp-controller="Discard" asp-action="Register">
 
+            @Html.AntiForgeryToken()
+
             <div id="img-preview" class="mb-2"><img src="@book!.Cover" class="center" /></div>
 
             <div class="mb-3 col-sm-2">
@@ -49,8 +55,11 @@
             </div>
 
             <div class="left gap-2 mt-1">
+
                 <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+                
                 <a class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
+            
             </div>
 
             @Html.Hidden("Book.Cover", @book.Cover)

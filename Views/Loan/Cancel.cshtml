@@ -7,9 +7,13 @@
 }
 
 <head>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <meta charset="utf-8" />
+    
     <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+
 </head>
 
 <body>
@@ -24,12 +28,20 @@
 
         <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Cancel">
 
+            @Html.AntiForgeryToken()
+
             <div class="d-flex justify-content-between align-items-center mb-1">
+                
                 <h3>Excluir a devolução do livro "@Model.Book.Title"?</h3>
+                
                 <div class="left gap-2 mt-1">
+            
                     <button type="submit" class="btn btn-danger left" style="width:150px;margin-right:10px">Excluir</button>
+                    
                     <a class="btn btn-primary left" style="width:150px" asp-controller="Loan" asp-action="Manage">Cancelar</a>
+                
                 </div>
+            
             </div>
 
             <div class="mb-3"></div>

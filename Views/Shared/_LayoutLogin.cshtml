@@ -25,11 +25,8 @@
             </main>
         </div>
 
-        <footer id="page-footer" class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2025 - Biblioteca
-            </div>
-        </footer>
+
+        @await Html.PartialAsync("_Footer")
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/js/datatables.min.js"></script>

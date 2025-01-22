@@ -77,6 +77,7 @@ namespace Library.Controllers {
         /// <param name="book">Nova pessoa</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(PersonModel person) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -151,6 +152,7 @@ namespace Library.Controllers {
         /// <param name="book">Pessoa a ser alterada</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(PersonModel person) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -225,6 +227,7 @@ namespace Library.Controllers {
         /// <param name="book">Pessoa a ser excluída</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(PersonModel person) {
 
             if (!_sessionService.IsSessionActive()) {

@@ -110,6 +110,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task <IActionResult> Register(DonatedBookModel donatedBook) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -182,6 +183,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register2(DonatedBookModel donatedBook) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -252,6 +254,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(DonatedBookModel donatedBook) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -312,6 +315,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(DonatedBookModel donatedBook) {
 
             if (!_sessionService.IsSessionActive()) {

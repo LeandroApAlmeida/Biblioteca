@@ -8,9 +8,13 @@
 }
 
 <head>
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <meta charset="utf-8" />
+    
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+
 </head>
 
 <body>
@@ -18,8 +22,11 @@
     <div class="conteiner">
 
         <div class="d-flex justify-content-between alignalign-items-center mb-5">
+            
             <h3>Usuários</h3>
+            
             <a class="btn btn-success" style="width:160px;height:38px;" asp-controller="User" asp-action="Register">Cadastrar Usuário</a>
+        
         </div>
 
         @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
@@ -39,11 +46,17 @@
             <thead>
 
                 <tr>
+                    
                     <th scope="col" style="width: 25%;">Nome Completo</th>
+                    
                     <th scope="col" style="width: 20%;">Nome de Usuário</th>
+                    
                     <th scope="col" style="width: 18%;">Tipo</th>
+                    
                     <th scope="col" style="width: 12%;">Cadastro</th>
+                    
                     <th scope="col"></th>
+                
                 </tr>
 
             </thead>
@@ -68,12 +81,18 @@
 
                                 <td id="controls-td" scope="row">
 
-                                    <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id"><img src="~/img/edit_icon2.png" title="Editar o usuário" /></a>
+                                    <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
+                                        <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+                                    </a>
 
                                     @if (user.Role.Id != (int)UserRole.Admin) {
-                                        <a class="btn btn-light" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id"><img src="~/img/delete_icon.png" title="Excluir o usuário" /></a>
+                                        <a class="btn btn-light" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">
+                                            <img src="~/img/delete_icon.png" title="Excluir o usuário" />
+                                        </a>
                                     } else {
-                                        <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;"><img src="~/img/delete_icon.png" title="Excluir o usuário" /></a>
+                                        <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;">
+                                            <img src="~/img/delete_icon.png" title="Excluir o usuário" />
+                                        </a>
                                     }
 
                                 </td>
@@ -90,9 +109,13 @@
 
                                 <td id="controls-td" scope="row">
 
-                                    <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id"><img src="~/img/edit_icon2.png" title="Editar o usuário" /></a>
+                                    <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
+                                        <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+                                    </a>
 
-                                    <a class="btn btn-light" asp-controller="User" asp-action="Undelete" asp-route-id="@user.Id"><img src="~/img/return_icon.png" title="Restaurar o usuário" /></a>
+                                    <a class="btn btn-light" asp-controller="User" asp-action="Undelete" asp-route-id="@user.Id">
+                                        <img src="~/img/return_icon.png" title="Restaurar o usuário" />
+                                    </a>
 
                                 </td>
 

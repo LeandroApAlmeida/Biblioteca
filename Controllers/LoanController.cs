@@ -110,6 +110,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(LoanModel loan) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -182,6 +183,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register2(LoanModel loan) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -252,6 +254,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(LoanModel loan) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -314,6 +317,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(LoanModel loan) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -376,6 +380,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Return(LoanModel loan) {
 
             if (!_sessionService.IsSessionActive()) {
@@ -454,6 +459,7 @@ namespace Library.Controllers {
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(LoanModel loan) {
 
             if (!_sessionService.IsSessionActive()) {

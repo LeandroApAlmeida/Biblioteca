@@ -7,9 +7,13 @@
 }
 
 <head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <meta charset="utf-8" />
+    
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+
 </head>
 
 <body>
@@ -17,11 +21,21 @@
     <div class="conteiner">
 
         <div class="d-flex justify-content-between alignalign-items-center mb-5">
+            
             <h3>Livros Doados</h3>
+            
             <div>
-                <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Donation" asp-action="Register2">Doar livro</a>
-                <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="DonatedBooksReport" target="_blank"><img class="m-0" src="~/img/printer_icon_16_w.png" /></a>
+                
+                <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" 
+                asp-controller="Donation" asp-action="Register2">Doar livro</a>
+                
+                <a class="btn btn-primary" style="height:38px;" 
+                asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
+                    <img class="m-0" src="~/img/printer_icon_16_w.png" />
+                </a>
+            
             </div>
+        
         </div>
 
         @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
@@ -41,14 +55,23 @@
             <thead>
 
                 <tr>
+                    
                     <th scope="col" style="width: 20%;">Título</th>
+                    
                     <th scope="col" style="width: 16%;">Autor</th>
+                    
                     <th scope="col" style="width: 12%;">ISBN</th>
+                    
                     <th scope="col" style="width: 2%;">Edic.</th>
+                    
                     <th scope="col" style="width: 2%;">Vol.</th>
+                    
                     <th scope="col" style="width: 14%;">Beneficiário</th>
+                    
                     <th scope="col" style="width: 5%;">Data</th>
+                    
                     <th scope="col"></th>
+                
                 </tr>
 
             </thead>
@@ -107,13 +130,21 @@
 
                                 </div>
 
-                                <a class="btn btn-light" asp-controller="Donation" asp-action="Edit" asp-route-id="@donatedBook.Id"><img src="~/img/edit_icon2.png" title="Editar o livro doado" /></a>
+                                <a class="btn btn-light" asp-controller="Donation" asp-action="Edit" asp-route-id="@donatedBook.Id">
+                                    <img src="~/img/edit_icon2.png" title="Editar o livro doado" />
+                                </a>
                                 
-                                <a class="btn btn-light" asp-controller="Donation" asp-action="Delete" asp-route-id="@donatedBook.Id"><img src="~/img/delete_icon.png" title="Excluir o livro doado" /></a>
+                                <a class="btn btn-light" asp-controller="Donation" asp-action="Delete" asp-route-id="@donatedBook.Id">
+                                    <img src="~/img/delete_icon.png" title="Excluir o livro doado" />
+                                </a>
                                 
-                                <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@donatedBook.Id"><img src="~/img/info_icon_24.png" title="Informações do livro doado" /></button>
+                                <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@donatedBook.Id">
+                                    <img src="~/img/info_icon_24.png" title="Informações do livro doado" />
+                                </button>
                                 
-                                <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@donatedBook.Book.Id"><img src="~/img/view_icon.png" title="Detalhes do livro doado" /></a>
+                                <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@donatedBook.Book.Id">
+                                    <img src="~/img/view_icon.png" title="Detalhes do livro doado" />
+                                </a>
                             
                             </td>
 

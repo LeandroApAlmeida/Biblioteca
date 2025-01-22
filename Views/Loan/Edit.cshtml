@@ -16,10 +16,15 @@
 }
 
 <head>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <meta charset="utf-8" />
+
     <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+
 </head>
 
 <body>
@@ -39,6 +44,8 @@
         <div class="mb-3"></div>
 
         <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Edit">
+
+            @Html.AntiForgeryToken()
 
             <div id="img-preview" class="mb-2"><img src="@Model.Book.Cover" class="center" /></div>
 
@@ -67,13 +74,17 @@
 
             <div class="mb-3">
                 <label for="notes" class="form-label">Anotações</label>
-                <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" rows="10" cols="50" placeholder="Anotações sobre o empréstimo"></textarea>
+                <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" 
+                rows="10" cols="50" placeholder="Anotações sobre o empréstimo"></textarea>
                 <span class="text-danger" asp-validation-for="Notes"></span>
             </div>
 
             <div class="left gap-2 mt-1">
+
                 <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+
                 <a class="btn btn-primary left" style="width:200px" asp-controller="Loan" asp-action="Manage">Cancelar</a>
+
             </div>
 
             @Html.HiddenFor(m => m.Id)
@@ -119,7 +130,6 @@
     </div>
 
     <script type="module" src="~/js/edit-loan.js" asp-append-version="true"></script>
-
     <script> window.personsData = @Html.Raw(personsJson); </script>
     <script> window.personData = @Html.Raw(personJson); </script>
 
