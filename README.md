@@ -20,6 +20,6 @@ Aplicativo Asp.Net para gestão do acervo pessoal. O sistema inclui as seguintes
   
 </ol>
 
-O projeto foi desenvolvido em C#, usando as bibliotecas Entity Framework para acesso a banco de dados, DinkToPdf para gerar relatórios em formato PDF, Newtonsoft para geração de arquivos Json, Npgsql para conexão com o PostgreSQL e BouncyCastle para geração de Hash e criptografia. 
+O projeto foi desenvolvido em C#, importando as bibliotecas Entity Framework para acesso a banco de dados, DinkToPdf para gerar relatórios em formato PDF, Newtonsoft para geração de arquivos Json, Npgsql para conexão com o PostgreSQL e BouncyCastle para geração de Hash e criptografia. O frontend foi desenvolvido usando Razor Pages.
 
 https://github.com/user-attachments/assets/00d4d70d-33e1-46d5-8c6c-3e9334c23ba0
