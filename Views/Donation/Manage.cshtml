@@ -6,160 +6,173 @@
     ViewData["Title"] = "Livros Doados";
 }
 
-<head>
+@section Styles {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <meta charset="utf-8" />
-    
+
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
-</head>
+}
 
-<body>
+<div class="conteiner">
 
-    <div class="conteiner">
-
-        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+    <div class="d-flex justify-content-between alignalign-items-center mb-5">
             
-            <h3>Livros Doados</h3>
+        <h3>Livros Doados</h3>
             
-            <div>
+        <div>
                 
-                <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" 
-                asp-controller="Donation" asp-action="Register2">Doar livro</a>
+            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" 
+            asp-controller="Donation" asp-action="Register2">Doar livro</a>
                 
-                <a class="btn btn-primary" style="height:38px;" 
-                asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
-                    <img class="m-0" src="~/img/printer_icon_16_w.png" />
-                </a>
+            <a class="btn btn-primary" style="height:38px;" 
+            asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" />
+            </a>
             
-            </div>
-        
         </div>
+        
+    </div>
 
-        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-            <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.SUCCESS_MESSAGE]
-            </div>
-        }
+    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
+        <div class="alert alert-success text-black" role="alert">
+            @TempData[Constants.SUCCESS_MESSAGE]
+        </div>
+    }
 
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
 
-        <table id="book-table" class="table table-light table hover table-striped" border="1">
+    <table id="book-table" class="table table-light table hover table-striped" border="1">
 
-            <thead>
+        <thead>
 
-                <tr>
+            <tr>
                     
-                    <th scope="col" style="width: 20%;">Título</th>
+                <th scope="col" style="width: 20%;">Título</th>
                     
-                    <th scope="col" style="width: 16%;">Autor</th>
+                <th scope="col" style="width: 16%;">Autor</th>
                     
-                    <th scope="col" style="width: 12%;">ISBN</th>
+                <th scope="col" style="width: 12%;">ISBN</th>
                     
-                    <th scope="col" style="width: 2%;">Edic.</th>
+                <th scope="col" style="width: 2%;">Edic.</th>
                     
-                    <th scope="col" style="width: 2%;">Vol.</th>
+                <th scope="col" style="width: 2%;">Vol.</th>
                     
-                    <th scope="col" style="width: 14%;">Beneficiário</th>
+                <th scope="col" style="width: 14%;">Beneficiário</th>
                     
-                    <th scope="col" style="width: 5%;">Data</th>
+                <th scope="col" style="width: 5%;">Data</th>
                     
-                    <th scope="col"></th>
+                <th scope="col"></th>
                 
-                </tr>
+            </tr>
 
-            </thead>
+        </thead>
 
-            <tbody>
+        <tbody>
 
-                @if (Model != null) {
+            @if (Model != null) {
 
-                    @foreach (var donatedBook in Model) {
+                @foreach (var donatedBook in Model) {
 
-                        <tr>
+                    <tr>
                             
-                            <td scope="row">@donatedBook.Book.Title</td>
+                        <td scope="row">@donatedBook.Book.Title</td>
                             
-                            <td scope="row">@donatedBook.Book.Author</td>
+                        <td scope="row">@donatedBook.Book.Author</td>
                             
-                            <td scope="row">@donatedBook.Book.Isbn</td>
+                        <td scope="row">@donatedBook.Book.Isbn</td>
                             
-                            <td class="num-span" scope="row">@donatedBook.Book.Edition</td>
+                        <td class="num-span" scope="row">@donatedBook.Book.Edition</td>
                             
-                            <td class="num-span" scope="row">@donatedBook.Book.Volume</td>
+                        <td class="num-span" scope="row">@donatedBook.Book.Volume</td>
                             
-                            <td scope="row">@donatedBook.Person.Name</td>
+                        <td scope="row">@donatedBook.Person.Name</td>
                             
-                            <td scope="row">@donatedBook.Date.ToString("dd/MM/yyyy")</td>
+                        <td scope="row">@donatedBook.Date.ToString("dd/MM/yyyy")</td>
                             
-                            <td id="controls-td"  scope="row">
+                        <td id="controls-td"  scope="row">
 
-                                <div class="modal fade" id="modalDlg-@donatedBook.Id">
+                            <div class="modal fade" id="modalDlg-@donatedBook.Id">
 
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
-                                        <div class="modal-content">
+                                    <div class="modal-content">
 
-                                            <div class="modal-header">
+                                        <div class="modal-header">
 
-                                                <h6>Detalhes:</h6>
+                                            <h6>Detalhes:</h6>
 
-                                            </div>
+                                        </div>
 
-                                            <div class="modal-body">
-                                                @if (donatedBook.Notes != null) {
-                                                    <p style="text-align: justify;">@Html.Raw(donatedBook.Notes.Replace("\n", "<br />"))</p>
-                                                } else {
-                                                    <p style="text-align: justify;">[Sem Anotações]</p>
-                                                }
-                                            </div>
+                                        <div class="modal-body">
+                                            @if (donatedBook.Notes != null) {
+                                                <p style="text-align: justify;">@Html.Raw(donatedBook.Notes.Replace("\n", "<br />"))</p>
+                                            } else {
+                                                <p style="text-align: justify;">[Sem Anotações]</p>
+                                            }
+                                        </div>
 
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                                            </div>
-
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
                                         </div>
 
                                     </div>
 
                                 </div>
 
-                                <a class="btn btn-light" asp-controller="Donation" asp-action="Edit" asp-route-id="@donatedBook.Id">
-                                    <img src="~/img/edit_icon2.png" title="Editar o livro doado" />
-                                </a>
+                            </div>
+
+                            <a class="btn btn-light" asp-controller="Donation" asp-action="Edit" asp-route-id="@donatedBook.Id">
+                                <img src="~/img/edit_icon2.png" title="Editar o livro doado" />
+                            </a>
                                 
-                                <a class="btn btn-light" asp-controller="Donation" asp-action="Delete" asp-route-id="@donatedBook.Id">
-                                    <img src="~/img/delete_icon.png" title="Excluir o livro doado" />
-                                </a>
+                            <a class="btn btn-light" asp-controller="Donation" asp-action="Delete" asp-route-id="@donatedBook.Id">
+                                <img src="~/img/delete_icon.png" title="Excluir o livro doado" />
+                            </a>
                                 
-                                <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@donatedBook.Id">
-                                    <img src="~/img/info_icon_24.png" title="Informações do livro doado" />
-                                </button>
+                            <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@donatedBook.Id">
+                                <img src="~/img/info_icon_24.png" title="Informações do livro doado" />
+                            </button>
                                 
-                                <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@donatedBook.Book.Id">
-                                    <img src="~/img/view_icon.png" title="Detalhes do livro doado" />
-                                </a>
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@donatedBook.Book.Id">
+                                <img src="~/img/view_icon.png" title="Detalhes do livro doado" />
+                            </a>
                             
-                            </td>
+                        </td>
 
-                        </tr>
-                    }
-
+                    </tr>
                 }
 
-            </tbody>
+            }
 
-        </table>
+        </tbody>
 
-    </div>
+    </table>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
+</div>
 
-</body>
+@section Scripts {
+
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $('#book-table').DataTable({
+            language: { url: "/dic/book-table-pt_br.json" },
+            order: [],
+            ordering: false,
+            columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+            pageLength: 5
+        });
+
+    </script>
+
+}

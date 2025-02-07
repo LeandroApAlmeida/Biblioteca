@@ -7,130 +7,146 @@
     ViewData["Title"] = "Usuários";
 }
 
-<head>
-    
+@section Styles {
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <meta charset="utf-8" />
-    
+
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
-</head>
+}
 
-<body>
+<div class="conteiner">
 
-    <div class="conteiner">
-
-        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+    <div class="d-flex justify-content-between alignalign-items-center mb-5">
             
-            <h3>Usuários</h3>
+        <h3>Usuários</h3>
             
-            <a class="btn btn-success" style="width:160px;height:38px;" asp-controller="User" asp-action="Register">Cadastrar Usuário</a>
+        <a class="btn btn-success" style="width:160px;height:38px;" asp-controller="User" asp-action="Register">Cadastrar Usuário</a>
         
+    </div>
+
+    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
+        <div class="alert alert-success text-black" role="alert">
+            @TempData[Constants.SUCCESS_MESSAGE]
         </div>
-
-        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-            <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.SUCCESS_MESSAGE]
-            </div>
-        }
+    }
         
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
 
-        <table id="user-table" class="table table-light table hover table-striped" border="1">
+    <table id="user-table" class="table table-light table hover table-striped" border="1">
 
-            <thead>
+        <thead>
 
-                <tr>
+            <tr>
                     
-                    <th scope="col" style="width: 25%;">Nome Completo</th>
+                <th scope="col" style="width: 25%;">Nome Completo</th>
                     
-                    <th scope="col" style="width: 20%;">Nome de Usuário</th>
+                <th scope="col" style="width: 20%;">Nome de Usuário</th>
                     
-                    <th scope="col" style="width: 18%;">Tipo</th>
+                <th scope="col" style="width: 18%;">Tipo</th>
                     
-                    <th scope="col" style="width: 12%;">Cadastro</th>
+                <th scope="col" style="width: 12%;">Cadastro</th>
                     
-                    <th scope="col"></th>
+                <th scope="col"></th>
                 
-                </tr>
+            </tr>
 
-            </thead>
+        </thead>
 
-            <tbody>
+        <tbody>
 
-                @if (Model != null) {
+            @if (Model != null) {
 
-                    @foreach(var user in Model) {
+                @foreach(var user in Model) {
 
-                        <tr>
+                    <tr>
 
-                            @if (!user.IsDeleted) {
+                        @if (!user.IsDeleted) {
 
-                                <td scope="row">@user.Name</td>
+                            <td scope="row">@user.Name</td>
 
-                                <td scope="row">@user.UserName</td>
+                            <td scope="row">@user.UserName</td>
 
-                                <td scope="row">@user.Role.Description</td>
+                            <td scope="row">@user.Role.Description</td>
 
-                                <td scope="row">@user.RegistrationDate.ToString("dd/MM/yyyy")</td>
+                            <td scope="row">@user.RegistrationDate.ToString("dd/MM/yyyy")</td>
 
-                                <td id="controls-td" scope="row">
+                            <td id="controls-td" scope="row">
 
-                                    <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
-                                        <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+                                <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
+                                    <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+                                </a>
+
+                                @if (user.Role.Id != (int)UserRole.Admin) {
+                                    <a class="btn btn-light" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">
+                                        <img src="~/img/delete_icon.png" title="Excluir o usuário" />
                                     </a>
-
-                                    @if (user.Role.Id != (int)UserRole.Admin) {
-                                        <a class="btn btn-light" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">
-                                            <img src="~/img/delete_icon.png" title="Excluir o usuário" />
-                                        </a>
-                                    } else {
-                                        <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;">
-                                            <img src="~/img/delete_icon.png" title="Excluir o usuário" />
-                                        </a>
-                                    }
-
-                                </td>
-
-                            } else {
-
-                                <td scope="row" style="color:red">@user.Name</td>
-
-                                <td scope="row" style="color:red">@user.UserName</td>
-
-                                <td scope="row" style="color:red">@user.Role.Description</td>
-
-                                <td scope="row" style="color:red">@user.RegistrationDate.ToString("dd/MM/yyyy")</td>
-
-                                <td id="controls-td" scope="row">
-
-                                    <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
-                                        <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+                                } else {
+                                    <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;">
+                                        <img src="~/img/delete_icon.png" title="Excluir o usuário" />
                                     </a>
+                                }
 
-                                    <a class="btn btn-light" asp-controller="User" asp-action="Undelete" asp-route-id="@user.Id">
-                                        <img src="~/img/return_icon.png" title="Restaurar o usuário" />
-                                    </a>
+                            </td>
 
-                                </td>
+                        } else {
 
-                            }
+                            <td scope="row" style="color:red">@user.Name</td>
+
+                            <td scope="row" style="color:red">@user.UserName</td>
+
+                            <td scope="row" style="color:red">@user.Role.Description</td>
+
+                            <td scope="row" style="color:red">@user.RegistrationDate.ToString("dd/MM/yyyy")</td>
+
+                            <td id="controls-td" scope="row">
+
+                                <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
+                                    <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+                                </a>
+
+                                <a class="btn btn-light" asp-controller="User" asp-action="Undelete" asp-route-id="@user.Id">
+                                    <img src="~/img/return_icon.png" title="Restaurar o usuário" />
+                                </a>
+
+                            </td>
+
+                        }
                             
-                        </tr>
-
-                    }
+                    </tr>
 
                 }
 
-            </tbody>
+            }
 
-        </table>
+        </tbody>
 
-    </div>
+    </table>
 
-</body>
+</div>
+
+@section Scripts {
+
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $('#user-table').DataTable({
+            language: { url: "/dic/user-table-pt_br.json" },
+            order: [],
+            ordering: false,
+            columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+            pageLength: 5
+        });
+
+    </script>
+
+}

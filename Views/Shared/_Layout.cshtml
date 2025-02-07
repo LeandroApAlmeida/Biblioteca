@@ -3,15 +3,22 @@
 <html lang="pt-br">
 
     <head>
+        
         <meta charset="utf-8" />
+        
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
         <title>@ViewData["Title"]</title>
+        
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
-        <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+        
         <link rel="icon" type="image/png" sizes="16x16" href="~/img/book_icon_24.png" />
+
+        @await RenderSectionAsync("Styles", required: false)
+
     </head>
 
     <body>
@@ -34,18 +41,15 @@
             </nav>
         </header>
 
-        <div id="content-area" class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
+        <div id="content-area" class="container-fluid">
+            @RenderBody()
         </div>
 
         @await Html.PartialAsync("_Footer")
 
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/datatables.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/bootstrap.min.js"></script>
         <script src="~/js/menu.js" asp-append-version="true"></script>
 
         @await RenderSectionAsync("Scripts", required: false)

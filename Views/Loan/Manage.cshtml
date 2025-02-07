@@ -6,307 +6,329 @@
     ViewData["Title"] = "Empréstimos";
 }
 
-<head>
+@section Styles {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
-</head>
+}
 
-<body>
+<div class="conteiner">
 
-    <div class="conteiner">
+    <div class="d-flex justify-content-between alignalign-items-center mb-5" id="button-box">
 
-        <div class="d-flex justify-content-between alignalign-items-center mb-5" id="button-box">
+        <h3>Empréstimos</h3>
 
-            <h3>Empréstimos</h3>
+        <div>
 
-            <div>
+            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px"
+            asp-controller="Loan" asp-action="Register2">Emprestar livro</a>
 
-                <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px"
-                asp-controller="Loan" asp-action="Register2">Emprestar livro</a>
-
-                <a class="btn btn-primary" style="height:38px;"
-                asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
-                    <img class="m-0" src="~/img/printer_icon_16_w.png" />
-                </a>
-
-            </div>
-
-        </div>
-
-        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-            <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.SUCCESS_MESSAGE]
-            </div>
-        }
-
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
-
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                type="button" role="tab" aria-controls="home" aria-selected="true">Livros Emprestados</button>
-            </li>
-            
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                type="button" role="tab" aria-controls="profile" aria-selected="false">Livros Devolvidos</button>
-            </li>
-
-        </ul>
-
-        <div class="tab-content" id="myTabContent">
-
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-                <table id="book-table" class="table table-light table hover table-striped" border="1">
-
-                    <thead>
-
-                        <tr>
-                            
-                            <th scope="col" style="width: 18%;">Título</th>
-                            
-                            <th scope="col" style="width: 14%;">Autor</th>
-                            
-                            <th scope="col" style="width: 12%;">ISBN</th>
-                            
-                            <th scope="col" style="width: 2%;">Edic.</th>
-                            
-                            <th scope="col" style="width: 2%;">Vol.</th>
-                            
-                            <th scope="col" style="width: 12%;">Tomador</th>
-                            
-                            <th scope="col" style="width: 3%;">Retirada</th>
-                            
-                            <th scope="col"></th>
-                        
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @if (Model != null) {
-
-                            @foreach (var loan in Model) {
-
-                                if (!loan.IsReturned) {
-                                    
-                                    <tr>
-                                        
-                                        <td scope="row">@loan.Book.Title</td>
-                                        
-                                        <td scope="row">@loan.Book.Author</td>
-                                        
-                                        <td scope="row">@loan.Book.Isbn</td>
-                                        
-                                        <td class="num-span" scope="row">@loan.Book.Edition</td>
-                                        
-                                        <td class="num-span" scope="row">@loan.Book.Volume</td>
-                                        
-                                        <td scope="row">@loan.Person.Name</td>
-                                        
-                                        <td scope="row">@loan.Date.ToString("dd/MM/yyyy")</td>
-                                        
-                                        <td id="controls-td" scope="row">
-
-                                            <div class="modal fade" id="modalDlg-@loan.Id">
-
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-
-                                                    <div class="modal-content">
-
-                                                        <div class="modal-header">
-
-                                                            <h6>Detalhes:</h6>
-
-                                                        </div>
-
-                                                        <div class="modal-body">
-                                                            @if (loan.Notes != null) {
-                                                                <p style="text-align: justify;">@Html.Raw(loan.Notes.Replace("\n", "<br />"))</p>
-                                                            } else {
-                                                                <p style="text-align: justify;">[Sem Anotações]</p>
-                                                            }
-                                                        </div>
-
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                            <a class="btn btn-light" asp-controller="Loan" asp-action="Return" asp-route-id="@loan.Id">
-                                                <img src="~/img/return_icon.png" title="Devolver o livro emprestado" />
-                                            </a>
-                                            
-                                            <a class="btn btn-light" asp-controller="Loan" asp-action="Edit" asp-route-id="@loan.Id">
-                                                <img src="~/img/edit_icon2.png" title="Editar o livro emprestado" />
-                                            </a>
-                                            
-                                            <a class="btn btn-light" asp-controller="Loan" asp-action="Delete" asp-route-id="@loan.Id">
-                                                <img src="~/img/delete_icon.png" title="Excluir o livro emprestado" />
-                                            </a>
-
-                                            <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@loan.Id">
-                                                <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
-                                            </button>
-                                            
-                                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id">
-                                                <img src="~/img/view_icon.png" title="Detalhes do livro emprestado" />
-                                            </a>
-                                        
-                                        </td>
-
-                                    </tr>
-
-                                }
-
-                            }
-
-                        }
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-
-                <table id="book-table-2" class="table table-light table hover table-striped" border="1">
-
-                    <thead>
-
-                        <tr>
-                            
-                            <th scope="col" style="width: 16%;">Título</th>
-                            
-                            <th scope="col" style="width: 14%;">Autor</th>
-                            
-                            <th scope="col" style="width: 12%;">ISBN</th>
-                            
-                            <th scope="col" style="width: 2%;">Edic.</th>
-                            
-                            <th scope="col" style="width: 2%;">Vol.</th>
-                            
-                            <th scope="col" style="width: 12%;">Tomador</th>
-                            
-                            <th scope="col" style="width: 3%;">Retirada</th>
-                            
-                            <th scope="col" style="width: 3%;">Devolução</th>
-                            
-                            <th scope="col"></th>
-                        
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @if (Model != null) {
-
-                            @foreach (var loan in Model) {
-
-                                if (loan.IsReturned) {
-
-                                    <tr>
-
-                                        <td scope="row">@loan.Book.Title</td>
-                                        
-                                        <td scope="row">@loan.Book.Author</td>
-                                        
-                                        <td scope="row">@loan.Book.Isbn</td>
-                                        
-                                        <td class="num-span" scope="row">@loan.Book.Edition</td>
-                                        
-                                        <td class="num-span" scope="row">@loan.Book.Volume</td>
-                                        
-                                        <td scope="row">@loan.Person.Name</td>
-                                        
-                                        <td scope="row">@loan.Date.ToString("dd/MM/yyyy")</td>
-                                        
-                                        <td scope="row">@loan.ReturnDate.ToString("dd/MM/yyyy")</td>
-                                        
-                                        <td id="controls-td" scope="row">
-
-                                            <div class="modal fade" id="modalDlg-@loan.Id">
-
-                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-
-                                                    <div class="modal-content">
-
-                                                        <div class="modal-header">
-
-                                                            <h6>Detalhes:</h6>
-
-                                                        </div>
-
-                                                        <div class="modal-body">
-                                                            @if (loan.Notes != null) {
-                                                                <p style="text-align: justify;">@Html.Raw(loan.Notes.Replace("\n", "<br />"))</p>
-                                                            } else {
-                                                                <p style="text-align: justify;">[Sem Anotações]</p>
-                                                            }
-                                                        </div>
-
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                            <a class="btn btn-light" asp-controller="Loan" asp-action="Cancel" asp-route-id="@loan.Id">
-                                                <img src="~/img/delete_icon.png" title="Restaurar o empréstimo" />
-                                            </a>
-
-                                            <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@loan.Id">
-                                                <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
-                                            </button>
-                                            
-                                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id">
-                                                <img src="~/img/view_icon.png" title="Detalhes do livro" />
-                                            </a>
-                                        
-                                        </td>
-
-                                    </tr>
-
-                                }
-
-                            }
-
-                        }
-
-                    </tbody>
-
-                </table>
-
-            </div>
+            <a class="btn btn-primary" style="height:38px;"
+            asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" />
+            </a>
 
         </div>
 
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
+    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
+        <div class="alert alert-success text-black" role="alert">
+            @TempData[Constants.SUCCESS_MESSAGE]
+        </div>
+    }
 
-</body>
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+            
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+            type="button" role="tab" aria-controls="home" aria-selected="true">Livros Emprestados</button>
+        </li>
+            
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+            type="button" role="tab" aria-controls="profile" aria-selected="false">Livros Devolvidos</button>
+        </li>
+
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+            <table id="book-table" class="table table-light table hover table-striped" border="1">
+
+                <thead>
+
+                    <tr>
+                            
+                        <th scope="col" style="width: 18%;">Título</th>
+                            
+                        <th scope="col" style="width: 14%;">Autor</th>
+                            
+                        <th scope="col" style="width: 12%;">ISBN</th>
+                            
+                        <th scope="col" style="width: 2%;">Edic.</th>
+                            
+                        <th scope="col" style="width: 2%;">Vol.</th>
+                            
+                        <th scope="col" style="width: 12%;">Tomador</th>
+                            
+                        <th scope="col" style="width: 3%;">Retirada</th>
+                            
+                        <th scope="col"></th>
+                        
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null) {
+
+                        @foreach (var loan in Model) {
+
+                            if (!loan.IsReturned) {
+                                    
+                                <tr>
+                                        
+                                    <td scope="row">@loan.Book.Title</td>
+                                        
+                                    <td scope="row">@loan.Book.Author</td>
+                                        
+                                    <td scope="row">@loan.Book.Isbn</td>
+                                        
+                                    <td class="num-span" scope="row">@loan.Book.Edition</td>
+                                        
+                                    <td class="num-span" scope="row">@loan.Book.Volume</td>
+                                        
+                                    <td scope="row">@loan.Person.Name</td>
+                                        
+                                    <td scope="row">@loan.Date.ToString("dd/MM/yyyy")</td>
+                                        
+                                    <td id="controls-td" scope="row">
+
+                                        <div class="modal fade" id="modalDlg-@loan.Id">
+
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+
+                                                        <h6>Detalhes:</h6>
+
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        @if (loan.Notes != null) {
+                                                            <p style="text-align: justify;">@Html.Raw(loan.Notes.Replace("\n", "<br />"))</p>
+                                                        } else {
+                                                            <p style="text-align: justify;">[Sem Anotações]</p>
+                                                        }
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Return" asp-route-id="@loan.Id">
+                                            <img src="~/img/return_icon.png" title="Devolver o livro emprestado" />
+                                        </a>
+                                            
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Edit" asp-route-id="@loan.Id">
+                                            <img src="~/img/edit_icon2.png" title="Editar o livro emprestado" />
+                                        </a>
+                                            
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Delete" asp-route-id="@loan.Id">
+                                            <img src="~/img/delete_icon.png" title="Excluir o livro emprestado" />
+                                        </a>
+
+                                        <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@loan.Id">
+                                            <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
+                                        </button>
+                                            
+                                        <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id">
+                                            <img src="~/img/view_icon.png" title="Detalhes do livro emprestado" />
+                                        </a>
+                                        
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        }
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+            <table id="book-table-2" class="table table-light table hover table-striped" border="1">
+
+                <thead>
+
+                    <tr>
+                            
+                        <th scope="col" style="width: 16%;">Título</th>
+                            
+                        <th scope="col" style="width: 14%;">Autor</th>
+                            
+                        <th scope="col" style="width: 12%;">ISBN</th>
+                            
+                        <th scope="col" style="width: 2%;">Edic.</th>
+                            
+                        <th scope="col" style="width: 2%;">Vol.</th>
+                            
+                        <th scope="col" style="width: 12%;">Tomador</th>
+                            
+                        <th scope="col" style="width: 3%;">Retirada</th>
+                            
+                        <th scope="col" style="width: 3%;">Devolução</th>
+                            
+                        <th scope="col"></th>
+                        
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null) {
+
+                        @foreach (var loan in Model) {
+
+                            if (loan.IsReturned) {
+
+                                <tr>
+
+                                    <td scope="row">@loan.Book.Title</td>
+                                        
+                                    <td scope="row">@loan.Book.Author</td>
+                                        
+                                    <td scope="row">@loan.Book.Isbn</td>
+                                        
+                                    <td class="num-span" scope="row">@loan.Book.Edition</td>
+                                        
+                                    <td class="num-span" scope="row">@loan.Book.Volume</td>
+                                        
+                                    <td scope="row">@loan.Person.Name</td>
+                                        
+                                    <td scope="row">@loan.Date.ToString("dd/MM/yyyy")</td>
+                                        
+                                    <td scope="row">@loan.ReturnDate.ToString("dd/MM/yyyy")</td>
+                                        
+                                    <td id="controls-td" scope="row">
+
+                                        <div class="modal fade" id="modalDlg-@loan.Id">
+
+                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+
+                                                        <h6>Detalhes:</h6>
+
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        @if (loan.Notes != null) {
+                                                            <p style="text-align: justify;">@Html.Raw(loan.Notes.Replace("\n", "<br />"))</p>
+                                                        } else {
+                                                            <p style="text-align: justify;">[Sem Anotações]</p>
+                                                        }
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Cancel" asp-route-id="@loan.Id">
+                                            <img src="~/img/delete_icon.png" title="Restaurar o empréstimo" />
+                                        </a>
+
+                                        <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@loan.Id">
+                                            <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
+                                        </button>
+                                            
+                                        <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id">
+                                            <img src="~/img/view_icon.png" title="Detalhes do livro" />
+                                        </a>
+                                        
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        }
+
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $('#book-table').DataTable({
+            language: { url: "/dic/book-table-pt_br.json" },
+            order: [],
+            ordering: false,
+            columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+            pageLength: 5
+        });
+
+        $('#book-table-2').DataTable({
+            language: { url: "/dic/book-table-pt_br.json" },
+            order: [],
+            ordering: false,
+            columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+            pageLength: 5
+        });
+
+    </script>
+
+}

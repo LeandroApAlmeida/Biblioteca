@@ -13,92 +13,88 @@
 
 }
 
-<head>
+@section Styles {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta charset="utf-8"/>
-    
-    <link rel="stylesheet" href="~/css/book-details.css" asp-append-version="false"/>
-    
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/book-details.css" asp-append-version="false" />
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
-</head>
+}
 
-<body>
+<div id="book-details" class="container-fluid">
 
-    <div id="book-details" class="container">
+    <input type="hidden" asp-for="Id" />
 
-        <input type="hidden" asp-for="Id" />
-
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
-
-        <div class="mb-2"><img id="img-preview" src="@Model.Cover" class="center" /></div>
-
-        <div id="book-data" class="text">
-            
-            <p><b>Título:</b> @Model.Title</p>
-            
-            <p><b>Subtítulo:</b> @Model.Subtitle</p>
-            
-            <p><b>Autor:</b> @Model.Author</p>
-            
-            <p><b>Editora:</b> @Model.Publisher</p>
-            
-            <p><b>ISBN:</b> @Model.Isbn</p>
-            
-            <p><b>Edição:</b> @Model.Edition</p>
-            
-            <p><b>Volume:</b> @Model.Volume</p>
-            
-            <p><b>Nº de Páginas:</b> @Model.NumberOfPages</p>
-            
-            <p><b>Ano da Publicação:</b> @Model.ReleaseYear</p>
-            
-            <p><b>Data da Aquisição:</b> @Model.AcquisitionDate.ToString("dd/MM/yyyy")</p>
-            
-            <button class="btn btn-success" style="color:white;width:150px" 
-            data-toggle="modal" data-target="#modalDlg">Ver sinopse...</button>
-        
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
         </div>
+    }
+
+    <div class="mb-2"><img id="img-preview" src="@Model.Cover" class="center" /></div>
+
+    <div id="book-data" class="text">
+            
+        <p><b>Título:</b> @Model.Title</p>
+            
+        <p><b>Subtítulo:</b> @Model.Subtitle</p>
+            
+        <p><b>Autor:</b> @Model.Author</p>
+            
+        <p><b>Editora:</b> @Model.Publisher</p>
+            
+        <p><b>ISBN:</b> @Model.Isbn</p>
+            
+        <p><b>Edição:</b> @Model.Edition</p>
+            
+        <p><b>Volume:</b> @Model.Volume</p>
+            
+        <p><b>Nº de Páginas:</b> @Model.NumberOfPages</p>
+            
+        <p><b>Ano da Publicação:</b> @Model.ReleaseYear</p>
+            
+        <p><b>Data da Aquisição:</b> @Model.AcquisitionDate.ToString("dd/MM/yyyy")</p>
+            
+        <button class="btn btn-success" style="color:white;width:150px" 
+        data-toggle="modal" data-target="#modalDlg">Ver sinopse...</button>
+        
+    </div>
       
-    </div>
+</div>
     
-    <div class="modal fade" id="modalDlg">
+<div class="modal fade" id="modalDlg">
         
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         
-            <div class="modal-content">
+        <div class="modal-content">
             
-                <div class="modal-header">
+            <div class="modal-header">
 
-                    @if (Model.Subtitle != null && Model.Subtitle.Length > 0) {
-                        <h6>@Model.Title - @Model.Subtitle </h6>
-                    } else {
-                        <h6>@Model.Title</h6>
-                    }
+                @if (Model.Subtitle != null && Model.Subtitle.Length > 0) {
+                    <h6>@Model.Title - @Model.Subtitle </h6>
+                } else {
+                    <h6>@Model.Title</h6>
+                }
 
-                </div>
+            </div>
 
-                <div class="modal-body">
+            <div class="modal-body">
 
-                    @if (Model.Summary != null) {
-                        <p style="text-align: justify;">@Html.Raw(@Model.Summary.Replace("\n", "<br />"))</p>
-                    } else {
-                        <p style="text-align: justify;">[Sem Sinopse]</p>
-                    }
+                @if (Model.Summary != null) {
+                    <p style="text-align: justify;">@Html.Raw(@Model.Summary.Replace("\n", "<br />"))</p>
+                } else {
+                    <p style="text-align: justify;">[Sem Sinopse]</p>
+                }
 
-                </div>
+            </div>
 
-                <div class="modal-footer">
+            <div class="modal-footer">
 
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-
-                </div>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
 
             </div>
 
@@ -106,81 +102,81 @@
 
     </div>
 
-    <div class="modal fade" id="modalDlg2">
+</div>
+
+<div class="modal fade" id="modalDlg2">
         
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         
-            <div class="modal-content">
+        <div class="modal-content">
             
-                <div class="modal-header">
+            <div class="modal-header">
 
-                    <h6>Buscar livro:</h6>
+                <h6>Buscar livro:</h6>
 
-                    <button id="close-button" type="button" class="close" 
-                    style="background: white;border:0px;padding-top:0px;padding-bottom:0px;" 
-                    data-dismiss="modal"><h3>&times;</h3></button>
+                <button id="close-button" type="button" class="close" 
+                style="background: white;border:0px;padding-top:0px;padding-bottom:0px;" 
+                data-dismiss="modal"><h3>&times;</h3></button>
 
-                </div>
+            </div>
 
-                <div class="modal-body" style="background:white; ">
+            <div class="modal-body" style="background:white; ">
                     
-                    <table id="filter-table" class="table table-borderless" border="0">
+                <table id="filter-table" class="table table-borderless" border="0">
 
-                        <thead class="text-start">
+                    <thead class="text-start">
 
-                            <tr>
+                        <tr>
                                 
-                                <th scope="col" style="width: 60%;">Título</th>
+                            <th scope="col" style="width: 60%;">Título</th>
                                 
-                                <th scope="col" style="width: 20%;">ISBN</th>
+                            <th scope="col" style="width: 20%;">ISBN</th>
                                 
-                                <th scope="col"></th>
+                            <th scope="col"></th>
                             
-                            </tr>
+                        </tr>
 
-                        </thead>
+                    </thead>
 
-                        <tbody>
+                    <tbody>
 
-                            @if (books != null) {
+                        @if (books != null) {
 
-                                @foreach (var book in books) {
+                            @foreach (var book in books) {
 
-                                    <tr>
+                                <tr>
                                         
-                                        <td scope="row">@book.Title</td>
+                                    <td scope="row">@book.Title</td>
                                         
-                                        <td scope="row">@book.Isbn</td>
+                                    <td scope="row">@book.Isbn</td>
                                         
-                                        <td id="controls-td" scope="row">
+                                    <td id="controls-td" scope="row">
                                         
-                                            <a class="btn btn-info" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
-                                                <img src="~/img/next_item_icon.png" title="Selecionar o livro" />
-                                            </a>
+                                        <a class="btn btn-info" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
+                                            <img src="~/img/next_item_icon.png" title="Selecionar o livro" />
+                                        </a>
                                         
-                                        </td>
+                                    </td>
                                     
-                                    </tr>
-
-                                }
+                                </tr>
 
                             }
 
-                        </tbody>
+                        }
 
-                    </table>
+                    </tbody>
 
-                </div>
+                </table>
 
-                <div style="text-align: center;">
+            </div>
+
+            <div style="text-align: center;">
                     
-                    <hr style="margin-top: 0;" />
+                <hr style="margin-top: 0;" />
                     
-                    <p style="text-align: center; color:dimgrey; padding-top: 6px; padding-bottom:6px;">
-                        Digite o título do livro ou o ISBN no campo <u><b>Pesquisar</b></u>
-                    </p>
-
-                </div>
+                <p style="text-align: center; color:dimgrey; padding-top: 6px; padding-bottom:6px;">
+                    Digite o título do livro ou o ISBN no campo <u><b>Pesquisar</b></u>
+                </p>
 
             </div>
 
@@ -188,51 +184,71 @@
 
     </div>
 
-    <div id="nav-buttons">
-        
-        @if (!isFirstBook) {
-            <a id="button-first" asp-controller="Book" asp-action="FirstBook" >
-                <img class="m-2" src="~/img/first_item_icon.png" /> Primeiro
-            </a>
-            <a id="button-previous" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id">
-                <img class="m-2" src="~/img/previous_item_icon.png" /> Anterior
-            </a>
-        } else {
-            <a id="button-first" style="pointer-events: none;background-color:darkgrey;">
-                <img class="m-2" src="~/img/first_item_icon.png" /> Primeiro
-            </a>
-            <a id="button-previous" style="pointer-events: none;background-color:darkgrey;">
-                <img class="m-2" src="~/img/previous_item_icon.png" /> Anterior
-            </a>
-        }
-        
-        @if (!isLastBook) {
-            <a id="button-next" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
-                Próximo <img class="m-2" src="~/img/next_item_icon.png" />
-            </a>
-            <a id="button-last" asp-controller="Book" asp-action="LastBook">
-                Último <img class="m-2" src="~/img/last_item_icon.png" />
-            </a>
-        } else {
-            <a id="button-next" style="pointer-events: none;background-color:darkgrey;">
-                Próximo <img class="m-2" src="~/img/next_item_icon.png" />
-            </a>
-            <a id="button-last" style="pointer-events: none;background-color:darkgrey;">
-                Último <img class="m-2" src="~/img/last_item_icon.png" />
-            </a>
-        }
+</div>
 
-        <button id="button-filter" data-toggle="modal" data-target="#modalDlg2">
-            <img class="m-2" src="~/img/search_item_icon.png" /> Pesquisar
-        </button>
+<div id="nav-buttons">
         
-        <a id="button-filter" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
-            <img class="m-2" src="~/img/printer_icon_16_w.png" /> Imprimir
+    @if (!isFirstBook) {
+        <a id="button-first" asp-controller="Book" asp-action="FirstBook" >
+            <img class="m-2" src="~/img/first_item_icon.png" /> Primeiro
         </a>
+        <a id="button-previous" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id">
+            <img class="m-2" src="~/img/previous_item_icon.png" /> Anterior
+        </a>
+    } else {
+        <a id="button-first" style="pointer-events: none;background-color:darkgrey;">
+            <img class="m-2" src="~/img/first_item_icon.png" /> Primeiro
+        </a>
+        <a id="button-previous" style="pointer-events: none;background-color:darkgrey;">
+            <img class="m-2" src="~/img/previous_item_icon.png" /> Anterior
+        </a>
+    }
+        
+    @if (!isLastBook) {
+        <a id="button-next" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
+            Próximo <img class="m-2" src="~/img/next_item_icon.png" />
+        </a>
+        <a id="button-last" asp-controller="Book" asp-action="LastBook">
+            Último <img class="m-2" src="~/img/last_item_icon.png" />
+        </a>
+    } else {
+        <a id="button-next" style="pointer-events: none;background-color:darkgrey;">
+            Próximo <img class="m-2" src="~/img/next_item_icon.png" />
+        </a>
+        <a id="button-last" style="pointer-events: none;background-color:darkgrey;">
+            Último <img class="m-2" src="~/img/last_item_icon.png" />
+        </a>
+    }
+
+    <button id="button-filter" data-toggle="modal" data-target="#modalDlg2">
+        <img class="m-2" src="~/img/search_item_icon.png" /> Pesquisar
+    </button>
+        
+    <a id="button-filter" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
+        <img class="m-2" src="~/img/printer_icon_16_w.png" /> Imprimir
+    </a>
     
-    </div>
+</div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
+@section Scripts {
 
-</body>
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#filter-table').DataTable({
+                language: { url: "/dic/book-table-pt_br.json"},
+                order: [],
+                ordering: false,
+                columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+                lengthMenu: [[-1], ["Todos"]],
+                pageLength: -1
+            });
+
+        });
+
+    </script>
+
+}

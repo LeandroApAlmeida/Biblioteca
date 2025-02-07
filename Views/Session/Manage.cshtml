@@ -11,114 +11,130 @@
 
 }
 
-<head>
-    
+@section Styles {
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <meta charset="utf-8" />
-    
+
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
-</head>
+}
 
-<body>
+<div class="conteiner">
 
-    <div class="conteiner">
-
-        <div class="d-flex justify-content-between alignalign-items-center mb-5">
-            <h3>Log de Sessão</h3>
-        </div>
-
-        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-            <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.SUCCESS_MESSAGE]
-            </div>
-        }
-
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
-
-        <form method="get" action="/Session/Manage" class="form-inline">
-
-            <div class="row g-3" display="flex">
-
-                <hr />
-
-                <div class="mb-2 col-sm-2" style="margin-top: 0px; margin-left: 0px;">
-                    <label for="beginDate">Data Inicial</label>
-                    <input type="date" id="beginDate" name="beginDate" value="@beginDate" class="form-control mb-1" required />
-                </div>
-            
-                <div class="mb-2 col-sm-2" style="margin-top: 0px;">
-                    <label for="endDate">Data Final</label>
-                    <input type="date" id="endDate" name="endDate" value="@endDate" class="form-control mb-1" required />
-                </div>
-
-                <div class="mb-2 col-sm-2">
-                    <button type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 15px;">Filtrar</button>
-                </div>
-
-                <hr />
-
-            </div>
-
-            <table id="log-table" class="table table-light table hover table-striped" border="1">
-
-                <thead>
-
-                    <tr>
-
-                        <th scope="col" style="width: 25%;">Usuário</th>
-                        
-                        <th scope="col" style="width: 25%;">Tipo</th>
-                        
-                        <th scope="col" style="width: 15%;">Data do login</th>
-                        
-                        <th scope="col" style="width: 15%;">Data do logout</th>
-                        
-                        <th scope="col" style="width: 15%;">IP de origem</th>
-                    
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    @if (Model != null) {
-
-                        @foreach (var session in Model) {
-                            
-                            <tr>
-                            
-                                <td scope="row">@session.User.Name</td>
-                                
-                                <td scope="row">@session.User.Role.Description</td>
-                                
-                                <td scope="row">@session.LoginDate.ToString()</td>
-                                
-                                <td scope="row">@session.LogoutDate.ToString()</td>
-                                
-                                @if (session.Ip != null) {
-                                    <td scope="row">@session.Ip</td>
-                                } else {
-                                    <td scope="row">""</td>
-                                }
-                            
-                            </tr>
-                        
-                        }
-
-                    }
-
-                </tbody>
-
-            </table>
-
-        </form>
-
+    <div class="d-flex justify-content-between alignalign-items-center mb-5">
+        <h3>Log de Sessão</h3>
     </div>
 
-</body>
+    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
+        <div class="alert alert-success text-black" role="alert">
+            @TempData[Constants.SUCCESS_MESSAGE]
+        </div>
+    }
+
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
+
+    <form method="get" action="/Session/Manage" class="form-inline">
+
+        <div class="row g-3" display="flex">
+
+            <hr />
+
+            <div class="mb-2 col-sm-2" style="margin-top: 0px; margin-left: 0px;">
+                <label for="beginDate">Data Inicial</label>
+                <input type="date" id="beginDate" name="beginDate" value="@beginDate" class="form-control mb-1" required />
+            </div>
+            
+            <div class="mb-2 col-sm-2" style="margin-top: 0px;">
+                <label for="endDate">Data Final</label>
+                <input type="date" id="endDate" name="endDate" value="@endDate" class="form-control mb-1" required />
+            </div>
+
+            <div class="mb-2 col-sm-2">
+                <button type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 15px;">Filtrar</button>
+            </div>
+
+            <hr />
+
+        </div>
+
+        <table id="log-table" class="table table-light table hover table-striped" border="1">
+
+            <thead>
+
+                <tr>
+
+                    <th scope="col" style="width: 25%;">Usuário</th>
+                        
+                    <th scope="col" style="width: 25%;">Tipo</th>
+                        
+                    <th scope="col" style="width: 15%;">Data do login</th>
+                        
+                    <th scope="col" style="width: 15%;">Data do logout</th>
+                        
+                    <th scope="col" style="width: 15%;">IP de origem</th>
+                    
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @if (Model != null) {
+
+                    @foreach (var session in Model) {
+                            
+                        <tr>
+                            
+                            <td scope="row">@session.User.Name</td>
+                                
+                            <td scope="row">@session.User.Role.Description</td>
+                                
+                            <td scope="row">@session.LoginDate.ToString()</td>
+                                
+                            <td scope="row">@session.LogoutDate.ToString()</td>
+                                
+                            @if (session.Ip != null) {
+                                <td scope="row">@session.Ip</td>
+                            } else {
+                                <td scope="row">""</td>
+                            }
+                            
+                        </tr>
+                        
+                    }
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </form>
+
+</div>
+
+@section Scripts {
+
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $('#log-table').DataTable({
+            language: { url: "/dic/log-table-pt_br.json" },
+            order: [],
+            ordering: false,
+            columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+            pageLength: 5
+        });
+
+    </script>
+
+}

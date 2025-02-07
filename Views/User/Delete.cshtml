@@ -10,74 +10,70 @@
 
 }
 
-<head>
+@section Styles {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <meta charset="utf-8" />
 
-</head>
+}
 
-<body>
+<div class="conteiner">
 
-    <div class="conteiner">
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
 
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
+    <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Delete">
 
-        <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Delete">
+        @Html.AntiForgeryToken()
 
-            @Html.AntiForgeryToken()
-
-            <div class="d-flex justify-content-between align-items-center mb-1">
+        <div class="d-flex justify-content-between align-items-center mb-1">
                 
-                <h3>Excluir este usuário?</h3>
+            <h3>Excluir este usuário?</h3>
                 
-                <div class="left gap-2 mt-1">
+            <div class="left gap-2 mt-1">
             
-                    <button type="submit" class="btn btn-danger left" style="width:150px;margin-right:10px">Excluir</button>
+                <button type="submit" class="btn btn-danger left" style="width:150px;margin-right:10px">Excluir</button>
                     
-                    <a class="btn btn-primary left" style="width:150px" asp-controller="User" asp-action="Manage">Cancelar</a>
+                <a class="btn btn-primary left" style="width:150px" asp-controller="User" asp-action="Manage">Cancelar</a>
                 
-                </div>
+            </div>
             
-            </div>
+        </div>
 
-            <div class="mb-3"></div>
+        <div class="mb-3"></div>
 
-            <div class="row g-3" display="flex">
+        <div class="row g-3" display="flex">
                 
-                <div class="mb-3">
-                    <label for="name" class="form-label">Nome</label>
-                    <input id="name" type="text" class="form-control" value="@Model.Name" disabled>
-                    <span class="text-danger" asp-validation-for="Name"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label for="name" class="form-label">Usuário</label>
-                    <input id="name" type="text" class="form-control" value="@Model.UserName" disabled>
-                    <span class="text-danger" asp-validation-for="Name"></span>
-                </div>
-
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input id="name" type="text" class="form-control" value="@Model.Name" disabled>
+                <span class="text-danger" asp-validation-for="Name"></span>
             </div>
 
-            @Html.HiddenFor(m => m.Role.Id)
-            @Html.HiddenFor(m => m.Role.Description)
+            <div class="mb-3">
+                <label for="name" class="form-label">Usuário</label>
+                <input id="name" type="text" class="form-control" value="@Model.UserName" disabled>
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
 
-            @Html.HiddenFor(m => m.Id)
-            @Html.HiddenFor(m => m.Name)
-            @Html.HiddenFor(m => m.UserName)
-            @Html.HiddenFor(m => m.PasswordHash)
-            @Html.HiddenFor(m => m.RegistrationDate)
-            @Html.HiddenFor(m => m.LastUpdateDate)
-            @Html.HiddenFor(m => m.IsDeleted)
-            @Html.HiddenFor(m => m.IsActive)
+        </div>
 
-        </form>
+        @Html.HiddenFor(m => m.Role.Id)
+        @Html.HiddenFor(m => m.Role.Description)
 
-    </div>
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Name)
+        @Html.HiddenFor(m => m.UserName)
+        @Html.HiddenFor(m => m.PasswordHash)
+        @Html.HiddenFor(m => m.RegistrationDate)
+        @Html.HiddenFor(m => m.LastUpdateDate)
+        @Html.HiddenFor(m => m.IsDeleted)
+        @Html.HiddenFor(m => m.IsActive)
 
-</body>
+    </form>
+
+</div>

@@ -11,68 +11,71 @@
 
 }
 
-<head>
+@section Styles {
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <meta charset="utf-8" />
-</head>
 
-<body>
+}
 
-    <div class="conteiner bg-white">
+<div class="conteiner bg-white">
 
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
 
-        <div class="mb-1">
-            <h3 class="text-black">Cadastrar Usuário</h3>
+    <div class="mb-1">
+        <h3 class="text-black">Cadastrar Usuário</h3>
+    </div>
+
+    <div class="mb-5"></div>
+
+    <form id="user-form" method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Register">
+
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input id="name" type="text" class="form-control" asp-for="Name" placeholder="Nome completo">
+            <span class="text-danger" asp-validation-for="Name"></span>
         </div>
 
-        <div class="mb-5"></div>
+        <div class="mb-3">
+            <label for="user-name" class="form-label">Usuário</label>
+            <input id="user-name" type="text" class="form-control" asp-for="UserName" placeholder="Nome da usuário">
+            <span class="text-danger" asp-validation-for="UserName"></span>
+        </div>
 
-        <form id="user-form" method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Register">
+        <div class="mb-3">
+            <label for="password" class="form-label">Senha de acesso</label>
+            <input id="password" type="password" class="form-control" asp-for="Password" placeholder="Senha de acesso">
+            <span class="text-danger" asp-validation-for="Password"></span>
+        </div>
 
-            @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <label for="conf-password" class="form-label">Confirme a Senha</label>
+            <input id="conf-password" type="password" class="form-control" asp-for="ConfPassword" placeholder="Confirmação da senha de acesso">
+            <span class="text-danger" asp-validation-for="ConfPassword"></span>
+        </div>
 
-            <div class="mb-3">
-                <label for="name" class="form-label">Nome</label>
-                <input id="name" type="text" class="form-control" asp-for="Name" placeholder="Nome completo">
-                <span class="text-danger" asp-validation-for="Name"></span>
-            </div>
+        <div id="spinner" class="spinner" style="display: none;"></div>
 
-            <div class="mb-3">
-                <label for="user-name" class="form-label">Usuário</label>
-                <input id="user-name" type="text" class="form-control" asp-for="UserName" placeholder="Nome da usuário">
-                <span class="text-danger" asp-validation-for="UserName"></span>
-            </div>
+        <div class="left gap-2 mt-4">
+            <button id="save-button" type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+            <a id="cancel-button" class="btn btn-primary left" style="width:200px" asp-controller="User" asp-action="Manage">Cancelar</a>
+        </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Senha de acesso</label>
-                <input id="password" type="password" class="form-control" asp-for="Password" placeholder="Senha de acesso">
-                <span class="text-danger" asp-validation-for="Password"></span>
-            </div>
+        @Html.Hidden("Role", role)
 
-            <div class="mb-3">
-                <label for="conf-password" class="form-label">Confirme a Senha</label>
-                <input id="conf-password" type="password" class="form-control" asp-for="ConfPassword" placeholder="Confirmação da senha de acesso">
-                <span class="text-danger" asp-validation-for="ConfPassword"></span>
-            </div>
+    </form>
 
-            <div id="spinner" class="spinner" style="display: none;"></div>
+</div>
 
-            <div class="left gap-2 mt-4">
-                <button id="save-button" type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
-                <a id="cancel-button" class="btn btn-primary left" style="width:200px" asp-controller="User" asp-action="Manage">Cancelar</a>
-            </div>
-
-            @Html.Hidden("Role", role)
-
-        </form>
-
-    </div>
+@section Scripts {
 
     <script type="module" src="~/js/register-user.js" asp-append-version="true"></script>
 
-</body>
+}

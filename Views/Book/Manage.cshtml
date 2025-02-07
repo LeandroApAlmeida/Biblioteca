@@ -6,130 +6,146 @@
     ViewData["Title"] = "Livros no Acervo";
 }
 
-<head>
+@section Styles {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <meta charset="utf-8" />
-    
+
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
-</head>
+}
 
-<body>
+<div class="conteiner">
 
-    <div class="conteiner">
-
-        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+    <div class="d-flex justify-content-between alignalign-items-center mb-5">
             
-            <h3>Livros no Acervo</h3>
+        <h3>Livros no Acervo</h3>
             
-            <div>
+        <div>
                 
-                <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Book" asp-action="Register">Cadastrar livro</a>
+            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Book" asp-action="Register">Cadastrar livro</a>
                 
-                <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
-                    <img class="m-0" src="~/img/printer_icon_16_w.png" />
-                </a>
+            <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" />
+            </a>
             
-            </div>
-        
         </div>
-
-        @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-            <div class="alert alert-success text-black" role="alert">
-                @TempData[Constants.SUCCESS_MESSAGE]
-            </div>
-        }
         
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
+    </div>
 
-        <table id="book-table" class="table table-light table hover table-striped" border="1">
+    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
+        <div class="alert alert-success text-black" role="alert">
+            @TempData[Constants.SUCCESS_MESSAGE]
+        </div>
+    }
+        
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
 
-            <thead class="text-start">
+    <table id="book-table" class="table table-light table hover table-striped" border="1">
 
-                <tr>
+        <thead class="text-start">
 
-                    <th scope="col" style="width: 24%;">Título</th>
+            <tr>
+
+                <th scope="col" style="width: 24%;">Título</th>
                     
-                    <th scope="col" style="width: 17%;">Autor</th>
+                <th scope="col" style="width: 17%;">Autor</th>
                     
-                    <th scope="col" style="width: 12%;">ISBN</th>
+                <th scope="col" style="width: 12%;">ISBN</th>
                     
-                    <th scope="col" style="width: 2%;">Edic.</th>
+                <th scope="col" style="width: 2%;">Edic.</th>
                     
-                    <th scope="col" style="width: 2%;">Vol.</th>
+                <th scope="col" style="width: 2%;">Vol.</th>
                     
-                    <th scope="col" style="width: 5%;">Aquisição</th>
+                <th scope="col" style="width: 5%;">Aquisição</th>
                     
-                    <th scope="col"></th>
+                <th scope="col"></th>
 
-                </tr>
+            </tr>
 
-            </thead>
+        </thead>
 
-            <tbody>
+        <tbody>
 
-                @if (Model != null) {
+            @if (Model != null) {
 
-                    @foreach(var book in Model) {
+                @foreach(var book in Model) {
 
-                        <tr>
+                    <tr>
                             
-                            <td scope="row">@book.Title</td>
+                        <td scope="row">@book.Title</td>
                             
-                            <td scope="row">@book.Author</td>
+                        <td scope="row">@book.Author</td>
                             
-                            <td scope="row">@book.Isbn</td>
+                        <td scope="row">@book.Isbn</td>
                             
-                            <td class="num-span" scope="row">@book.Edition</td>
+                        <td class="num-span" scope="row">@book.Edition</td>
                             
-                            <td class="num-span" scope="row">@book.Volume</td>
+                        <td class="num-span" scope="row">@book.Volume</td>
                             
-                            <td class="num-span" scope="row">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
+                        <td class="num-span" scope="row">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
                             
-                            <td id="controls-td" scope="row">
+                        <td id="controls-td" scope="row">
                                 
-                                <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">
-                                    <img src="~/img/edit_icon2.png" title="Editar o livro" />
-                                </a>
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">
+                                <img src="~/img/edit_icon2.png" title="Editar o livro" />
+                            </a>
                                 
-                                <a class="btn btn-light" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">
-                                    <img src="~/img/delete_icon.png" title="Excluir o livro" />
-                                </a>
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">
+                                <img src="~/img/delete_icon.png" title="Excluir o livro" />
+                            </a>
                                 
-                                <a class="btn btn-light" asp-controller="Discard" asp-action="Register" asp-route-id="@book.Id">
-                                    <img src="~/img/recycle_icon.png" title="Descartar o livro" />
-                                </a>
+                            <a class="btn btn-light" asp-controller="Discard" asp-action="Register" asp-route-id="@book.Id">
+                                <img src="~/img/recycle_icon.png" title="Descartar o livro" />
+                            </a>
                                 
-                                <a class="btn btn-light" asp-controller="Donation" asp-action="Register" asp-route-id="@book.Id">
-                                    <img src="~/img/donation_icon.png" title="Doar o livro" />
-                                </a>
+                            <a class="btn btn-light" asp-controller="Donation" asp-action="Register" asp-route-id="@book.Id">
+                                <img src="~/img/donation_icon.png" title="Doar o livro" />
+                            </a>
                                 
-                                <a class="btn btn-light" asp-controller="Loan" asp-action="Register" asp-route-id="@book.Id">
-                                    <img src="~/img/book_borrow_icon_24.png" title="Emprestar o livro" />
-                                </a>
+                            <a class="btn btn-light" asp-controller="Loan" asp-action="Register" asp-route-id="@book.Id">
+                                <img src="~/img/book_borrow_icon_24.png" title="Emprestar o livro" />
+                            </a>
                                 
-                                <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
-                                    <img src="~/img/view_icon.png" title="Detalhes do livro" />
-                                </a>
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
+                                <img src="~/img/view_icon.png" title="Detalhes do livro" />
+                            </a>
                             
-                            </td>
+                        </td>
 
-                        </tr>
-
-                    }
+                    </tr>
 
                 }
 
-            </tbody>
+            }
 
-        </table>
+        </tbody>
 
-    </div>
+    </table>
 
-</body>
+</div>
+
+@section Scripts {
+
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $('#book-table').DataTable({
+            language: { url: "/dic/book-table-pt_br.json" },
+            order: [],
+            ordering: false,
+            columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+            pageLength: 5
+        });
+
+    </script>
+
+}

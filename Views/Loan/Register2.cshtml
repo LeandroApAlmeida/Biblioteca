@@ -17,127 +17,128 @@
 
 }
 
-<head>
+@section Styles {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <meta charset="utf-8" />
-    
+
     <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
-    
     <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
 
-</head>
+}
 
-<body>
+<div class="conteiner">
 
-    <div class="conteiner">
-
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
-            </div>
-        }
-
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <h3>Emprestar o Livro</h3>
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
         </div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-1">
+        <h3>Emprestar o Livro</h3>
+    </div>
+
+    <div class="mb-3"></div>
+
+    <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Register2">
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-group mb-3">
+            <label for="select-book" class="form-label">Livro</label>
+            <select id="select-book" class="form-control classic">
+                @if (books != null) {
+                    @foreach (var book in books) {
+                        <option value="@book.Id">@book.Title</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <div id="img-preview" class="mb-2" hidden></div>
 
         <div class="mb-3"></div>
 
-        <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Register2">
+        <div class="row g-3" display="flex">
 
-            @Html.AntiForgeryToken()
-
-            <div class="form-group mb-3">
-                <label for="select-book" class="form-label">Livro</label>
-                <select id="select-book" class="form-control classic">
-                    @if (books != null) {
-                        @foreach (var book in books) {
-                            <option value="@book.Id">@book.Title</option>
+            <div class="form-group mb-3" style="width: 80%;">
+                <label for="select-person" class="form-label">Tomador</label>
+                <select id="select-person" class="form-control classic">
+                    @if (persons != null) {
+                        @foreach (var person in persons) {
+                            <option value="@person.Id">@person.Name</option>
                         }
                     }
                 </select>
             </div>
 
-            <div id="img-preview" class="mb-2" hidden></div>
-
-            <div class="mb-3"></div>
-
-            <div class="row g-3" display="flex">
-
-                <div class="form-group mb-3" style="width: 80%;">
-                    <label for="select-person" class="form-label">Tomador</label>
-                    <select id="select-person" class="form-control classic">
-                        @if (persons != null) {
-                            @foreach (var person in persons) {
-                                <option value="@person.Id">@person.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
-
-                <div class="mb-3 col-sm-2" style="width: 20%;">
-                    <label for="loan-date" class="form-label">Data</label>
-                    <input id="loan-date" type="datetime-local" class="form-control" asp-for="Date">
-                    <span class="text-danger" asp-validation-for="Date"></span>
-                </div>
-
+            <div class="mb-3 col-sm-2" style="width: 20%;">
+                <label for="loan-date" class="form-label">Data</label>
+                <input id="loan-date" type="datetime-local" class="form-control" asp-for="Date">
+                <span class="text-danger" asp-validation-for="Date"></span>
             </div>
 
-            <div class="mb-3">
-                <label for="notes" class="form-label">Anotações</label>
-                <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" 
-                rows="10" cols="50" placeholder="Anotações sobre a doação"></textarea>
-                <span class="text-danger" asp-validation-for="Notes"></span>
-            </div>
+        </div>
 
-            <div class="left gap-2 mt-1">
+        <div class="mb-3">
+            <label for="notes" class="form-label">Anotações</label>
+            <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" 
+            rows="10" cols="50" placeholder="Anotações sobre a doação"></textarea>
+            <span class="text-danger" asp-validation-for="Notes"></span>
+        </div>
+
+        <div class="left gap-2 mt-1">
                 
-                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+            <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
                 
-                <a class="btn btn-primary left" style="width:200px" asp-controller="Loan" asp-action="Manage">Cancelar</a>
+            <a class="btn btn-primary left" style="width:200px" asp-controller="Loan" asp-action="Manage">Cancelar</a>
             
-            </div>
+        </div>
 
-            @Html.Hidden("Book.Cover", "")
-            @Html.Hidden("Book.Id", "")
-            @Html.Hidden("Book.Title", "")
-            @Html.Hidden("Book.Subtitle", "")
-            @Html.Hidden("Book.Author", "")
-            @Html.Hidden("Book.Publisher", "")
-            @Html.Hidden("Book.Isbn", "")
-            @Html.Hidden("Book.Edition", "")
-            @Html.Hidden("Book.Volume", "")
-            @Html.Hidden("Book.NumberOfPages", "")
-            @Html.Hidden("Book.ReleaseYear", "")
-            @Html.Hidden("Book.AcquisitionDate", "")
-            @Html.Hidden("Book.RegistrationDate", "")
-            @Html.Hidden("Book.LastUpdateDate", "")
-            @Html.Hidden("Book.Summary", "")
-            @Html.Hidden("Book.IsDeleted", "")
+        @Html.Hidden("Book.Cover", "")
+        @Html.Hidden("Book.Id", "")
+        @Html.Hidden("Book.Title", "")
+        @Html.Hidden("Book.Subtitle", "")
+        @Html.Hidden("Book.Author", "")
+        @Html.Hidden("Book.Publisher", "")
+        @Html.Hidden("Book.Isbn", "")
+        @Html.Hidden("Book.Edition", "")
+        @Html.Hidden("Book.Volume", "")
+        @Html.Hidden("Book.NumberOfPages", "")
+        @Html.Hidden("Book.ReleaseYear", "")
+        @Html.Hidden("Book.AcquisitionDate", "")
+        @Html.Hidden("Book.RegistrationDate", "")
+        @Html.Hidden("Book.LastUpdateDate", "")
+        @Html.Hidden("Book.Summary", "")
+        @Html.Hidden("Book.IsDeleted", "")
 
-            @Html.Hidden("Person.Id", "")
-            @Html.Hidden("Person.Name", "")
-            @Html.Hidden("Person.City", "")
-            @Html.Hidden("Person.FederalState", "")
-            @Html.Hidden("Person.Street", "")
-            @Html.Hidden("Person.Number", "")
-            @Html.Hidden("Person.District", "")
-            @Html.Hidden("Person.PostalCode", "")
-            @Html.Hidden("Person.Complement", "")
-            @Html.Hidden("Person.Country", "")
-            @Html.Hidden("Person.Description", "")
-            @Html.Hidden("Person.RegistrationDate", "")
-            @Html.Hidden("Person.LastUpdateDate", "")
-            @Html.Hidden("Person.IsDeleted", "")
+        @Html.Hidden("Person.Id", "")
+        @Html.Hidden("Person.Name", "")
+        @Html.Hidden("Person.City", "")
+        @Html.Hidden("Person.FederalState", "")
+        @Html.Hidden("Person.Street", "")
+        @Html.Hidden("Person.Number", "")
+        @Html.Hidden("Person.District", "")
+        @Html.Hidden("Person.PostalCode", "")
+        @Html.Hidden("Person.Complement", "")
+        @Html.Hidden("Person.Country", "")
+        @Html.Hidden("Person.Description", "")
+        @Html.Hidden("Person.RegistrationDate", "")
+        @Html.Hidden("Person.LastUpdateDate", "")
+        @Html.Hidden("Person.IsDeleted", "")
 
-        </form>
+    </form>
 
-    </div>
+</div>
 
+@section Scripts {
+    
     <script type="module" src="~/js/register-loan-2.js" asp-append-version="true"></script>
+    
     <script> window.personsData = @Html.Raw(personsJson); </script>
+    
     <script> window.booksData = @Html.Raw(booksJson); </script>
-
-</body>
+    
+}

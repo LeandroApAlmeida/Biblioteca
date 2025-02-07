@@ -34,8 +34,12 @@ head {
     position: relative;
 }
 
+
 #content-area {
-    margin-top: 70px;
+    margin-top: 75px;
+    max-width: calc(100% - 24px);
+    margin-left: 12px;
+    margin-right: 12px;
 }
 
 
@@ -44,4 +48,7 @@ head {
     height: 60px;
     max-height: 60px;
     overflow: hidden;
+    max-width: calc(100% - 24px);
+    margin-left: 12px;
+    margin-right: 12px;
 }

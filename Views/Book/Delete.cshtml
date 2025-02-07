@@ -6,67 +6,67 @@
     ViewData["title"] = "Excluir Livro";
 }
 
-<head>
-    
+@section Styles {
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <meta charset="utf-8" />
-    
+
     <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
 
-</head>
+}
 
-<body>
+<div class="conteiner">
 
-    <div class="conteiner">
+    @if (TempData[Constants.ERROR_MESSAGE] != null) {
+        <div class="alert alert-danger text-black" role="alert">
+            @TempData[Constants.ERROR_MESSAGE]
+        </div>
+    }
 
-        @if (TempData[Constants.ERROR_MESSAGE] != null) {
-            <div class="alert alert-danger text-black" role="alert">
-                @TempData[Constants.ERROR_MESSAGE]
+    <form method="post" enctype="multipart/form-data" asp-controller="Book" asp-action="Delete">
+
+        @Html.AntiForgeryToken()
+
+        <div class="d-flex justify-content-between align-items-center mb-1">
+
+            <h3>Excluir o livro "@Model.Title"?</h3>
+
+            <div class="left gap-2 mt-1">
+
+                <button type="submit" class="btn btn-danger left" style="width:150px;margin-right:10px">
+                    Excluir
+                </button>
+
+                <a class="btn btn-primary left" style="width:150px" asp-controller="Book" asp-action="Manage">
+                    Cancelar
+                </a>
+
             </div>
-        }
 
-        <form method="post" enctype="multipart/form-data" asp-controller="Book" asp-action="Delete">
+        </div>
 
-            @Html.AntiForgeryToken()
+        <div class="mb-3"></div>
 
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                
-                <h3>Excluir o livro "@Model.Title"?</h3>
-                
-                <div class="left gap-2 mt-1">
-                    
-                    <button type="submit" class="btn btn-danger left" style="width:150px;margin-right:10px">Excluir</button>
-                    
-                    <a class="btn btn-primary left" style="width:150px" asp-controller="Book" asp-action="Manage">Cancelar</a>
-               
-                </div>
+        <div id="img-preview" class="mb-2"><img src="@Model.Cover" class="center" /></div>
 
-            </div>
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Cover)
+        @Html.HiddenFor(m => m.Title)
+        @Html.HiddenFor(m => m.Subtitle)
+        @Html.HiddenFor(m => m.Author)
+        @Html.HiddenFor(m => m.Publisher)
+        @Html.HiddenFor(m => m.Isbn)
+        @Html.HiddenFor(m => m.Edition)
+        @Html.HiddenFor(m => m.Volume)
+        @Html.HiddenFor(m => m.NumberOfPages)
+        @Html.HiddenFor(m => m.ReleaseYear)
+        @Html.HiddenFor(m => m.AcquisitionDate)
+        @Html.HiddenFor(m => m.RegistrationDate)
+        @Html.HiddenFor(m => m.LastUpdateDate)
+        @Html.HiddenFor(m => m.Summary)
+        @Html.HiddenFor(m => m.IsDeleted)
 
-            <div class="mb-3"></div>
+    </form>
 
-            <div id="img-preview" class="mb-2"><img src="@Model.Cover" class="center" /></div>
-
-            @Html.HiddenFor(m => m.Id)
-            @Html.HiddenFor(m => m.Cover)
-            @Html.HiddenFor(m => m.Title)
-            @Html.HiddenFor(m => m.Subtitle)
-            @Html.HiddenFor(m => m.Author)
-            @Html.HiddenFor(m => m.Publisher)
-            @Html.HiddenFor(m => m.Isbn)
-            @Html.HiddenFor(m => m.Edition)
-            @Html.HiddenFor(m => m.Volume)
-            @Html.HiddenFor(m => m.NumberOfPages)
-            @Html.HiddenFor(m => m.ReleaseYear)
-            @Html.HiddenFor(m => m.AcquisitionDate)
-            @Html.HiddenFor(m => m.RegistrationDate)
-            @Html.HiddenFor(m => m.LastUpdateDate)
-            @Html.HiddenFor(m => m.Summary)
-            @Html.HiddenFor(m => m.IsDeleted)
-
-        </form>
-
-    </div>
-
-</body>
+</div>
