@@ -4,6 +4,7 @@ using Library.Services.SessionService;
 using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Library.Controllers {
 
@@ -36,8 +37,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var personsResp = await _personService.GetPersons();
 
             if (personsResp.Successful) {
@@ -63,8 +62,6 @@ namespace Library.Controllers {
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
-
-            _sessionService.SetLayout(this);
 
             return View();
 
@@ -124,8 +121,6 @@ namespace Library.Controllers {
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
-
-            _sessionService.SetLayout(this);
 
             var personResp = await _personService.GetPerson(id);
 
@@ -189,74 +184,43 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página para a exclusão de uma pessoa.
-        /// </summary>
-        /// <param name="id">Identificador da pessoa</param>
-        /// <returns>Página para a exclusão de uma pessoa.</returns>
-        [HttpGet]
-        public async Task<IActionResult> Delete(Guid id) {
-
-            if (!_sessionService.IsSessionActive()) {
-                return RedirectToAction("Login", "Login");
-            }
-
-            _sessionService.SetLayout(this);
-
-            var personResp = await _personService.GetPerson(id);
-
-            if (personResp.Successful) {
-
-                if (personResp.Data != null) {
-                    return View(personResp.Data);
-                } else {
-                    return NotFound();
-                }
-
-            } else {
-
-                return BadRequest(personResp.Message);
-
-            }
-
-        }
-
-
-        /// <summary>
         /// Excluir o cadastro de uma pessoa.
         /// </summary>
         /// <param name="book">Pessoa a ser excluída</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(PersonModel person) {
+        public async Task<IActionResult> Delete(Guid id) {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (ModelState.IsValid) {
+            var personResp = await _personService.GetPerson(id);
 
-                var deletePersonResp = await _personService.DeletePerson(person);
+            PersonModel? person = personResp.Data;
 
-                if (deletePersonResp.Successful) {
+            if (person == null) {
 
-                    TempData[Constants.SUCCESS_MESSAGE] = deletePersonResp.Message;
+                TempData[Constants.ERROR_MESSAGE] = personResp.Message;
 
-                    return RedirectToAction("Manage");
+                return RedirectToAction("Manage");
 
-                } else {
+            }
 
-                    TempData[Constants.ERROR_MESSAGE] = deletePersonResp.Message;
+            var deletePersonResp = await _personService.DeletePerson(person);
 
-                    return View(person);
+            if (deletePersonResp.Successful) {
 
-                }
+                TempData[Constants.SUCCESS_MESSAGE] = deletePersonResp.Message;
+
+                return RedirectToAction("Manage");
 
             } else {
 
-                TempData[Constants.SUCCESS_MESSAGE] = "Dados da pessoa incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = deletePersonResp.Message;
 
-                return View(person);
+                return RedirectToAction("Manage");
 
             }
 

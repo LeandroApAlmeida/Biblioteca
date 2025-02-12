@@ -1,10 +1,10 @@
-﻿@using Library.Utils
+﻿@model IEnumerable<BookModel>
 
-@model IEnumerable<BookModel>
 
 @{
     ViewData["Title"] = "Livros no Acervo";
 }
+
 
 @section Styles {
 
@@ -17,7 +17,9 @@
 
 }
 
+
 <div class="conteiner">
+
 
     <div class="d-flex justify-content-between alignalign-items-center mb-5">
             
@@ -35,17 +37,11 @@
         
     </div>
 
-    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-        <div class="alert alert-success text-black" role="alert">
-            @TempData[Constants.SUCCESS_MESSAGE]
-        </div>
-    }
-        
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
+
+    @await Html.PartialAsync("_MessageSuccessPartial")
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
 
     <table id="book-table" class="table table-light table hover table-striped" border="1">
 
@@ -92,12 +88,42 @@
                         <td class="num-span" scope="row">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
                             
                         <td id="controls-td" scope="row">
+
+                            <div class="modal fade" id="deleteDlg-@book.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                                <div class="modal-dialog modal-dialog-centered">
+
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="deleteDlgLabel">Atenção!</h6>
+                                        </div>
+
+                                        <div class="modal-body" style="text-align:left">
+                                            Excluir o livro "@book.Title"?
+                                        </div>
+
+                                        <div class="modal-footer">
+
+                                            <form method="post" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">
+                                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                                            </form>
+
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
                                 
                             <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">
                                 <img src="~/img/edit_icon2.png" title="Editar o livro" />
                             </a>
-                                
-                            <a class="btn btn-light" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">
+
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@book.Id">
                                 <img src="~/img/delete_icon.png" title="Excluir o livro" />
                             </a>
                                 
@@ -129,7 +155,9 @@
 
     </table>
 
+
 </div>
+
 
 @section Scripts {
 

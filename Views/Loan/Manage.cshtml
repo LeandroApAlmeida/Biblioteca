@@ -1,10 +1,10 @@
-﻿@using Library.Utils;
+﻿@model IEnumerable<LoanModel>
 
-@model IEnumerable<LoanModel>
 
 @{
     ViewData["Title"] = "Empréstimos";
 }
+
 
 @section Styles {
 
@@ -17,7 +17,9 @@
 
 }
 
+
 <div class="conteiner">
+
 
     <div class="d-flex justify-content-between alignalign-items-center mb-5" id="button-box">
 
@@ -25,11 +27,9 @@
 
         <div>
 
-            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px"
-            asp-controller="Loan" asp-action="Register2">Emprestar livro</a>
+            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Loan" asp-action="Register2">Emprestar livro</a>
 
-            <a class="btn btn-primary" style="height:38px;"
-            asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
+            <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
                 <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
 
@@ -37,17 +37,11 @@
 
     </div>
 
-    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-        <div class="alert alert-success text-black" role="alert">
-            @TempData[Constants.SUCCESS_MESSAGE]
-        </div>
-    }
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
+    @await Html.PartialAsync("_MessageSuccessPartial")
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
             
@@ -63,7 +57,9 @@
 
     </ul>
 
+
     <div class="tab-content" id="myTabContent">
+
 
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
@@ -119,7 +115,37 @@
                                         
                                     <td id="controls-td" scope="row">
 
-                                        <div class="modal fade" id="modalDlg-@loan.Id">
+                                        <div class="modal fade" id="deleteDlg-@loan.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                                            <div class="modal-dialog modal-dialog-centered">
+
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="deleteDlgLabel">Atenção!</h6>
+                                                    </div>
+
+                                                    <div class="modal-body" style="text-align:left">
+                                                        Excluir o livro "@loan.Book.Title"?
+                                                    </div>
+
+                                                    <div class="modal-footer">
+
+                                                        <form method="post" asp-controller="Loan" asp-action="Delete" asp-route-id="@loan.Id">
+                                                            <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                        </form>
+
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="modal fade" id="notesDlg-@loan.Id">
 
                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -156,14 +182,14 @@
                                         <a class="btn btn-light" asp-controller="Loan" asp-action="Edit" asp-route-id="@loan.Id">
                                             <img src="~/img/edit_icon2.png" title="Editar o livro emprestado" />
                                         </a>
-                                            
-                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Delete" asp-route-id="@loan.Id">
+
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@loan.Id">
                                             <img src="~/img/delete_icon.png" title="Excluir o livro emprestado" />
                                         </a>
 
-                                        <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@loan.Id">
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notesDlg-@loan.Id">
                                             <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
-                                        </button>
+                                        </a>
                                             
                                         <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id">
                                             <img src="~/img/view_icon.png" title="Detalhes do livro emprestado" />
@@ -184,6 +210,7 @@
             </table>
 
         </div>
+
 
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
@@ -243,7 +270,37 @@
                                         
                                     <td id="controls-td" scope="row">
 
-                                        <div class="modal fade" id="modalDlg-@loan.Id">
+                                        <div class="modal fade" id="cancelDlg-@loan.Id" aria-labelledby="cancelDlgLabel" aria-hidden="true">
+
+                                            <div class="modal-dialog modal-dialog-centered">
+
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h6 class="modal-title" id="cancelDlgLabel">Atenção!</h6>
+                                                    </div>
+
+                                                    <div class="modal-body" style="text-align:left">
+                                                        Restaurar o empréstimo do livro "@loan.Book.Title"?
+                                                    </div>
+
+                                                    <div class="modal-footer">
+
+                                                        <form method="post" asp-controller="Loan" asp-action="Cancel" asp-route-id="@loan.Id">
+                                                            <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                        </form>
+
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="modal fade" id="notesDlg-@loan.Id">
 
                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -273,11 +330,11 @@
 
                                         </div>
 
-                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Cancel" asp-route-id="@loan.Id">
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#cancelDlg-@loan.Id">
                                             <img src="~/img/delete_icon.png" title="Restaurar o empréstimo" />
                                         </a>
 
-                                        <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@loan.Id">
+                                        <button class="btn btn-light" data-toggle="modal" data-target="#notesDlg-@loan.Id">
                                             <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
                                         </button>
                                             
@@ -301,9 +358,12 @@
 
         </div>
 
+
     </div>
 
+
 </div>
+
 
 @section Scripts {
 

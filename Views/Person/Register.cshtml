@@ -1,11 +1,10 @@
-﻿@using Library.Utils;
+﻿@model PersonModel
 
-@model PersonModel
 
 @{
     ViewData["title"] = "Cadastrar Pessoa";
-    Layout = ViewBag.Layout;
 }
+
 
 @section Styles {
 
@@ -15,29 +14,43 @@
 
 }
 
+
 <div class="conteiner bg-white">
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
+    
+    @await Html.PartialAsync("_MessageErrorPartial")
 
-    <div class="mb-1">
-        <h3 class="text-black">Cadastrar Pessoa</h3>
-    </div>
-
-    <div class="mb-5"></div>
 
     <form method="post" enctype="multipart/form-data" asp-controller="Person" asp-action="Register">
 
+
         @Html.AntiForgeryToken()
+
+
+        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+
+            <h3>Cadastrar Pessoa</h3>
+
+            <div>
+
+                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+
+                <a class="btn btn-primary left" style="width:200px" asp-controller="Person" asp-action="Manage">Cancelar</a>
+
+            </div>
+
+        </div>
+
+
+        <div class="mb-5"></div>
+
 
         <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
             <input id="name" type="text" class="form-control" asp-for="Name" placeholder="Nome da pessoa">
             <span class="text-danger" asp-validation-for="Name"></span>
         </div>
+
 
         <div class="row g-3" display="flex">
 
@@ -61,6 +74,7 @@
 
         </div>
 
+
         <div class="row g-3" display="flex">
 
             <div class="mb-3" style="width: 80%;">
@@ -76,6 +90,7 @@
             </div>
 
         </div>
+
 
         <div class="row g-3" display="flex">
 
@@ -99,19 +114,18 @@
 
         </div>
 
+
         <div class="mb-3">
             <label for="description" class="form-label">Anotações</label>
             <textarea id="description" class="form-control" style="resize:none" asp-for="Description" rows="10" cols="50" placeholder="Anotações adicionais sobre a pessoa"></textarea>
         </div>
 
-        <div class="left gap-2 mt-4">
-            <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
-            <a class="btn btn-primary left" style="width:200px" asp-controller="Person" asp-action="Manage">Cancelar</a>
-        </div>
 
     </form>
 
+
 </div>
+
 
 @section Scripts {
 

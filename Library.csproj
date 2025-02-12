@@ -15,6 +15,8 @@
     <Compile Remove="Migrations\20250112062305_m2.Designer.cs" />
     <Compile Remove="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Remove="Views\Discard\DiscardBook.cshtml.cs" />
+    <Compile Remove="Views\Shared\ErrorMessagePartial.cshtml.cs" />
+    <Compile Remove="Views\Shared\_SuccessMessagePartial.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>

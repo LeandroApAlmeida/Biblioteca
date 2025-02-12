@@ -99,7 +99,7 @@ namespace Library.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Logout() {
 
             if (!_sessionService.IsSessionActive()) {

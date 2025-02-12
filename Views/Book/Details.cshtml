@@ -1,6 +1,5 @@
-﻿@using Library.Utils
+﻿@model BookModel
 
-@model BookModel
 
 @{
 
@@ -12,6 +11,7 @@
     List <BookModel> books = ViewBag.Books;
 
 }
+
 
 @section Styles {
 
@@ -25,17 +25,18 @@
 
 }
 
-<div id="book-details" class="container-fluid">
+
+<div id="book-details" class="container">
+
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
 
     <input type="hidden" asp-for="Id" />
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
 
     <div class="mb-2"><img id="img-preview" src="@Model.Cover" class="center" /></div>
+
 
     <div id="book-data" class="text">
             
@@ -64,8 +65,10 @@
         
     </div>
       
+
 </div>
-    
+ 
+
 <div class="modal fade" id="modalDlg">
         
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
@@ -103,6 +106,7 @@
     </div>
 
 </div>
+
 
 <div class="modal fade" id="modalDlg2">
         
@@ -186,8 +190,10 @@
 
 </div>
 
+
 <div id="nav-buttons">
         
+
     @if (!isFirstBook) {
         <a id="button-first" asp-controller="Book" asp-action="FirstBook" >
             <img class="m-2" src="~/img/first_item_icon.png" /> Primeiro
@@ -204,6 +210,7 @@
         </a>
     }
         
+
     @if (!isLastBook) {
         <a id="button-next" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
             Próximo <img class="m-2" src="~/img/next_item_icon.png" />
@@ -220,6 +227,7 @@
         </a>
     }
 
+
     <button id="button-filter" data-toggle="modal" data-target="#modalDlg2">
         <img class="m-2" src="~/img/search_item_icon.png" /> Pesquisar
     </button>
@@ -228,7 +236,9 @@
         <img class="m-2" src="~/img/printer_icon_16_w.png" /> Imprimir
     </a>
     
+
 </div>
+
 
 @section Scripts {
 

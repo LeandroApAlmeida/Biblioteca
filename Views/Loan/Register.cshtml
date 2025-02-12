@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json;
-@using Library.Utils;
 
 @model LoanModel
+
 
 @{
 
@@ -15,6 +15,7 @@
 
 }
 
+
 @section Styles {
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -27,28 +28,43 @@
 
 }
 
+
 <div class="conteiner">
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
 
-    <div class="d-flex justify-content-between align-items-center mb-1">
-        <h3>Emprestar o Livro</h3>
-    </div>
+    @await Html.PartialAsync("_MessageErrorPartial")
 
-    <div class="mb-3"></div>
 
     <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Register">
 
+
         @Html.AntiForgeryToken()
+
+
+        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+
+            <h3>Emprestar o Livro</h3>
+
+            <div>
+
+                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+
+                <a class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
+
+            </div>
+
+        </div>
+
+        
+        <div class="mb-3"></div>
+
 
         <div class="mb-2" id="img-preview"><img src="@book!.Cover" class="center" /></div>
 
+        
         <div class="mb-3"></div>
 
+        
         <div class="row g-3" display="flex">
 
             <div class="form-group mb-3" style="width: 80%;">
@@ -70,6 +86,7 @@
 
         </div>
 
+
         <div class="mb-3">
             <label for="notes" class="form-label">Anotações</label>
             <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" 
@@ -77,13 +94,6 @@
             <span class="text-danger" asp-validation-for="Notes"></span>
         </div>
 
-        <div class="left gap-2 mt-1">
-
-            <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
-                
-            <a class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
-            
-        </div>
 
         @Html.Hidden("Book.Cover", @book.Cover)
         @Html.Hidden("Book.Id", @book.Id)
@@ -117,9 +127,12 @@
         @Html.Hidden("Person.LastUpdateDate", "")
         @Html.Hidden("Person.IsDeleted", "")
 
+
     </form>
 
+
 </div>
+
 
 @section Scripts {
     

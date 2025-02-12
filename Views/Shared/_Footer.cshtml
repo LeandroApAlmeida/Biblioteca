@@ -1,5 +1,113 @@
-﻿<footer id="page-footer" class="border-top footer text-muted">
-    <div class="container-fluid">
-        &copy; 2025 - Biblioteca
+﻿@*Rodapé de uma página de layout.*@
+
+@using Library.Utils;
+@using Library.Services.SessionService;
+@using Library.Services.UserService;
+@inject ISessionService SessionService
+
+
+@{
+    var sessionData = SessionService.GetSessionData();
+}
+
+
+@*Rodapé da página de layout.*@
+
+<footer id="page-footer" class="border-top footer text-muted">
+    
+    <div class="container-fluid d-flex justify-content-between" style="padding-left:22px;padding-right:18px;">
+
+        <p style="color: #787878;">&copy; 2025 - Sistema Para Gestão do Acervo Pessoal</p>
+
+        @if (sessionData != null) {
+            
+            <p style="color: #787878;cursor:pointer">
+                
+                <a href="#" data-toggle="modal" data-target="#sessionInfoModal" title="Clique para exibir os dados da sessão">
+                    <b>Usuário:</b> @sessionData.User.Name
+                </a>
+                
+                <a id="menu-10" href="#" data-toggle="modal" data-target="#logoutModal" title="Encerrar a sessão">
+                    <img class="m-2" sizes="16x16" src="~/img/logout_icon_24.png" />
+                </a>
+            
+            </p>
+        
+        }
+
     </div>
+
 </footer>
+
+
+@*Caixa de diálogo para a confirmação do encerramento da sessão corrente.*@
+
+<form method="post" asp-controller="Login" asp-action="Logout">
+    
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h6 class="modal-title" id="logoutModalLabel">Atenção!</h6>
+                </div>
+
+                <div class="modal-body">
+                    Encerrar a sessão corrente?
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+
+@*Caixa de diálogo para a informações da sessão corrente.*@
+
+<div class="modal fade" id="sessionInfoModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h6 class="modal-title" id="logoutModalLabel">Informações da Sessão</h6>
+            </div>
+
+            <div class="modal-body">
+                <p>
+
+                    <b>Nome:</b> @sessionData!.User.Name
+
+                    <br /><br />
+
+                    <b>Usuário:</b> @sessionData.User.UserName
+
+                    <br /><br />
+
+                    <b>Privilégio:</b> @sessionData.User.Role.Description
+
+                    <br /><br />
+
+                    <b>Início:</b> @sessionData.LoginDate.ToString("dd/MM/yyyy, HH:mm:ss")
+
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

@@ -1,10 +1,10 @@
-﻿@using Library.Utils;
+﻿@model BookModel
 
-@model BookModel
 
 @{
     ViewData["title"] = "Cadastrar Livro";
 }
+
 
 @section Styles {
 
@@ -16,116 +16,44 @@
 
 }
 
+
 <div class="conteiner">
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
 
-    <div class="mb-1">
-        <h3 class="text-black">Cadastrar Livro</h3>
-    </div>
+    @await Html.PartialAsync("_MessageErrorPartial")
 
-    <div class="mb-5"></div>
 
     <form id="book-form" method="post" enctype="multipart/form-data" asp-controller="Book" asp-action="Register">
 
+
         @Html.AntiForgeryToken()
 
-        <div class="mb-3">
-            <label for="title" class="form-label">Título</label>
-            <input id="title" type="text" class="form-control" asp-for="Title" placeholder="Título do livro">
-            <span class="text-danger" asp-validation-for="Title"></span>
+
+        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+
+            <h3>Cadastrar Livro</h3>
+
+            <div>
+
+                <button id="save-button" type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+
+                <a id="cancel-button" class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
+
+            </div>
+
         </div>
+
         
-        <div class="mb-3">
-            <label for="subtitle" class="form-label">Subtítulo</label>
-            <input id="subtitle" type="text" class="form-control" asp-for="Subtitle" placeholder="Subtítulo do livro">
-        </div>
+        @{ 
+            await Html.RenderPartialAsync("~/Views/Book/_BookPartial.cshtml", Model);
+        }
 
-        <div class="mb-3">
-            <label for="author" class="form-label">Autor</label>
-            <input id="author" type="text" class="form-control" asp-for="Author" placeholder="Autor do livro">
-            <span class="text-danger" asp-validation-for="Author"></span>
-        </div>
-
-        <div class="mb-3">
-            <label for="publisher" class="form-label">Editora</label>
-            <input id="publisher" type="text" class="form-control" asp-for="Publisher" placeholder="Editora do livro">
-            <span class="text-danger" asp-validation-for="Publisher"></span>
-        </div>
-
-        <div class="row g-3" display="flex">
-
-            <div class="mb-3 col-sm-2">
-                <label for="isbn" class="form-label">ISBN</label>
-                <input id="isbn" type="text" class="form-control" asp-for="Isbn" placeholder="ISBN do livro">
-                <span class="text-danger" asp-validation-for="Isbn"></span>
-            </div>
-
-            <div class="mb-3 col-sm-2">
-                <label for="edition" class="form-label">Edição</label>
-                <input id="edition" type="number" value="1" min="1" class="form-control" asp-for="Edition" placeholder="Número da edição">
-                <span class="text-danger" asp-validation-for="Edition"></span>
-            </div>
-
-            <div class="mb-3 col-sm-2">
-                <label for="volume" class="form-label">Volume</label>
-                <input id="volume" type="number" value="1" min="1" class="form-control" asp-for="Volume" placeholder="Número do volume">
-                <span class="text-danger" asp-validation-for="Volume"></span>
-            </div>
-
-            <div class="mb-3 col-sm-2">
-                <label for="release-year" class="form-label">Ano da publicação</label>
-                <input id="release-year" type="number" value="2000" min="1" class="form-control" asp-for="ReleaseYear" placeholder="Ano de lançamento do livro">
-                <span class="text-danger" asp-validation-for="ReleaseYear"></span>
-            </div>
-
-            <div class="mb-3 col-sm-2">
-                <label for="num-of-pages" class="form-label">Número de páginas</label>
-                <input id="num-of-pages" type="number" value="1" min="1" class="form-control" asp-for="NumberOfPages" placeholder="Número de páginas do livro">
-                <span class="text-danger" asp-validation-for="NumberOfPages"></span>
-            </div>
-
-            <div class="mb-3 col-sm-2">
-                <label for="acquisition-date"  class="form-label">Data da aquisição</label>
-                <input id="acquisition-date" type="datetime-local" class="form-control" asp-for="AcquisitionDate">
-                <span class="text-danger" asp-validation-for="AcquisitionDate"></span>
-            </div>
-
-        </div>
-
-        <div class="mb-3">
-            <label for="summary" class="form-label" >Sinopse</label>
-            <textarea id="summary" class="form-control" style="resize:none" asp-for="Summary" 
-            rows="10" cols="50" placeholder="Sinopse do livro"></textarea>
-        </div>
-
-        <div class="mb-3">
-            <label for="choose-file" class="form-label">Capa</label>
-            <input id="choose-file" class="form-control mb-3" type="file" accept="image/*" name="choose-file" />
-            <span class="text-danger" asp-validation-for="Cover"></span>
-        </div>
-
-        <div id="img-preview" class="mb-2" hidden></div>
-
-        <div id="img-data" class="mb-2" hidden>
-            <input id="cover-data" class="form-control" asp-for="Cover">
-        </div>
-        
-        <div class="left gap-2 mt-4">
-                
-            <button id="save-button" type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
-                
-            <a id="cancel-button" class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
-            
-        </div>
 
     </form>
 
+
 </div>
+
 
 @section Scripts {
 

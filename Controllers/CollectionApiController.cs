@@ -1,4 +1,5 @@
 ﻿using Library.Services.BookService;
+using Library.Services.SessionService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers {
@@ -13,7 +14,7 @@ namespace Library.Controllers {
 
 
         private readonly IBookService _bookService;
-        
+
 
         public CollectionApiController(IBookService bookService) {
             _bookService = bookService;

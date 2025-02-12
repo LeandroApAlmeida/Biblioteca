@@ -19,8 +19,8 @@ namespace Library.Controllers {
         [HttpGet]
         public IActionResult About() {
 
-            if (_sessionService.IsSessionActive()) {
-                _sessionService.SetLayout(this);
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
             }
 
             return View();

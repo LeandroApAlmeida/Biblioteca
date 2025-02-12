@@ -33,8 +33,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Details", "Book");
             }
 
-            _sessionService.SetLayout(this);
-
             var usersResp = await _userService.GetUsers();
 
             if (usersResp.Successful) {
@@ -113,8 +111,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Details", "Book");
             }
 
-            _sessionService.SetLayout(this);
-
             ViewBag.UserRole = (int) UserRole.Guest;
 
             return View();
@@ -173,8 +169,6 @@ namespace Library.Controllers {
             if (!_sessionService.IsAdminSession()) {
                 return RedirectToAction("Details", "Book");
             }
-
-            _sessionService.SetLayout(this);
 
             ViewBag.UserRole = (int)UserRole.Guest;
 
@@ -249,67 +243,39 @@ namespace Library.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id) {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (!_sessionService.IsAdminSession()) {
-                return RedirectToAction("Details", "Book");
-            }
-
-            _sessionService.SetLayout(this);
-
             var userResp = await _userService.GetUser(id);
 
-            if (userResp.Successful) {
-            
-                return View(userResp.Data);
-            
-            } else {
-                
+            UserModel? user = userResp.Data;
+
+            if (user == null) {
+
                 TempData[Constants.ERROR_MESSAGE] = userResp.Message;
-                
+
                 return RedirectToAction("Manage");
-            
+
             }
 
-        }
+            var deleteUserResp = await _userService.DeleteUser(user);
 
+            if (deleteUserResp.Successful) {
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(UserModel user) {
+                TempData[Constants.SUCCESS_MESSAGE] = deleteUserResp.Message;
 
-            if (!_sessionService.IsSessionActive()) {
-                return RedirectToAction("Login", "Login");
-            }
-
-            if (ModelState.IsValid) {
-
-                var deleteUserResp = await _userService.DeleteUser(user);
-
-                if (deleteUserResp.Successful) {
-
-                    TempData[Constants.SUCCESS_MESSAGE] = deleteUserResp.Message;
-
-                    return RedirectToAction("Manage");
-
-                } else {
-
-                    TempData[Constants.ERROR_MESSAGE] = deleteUserResp.Message;
-
-                    return View(user);
-
-                }
+                return RedirectToAction("Manage");
 
             } else {
 
-                TempData[Constants.ERROR_MESSAGE] = "Dados do usuário incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = deleteUserResp.Message;
 
-                return View(user);
+                return RedirectToAction("Manage");
 
             }
 
@@ -326,8 +292,6 @@ namespace Library.Controllers {
             if (!_sessionService.IsAdminSession()) {
                 return RedirectToAction("Details", "Book");
             }
-
-            _sessionService.SetLayout(this);
 
             var userResp = await _userService.GetUser(id);
 

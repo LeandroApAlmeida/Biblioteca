@@ -42,8 +42,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var donatedBooksResp = await _donationService.GetDonatedBooks();
 
             if (donatedBooksResp.Successful) {
@@ -65,8 +63,6 @@ namespace Library.Controllers {
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
-
-            _sessionService.SetLayout(this);
 
             var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
 
@@ -153,8 +149,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var availableBooksResp = await _collectionService.GetAvailableBooks();
 
             var personsResp = await _personService.GetPersons();
@@ -226,8 +220,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var donatedBookResp = await _donationService.GetDonatedBook(id);
 
             var personsResp = await _personService.GetPersons();
@@ -290,61 +282,39 @@ namespace Library.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id) {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var donatedBookResp = await _donationService.GetDonatedBook(id);
 
-            if (donatedBookResp.Successful) {
+            DonatedBookModel? donatedBook = donatedBookResp.Data;
 
-                return View(donatedBookResp.Data);
+            if (donatedBook == null) {
 
-            } else {
+                TempData[Constants.ERROR_MESSAGE] = donatedBookResp.Message;
 
-                return BadRequest(donatedBookResp.Message);
+                return RedirectToAction("Manage");
 
             }
 
-        }
+            var deleteDonatedBookResp = await _donationService.DeleteDonatedBook(donatedBook);
 
+            if (deleteDonatedBookResp.Successful) {
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(DonatedBookModel donatedBook) {
+                TempData[Constants.SUCCESS_MESSAGE] = deleteDonatedBookResp.Message;
 
-            if (!_sessionService.IsSessionActive()) {
-                return RedirectToAction("Login", "Login");
-            }
-
-            if (ModelState.IsValid) {
-
-                var deleteDonatedBookResp = await _donationService.DeleteDonatedBook(donatedBook);
-
-                if (deleteDonatedBookResp.Successful) {
-
-                    TempData[Constants.SUCCESS_MESSAGE] = deleteDonatedBookResp.Message;
-
-                    return RedirectToAction("Manage");
-
-                } else {
-
-                    TempData[Constants.ERROR_MESSAGE] = deleteDonatedBookResp.Message;
-
-                    return RedirectToAction("Delete", new { id = donatedBook.Id });
-
-                }
+                return RedirectToAction("Manage");
 
             } else {
 
-                TempData[Constants.ERROR_MESSAGE] = "Dados da doação incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = deleteDonatedBookResp.Message;
 
-                return RedirectToAction("Delete", new { id = donatedBook.Id });
+                return RedirectToAction("Manage");
 
             }
 

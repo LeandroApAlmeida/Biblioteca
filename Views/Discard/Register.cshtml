@@ -1,6 +1,5 @@
-﻿@using Library.Utils;
+﻿@model DiscardedBookModel
 
-@model DiscardedBookModel
 
 @{
     
@@ -9,6 +8,7 @@
     BookModel? book = ViewBag.Book as BookModel;
 
 }
+
 
 @section Styles {
 
@@ -20,25 +20,39 @@
 
 }
 
+
 <div class="conteiner">
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
 
-    <div class="d-flex justify-content-between align-items-center mb-1">
-        <h3>Descartar o Livro</h3>
-    </div>
+    @await Html.PartialAsync("_MessageErrorPartial")
 
-    <div class="mb-3"></div>
 
     <form method="post" enctype="multipart/form-data" asp-controller="Discard" asp-action="Register">
 
+
         @Html.AntiForgeryToken()
 
+
+        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+
+            <h3>Descartar o Livro</h3>
+
+            <div>
+
+                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+
+                <a class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
+
+            </div>
+
+        </div>
+
+
+        <div class="mb-3"></div>
+
+
         <div id="img-preview" class="mb-2"><img src="@book!.Cover" class="center" /></div>
+
 
         <div class="mb-3 col-sm-2">
             <label for="discard-date" class="form-label">Data</label>
@@ -52,13 +66,6 @@
             <span class="text-danger" asp-validation-for="Reason"></span>
         </div>
 
-        <div class="left gap-2 mt-1">
-
-            <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
-                
-            <a class="btn btn-primary left" style="width:200px" asp-controller="Book" asp-action="Manage">Cancelar</a>
-            
-        </div>
 
         @Html.Hidden("Book.Cover", @book.Cover)
         @Html.Hidden("Book.Id", @book.Id)
@@ -77,9 +84,12 @@
         @Html.Hidden("Book.Summary", @book.Summary)
         @Html.Hidden("Book.IsDeleted", @book.IsDeleted)
 
+
     </form>
 
+
 </div>
+
 
 @section Scripts {
 

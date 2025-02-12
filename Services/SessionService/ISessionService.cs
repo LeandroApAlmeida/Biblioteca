@@ -17,8 +17,6 @@ namespace Library.Services.SessionService {
 
         public bool IsAdminSession();
 
-        public void SetLayout(Controller c);
-
     }
 
 

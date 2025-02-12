@@ -1,17 +1,16 @@
 ﻿@using Library.Dto
-@using Library.Utils;
 
 @model UserDto
+
 
 @{
     
     ViewData["title"] = "Cadastrar Administrador";
-
-    Layout = Constants.LOGIN_LAYOUT;
     
     int? role = ViewBag.UserRole as int?;
 
 }
+
 
 @section Styles {
 
@@ -21,60 +20,76 @@
 
 }
 
+
 <div class="conteiner bg-white">
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
 
-    <div class="mb-1">
-        <h3 class="text-black">Cadastrar Administrador</h3>
-    </div>
+    @await Html.PartialAsync("_MessageErrorPartial")
 
-    <div class="mb-5"></div>
 
     <form id="adm-form" method="post" enctype="multipart/form-data" asp-controller="User" asp-action="RegisterAdm">
 
+
         @Html.AntiForgeryToken()
+
+
+        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+
+            <h3>Cadastrar Administrador</h3>
+
+            <div>
+
+                <button id="save-button" type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+
+                <a id="cancel-button" class="btn btn-primary left" style="width:200px" asp-controller="Login" asp-action="Login">Cancelar</a>
+
+            </div>
+
+        </div>
+        
+
+        <div class="mb-5"></div>
+
 
         <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
-            <input id="name" type="text" class="form-control" asp-for="Name" placeholder="Nome completo">
+            <input id="name" type="text" class="form-control" asp-for="Name" placeholder="Nome completo" autocomplete="off">
             <span class="text-danger" asp-validation-for="Name"></span>
         </div>
 
+
         <div class="mb-3">
             <label for="user-name" class="form-label">Usuário</label>
-            <input id="user-name" type="text" class="form-control" asp-for="UserName" placeholder="Nome da usuário">
+            <input id="user-name" type="text" class="form-control" asp-for="UserName" placeholder="Nome da usuário" autocomplete="off">
             <span class="text-danger" asp-validation-for="UserName"></span>
         </div>
 
+
         <div class="mb-3">
             <label for="password" class="form-label">Senha de acesso</label>
-            <input id="password" type="password" class="form-control" asp-for="Password" placeholder="Senha de acesso">
+            <input id="password" type="password" class="form-control" asp-for="Password" placeholder="Senha de acesso" autocomplete="off">
             <span class="text-danger" asp-validation-for="Password"></span>
         </div>
 
+
         <div class="mb-3">
             <label for="conf-password" class="form-label">Confirme a Senha</label>
-            <input id="conf-password" type="password" class="form-control" asp-for="ConfPassword" placeholder="Confirmação da senha de acesso">
+            <input id="conf-password" type="password" class="form-control" asp-for="ConfPassword" placeholder="Confirmação da senha de acesso" autocomplete="off">
             <span class="text-danger" asp-validation-for="ConfPassword"></span>
         </div>
 
+
         <div id="spinner" class="spinner" style="display: none;"></div>
 
-        <div class="left gap-2 mt-4">
-            <button id="save-button" type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
-            <a id="cancel-button" class="btn btn-primary left" style="width:200px" asp-controller="Login" asp-action="Login">Cancelar</a>
-        </div>
 
         @Html.Hidden("Role", role)
 
+
     </form>
 
+
 </div>
+
 
 @section Scripts {
     

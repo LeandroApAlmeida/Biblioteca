@@ -20,3 +20,6 @@ const imgData = document.getElementById("cover-data");
 // Renderiza a imagem codificada em cover-data em img-preview, usando o decodificador de string base64
 // do próprio HTML.
 imgPreview.innerHTML = '<img src="' + imgData.value + '" class="center"/>';
+
+
+imgPreview.removeAttribute("hidden");

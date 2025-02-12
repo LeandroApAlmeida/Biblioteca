@@ -32,8 +32,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Details", "Book");
             }
 
-            _sessionService.SetLayout(this);
-
             if (beginDate == DateTime.MinValue) {
 
                 DateTime date;

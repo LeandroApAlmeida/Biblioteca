@@ -1,1 +1,13 @@
 ﻿
+
+.conteiner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.text {
+    width: 850px;
+    text-align: justify;
+}

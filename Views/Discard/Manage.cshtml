@@ -1,11 +1,12 @@
-﻿@using Library.Utils
-@using Library.Models
+﻿@using Library.Models
 
 @model IEnumerable<DiscardedBookModel>
+
 
 @{
     ViewData["Title"] = "Livros Descartados";
 }
+
 
 @section Styles {
 
@@ -18,7 +19,9 @@
 
 }
 
+
 <div class="conteiner">
+
 
     <div class="d-flex justify-content-between alignalign-items-center mb-5">
             
@@ -36,17 +39,11 @@
 
     </div>
 
-    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-        <div class="alert alert-success text-black" role="alert">
-            @TempData[Constants.SUCCESS_MESSAGE]
-        </div>
-    }
-        
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
+
+    @await Html.PartialAsync("_MessageSuccessPartial")
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
 
     <table id="book-table" class="table table-light table hover table-striped" border="1">
 
@@ -94,7 +91,37 @@
                             
                         <td id="controls-td" scope="row">
 
-                            <div class="modal fade" id="modalDlg-@discardedBook.Id">
+                            <div class="modal fade" id="deleteDlg-@discardedBook.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                                <div class="modal-dialog modal-dialog-centered">
+
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="deleteDlgLabel">Atenção!</h6>
+                                        </div>
+
+                                        <div class="modal-body" style="text-align:left">
+                                            Excluir o livro "@discardedBook.Book.Title"?
+                                        </div>
+
+                                        <div class="modal-footer">
+
+                                            <form method="post" asp-controller="Discard" asp-action="Delete" asp-route-id="@discardedBook.Id">
+                                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                                            </form>
+
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal fade" id="reasonDlg-@discardedBook.Id">
 
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -127,14 +154,14 @@
                             <a class="btn btn-light" asp-controller="Discard" asp-action="Edit" asp-route-id="@discardedBook.Id">
                                 <img src="~/img/edit_icon2.png" title="Editar o livro descartado" />
                             </a>
-                                
-                            <a class="btn btn-light" asp-controller="Discard" asp-action="Delete" asp-route-id="@discardedBook.Id">
+
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@discardedBook.Id">
                                 <img src="~/img/delete_icon.png" title="Excluir o livro descartado" />
                             </a>
 
-                            <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@discardedBook.Id">
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#reasonDlg-@discardedBook.Id">
                                 <img src="~/img/info_icon_24.png" title="Informações do livro descartado" />
-                            </button>
+                            </a>
                                 
                             <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@discardedBook.Book.Id">
                                 <img src="~/img/view_icon.png" title="Detalhes do livro descartado" />
@@ -152,7 +179,9 @@
 
     </table>
 
+
 </div>
+
 
 @section Scripts {
 

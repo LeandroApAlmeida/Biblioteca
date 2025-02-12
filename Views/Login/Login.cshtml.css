@@ -6,18 +6,30 @@
     align-items: center;
 }
 
+
 .conteiner {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 100vh;
 }
+
+
+.alert {
+
+    margin-top: 25px;
+
+    position: relative;
+
+}
+
 
 #buttons {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 
 #login-container {
     background-image: linear-gradient(90deg, #58cd79 0%, #7cf5a0 100%);
@@ -33,7 +45,6 @@
 }
 
 
-
 .spinner {
     border: 20px solid #135d8f;
     border-top: 20px solid #2fc64d;
@@ -47,6 +58,7 @@
     transform: translate(-50%, -50%);
 }
 
+
 @keyframes spin {
     
     0% {
@@ -57,3 +69,29 @@
         transform: rotate(360deg);
     }
 }
+
+/*
+h5 {
+    font-family: system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-size: 21px;
+    font-weight: normal;
+    color: black;
+    --x-offset: -0.0625em;
+    --y-offset: 0.0625em;
+    --stroke: 0.025em;
+    --background-color: white;
+    --stroke-color: cyan;
+    text-shadow: var(--x-offset) var(--y-offset) 0px var(--background-color), calc( var(--x-offset) - var(--stroke) ) calc( var(--y-offset) + var(--stroke) ) 0px var(--stroke-color);
+}
+
+
+@supports ( text-shadow: 2px 2px 2px 2px black ) {
+    h1 {
+        text-shadow: var(--x-offset) var(--y-offset) 0px 0px var(--background-color), var(--x-offset) var(--y-offset) var(--stroke) 0px var(--stroke-color);
+    }
+}
+*/

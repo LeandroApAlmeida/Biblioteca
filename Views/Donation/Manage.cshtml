@@ -1,10 +1,10 @@
-﻿@using Library.Utils;
+﻿@model IEnumerable<DonatedBookModel>
 
-@model IEnumerable<DonatedBookModel>
 
 @{
     ViewData["Title"] = "Livros Doados";
 }
+
 
 @section Styles {
 
@@ -17,7 +17,9 @@
 
 }
 
+
 <div class="conteiner">
+
 
     <div class="d-flex justify-content-between alignalign-items-center mb-5">
             
@@ -25,11 +27,9 @@
             
         <div>
                 
-            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" 
-            asp-controller="Donation" asp-action="Register2">Doar livro</a>
+            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Donation" asp-action="Register2">Doar livro</a>
                 
-            <a class="btn btn-primary" style="height:38px;" 
-            asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
+            <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
                 <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
             
@@ -37,17 +37,11 @@
         
     </div>
 
-    @if (TempData[Constants.SUCCESS_MESSAGE] != null) {
-        <div class="alert alert-success text-black" role="alert">
-            @TempData[Constants.SUCCESS_MESSAGE]
-        </div>
-    }
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
+    @await Html.PartialAsync("_MessageSuccessPartial")
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
 
     <table id="book-table" class="table table-light table hover table-striped" border="1">
 
@@ -99,7 +93,37 @@
                             
                         <td id="controls-td"  scope="row">
 
-                            <div class="modal fade" id="modalDlg-@donatedBook.Id">
+                            <div class="modal fade" id="deleteDlg-@donatedBook.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                                <div class="modal-dialog modal-dialog-centered">
+
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="deleteDlgLabel">Atenção!</h6>
+                                        </div>
+
+                                        <div class="modal-body" style="text-align:left">
+                                            Excluir o livro "@donatedBook.Book.Title"?
+                                        </div>
+
+                                        <div class="modal-footer">
+
+                                            <form method="post" asp-controller="Donation" asp-action="Delete" asp-route-id="@donatedBook.Id">
+                                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                                            </form>
+
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal fade" id="notesDlg-@donatedBook.Id">
 
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -132,14 +156,14 @@
                             <a class="btn btn-light" asp-controller="Donation" asp-action="Edit" asp-route-id="@donatedBook.Id">
                                 <img src="~/img/edit_icon2.png" title="Editar o livro doado" />
                             </a>
-                                
-                            <a class="btn btn-light" asp-controller="Donation" asp-action="Delete" asp-route-id="@donatedBook.Id">
+
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@donatedBook.Id">
                                 <img src="~/img/delete_icon.png" title="Excluir o livro doado" />
                             </a>
-                                
-                            <button class="btn btn-light" data-toggle="modal" data-target="#modalDlg-@donatedBook.Id">
+
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notesDlg-@donatedBook.Id">
                                 <img src="~/img/info_icon_24.png" title="Informações do livro doado" />
-                            </button>
+                            </a>
                                 
                             <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@donatedBook.Book.Id">
                                 <img src="~/img/view_icon.png" title="Detalhes do livro doado" />
@@ -156,7 +180,9 @@
 
     </table>
 
+
 </div>
+
 
 @section Scripts {
 

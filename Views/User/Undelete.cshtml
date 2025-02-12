@@ -1,11 +1,10 @@
-﻿@using Library.Utils;
+﻿@model UserModel
 
-@model UserModel
 
 @{
     ViewData["title"] = "Restaurar Usuário";
-    Layout = ViewBag.Layout;
 }
+
 
 @section Styles {
 
@@ -15,27 +14,36 @@
 
 }
 
+
 <div class="conteiner">
 
-    @if (TempData[Constants.ERROR_MESSAGE] != null) {
-        <div class="alert alert-danger text-black" role="alert">
-            @TempData[Constants.ERROR_MESSAGE]
-        </div>
-    }
+    
+    @await Html.PartialAsync("_MessageErrorPartial")
+
 
     <form method="post" enctype="multipart/form-data" asp-controller="User" asp-action="Undelete">
 
+
         @Html.AntiForgeryToken()
 
+
         <div class="d-flex justify-content-between align-items-center mb-1">
+            
             <h3>Restaurar este usuário?</h3>
+            
             <div class="left gap-2 mt-1">
+                
                 <button type="submit" class="btn btn-success left" style="width:150px;margin-right:10px">Restaurar</button>
+                
                 <a class="btn btn-primary left" style="width:150px" asp-controller="User" asp-action="Manage">Cancelar</a>
+            
             </div>
+        
         </div>
 
+
         <div class="mb-3"></div>
+
 
         <div class="row g-3" display="flex">
 
@@ -53,6 +61,7 @@
 
         </div>
 
+
         @Html.HiddenFor(m => m.Role.Id)
         @Html.HiddenFor(m => m.Role.Description)
 
@@ -65,6 +74,8 @@
         @Html.HiddenFor(m => m.IsDeleted)
         @Html.HiddenFor(m => m.IsActive)
 
+
     </form>
+
 
 </div>

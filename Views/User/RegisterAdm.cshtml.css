@@ -3,6 +3,14 @@
 }
 
 
+.conteiner {
+    margin-top: 25px;
+    max-width: calc(100% - 24px);
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+
 .spinner {
     border: 20px solid #135d8f;
     border-top: 20px solid #2fc64d;

@@ -45,8 +45,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var discardedBooksResp = await _discardService.GetDiscardedBooks();
 
             if (discardedBooksResp.Successful) {
@@ -75,8 +73,6 @@ namespace Library.Controllers {
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
-
-            _sessionService.SetLayout(this);
 
             var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
 
@@ -171,8 +167,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var availableBooksResp = await _collectionService.GetAvailableBooks();
 
             if (availableBooksResp.Successful) {
@@ -244,8 +238,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var discardedBookResp = await _discardService.GetDiscardedBook(id);
 
             if (discardedBookResp.Successful) {
@@ -308,74 +300,43 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página para a exclusão de um livro descartado.
-        /// </summary>
-        /// <param name="id">Identificador do livro</param>
-        /// <returns>Página para a exclusão de um livro descartado.</returns>
-        [HttpGet]
-        public async Task<IActionResult> Delete(Guid id) {
-
-            if (!_sessionService.IsSessionActive()) {
-                return RedirectToAction("Login", "Login");
-            }
-
-            _sessionService.SetLayout(this);
-
-            var discardedBookResp = await _discardService.GetDiscardedBook(id);
-
-            if (discardedBookResp.Successful) {
-
-                if (discardedBookResp.Data != null) {
-                    return View(discardedBookResp.Data);
-                } else {
-                    return NotFound();
-                }
-
-            } else {
-
-                return BadRequest(discardedBookResp.Message);
-
-            }
-
-        }
-
-
-        /// <summary>
         /// Excluir o cadastro de um livro descartado.
         /// </summary>
         /// <param name="book">Livro a ser excluído</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(DiscardedBookModel discardedBook) {
+        public async Task<IActionResult> Delete(Guid id) {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (ModelState.IsValid) {
+            var discardedBookResp = await _discardService.GetDiscardedBook(id);
 
-                var deleteDiscardedBooksResp = await _discardService.DeleteDiscardedBook(discardedBook);
+            DiscardedBookModel? discardedBook = discardedBookResp.Data;
 
-                if (deleteDiscardedBooksResp.Successful) {
+            if (discardedBook == null) {
 
-                    TempData[Constants.SUCCESS_MESSAGE] = deleteDiscardedBooksResp.Message;
+                TempData[Constants.ERROR_MESSAGE] = discardedBookResp.Message;
 
-                    return RedirectToAction("Manage");
+                return RedirectToAction("Manage");
 
-                } else {
+            }
 
-                    TempData[Constants.ERROR_MESSAGE] = deleteDiscardedBooksResp.Message;
+            var deleteDiscardedBooksResp = await _discardService.DeleteDiscardedBook(discardedBook);
 
-                    return View(discardedBook);
+            if (deleteDiscardedBooksResp.Successful) {
 
-                }
+                TempData[Constants.SUCCESS_MESSAGE] = deleteDiscardedBooksResp.Message;
+
+                return RedirectToAction("Manage");
 
             } else {
 
-                TempData[Constants.ERROR_MESSAGE] = "Dados do descarte incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = deleteDiscardedBooksResp.Message;
 
-                return View(discardedBook);
+                return RedirectToAction("Manage");
 
             }
 

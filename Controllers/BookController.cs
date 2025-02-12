@@ -2,7 +2,6 @@
 using Library.Services.BookService;
 using Library.Services.CollectionService;
 using Library.Services.SessionService;
-using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,8 +40,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var booksResp = await _bookService.GetBooks();
 
             if (booksResp.Successful) {
@@ -69,8 +66,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             return View();
 
         }
@@ -88,8 +83,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var booksIdsResp = await _collectionService.GetBooksIds();
 
             if (!booksIdsResp.Successful) return BadRequest(booksIdsResp.Message);
@@ -100,12 +93,10 @@ namespace Library.Controllers {
 
                 BookModel? book;
 
-                // Esta lista guarda dois valores boolean. O primeiro diz se o livro é
-                // o primeiro da lista. O segundo diz se o livro é o último da lista.
-                // Obviamente que se houver apenas um livro cadastrado no banco de dados,
-                // este será o primeiro e também o último.
-
+                // Status de primeiro livro da lista.
                 Boolean isFirstBook;
+
+                // Status de último livro da lista.
                 Boolean isLastBook;
 
                 if (id == Guid.Empty) {
@@ -177,8 +168,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var nextBookResp = await _bookService.NextBookId(id);
 
             if (nextBookResp.Successful) {
@@ -206,8 +195,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var previousBookResp = await _bookService.PreviousBookId(id);
 
             if (previousBookResp.Successful) {
@@ -233,8 +220,6 @@ namespace Library.Controllers {
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
-
-            _sessionService.SetLayout(this);
 
             var firstBookResp = await _bookService.FirstBookId();
 
@@ -262,8 +247,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var lastBookResp = await _bookService.LastBookId();
 
             if (lastBookResp.Successful) {
@@ -289,8 +272,6 @@ namespace Library.Controllers {
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
-
-            _sessionService.SetLayout(this);
 
             return View();
 
@@ -351,8 +332,6 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            _sessionService.SetLayout(this);
-
             var bookResp = await _bookService.GetBook(id);
 
             if (bookResp.Successful) {
@@ -411,88 +390,43 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página para a exclusão de um livro.
-        /// </summary>
-        /// <param name="id">Identificador do livro</param>
-        /// <returns>Página para a exclusão de um livro.</returns>
-        [HttpGet]
-        public async Task<IActionResult> Delete(Guid id) {
-
-            if (!_sessionService.IsSessionActive()) {
-                return RedirectToAction("Login", "Login");
-            }
-
-            _sessionService.SetLayout(this);
-
-            var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
-
-            if (!isBorrowedBookResp.Successful) return BadRequest(isBorrowedBookResp.Message);
-
-            Boolean isBorrowed = isBorrowedBookResp.Data;
-
-            if (!isBorrowed) {
-
-                var bookResp = await _bookService.GetBook(id);
-
-                BookModel? book = bookResp.Data;
-
-                if (book != null) {
-
-                    return View(book);
-
-                } else {
-
-                    return NotFound();
-
-                }
-
-            } else {
-
-                TempData[Constants.ERROR_MESSAGE] = "O livro consta como emprestado. Faça a devolução!";
-
-                return RedirectToAction("Manage");
-
-            }
-
-        }
-
-
-        /// <summary>
         /// Excluir o cadastro de um livro.
         /// </summary>
         /// <param name="book">Livro a ser excluído</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(BookModel book) {
+        public async Task<IActionResult> Delete(Guid id) {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (ModelState.IsValid) {
+            var bookResp = await _bookService.GetBook(id);
 
-                var deleteBookResp = await _bookService.DeleteBook(book);
+            BookModel? book = bookResp.Data;
 
-                if (deleteBookResp.Successful) {
+            if (book == null) {
 
-                    TempData[Constants.SUCCESS_MESSAGE] = deleteBookResp.Message;
+                TempData[Constants.ERROR_MESSAGE] = bookResp.Message;
+                
+                return RedirectToAction("Manage");
+            
+            }
 
-                    return RedirectToAction("Manage");
+            var deleteBookResp = await _bookService.DeleteBook(book);
 
-                } else {
+            if (deleteBookResp.Successful) {
 
-                    TempData[Constants.ERROR_MESSAGE] = deleteBookResp.Message;
+                TempData[Constants.SUCCESS_MESSAGE] = deleteBookResp.Message;
 
-                    return View(book);
-
-                }
+                return RedirectToAction("Manage");
 
             } else {
 
-                TempData[Constants.ERROR_MESSAGE] = "Dados do livro incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = deleteBookResp.Message;
 
-                return View(book);
+                return RedirectToAction("Manage");
 
             }
 

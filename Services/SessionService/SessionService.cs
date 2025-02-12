@@ -138,15 +138,6 @@ namespace Library.Services.SessionService {
             
         }
 
-
-        public void SetLayout(Controller c) {
-            c.ViewBag.Layout = GetSessionData()!.User.Role.Id switch {
-                (int)UserRole.Admin => Constants.ADMIN_LAYOUT,
-                (int)UserRole.Guest => Constants.DEFAULT_LAYOUT,
-                _ => Constants.ADMIN_LAYOUT,
-            };
-        }
-
         
     }
 

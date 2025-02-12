@@ -1,6 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@*
+    Layout para a página de login. A página de login não têm menu, apenas a logomarca
+    da aplicação na parte superior da página.
+*@
+
+<!DOCTYPE html>
 
 <html lang="pt-br">
+
 
     <head>
 
@@ -11,38 +17,40 @@
         <title>@ViewData["Title"]</title>
         
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
         
         <link rel="icon" type="image/png" sizes="16x16" href="~/img/house_icon_24.png" />
+
+        @*Renderiza o conteúdo da seção Styles de uma página.*@
 
         @await RenderSectionAsync("Styles", required: false)
 
     </head>
 
+
     <body>
 
-        <header id="main-menu">
-            
-            <h5 class="dynamic-text-shadow m-3" style="text-align: center;">
-                BIBLIOTECA - SISTEMA PARA GESTÃO DO ACERVO PESSOAL
-            </h5>
-            
-            <hr />
-        
-        </header>
+
+        @*
+            Renderiza o conteúdo da página que está sendo exibida no layout. Apenas duas páginas podem ser
+            exibidas com este Layout: login e cadastro de administrador.
+        *@
 
         <div id="content-area" class="container-fluid">
             @RenderBody()
         </div>
 
-        @await Html.PartialAsync("_Footer")
-
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+        @*Renderiza o conteúdo da seção Scripts de uma página.*@
 
         @await RenderSectionAsync("Scripts", required: false)
 
+
     </body>
+
 
 </html>
