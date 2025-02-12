@@ -10,6 +10,10 @@ import { setCoverData } from "./data-cover.js"
 // Formata a data atual para opção defaul no campo acquisition-date.
 document.getElementById("acquisition-date").value = formatToDatetimeLocal(new Date());
 
+document.getElementById('edition').value = 1;
+document.getElementById('volume').value = 1;
+document.getElementById('release-year').value = 2000;
+document.getElementById('num-of-pages').value = 1;
 
 // Caixa de diálogo para localizar o arquivo de capa no navegador.
 const chooseFile = document.getElementById("choose-file");

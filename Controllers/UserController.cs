@@ -282,24 +282,19 @@ namespace Library.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Undelete(Guid id) {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            if (!_sessionService.IsAdminSession()) {
-                return RedirectToAction("Details", "Book");
-            }
-
             var userResp = await _userService.GetUser(id);
 
-            if (userResp.Successful) {
+            UserModel? user = userResp.Data;
 
-                return View(userResp.Data);
-
-            } else {
+            if (user == null) {
 
                 TempData[Constants.ERROR_MESSAGE] = userResp.Message;
 
@@ -307,38 +302,17 @@ namespace Library.Controllers {
 
             }
 
-        }
+            var undeleteUserResp = await _userService.UndeleteUser(user);
 
+            if (undeleteUserResp.Successful) {
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Undelete(UserModel user) {
+                TempData[Constants.SUCCESS_MESSAGE] = undeleteUserResp.Message;
 
-            if (!_sessionService.IsSessionActive()) {
-                return RedirectToAction("Login", "Login");
-            }
-
-            if (ModelState.IsValid) {
-
-                var undeleteUserResp = await _userService.UndeleteUser(user);
-
-                if (undeleteUserResp.Successful) {
-
-                    TempData[Constants.SUCCESS_MESSAGE] = undeleteUserResp.Message;
-
-                    return RedirectToAction("Manage");
-
-                } else {
-
-                    TempData[Constants.ERROR_MESSAGE] = undeleteUserResp.Message;
-
-                    return View(user);
-
-                }
+                return RedirectToAction("Manage");
 
             } else {
 
-                TempData[Constants.ERROR_MESSAGE] = "Dados do usuário incorretos!";
+                TempData[Constants.ERROR_MESSAGE] = undeleteUserResp.Message;
 
                 return View(user);
 

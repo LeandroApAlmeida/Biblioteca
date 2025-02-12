@@ -47,28 +47,28 @@
     @*Campo: Edição do livro.*@
     <div class="mb-3 col-sm-2">
         <label for="edition" class="form-label">Edição</label>
-        <input id="edition" type="number" value="1" min="1" class="form-control" asp-for="Edition" placeholder="Número da edição">
+        <input id="edition" type="number" min="1" class="form-control" asp-for="Edition" placeholder="Número da edição">
         <span class="text-danger" asp-validation-for="Edition"></span>
     </div>
 
     @*Campo: Volume do livro.*@
     <div class="mb-3 col-sm-2">
         <label for="volume" class="form-label">Volume</label>
-        <input id="volume" type="number" value="1" min="1" class="form-control" asp-for="Volume" placeholder="Número do volume">
+        <input id="volume" type="number" min="1" class="form-control" asp-for="Volume" placeholder="Número do volume">
         <span class="text-danger" asp-validation-for="Volume"></span>
     </div>
 
     @*Campo: Ano da publicação do livro.*@
     <div class="mb-3 col-sm-2">
         <label for="release-year" class="form-label">Ano da publicação</label>
-        <input id="release-year" type="number" value="2000" min="1" class="form-control" asp-for="ReleaseYear" placeholder="Ano de lançamento do livro">
+        <input id="release-year" type="number" min="1" class="form-control" asp-for="ReleaseYear" placeholder="Ano de lançamento do livro">
         <span class="text-danger" asp-validation-for="ReleaseYear"></span>
     </div>
 
     @*Campo: Número de páginas do livro.*@
     <div class="mb-3 col-sm-2">
         <label for="num-of-pages" class="form-label">Número de páginas</label>
-        <input id="num-of-pages" type="number" value="1" min="1" class="form-control" asp-for="NumberOfPages" placeholder="Número de páginas do livro">
+        <input id="num-of-pages" type="number" min="1" class="form-control" asp-for="NumberOfPages" placeholder="Número de páginas do livro">
         <span class="text-danger" asp-validation-for="NumberOfPages"></span>
     </div>
 
