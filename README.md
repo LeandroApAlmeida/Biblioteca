@@ -30,4 +30,4 @@ Desenvolvi este aplicativo em Asp.Net, com a finalidade de fazer a gestão deste
 
 O projeto foi desenvolvido em C# com Visual Studio Community 2022, importando via Nuget as bibliotecas Entity Framework para acesso a banco de dados, DinkToPdf para geração de relatórios em formato PDF, Newtonsoft para geração de arquivos Json, Npgsql para conexão com o PostgreSQL e BouncyCastle para geração de Hash e criptografia. O frontend foi desenvolvido usando Razor Pages.
 
-https://github.com/user-attachments/assets/41cbf5a0-c609-4c09-80f6-f36973f55b51
+https://github.com/user-attachments/assets/8737aec7-1851-46fc-8c47-0c2205541657
