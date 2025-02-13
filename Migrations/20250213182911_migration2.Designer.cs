@@ -3,6 +3,7 @@ using System;
 using Library.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250213182911_migration2")]
+    partial class migration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,10 +253,8 @@ namespace Library.Migrations
             modelBuilder.Entity("Library.Models.SettingsModel", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("text")
+                        .HasColumnOrder(0);
 
                     b.Property<bool?>("BoolValue")
                         .HasColumnType("boolean");
@@ -270,12 +271,15 @@ namespace Library.Migrations
                     b.Property<long?>("LongValue")
                         .HasColumnType("bigint");
 
+                    b.Property<Guid>("PersonId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("StringValue")
                         .HasColumnType("text");
 
-                    b.HasKey("Id", "UserId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PersonId");
 
                     b.ToTable("Settings");
                 });
@@ -410,13 +414,13 @@ namespace Library.Migrations
 
             modelBuilder.Entity("Library.Models.SettingsModel", b =>
                 {
-                    b.HasOne("Library.Models.UserModel", "User")
+                    b.HasOne("Library.Models.UserModel", "Person")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("Library.Models.UserModel", b =>

@@ -26,89 +26,172 @@
 }
 
 
-<div id="book-details" class="container">
+<div class="container-fluid">
 
 
     @await Html.PartialAsync("_MessageErrorPartial")
 
+    <div class="d-flex justify-content-between">
 
-    <input type="hidden" asp-for="Id" />
+        <h3>Detalhes do Livro</h3>
 
-
-    <div class="mb-2"><img id="img-preview" src="@Model.Cover" class="center" /></div>
-
-
-    <div id="book-data" class="text">
-            
-        <p><b>Título:</b> @Model.Title</p>
-            
-        <p><b>Subtítulo:</b> @Model.Subtitle</p>
-            
-        <p><b>Autor:</b> @Model.Author</p>
-            
-        <p><b>Editora:</b> @Model.Publisher</p>
-            
-        <p><b>ISBN:</b> @Model.Isbn</p>
-            
-        <p><b>Edição:</b> @Model.Edition</p>
-            
-        <p><b>Volume:</b> @Model.Volume</p>
-            
-        <p><b>Nº de Páginas:</b> @Model.NumberOfPages</p>
-            
-        <p><b>Ano da Publicação:</b> @Model.ReleaseYear</p>
-            
-        <p><b>Data da Aquisição:</b> @Model.AcquisitionDate.ToString("dd/MM/yyyy")</p>
-            
-        <button class="btn btn-success" style="color:white;width:150px" 
-        data-toggle="modal" data-target="#modalDlg">Ver sinopse...</button>
+        <div id="nav-buttons" style="margin-top:-5px;">
         
-    </div>
-      
 
-</div>
- 
-
-<div class="modal fade" id="modalDlg">
+            @if (!isFirstBook) {
+                <a class="btn btn-primary" id="button-first" asp-controller="Book" asp-action="FirstBook" style="align-content:center;align-items:center">
+                    <img class="m-0" src="~/img/first_item_icon.png" />
+                </a>
+                <a class="btn btn-primary" id="button-previous" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id">
+                    <img class="m-0" src="~/img/previous_item_icon.png" />
+                </a>
+            } else {
+                <a class="btn btn-primary" id="button-first" style="pointer-events: none;background-color:darkgrey;">
+                    <img class="m-0" src="~/img/first_item_icon.png" />
+                </a>
+                <a class="btn btn-primary" id="button-previous" style="pointer-events: none;background-color:darkgrey;">
+                    <img class="m-0" src="~/img/previous_item_icon.png" />
+                </a>
+            }
         
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+
+            @if (!isLastBook) {
+                <a class="btn btn-primary" id="button-next" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
+                    <img class="m-0" src="~/img/next_item_icon.png" />
+                </a>
+                <a class="btn btn-primary" id="button-last" asp-controller="Book" asp-action="LastBook">
+                    <img class="m-0" src="~/img/last_item_icon.png" />
+                </a>
+            } else {
+                <a class="btn btn-primary" id="button-next" style="pointer-events: none;background-color:darkgrey;">
+                    <img class="m-0" src="~/img/next_item_icon.png" />
+                </a>
+                <a class="btn btn-primary" id="button-last" style="pointer-events: none;background-color:darkgrey;">
+                    <img class="m-0" src="~/img/last_item_icon.png" />
+                </a>
+            }
+
+
+            <button class="btn btn-primary" id="button-filter" data-toggle="modal" data-target="#filterDialog" style="border:hidden;">
+                <img class="m-0" src="~/img/search_item_icon.png" />
+            </button>
         
-        <div class="modal-content">
-            
-            <div class="modal-header">
-
-                @if (Model.Subtitle != null && Model.Subtitle.Length > 0) {
-                    <h6>@Model.Title - @Model.Subtitle </h6>
-                } else {
-                    <h6>@Model.Title</h6>
-                }
-
-            </div>
-
-            <div class="modal-body">
-
-                @if (Model.Summary != null) {
-                    <p style="text-align: justify;">@Html.Raw(@Model.Summary.Replace("\n", "<br />"))</p>
-                } else {
-                    <p style="text-align: justify;">[Sem Sinopse]</p>
-                }
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-
-            </div>
+            <a class="btn btn-primary" id="button-print" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" />
+            </a>
+    
 
         </div>
 
     </div>
 
+
+    <input type="hidden" asp-for="Id" />
+
+
+    <div class="row g-3" display="flex" style="margin-top:10px;">
+
+        <div id="image-view" class="mb-2 col-sm-2" style="position:absolute;margin-top:-8px;margin-left:0px;">
+            <img id="img-preview" src="@Model.Cover" class="center" />
+        </div>
+
+        <div id="book-data" class="mb-2 col-sm-2" style="position:relative;flex-grow: 1;margin-left:355px">
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+        
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                    type="button" role="tab" aria-controls="home" aria-selected="true">Detalhes</button>
+                </li>
+        
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+                    type="button" role="tab" aria-controls="profile" aria-selected="false">Sinopse</button>
+                </li>
+
+            </ul>
+
+            <div class="tab-content" id="myTabContent" style="margin-top: 10px;">
+
+
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Título</label>
+                        <input id="title" type="text" class="form-control" style="background-color:white;" asp-for="Title" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="subtitle" class="form-label">Subtítulo</label>
+                        <input id="subtitle" type="text" class="form-control" style="background-color: white;" asp-for="Subtitle" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Autor</label>
+                        <input id="author" type="text" class="form-control" style="background-color:white;" asp-for="Author" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="publisher" class="form-label">Editora</label>
+                        <input id="publisher" type="text" class="form-control" style="background-color:white;" asp-for="Publisher" disabled>
+                    </div>
+
+
+                    <div class="row g-3" display="flex">
+
+                        <div class="mb-3 col-sm-2">
+                            <label for="isbn" class="form-label">ISBN</label>
+                            <input id="isbn" type="text" class="form-control" style="background-color:white;" asp-for="Isbn" disabled>
+
+                        </div>
+
+                        <div class="mb-3 col-sm-2">
+                            <label for="edition" class="form-label">Edição</label>
+                            <input id="edition" type="number" min="1" class="form-control" style="background-color:white;" asp-for="Edition" disabled>
+                        </div>
+
+                        <div class="mb-3 col-sm-2">
+                            <label for="volume" class="form-label">Volume</label>
+                            <input id="volume" type="number" min="1" class="form-control" style="background-color:white;" asp-for="Volume" disabled>
+                        </div>
+
+                        <div class="mb-3 col-sm-2">
+                            <label for="release-year" class="form-label">Ano da publicação</label>
+                            <input id="release-year" type="number" min="1" class="form-control" style="background-color:white;" asp-for="ReleaseYear" disabled>
+                        </div>
+
+                        <div class="mb-3 col-sm-2">
+                            <label for="num-of-pages" class="form-label">Número de páginas</label>
+                            <input id="num-of-pages" type="number" min="1" class="form-control" style="background-color:white;" asp-for="NumberOfPages" disabled>
+                        </div>
+
+                        <div class="mb-3 col-sm-2">
+                            <label for="acquisition-date" class="form-label">Data da aquisição</label>
+                            <input id="acquisition-date" type="text" class="form-control" style="background-color:white;" value="@Model.AcquisitionDate.ToString("dd/MM/yyyy")" asp-for="AcquisitionDate" disabled>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+                    <textarea id="summary" class="form-control" style="resize:none;background-color:white;height:413px;" asp-for="Summary" disabled></textarea>
+
+                </div>
+
+
+            </div>
+            
+        </div>
+      
+    </div>
+
 </div>
 
 
-<div class="modal fade" id="modalDlg2">
+<div class="modal fade" id="filterDialog">
         
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         
@@ -187,55 +270,6 @@
         </div>
 
     </div>
-
-</div>
-
-
-<div id="nav-buttons">
-        
-
-    @if (!isFirstBook) {
-        <a id="button-first" asp-controller="Book" asp-action="FirstBook" >
-            <img class="m-2" src="~/img/first_item_icon.png" /> Primeiro
-        </a>
-        <a id="button-previous" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id">
-            <img class="m-2" src="~/img/previous_item_icon.png" /> Anterior
-        </a>
-    } else {
-        <a id="button-first" style="pointer-events: none;background-color:darkgrey;">
-            <img class="m-2" src="~/img/first_item_icon.png" /> Primeiro
-        </a>
-        <a id="button-previous" style="pointer-events: none;background-color:darkgrey;">
-            <img class="m-2" src="~/img/previous_item_icon.png" /> Anterior
-        </a>
-    }
-        
-
-    @if (!isLastBook) {
-        <a id="button-next" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
-            Próximo <img class="m-2" src="~/img/next_item_icon.png" />
-        </a>
-        <a id="button-last" asp-controller="Book" asp-action="LastBook">
-            Último <img class="m-2" src="~/img/last_item_icon.png" />
-        </a>
-    } else {
-        <a id="button-next" style="pointer-events: none;background-color:darkgrey;">
-            Próximo <img class="m-2" src="~/img/next_item_icon.png" />
-        </a>
-        <a id="button-last" style="pointer-events: none;background-color:darkgrey;">
-            Último <img class="m-2" src="~/img/last_item_icon.png" />
-        </a>
-    }
-
-
-    <button id="button-filter" data-toggle="modal" data-target="#modalDlg2">
-        <img class="m-2" src="~/img/search_item_icon.png" /> Pesquisar
-    </button>
-        
-    <a id="button-filter" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
-        <img class="m-2" src="~/img/printer_icon_16_w.png" /> Imprimir
-    </a>
-    
 
 </div>
 

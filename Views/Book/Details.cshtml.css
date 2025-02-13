@@ -1,6 +1,6 @@
 ﻿
 
-#modalDlg2 .modal-dialog {
+#filterDialog .modal-dialog {
     height: 92%;
     max-height: 92%;
     display: flex;
@@ -9,7 +9,7 @@
 }
 
 
-#modalDlg2 .modal-content {
+#filterDialog .modal-content {
     height: 92%;
     max-height: 92%;
     display: flex;
@@ -17,20 +17,50 @@
 }
 
 
-#modalDlg2 .modal-body {
+#filterDialog .modal-body {
     flex: 1 1 auto;
     overflow-y: auto;
 }
 
 
-#close-button {
-    background: white;
-    border: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    /*border-radius: 5px;*/
+    border: 1px solid #ccc;
 }
 
 
-#close-button:hover {
-    background: #dcdcdc; /* Cor cinza */
+.tab button {
+    background-color: inherit;
+    float: left;
+    vertical-align: middle;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+
+.tabcontent {
+    display: none;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: none;
+    border: 1px solid #ccc;
 }

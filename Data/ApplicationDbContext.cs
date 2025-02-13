@@ -51,6 +51,7 @@ namespace Library.Data {
 
         public DbSet<SessionModel> Sessions { get; set; }
 
+        public DbSet<SettingsModel> Settings { get; set; }
 
         public DbSet<UserModel> Users { get; set; }
 

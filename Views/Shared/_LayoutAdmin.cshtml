@@ -41,8 +41,8 @@
         <header id="main-menu">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div id="navbar" class="container-fluid">
-                    <a id="logo" class="navbar-brand" asp-area="" asp-controller="Book" asp-action="Details" style="height:60px;display:flex;align-items:center;justify-content:center;vertical-align:middle">
-                        <img style="height:48px;padding-left:0px;" src="~/img/library.png" />&nbsp&nbspBiblioteca
+                    <a id="logo" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="About" style="height:60px;display:flex;align-items:center;justify-content:center;vertical-align:middle" title="Sobre a versão">
+                        <img style="height:48px;padding-left:0px;" src="~/img/library.png" title="Sobre a versão" />&nbsp&nbspBiblioteca
                     </a>
                     <div id="navbar-right">
                         <a id="menu-1" asp-controller="Book" asp-action="Details">Livro</a>
@@ -53,7 +53,7 @@
                         <a id="menu-6" asp-controller="Person" asp-action="Manage">Pessoa</a>
                         <a id="menu-7" asp-controller="User" asp-action="Manage">Usuário</a>
                         <a id="menu-9" href="#" onclick="redirectToManage()">Log</a>
-                        <a id="menu-8" asp-controller="Home" asp-action="About">Sobre</a>
+                        <a id="menu-10" asp-controller="Settings" asp-action="Manage">Opções</a>
                     </div>
                 </div>
             </nav>

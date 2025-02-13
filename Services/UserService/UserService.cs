@@ -349,6 +349,10 @@ namespace Library.Services.UserService {
 
             try {
 
+                if (user.Password.Length < 5) {
+                    throw new Exception("A senha do usuário deve conter no mínimo 5 caracteres.");
+                }
+
                 DateTime date = DateTime.Now;
 
                 var userRoleResp = await GetUserRole(user.Role);
@@ -542,6 +546,7 @@ namespace Library.Services.UserService {
             }
 
         }
+
 
         public async Task<Response<UserModel>> UndeleteUser(UserModel user) {
 

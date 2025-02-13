@@ -25,7 +25,7 @@ namespace Library.Controllers {
         /// Obter a capa de um livro que está gravada no banco de dados no formato string base64.
         /// </summary>
         /// <param name="id">Identificador do livro</param>
-        /// <returns></returns>
+        /// <returns>String base64 que representa a capa do livro.</returns>
         [HttpGet("cover/{id}")]
         public async Task<ActionResult<string>> GetCover(Guid id) {
 

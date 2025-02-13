@@ -31,6 +31,8 @@ if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/NoBook"))
     setMenuOption(7);
 } else if (pathname.startsWith("/Session")) {
     setMenuOption(9);
+} else if (pathname.startsWith("/Settings")) {
+    setMenuOption(10);
 } else if (pathname.startsWith("/Home/About")) {
     setMenuOption(8);
 } else {
@@ -90,6 +92,11 @@ function setMenuOption(menuIndex) {
             menuId = 'menu-9';
             break;
 
+        case 10:
+            relativePath = '~/img/settings_icon_24.png';
+            menuId = 'menu-10';
+            break;
+
         default:
             relativePath = '~/img/book_icon_24.png';
             menuId = 'menu-1';
@@ -116,7 +123,9 @@ function setMenuOption(menuIndex) {
     favicon.setAttribute('type', 'image/png');
     favicon.setAttribute('sizes', '24x24');
     favicon.setAttribute('href', absolutePath);
-    
-    document.getElementById(menuId).className = "active";
+
+    if (document.getElementById(menuId) != null) {
+        document.getElementById(menuId).className = "active";
+    }
 
 }
