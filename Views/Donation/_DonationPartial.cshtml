@@ -1,0 +1,31 @@
+﻿@model Tuple<DonatedBookModel, List<PersonModel>>
+
+
+<div class="row g-3" display="flex">
+
+    <div class="form-group mb-3" style="width: 80%;">
+        <label for="select-person" class="form-label">Beneficiário</label>
+        <select id="select-person" class="form-control classic">
+            @if (Model.Item2 != null) {
+                @foreach (var person in Model.Item2) {
+                    <option value="@person.Id">@person.Name</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="mb-3 col-sm-2" style="width: 20%;">
+        <label for="donation-date" class="form-label">Data</label>
+        <input id="donation-date" type="datetime-local" name="Item1.Date" class="form-control" asp-for="@Model.Item1.Date">
+        <span class="text-danger" asp-validation-for="@Model.Item1.Date"></span>
+    </div>
+
+</div>
+
+
+<div class="mb-3">
+    <label for="notes" class="form-label">Anotações</label>
+    <textarea id="notes" class="form-control" style="resize:none" name="Item1.Notes" asp-for="@Model.Item1.Notes"
+              rows="10" cols="50" placeholder="Anotações sobre a doação"></textarea>
+    <span class="text-danger" asp-validation-for="@Model.Item1.Notes"></span>
+</div>

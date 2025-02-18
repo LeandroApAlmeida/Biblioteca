@@ -68,7 +68,7 @@
 
             <div class="form-group mb-3" style="width: 80%;">
                 <label for="select-person" class="form-label">Beneficiário</label>
-                <select id="select-person" class="form-control classic" >
+                <select id="select-person" class="form-control classic">
                     @if (persons != null) {
                         @foreach (var person in persons) {
                             <option value="@person.Id">@person.Name</option>
@@ -88,8 +88,8 @@
 
         <div class="mb-3">
             <label for="notes" class="form-label">Anotações</label>
-            <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" 
-            rows="10" cols="50" placeholder="Anotações sobre a doação"></textarea>
+            <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes"
+                      rows="10" cols="50" placeholder="Anotações sobre a doação"></textarea>
             <span class="text-danger" asp-validation-for="Notes"></span>
         </div>
             

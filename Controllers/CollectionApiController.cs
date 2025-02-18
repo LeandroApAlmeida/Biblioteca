@@ -15,9 +15,12 @@ namespace Library.Controllers {
 
         private readonly IBookService _bookService;
 
+        private readonly ISessionService _sessionService;
 
-        public CollectionApiController(IBookService bookService) {
+
+        public CollectionApiController(IBookService bookService, ISessionService sessionService) {
             _bookService = bookService;
+            _sessionService = sessionService;
         }
 
 
@@ -28,6 +31,10 @@ namespace Library.Controllers {
         /// <returns>String base64 que representa a capa do livro.</returns>
         [HttpGet("cover/{id}")]
         public async Task<ActionResult<string>> GetCover(Guid id) {
+
+            if (!_sessionService.IsSessionActive()) return BadRequest(
+                new { message = "Erro", error = "Sessão inativa." }
+            );
 
             var bookResp = await _bookService.GetBook(id);
 

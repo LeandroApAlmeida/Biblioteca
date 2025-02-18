@@ -1,7 +1,9 @@
-﻿using Library.Models;
+﻿using Library.Dto;
+using Library.Models;
 using Library.Services.BookService;
 using Library.Services.CollectionService;
 using Library.Services.SessionService;
+using Library.Services.SettingsService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,12 +22,15 @@ namespace Library.Controllers {
 
         private readonly ISessionService _sessionService;
 
+        private readonly ISettingsService _settingsService;
+
 
         public BookController(IBookService bookService, ICollectionService collectionService,
-        ISessionService sessionService) {
+        ISessionService sessionService, ISettingsService settingsService) {
             _collectionService = collectionService;
             _bookService = bookService;
             _sessionService = sessionService;
+            _settingsService = settingsService;
         }
 
 
@@ -40,7 +45,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var booksResp = await _bookService.GetBooks();
+            var booksResp = await _collectionService.GetAvailableBooks();
 
             if (booksResp.Successful) {
                 
@@ -134,6 +139,8 @@ namespace Library.Controllers {
                     } else {
                         ViewBag.Books = new List<BookModel>();
                     }
+
+                    ViewBag.Settings = new SettingsDto(_settingsService);
 
                     return View(book);
                 

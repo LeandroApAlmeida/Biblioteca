@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Models {
@@ -16,7 +15,7 @@ namespace Library.Models {
         [ForeignKey("UserId")]
         public required UserModel User { get; set; }
 
-        public String? StringValue { get; set; }
+        public string? StringValue { get; set; }
 
         public int? IntValue { get; set; }
 

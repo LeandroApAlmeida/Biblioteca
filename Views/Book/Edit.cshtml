@@ -1,4 +1,12 @@
-﻿@model BookModel
+﻿
+@*
+
+    Página para edição do cadastro de um livro. 
+
+*@
+
+
+@model BookModel
 
 
 @{
@@ -29,9 +37,15 @@
         @Html.AntiForgeryToken()
 
 
+        @*Cabeçalho da página. Contém o título da página e os botões "Salvar" e "Cancelar".*@
+
         <div class="d-flex justify-content-between alignalign-items-center mb-5">
 
+            @*Título da página (à esquerda).*@
+
             <h3>Editar Livro</h3>
+
+            @*Botões "Salvar" e "Cancelar" (à direita).*@
 
             <div>
 
@@ -43,11 +57,11 @@
 
         </div>
 
-        <div class="mb-5"></div>
-
 
         <input type="hidden" asp-for="Id"/>
 
+
+        @*Renderiza o layout para edição dos atributos de um livro.*@
 
         @{
             await Html.RenderPartialAsync("~/Views/Book/_BookPartial.cshtml", Model);

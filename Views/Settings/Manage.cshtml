@@ -1,8 +1,257 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Library.Dto
+
+
+@model SettingsDto
+
+
 @{
 
     ViewData["Title"] = "Configurações";
+
+}
+
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+}
+
+
+<div class="conteiner">
+
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    @Html.AntiForgeryToken()
+
+
+    <ul class="nav nav-tabs" id="tab-buttons" role="tablist">
+
+        <li class="nav-item" role="presentation">
+            <button id="btn-tab-1" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab" >
+                Destaques de texto
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button id="btn-tab-2" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab" >
+                Relatórios
+            </button>
+        </li>
+
+    </ul>
+
+
+    <div id="settings-content" class="tab-content" style="margin-top: 30px;">
+
+
+        <div id="tab-1" class="tab-pane fade show active" role="tabpanel">
+
+            <div style="width:900px;">
+
+
+                <div class="row g-3" display="fixed" style="margin-bottom:10px;">
+
+                    <div class="mb-3 col-sm-2">
+                        <h6>Cor de Texto</h6>
+                    </div>
+
+                    <div class="mb-3 col-sm-2" style="margin-left:408px;">
+                        <h6 >Estilo de Fonte</h6>
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3" style="margin-bottom: 20px;">
+
+                    <div class="mb-3 col-sm-2 color-picker" >
+
+                        <div class="text-color-hint" >
+                            <h6 id="discarded-text-color">Cor de texto para livros descartados.</h6>
+                        </div>
+
+                        <div class="text-color-selector">
+                            <input id="discarded-color-picker" type="color" style="cursor:pointer" title="Selecionar uma cor">
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 col-sm-2 font-style" >
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="discarded-bold" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDiscardedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Negrito
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="discarded-underline" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDiscardedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Sublinhado
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="discarded-italic" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDiscardedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Itálico
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+                <div class="row g-3" style="margin-bottom: 20px;">
+
+                    <div class="mb-3 col-sm-2 color-picker">
+
+                        <div class="text-color-hint">
+                            <h6 id="donated-text-color">Cor de texto para livros doados.</h6>
+                        </div>
+
+                        <div class="text-color-selector">
+                            <input id="donated-color-picker" type="color" style="cursor:pointer" title="Selecionar uma cor">
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 col-sm-2 font-style">
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="donated-bold" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDonatedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Negrito
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="donated-underline" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDonatedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Sublinhado
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="donated-italic" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDonatedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Itálico
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3" style="margin-bottom: 20px;">
+
+                    <div class="mb-3 col-sm-2 color-picker">
+
+                        <div class="text-color-hint">
+                            <h6 id="borrowed-text-color">Cor de texto para livros emprestados.</h6>
+                        </div>
+
+                        <div class="text-color-selector">
+                            <input id="borrowed-color-picker" type="color" style="cursor:pointer" title="Selecionar uma cor">
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 col-sm-2 font-style">
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="borrowed-bold" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateBorrowedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Negrito
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="borrowed-underline" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateBorrowedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Sublinhado
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="borrowed-italic" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateBorrowedFontStyle()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Itálico
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+                
+
+            </div>
+
+        </div>
+
+
+        <div id="tab-2" class="tab-pane fade" role="tabpanel">
+
+            <div class="mb-3 ">
+
+                <div class="label-radio" style="margin-bottom:20px;">
+                    <input id="pdf-report-opt" class="custom-radio" type="radio" name="printOption" >
+                    <label style="vertical-align:middle;margin-top:-2px;">
+                        Imprimir Como Documento PDF (Portable Document Format)
+                    </label>
+                </div>
+
+                <div class="label-radio">
+                    <input id="html-report-opt" class="custom-radio" type="radio" name="printOption" style="margin-top:0px;">
+                    <label style="vertical-align:middle;margin-top:-2px;">
+                        Imprimir Como Página Web
+                    </label>
+                </div>
+
+            </div>
+                
+        </div>
+        
+
+    </div>
+
+
+</div>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        
+        var borrowedTextColor = '@Model.BorrowedTextColor';
+        var donatedTextColor = '@Model.DonatedTextColor';
+        var discardedTextColor = '@Model.DiscardedTextColor';
+
+        var isDiscardedBold = '@Model.IsDiscardedBold';
+        var isDiscardedUnderline = '@Model.IsDiscardedUnderline';
+        var isDiscardedItalic = '@Model.IsDiscardedItalic';
+
+        var isDonatedBold = '@Model.IsDonatedBold';
+        var isDonatedUnderline = '@Model.IsDonatedUnderline';
+        var isDonatedItalic = '@Model.IsDonatedItalic';
+
+        var isBorrowedBold = '@Model.IsBorrowedBold';
+        var isBorrowedUnderline = '@Model.IsBorrowedUnderline';
+        var isBorrowedItalic = '@Model.IsBorrowedItalic';
+
+        var reportFormat = '@Model.ReportFormat';
+
+    </script>
+
+    <script src="~/js/settings.js" asp-append-version="true"></script>
 
 }

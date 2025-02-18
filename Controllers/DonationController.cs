@@ -4,7 +4,6 @@ using Library.Services.CollectionService;
 using Library.Services.DonationService;
 using Library.Services.PersonService;
 using Library.Services.SessionService;
-using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 

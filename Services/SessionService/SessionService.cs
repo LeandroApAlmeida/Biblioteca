@@ -1,11 +1,8 @@
 ﻿using Library.Data;
 using Library.Models;
 using Library.Services.UserService;
-using Library.Utils;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System.Net;
 
 namespace Library.Services.SessionService {
 

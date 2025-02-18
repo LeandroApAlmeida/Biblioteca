@@ -2,6 +2,7 @@
 using Library.Models;
 using Library.Services.CollectionService;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace Library.Services.BookService {
 
@@ -16,10 +17,30 @@ namespace Library.Services.BookService {
 
         private readonly ICollectionService _collectionService;
 
+        private List<Guid>? borrowedBooksIds;
+
+        private List<Guid>? donatedBooksIds;
+
+        private List<Guid>? discardedBooksIds;
+
 
         public BookService(ApplicationDbContext context, ICollectionService collectionService) {
             _context = context;
             _collectionService = collectionService;
+            FillBooksLists().Wait();
+        }
+
+
+        private async Task FillBooksLists() {
+            
+            var borrowedBooksIdsResp = await _collectionService.BorrowedBooksIds();
+            var donatedBooksIdsResp = await _collectionService.DonatedBooksIds();
+            var discardedBooksIdsResp = await _collectionService.DiscardedBooksIds();
+            
+            borrowedBooksIds = borrowedBooksIdsResp.Data;
+            donatedBooksIds = donatedBooksIdsResp.Data;
+            discardedBooksIds = discardedBooksIdsResp.Data;
+        
         }
 
 
@@ -55,14 +76,18 @@ namespace Library.Services.BookService {
                     IsDeleted = b.IsDeleted
                 })
                 .Where(b =>
-                    !discardedBooksIdsResp.Data!.Contains(b.Id) &&
-                    !donatedBooksIdsResp.Data!.Contains(b.Id) &&
                     b.IsDeleted == false
                 )
                 .OrderBy(b => b.Title)
                 .ThenBy(b => b.Id)
                 .AsNoTracking()
                 .ToListAsync();
+
+                foreach (var book in books) {
+                    book.IsBorrowed = borrowedBooksIds!.Contains(book.Id);
+                    book.IsDonated = donatedBooksIds!.Contains(book.Id);
+                    book.IsDiscarded = discardedBooksIds!.Contains(book.Id);
+                }
 
                 response.Data = books;
 
@@ -96,6 +121,13 @@ namespace Library.Services.BookService {
                     if (books != null && books.Count > 0) {
 
                         BookModel book = books.First();
+
+                        var borrowedResp = await _collectionService.IsBorrowedBook(book.Id);
+                        var donatedResp = await _collectionService.IsDonatedBook(book.Id);
+                        var discardedResp = await _collectionService.IsDiscardedBook(book.Id);
+                        book.IsBorrowed = borrowedResp.Data;
+                        book.IsDonated = donatedResp.Data;
+                        book.IsDiscarded = discardedResp.Data;
 
                         response.Data = book;
 

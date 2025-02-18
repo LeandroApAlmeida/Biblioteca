@@ -1,4 +1,25 @@
-﻿@model IEnumerable<BookModel>
+﻿
+@*
+
+    Página para manutenção de livros no acervo. Estão disponíveis nesta página as funcionalidades
+    de:
+
+    1. Cadastro de um novo livro.
+
+    2. Edição de um livro existente.
+
+    3. Exclusão de um livro.
+
+    4. Descarte de um livro.
+
+    5. Doação de um livro.
+
+    6. Empréstimo de um livro.
+
+*@
+
+
+@model IEnumerable<BookModel>
 
 
 @{
@@ -21,10 +42,16 @@
 <div class="conteiner">
 
 
+    @*Cabeçalho da página. Contém o título da página e os botões "Cadastrar Livro" e "Imprimir".*@
+
     <div class="d-flex justify-content-between alignalign-items-center mb-5">
             
+        @*Título da página (à esquerda).*@
+        
         <h3>Livros no Acervo</h3>
-            
+        
+        @*Botões "Cadastrar Livro" e "Imprimir".*@
+
         <div>
                 
             <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Book" asp-action="Register">Cadastrar livro</a>
@@ -43,7 +70,10 @@
     @await Html.PartialAsync("_MessageErrorPartial")
 
 
+    @*Tabela que lista os livros disponíveis no acervo.*@
+
     <table id="book-table" class="table table-light table hover table-striped" border="1">
+
 
         <thead class="text-start">
 
@@ -67,9 +97,44 @@
 
         </thead>
 
+
         <tbody>
 
             @if (Model != null) {
+
+                @*
+
+                    Para cada livro, cria uma linha na tabela. As colunas da tabela exibem
+                    os campos:
+
+                    1. Título do livro.
+
+                    2. Autor do livro.
+
+                    3. ISBN do livro.
+
+                    4. Edição do livro.
+
+                    5. Volume do livro.
+
+                    6. Data de aquisição do livro.
+
+
+                    A última coluna da tabela contém os botões:
+
+                    1. Editar o livro.
+
+                    2. Excluir o livro.
+
+                    3. Descartar o livro.
+
+                    4. Doar o livro.
+
+                    5. Emprestar o livro.
+
+                    6. Detalhes do livro.
+
+                *@
 
                 @foreach(var book in Model) {
 
@@ -89,14 +154,28 @@
                             
                         <td id="controls-td" scope="row">
 
-                            <div class="modal fade" id="deleteDlg-@book.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                            @*
+
+                                Diálogo para a exclusão de um livro. Para cada livro, será criado
+                                um diálogo com um id diferente, nomeado desta forma:
+
+                                delete-book-dlg-[id do livro]
+
+                                Onde:
+
+                                [id do livro]: Identificador chave primária do livro.
+                            
+                            *@
+
+                            <div id="delete-book-dialog-@book.Id" class="modal fade" >
 
                                 <div class="modal-dialog modal-dialog-centered">
 
                                     <div class="modal-content">
 
                                         <div class="modal-header">
-                                            <h6 class="modal-title" id="deleteDlgLabel">Atenção!</h6>
+                                            <h6 class="modal-title" >Atenção!</h6>
                                         </div>
 
                                         <div class="modal-body" style="text-align:left">
@@ -118,12 +197,13 @@
                                 </div>
 
                             </div>
-                                
+                               
+                            
                             <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">
                                 <img src="~/img/edit_icon2.png" title="Editar o livro" />
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@book.Id">
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-book-dialog-@book.Id">
                                 <img src="~/img/delete_icon.png" title="Excluir o livro" />
                             </a>
                                 
@@ -143,6 +223,7 @@
                                 <img src="~/img/view_icon.png" title="Detalhes do livro" />
                             </a>
                             
+
                         </td>
 
                     </tr>
@@ -152,6 +233,7 @@
             }
 
         </tbody>
+
 
     </table>
 

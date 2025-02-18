@@ -1,6 +1,7 @@
 ﻿using Library.Data;
 using Library.Models;
 using Microsoft.EntityFrameworkCore;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Library.Services.CollectionService {
 
@@ -10,9 +11,29 @@ namespace Library.Services.CollectionService {
 
         private readonly ApplicationDbContext _context;
 
+        private List<Guid>? borrowedBooksIds;
+
+        private List<Guid>? donatedBooksIds;
+
+        private List<Guid>? discardedBooksIds;
+
 
         public CollectionService(ApplicationDbContext context) {
             _context = context;
+            FillBooksLists().Wait();
+        }
+
+
+        private async Task FillBooksLists() {
+
+            var borrowedBooksIdsResp = await BorrowedBooksIds();
+            var donatedBooksIdsResp = await DonatedBooksIds();
+            var discardedBooksIdsResp = await DiscardedBooksIds();
+
+            borrowedBooksIds = borrowedBooksIdsResp.Data;
+            donatedBooksIds = donatedBooksIdsResp.Data;
+            discardedBooksIds = discardedBooksIdsResp.Data;
+
         }
 
 
@@ -59,6 +80,12 @@ namespace Library.Services.CollectionService {
                 .ThenBy(b => b.Id)
                 .AsNoTracking()
                 .ToListAsync();
+
+                foreach (var book in availableBooks) {
+                    book.IsBorrowed = borrowedBooksIds!.Contains(book.Id);
+                    book.IsDonated = donatedBooksIds!.Contains(book.Id);
+                    book.IsDiscarded = discardedBooksIds!.Contains(book.Id);
+                }
 
                 response.Data = availableBooks;
 
@@ -117,6 +144,94 @@ namespace Library.Services.CollectionService {
                 return response;
 
             }            
+
+        }
+
+
+        public async Task<Response<Boolean>> IsDiscardedBook(Guid id) {
+
+            Response<Boolean> response = new();
+
+            try {
+
+                if (id != Guid.Empty) {
+
+                    var discardedBooksIds = await _context.DiscardedBooks
+                    .Select(db => new { db.Id })
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                    Boolean isDiscarded = false;
+
+                    foreach (var bookId in discardedBooksIds) {
+                        if (bookId.Id == id) {
+                            isDiscarded = true;
+                            break;
+                        }
+                    }
+
+                    response.Data = isDiscarded;
+
+                    return response;
+
+                } else {
+
+                    throw new Exception("Identificador do livro inválido.");
+
+                }
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<Boolean>> IsDonatedBook(Guid id) {
+
+            Response<Boolean> response = new();
+
+            try {
+
+                if (id != Guid.Empty) {
+
+                    var donatedBooksIds = await _context.DonatedBooks
+                    .Select(db => new { db.Id })
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                    Boolean isDonated = false;
+
+                    foreach (var bookId in donatedBooksIds) {
+                        if (bookId.Id == id) {
+                            isDonated = true;
+                            break;
+                        }
+                    }
+
+                    response.Data = isDonated;
+
+                    return response;
+
+                } else {
+
+                    throw new Exception("Identificador do livro inválido.");
+
+                }
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
 
         }
 

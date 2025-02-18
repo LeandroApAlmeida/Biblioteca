@@ -12,6 +12,7 @@ using Library.Services.PasswordService;
 using Library.Services.PersonService;
 using Library.Services.ReportService;
 using Library.Services.SessionService;
+using Library.Services.SettingsService;
 using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,8 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<ILogService, LogService>();
 
 builder.Services.AddScoped<IReportService, PdfReportService>();
+
+builder.Services.AddScoped<ISettingsService, SettingsService>();
 
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

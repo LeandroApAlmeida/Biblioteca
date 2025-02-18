@@ -1,14 +1,69 @@
-﻿@model BookModel
+﻿
+@*
+
+    Página para a exibição dos detalhes de um livro. Permite a navegação pela lista de
+    todos os livros cadastrados e também permite a busca por um título específico.
+
+*@
+
+
+@using Library.Services.CollectionService
+@using Library.Dto
+
+
+@model BookModel
 
 
 @{
 
+
     ViewData["Title"] = "Detalhes do Livro";
 
+
+    // Status de primeiro livro da lista.
     bool isFirstBook = ViewBag.IsFirstBook;
+
+    // Status de último livro da lista.
     bool isLastBook = ViewBag.IsLastBook;
 
+    // Lista de livros cadastrados.
     List <BookModel> books = ViewBag.Books;
+
+    // Configurações do usuário.
+    SettingsDto settings = ViewBag.Settings;
+
+
+    string? discardedTextColor = settings.DiscardedTextColor;
+    string? donatedTextColor = settings.DonatedTextColor;
+    string? borrowedTextColor = settings.BorrowedTextColor;
+
+
+    const string FONT_BOLD = "font-weight:bold;";
+    const string FONT_UNDERLINE = "text-decoration:underline;";
+    const string FONT_ITALIC = "font-style:italic;";
+
+
+    // Tags HTML para efeitos de fonte de livros descartados.
+    string discardedTextStyle = "";
+
+    if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) discardedTextStyle += FONT_BOLD;
+    if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) discardedTextStyle += FONT_UNDERLINE;
+    if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) discardedTextStyle += FONT_ITALIC;
+
+    // Tags HTML para efeitos de fonte de livros doados.
+    string donatedTextStyle = "";
+
+    if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) donatedTextStyle += FONT_BOLD;
+    if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) donatedTextStyle += FONT_UNDERLINE;
+    if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) donatedTextStyle += FONT_ITALIC;
+
+    // Tags HTML para efeitos de fonte de livros emprestados.
+    string borrowedTextStyle = "";
+
+    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) borrowedTextStyle += FONT_BOLD;
+    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) borrowedTextStyle += FONT_UNDERLINE;
+    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) borrowedTextStyle += FONT_ITALIC;
+
 
 }
 
@@ -26,118 +81,210 @@
 }
 
 
+@*Conteúdo da página.*@
+
 <div class="container-fluid">
 
 
     @await Html.PartialAsync("_MessageErrorPartial")
 
+
+    @*
+        Cabeçalho da página, que contém o título da página e a barra de navegação. O título
+        da página fica à esquerda da tela e barra de navegação à direita.
+    *@
+
     <div class="d-flex justify-content-between">
 
+
+        @*Título da página (à esquerda).*@
+        
         <h3>Detalhes do Livro</h3>
+
+
+        @*Barra de navegação (à direita).*@
 
         <div id="nav-buttons" style="margin-top:-5px;">
         
+            @*
+                Botões de navegação (Primeiro |<, Anterior <, Próximo >, Último >|). Estes
+                serão configurados da seguinte forma:
+                
+                1. No caso de o livro em exibição não ser nem o primeiro nem o último da lista,
+                habilita todos os botões de navegação.
 
+                2. No caso de o livro em exibição ser o primeiro da lista, desabilita os botões
+                anterior e ir para o primeiro livro (<, |<).
+                
+                3. No caso de o livro em exibição ser o último da lista, desabilita os botões 
+                próximo e ir para o último livro (>, >|).
+
+                4. No caso de o livro em exibição ser o primeiro e também o último da lista,
+                desabilita todos os botões de navegação.
+            *@
+            
             @if (!isFirstBook) {
-                <a class="btn btn-primary" id="button-first" asp-controller="Book" asp-action="FirstBook" style="align-content:center;align-items:center">
+                <a id="button-first" class="btn btn-primary" asp-controller="Book" asp-action="FirstBook" style="align-content:center;align-items:center">
                     <img class="m-0" src="~/img/first_item_icon.png" />
                 </a>
-                <a class="btn btn-primary" id="button-previous" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id">
+                <a id="button-previous" class="btn btn-primary" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id">
                     <img class="m-0" src="~/img/previous_item_icon.png" />
                 </a>
             } else {
-                <a class="btn btn-primary" id="button-first" style="pointer-events: none;background-color:darkgrey;">
+                <a id="button-first" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
                     <img class="m-0" src="~/img/first_item_icon.png" />
                 </a>
-                <a class="btn btn-primary" id="button-previous" style="pointer-events: none;background-color:darkgrey;">
+                <a id="button-previous" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
                     <img class="m-0" src="~/img/previous_item_icon.png" />
                 </a>
             }
-        
 
             @if (!isLastBook) {
-                <a class="btn btn-primary" id="button-next" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
+                <a id="button-next" class="btn btn-primary" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
                     <img class="m-0" src="~/img/next_item_icon.png" />
                 </a>
-                <a class="btn btn-primary" id="button-last" asp-controller="Book" asp-action="LastBook">
+                <a id="button-last" class="btn btn-primary" asp-controller="Book" asp-action="LastBook">
                     <img class="m-0" src="~/img/last_item_icon.png" />
                 </a>
             } else {
-                <a class="btn btn-primary" id="button-next" style="pointer-events: none;background-color:darkgrey;">
+                <a id="button-next" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
                     <img class="m-0" src="~/img/next_item_icon.png" />
                 </a>
-                <a class="btn btn-primary" id="button-last" style="pointer-events: none;background-color:darkgrey;">
+                <a id="button-last" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
                     <img class="m-0" src="~/img/last_item_icon.png" />
                 </a>
             }
 
+            @*Botão pesquisar. Será exibido o diálogo para buscar um livro (filter-dialog).*@
 
-            <button class="btn btn-primary" id="button-filter" data-toggle="modal" data-target="#filterDialog" style="border:hidden;">
+            <button id="button-filter" class="btn btn-primary" data-toggle="modal" data-target="#filter-dialog" style="border:hidden;">
                 <img class="m-0" src="~/img/search_item_icon.png" />
             </button>
         
-            <a class="btn btn-primary" id="button-print" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
+            @*Botão imprimir.*@
+
+            <a id="button-print" class="btn btn-primary" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
                 <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
-    
 
         </div>
+
 
     </div>
 
 
-    <input type="hidden" asp-for="Id" />
-
+    @*
+        Corpo da página, para exibição dos detalhes do livro. À esquerda da página se encontra
+        a imagem da capa. Adiante da capa, na primeira aba, se encontra os campos com os detalhes 
+        do livro, que se constitui do título, subtítulo, autor, editora, ISBN, edição, volume, 
+        ano da publicação, número de páginas, data da aquisição, e também a situação do livro, 
+        se emprestado, doado, descartado ou disponível. Na segunda aba, se encontra a sinopse
+        do livro.
+    *@
 
     <div class="row g-3" display="flex" style="margin-top:10px;">
+
+
+        @*Imagem da capa do livro.*@
 
         <div id="image-view" class="mb-2 col-sm-2" style="position:absolute;margin-top:-8px;margin-left:0px;">
             <img id="img-preview" src="@Model.Cover" class="center" />
         </div>
 
-        <div id="book-data" class="mb-2 col-sm-2" style="position:relative;flex-grow: 1;margin-left:355px">
 
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+        @*Cria o painel com 2 abas, para exibição dos detalhes do livro.*@
+
+        <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:355px">
+
+
+            @*
+                Cria as abas. A primeira aba tem o título "Detalhes". A segunda aba tem o título 
+                "Sinopse".
+            *@
+            
+            <ul id="tab-buttons" class="nav nav-tabs" role="tablist">
         
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                    type="button" role="tab" aria-controls="home" aria-selected="true">Detalhes</button>
+                    <button id="btn-tab-1" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab">
+                        Detalhes
+                    </button>
                 </li>
         
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                    type="button" role="tab" aria-controls="profile" aria-selected="false">Sinopse</button>
+                    <button id="btn-tab-2" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab">
+                        Sinopse
+                    </button>
                 </li>
 
             </ul>
 
-            <div class="tab-content" id="myTabContent" style="margin-top: 10px;">
+
+            @*Área para exibição dos detalhes do livro.*@
+
+            <div id="tabs-content" class="tab-content" style="margin-top:10px;">
 
 
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                @*
+                    Painel da Aba 1 (Detalhes). Exibe os campos sobre o livro: titulo, subtítulo
+                    autor, editora, ISBN, edição, volume, ano de publicação, número de páginas,
+                    data da aquisição e situação.
+                *@
+                
+                <div id="tab-1" class="tab-pane fade show active" role="tabpanel">
 
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Título</label>
-                        <input id="title" type="text" class="form-control" style="background-color:white;" asp-for="Title" disabled>
+                    <div class="row g-3" display="flex">
+
+                        @*Campo para exibição do título do livro.*@
+
+                        <div class="mb-3 col-sm-2" style="width:85%;">
+                            <label for="title" class="form-label">Título</label>
+                            <input id="title" type="text" class="form-control" style="background-color:white;" asp-for="Title" disabled>
+                        </div>
+
+                        @*Campo para exibição da situação do livro.*@
+
+                        <div class="mb-3 col-sm-2" style="width: 15%">
+                            
+                            <label for="status" class="form-label">Situação</label>
+                            
+                            @if (Model.IsBorrowed) {
+                                <input id="status" type="text" class="form-control" style="background-color:white;color:@borrowedTextColor;@borrowedTextStyle" value="Emprestado" disabled>
+                            } else if (Model.IsDonated) {
+                                <input id="status" type="text" class="form-control" style="background-color:white;color:@donatedTextColor;@donatedTextStyle" value="Doado" disabled>
+                            } else if (Model.IsDiscarded) {
+                                <input id="status" type="text" class="form-control" style="background-color:white;color:@discardedTextColor;@discardedTextStyle" value="Descartado" disabled>
+                            } else {
+                                <input id="status" type="text" class="form-control" style="background-color:white;" value="Disponível" disabled>
+                            }
+
+                        </div>
+
                     </div>
+
+                    @*Campo para exibição do subtítulo do livro.*@
 
                     <div class="mb-3">
                         <label for="subtitle" class="form-label">Subtítulo</label>
                         <input id="subtitle" type="text" class="form-control" style="background-color: white;" asp-for="Subtitle" disabled>
                     </div>
 
+                    @*Campo para exibição do autor do livro.*@
+
                     <div class="mb-3">
                         <label for="author" class="form-label">Autor</label>
                         <input id="author" type="text" class="form-control" style="background-color:white;" asp-for="Author" disabled>
                     </div>
+
+                    @*Campo para exibição da editora do livro.*@
 
                     <div class="mb-3">
                         <label for="publisher" class="form-label">Editora</label>
                         <input id="publisher" type="text" class="form-control" style="background-color:white;" asp-for="Publisher" disabled>
                     </div>
 
-
                     <div class="row g-3" display="flex">
+
+                        @*Campo para exibição do ISBN do livro.*@
 
                         <div class="mb-3 col-sm-2">
                             <label for="isbn" class="form-label">ISBN</label>
@@ -145,25 +292,35 @@
 
                         </div>
 
+                        @*Campo para exibição da edição do livro.*@
+
                         <div class="mb-3 col-sm-2">
                             <label for="edition" class="form-label">Edição</label>
                             <input id="edition" type="number" min="1" class="form-control" style="background-color:white;" asp-for="Edition" disabled>
                         </div>
+
+                        @*Campo para exibição do volume do livro.*@
 
                         <div class="mb-3 col-sm-2">
                             <label for="volume" class="form-label">Volume</label>
                             <input id="volume" type="number" min="1" class="form-control" style="background-color:white;" asp-for="Volume" disabled>
                         </div>
 
+                        @*Campo para exibição do ano de publicação do livro.*@
+
                         <div class="mb-3 col-sm-2">
                             <label for="release-year" class="form-label">Ano da publicação</label>
                             <input id="release-year" type="number" min="1" class="form-control" style="background-color:white;" asp-for="ReleaseYear" disabled>
                         </div>
 
+                        @*Campo para exibição do número de páginas do livro.*@
+
                         <div class="mb-3 col-sm-2">
                             <label for="num-of-pages" class="form-label">Número de páginas</label>
                             <input id="num-of-pages" type="number" min="1" class="form-control" style="background-color:white;" asp-for="NumberOfPages" disabled>
                         </div>
+
+                        @*Campo para exibição da data de aquisição do livro.*@
 
                         <div class="mb-3 col-sm-2">
                             <label for="acquisition-date" class="form-label">Data da aquisição</label>
@@ -175,7 +332,13 @@
                 </div>
 
 
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                @*
+                    Painel da Aba 2 (Sinopse). Exibe a sinopse do livro.
+                *@
+
+                <div id="tab-2" class="tab-pane fade" role="tabpanel">
+
+                    @*Campo para exibição da sinopse do livro.*@
 
                     <textarea id="summary" class="form-control" style="resize:none;background-color:white;height:413px;" asp-for="Summary" disabled></textarea>
 
@@ -183,20 +346,31 @@
 
 
             </div>
+
             
         </div>
+
       
     </div>
+
 
 </div>
 
 
-<div class="modal fade" id="filterDialog">
+@*
+    Diálogo para buscar um livro. Se o livro está emprestado, foi doado, ou foi excluído,
+    a linha que corresponde a este livro terá uma cor de fonte e efeitos de texto (negrito,
+    sublinhado, itálico) específicos, conforme foi configurado pelo usuário.
+*@
+
+<div id="filter-dialog" class="modal fade">
         
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         
         <div class="modal-content">
             
+            @*Cabeçalho do diálogo. Contém o título e o botão fechar.*@    
+
             <div class="modal-header">
 
                 <h6>Buscar livro:</h6>
@@ -206,6 +380,8 @@
                 data-dismiss="modal"><h3>&times;</h3></button>
 
             </div>
+
+            @*Corpo do diálogo. Contém a lista dos livros cadastrados.*@
 
             <div class="modal-body" style="background:white; ">
                     
@@ -232,11 +408,21 @@
                             @foreach (var book in books) {
 
                                 <tr>
-                                        
-                                    <td scope="row">@book.Title</td>
-                                        
-                                    <td scope="row">@book.Isbn</td>
-                                        
+
+                                    @if (book.IsBorrowed) {
+                                        <td scope="row" style="color:@borrowedTextColor;@borrowedTextStyle">@book.Title</td>
+                                        <td scope="row" style="color:@borrowedTextColor;@borrowedTextStyle">@book.Isbn</td>
+                                    } else if (book.IsDonated) {
+                                        <td scope="row" style="color:@donatedTextColor;@donatedTextStyle">@book.Title</td>
+                                        <td scope="row" style="color:@donatedTextColor;@donatedTextStyle">@book.Isbn</td>
+                                    } else if (book.IsDiscarded) {
+                                        <td scope="row" style="color:@discardedTextColor;@discardedTextStyle">@book.Title</td>
+                                        <td scope="row" style="color:@discardedTextColor;@discardedTextStyle">@book.Isbn</td>
+                                    } else {
+                                        <td scope="row">@book.Title</td>
+                                        <td scope="row">@book.Isbn</td>
+                                    }
+
                                     <td id="controls-td" scope="row">
                                         
                                         <a class="btn btn-info" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
@@ -254,16 +440,6 @@
                     </tbody>
 
                 </table>
-
-            </div>
-
-            <div style="text-align: center;">
-                    
-                <hr style="margin-top: 0;" />
-                    
-                <p style="text-align: center; color:dimgrey; padding-top: 6px; padding-bottom:6px;">
-                    Digite o título do livro ou o ISBN no campo <u><b>Pesquisar</b></u>
-                </p>
 
             </div>
 

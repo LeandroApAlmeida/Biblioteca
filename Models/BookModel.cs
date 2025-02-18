@@ -53,6 +53,15 @@ namespace Library.Models {
 
         public required bool IsDeleted { get; set; } = false;
 
+        [NotMapped]
+        public bool IsBorrowed { get; set; } = false;
+
+        [NotMapped]
+        public bool IsDonated { get; set; } = false;
+
+        [NotMapped]
+        public bool IsDiscarded { get; set; } = false;
+
     }
 
 }
