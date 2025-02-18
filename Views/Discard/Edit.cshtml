@@ -37,9 +37,15 @@
         @Html.AntiForgeryToken()
 
 
+        @*Cabeçalho da página. Contém o título da página e os botões "Salvar" e "Cancelar".*@
+
         <div class="d-flex justify-content-between alignalign-items-center mb-5">
 
+            @*Título da página (à esquerda).*@
+
             <h3>Editar Livro Descartado</h3>
+
+            @*Botões "Salvar" e "Cancelar" (à direita).*@
 
             <div>
 
@@ -52,14 +58,20 @@
         </div>
 
 
+        @*Imagem de capa do livro.*@
+
         <div id="img-preview" class="mb-2"><img src="@Model.Book.Cover" class="center" /></div>
 
+
+        @*Campo data do descarte.*@
 
         <div class="mb-3 col-sm-2">
             <label for="discard-date" class="form-label">Data</label>
             <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date" required>
             <span class="text-danger" asp-validation-for="Date"></span>
         </div>
+
+        @*Campo motivo do descarte.*@
 
         <div class="mb-3">
             <label for="reason" class="form-label">Motivo</label>

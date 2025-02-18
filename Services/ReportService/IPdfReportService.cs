@@ -3,11 +3,13 @@
 namespace Library.Services.ReportService {
     
     
-    public interface IReportService {
+    public interface IPdfReportService {
 
         public byte[] BookDetailed(BookModel book);
 
         public byte[] BooksInTheCollection(IEnumerable<BookModel> booksList);
+
+        public byte[] RegisteredBooks(IEnumerable<BookModel> booksList);
 
         public byte[] DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList);
 

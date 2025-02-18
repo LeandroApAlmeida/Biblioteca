@@ -15,7 +15,6 @@ discardedTextColorCaption.style.color = discardedTextColor;
 donatedTextColorCaption.style.color = donatedTextColor;
 borrowedTextColorCaption.style.color = borrowedTextColor;
 
-
 discardedColorPicker.value = discardedTextColor;
 donatedColorPicker.value = donatedTextColor;
 borrowedColorPicker.value = borrowedTextColor;

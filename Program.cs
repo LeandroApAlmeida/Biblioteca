@@ -58,7 +58,9 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 
 builder.Services.AddScoped<ILogService, LogService>();
 
-builder.Services.AddScoped<IReportService, PdfReportService>();
+builder.Services.AddScoped<IPdfReportService, PdfReportService>();
+
+builder.Services.AddScoped<IHtmlReportService, HtmlReportService>();
 
 builder.Services.AddScoped<ISettingsService, SettingsService>();
 

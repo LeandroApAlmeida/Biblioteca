@@ -33,36 +33,40 @@
     SettingsDto settings = ViewBag.Settings;
 
 
+    // Cores de texto.
     string? discardedTextColor = settings.DiscardedTextColor;
     string? donatedTextColor = settings.DonatedTextColor;
     string? borrowedTextColor = settings.BorrowedTextColor;
 
 
+    // Efeitos de fonte.
     const string FONT_BOLD = "font-weight:bold;";
     const string FONT_UNDERLINE = "text-decoration:underline;";
     const string FONT_ITALIC = "font-style:italic;";
 
 
     // Tags HTML para efeitos de fonte de livros descartados.
-    string discardedTextStyle = "";
+    string discardedFontStyle = "";
 
-    if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) discardedTextStyle += FONT_BOLD;
-    if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) discardedTextStyle += FONT_UNDERLINE;
-    if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) discardedTextStyle += FONT_ITALIC;
+    if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) discardedFontStyle += FONT_BOLD;
+    if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) discardedFontStyle += FONT_UNDERLINE;
+    if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) discardedFontStyle += FONT_ITALIC;
+
 
     // Tags HTML para efeitos de fonte de livros doados.
-    string donatedTextStyle = "";
+    string donatedFontStyle = "";
 
-    if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) donatedTextStyle += FONT_BOLD;
-    if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) donatedTextStyle += FONT_UNDERLINE;
-    if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) donatedTextStyle += FONT_ITALIC;
+    if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) donatedFontStyle += FONT_BOLD;
+    if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) donatedFontStyle += FONT_UNDERLINE;
+    if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) donatedFontStyle += FONT_ITALIC;
+
 
     // Tags HTML para efeitos de fonte de livros emprestados.
-    string borrowedTextStyle = "";
+    string borrowedFontStyle = "";
 
-    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) borrowedTextStyle += FONT_BOLD;
-    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) borrowedTextStyle += FONT_UNDERLINE;
-    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) borrowedTextStyle += FONT_ITALIC;
+    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) borrowedFontStyle += FONT_BOLD;
+    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) borrowedFontStyle += FONT_UNDERLINE;
+    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) borrowedFontStyle += FONT_ITALIC;
 
 
 }
@@ -167,6 +171,10 @@
                 <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
 
+            <a id="button-print-collection" class="btn btn-primary" asp-controller="Report" asp-action="RegisteredBooksReport" asp-route-id="@Model.Id" target="_blank">
+                <img class="m-0" src="~/img/multifiles_icon_16.png" />
+            </a>
+
         </div>
 
 
@@ -248,11 +256,11 @@
                             <label for="status" class="form-label">Situação</label>
                             
                             @if (Model.IsBorrowed) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;color:@borrowedTextColor;@borrowedTextStyle" value="Emprestado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;color:@borrowedTextColor;@borrowedFontStyle" value="Emprestado" disabled>
                             } else if (Model.IsDonated) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;color:@donatedTextColor;@donatedTextStyle" value="Doado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;color:@donatedTextColor;@donatedFontStyle" value="Doado" disabled>
                             } else if (Model.IsDiscarded) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;color:@discardedTextColor;@discardedTextStyle" value="Descartado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;color:@discardedTextColor;@discardedFontStyle" value="Descartado" disabled>
                             } else {
                                 <input id="status" type="text" class="form-control" style="background-color:white;" value="Disponível" disabled>
                             }
@@ -410,14 +418,14 @@
                                 <tr>
 
                                     @if (book.IsBorrowed) {
-                                        <td scope="row" style="color:@borrowedTextColor;@borrowedTextStyle">@book.Title</td>
-                                        <td scope="row" style="color:@borrowedTextColor;@borrowedTextStyle">@book.Isbn</td>
+                                        <td scope="row" style="color:@borrowedTextColor;@borrowedFontStyle">@book.Title</td>
+                                        <td scope="row" style="color:@borrowedTextColor;@borrowedFontStyle">@book.Isbn</td>
                                     } else if (book.IsDonated) {
-                                        <td scope="row" style="color:@donatedTextColor;@donatedTextStyle">@book.Title</td>
-                                        <td scope="row" style="color:@donatedTextColor;@donatedTextStyle">@book.Isbn</td>
+                                        <td scope="row" style="color:@donatedTextColor;@donatedFontStyle">@book.Title</td>
+                                        <td scope="row" style="color:@donatedTextColor;@donatedFontStyle">@book.Isbn</td>
                                     } else if (book.IsDiscarded) {
-                                        <td scope="row" style="color:@discardedTextColor;@discardedTextStyle">@book.Title</td>
-                                        <td scope="row" style="color:@discardedTextColor;@discardedTextStyle">@book.Isbn</td>
+                                        <td scope="row" style="color:@discardedTextColor;@discardedFontStyle">@book.Title</td>
+                                        <td scope="row" style="color:@discardedTextColor;@discardedFontStyle">@book.Isbn</td>
                                     } else {
                                         <td scope="row">@book.Title</td>
                                         <td scope="row">@book.Isbn</td>
