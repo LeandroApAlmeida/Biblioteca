@@ -46,27 +46,27 @@
 
 
     // Tags HTML para efeitos de fonte de livros descartados.
-    string discardedFontStyle = "";
+    string discardedTextStyle = "color:" + discardedTextColor + ";";
 
-    if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) discardedFontStyle += FONT_BOLD;
-    if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) discardedFontStyle += FONT_UNDERLINE;
-    if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) discardedFontStyle += FONT_ITALIC;
+    if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) discardedTextStyle += FONT_BOLD;
+    if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) discardedTextStyle += FONT_UNDERLINE;
+    if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) discardedTextStyle += FONT_ITALIC;
 
 
     // Tags HTML para efeitos de fonte de livros doados.
-    string donatedFontStyle = "";
+    string donatedTextStyle = "color:" + donatedTextColor + ";";
 
-    if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) donatedFontStyle += FONT_BOLD;
-    if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) donatedFontStyle += FONT_UNDERLINE;
-    if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) donatedFontStyle += FONT_ITALIC;
+    if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) donatedTextStyle += FONT_BOLD;
+    if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) donatedTextStyle += FONT_UNDERLINE;
+    if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) donatedTextStyle += FONT_ITALIC;
 
 
     // Tags HTML para efeitos de fonte de livros emprestados.
-    string borrowedFontStyle = "";
+    string borrowedTextStyle = "color:" + borrowedTextColor + ";";
 
-    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) borrowedFontStyle += FONT_BOLD;
-    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) borrowedFontStyle += FONT_UNDERLINE;
-    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) borrowedFontStyle += FONT_ITALIC;
+    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) borrowedTextStyle += FONT_BOLD;
+    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) borrowedTextStyle += FONT_UNDERLINE;
+    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) borrowedTextStyle += FONT_ITALIC;
 
 
 }
@@ -171,6 +171,8 @@
                 <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
 
+            @*Botão imprimir livros cadastrados.*@
+
             <a id="button-print-collection" class="btn btn-primary" asp-controller="Report" asp-action="RegisteredBooksReport" asp-route-id="@Model.Id" target="_blank">
                 <img class="m-0" src="~/img/multifiles_icon_16.png" />
             </a>
@@ -256,11 +258,11 @@
                             <label for="status" class="form-label">Situação</label>
                             
                             @if (Model.IsBorrowed) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;color:@borrowedTextColor;@borrowedFontStyle" value="Emprestado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;@borrowedTextStyle" value="Emprestado" disabled>
                             } else if (Model.IsDonated) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;color:@donatedTextColor;@donatedFontStyle" value="Doado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;@donatedTextStyle" value="Doado" disabled>
                             } else if (Model.IsDiscarded) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;color:@discardedTextColor;@discardedFontStyle" value="Descartado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;@discardedTextStyle" value="Descartado" disabled>
                             } else {
                                 <input id="status" type="text" class="form-control" style="background-color:white;" value="Disponível" disabled>
                             }
@@ -317,21 +319,21 @@
                         @*Campo para exibição do ano de publicação do livro.*@
 
                         <div class="mb-3 col-sm-2">
-                            <label for="release-year" class="form-label">Ano da publicação</label>
+                            <label for="release-year" class="form-label">Publicação</label>
                             <input id="release-year" type="number" min="1" class="form-control" style="background-color:white;" asp-for="ReleaseYear" disabled>
                         </div>
 
                         @*Campo para exibição do número de páginas do livro.*@
 
                         <div class="mb-3 col-sm-2">
-                            <label for="num-of-pages" class="form-label">Número de páginas</label>
+                            <label for="num-of-pages" class="form-label">Nº de páginas</label>
                             <input id="num-of-pages" type="number" min="1" class="form-control" style="background-color:white;" asp-for="NumberOfPages" disabled>
                         </div>
 
                         @*Campo para exibição da data de aquisição do livro.*@
 
                         <div class="mb-3 col-sm-2">
-                            <label for="acquisition-date" class="form-label">Data da aquisição</label>
+                            <label for="acquisition-date" class="form-label">Aquisição</label>
                             <input id="acquisition-date" type="text" class="form-control" style="background-color:white;" value="@Model.AcquisitionDate.ToString("dd/MM/yyyy")" asp-for="AcquisitionDate" disabled>
                         </div>
 
@@ -418,14 +420,14 @@
                                 <tr>
 
                                     @if (book.IsBorrowed) {
-                                        <td scope="row" style="color:@borrowedTextColor;@borrowedFontStyle">@book.Title</td>
-                                        <td scope="row" style="color:@borrowedTextColor;@borrowedFontStyle">@book.Isbn</td>
+                                        <td scope="row" style="@borrowedTextStyle">@book.Title</td>
+                                        <td scope="row" style="@borrowedTextStyle">@book.Isbn</td>
                                     } else if (book.IsDonated) {
-                                        <td scope="row" style="color:@donatedTextColor;@donatedFontStyle">@book.Title</td>
-                                        <td scope="row" style="color:@donatedTextColor;@donatedFontStyle">@book.Isbn</td>
+                                        <td scope="row" style="@donatedTextStyle">@book.Title</td>
+                                        <td scope="row" style="@donatedTextStyle">@book.Isbn</td>
                                     } else if (book.IsDiscarded) {
-                                        <td scope="row" style="color:@discardedTextColor;@discardedFontStyle">@book.Title</td>
-                                        <td scope="row" style="color:@discardedTextColor;@discardedFontStyle">@book.Isbn</td>
+                                        <td scope="row" style="@discardedTextStyle">@book.Title</td>
+                                        <td scope="row" style="@discardedTextStyle">@book.Isbn</td>
                                     } else {
                                         <td scope="row">@book.Title</td>
                                         <td scope="row">@book.Isbn</td>
