@@ -18,12 +18,41 @@
 
 *@
 
+@using Library.Dto
+
 
 @model IEnumerable<BookModel>
 
 
 @{
+
     ViewData["Title"] = "Livros no Acervo";
+
+    // Configurações do usuário.
+    SettingsDto settings = ViewBag.Settings;
+
+    string? borrowedTextColor = settings.BorrowedTextColor;
+
+    // Efeitos de fonte.
+    const string FONT_BOLD = "font-weight:bold;";
+    const string FONT_UNDERLINE = "text-decoration:underline;";
+    const string FONT_ITALIC = "font-style:italic;";
+
+    // Tags HTML para efeitos de fonte de livros emprestados.
+    string borrowedTextStyle = "color:" + borrowedTextColor + ";";
+
+    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) {
+        borrowedTextStyle += FONT_BOLD;
+    }
+
+    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) {
+        borrowedTextStyle += FONT_UNDERLINE;
+    }
+    
+    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) {
+        borrowedTextStyle += FONT_ITALIC;
+    }
+
 }
 
 
@@ -39,12 +68,12 @@
 }
 
 
-<div class="conteiner">
+<div class="conteiner-fluid">
 
 
     @*Cabeçalho da página. Contém o título da página e os botões "Cadastrar Livro" e "Imprimir".*@
 
-    <div class="d-flex justify-content-between alignalign-items-center mb-5">
+    <div class="d-flex justify-content-between mb-5">
             
         @*Título da página (à esquerda).*@
         
@@ -52,12 +81,14 @@
         
         @*Botões "Cadastrar Livro" e "Imprimir".*@
 
-        <div>
+        <div class="d-flex justify-content-between">
                 
-            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Book" asp-action="Register">Cadastrar livro</a>
+            <a class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Book" asp-action="Register">
+                <img class="m-0" src="~/img/add_icon_16.png" />&nbspCadastrar
+            </a>
                 
-            <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" />
+            <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
             </a>
             
         </div>
@@ -139,18 +170,36 @@
                 @foreach(var book in Model) {
 
                     <tr>
+
+                        @if (!book.IsBorrowed) {
                             
-                        <td scope="row">@book.Title</td>
+                            <td scope="row">@book.Title</td>
                             
-                        <td scope="row">@book.Author</td>
+                            <td scope="row">@book.Author</td>
                             
-                        <td scope="row">@book.Isbn</td>
+                            <td scope="row">@book.Isbn</td>
                             
-                        <td class="num-span" scope="row">@book.Edition</td>
+                            <td class="num-span" scope="row">@book.Edition</td>
                             
-                        <td class="num-span" scope="row">@book.Volume</td>
+                            <td class="num-span" scope="row">@book.Volume</td>
                             
-                        <td class="num-span" scope="row">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
+                            <td class="num-span" scope="row">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
+
+                        } else {
+
+                            <td scope="row" style="@borrowedTextStyle">@book.Title</td>
+
+                            <td scope="row" style="@borrowedTextStyle">@book.Author</td>
+
+                            <td scope="row" style="@borrowedTextStyle">@book.Isbn</td>
+
+                            <td class="num-span" scope="row" style="@borrowedTextStyle">@book.Edition</td>
+
+                            <td class="num-span" scope="row" style="@borrowedTextStyle">@book.Volume</td>
+
+                            <td class="num-span" scope="row" style="@borrowedTextStyle">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
+
+                        }
                             
                         <td id="controls-td" scope="row">
 

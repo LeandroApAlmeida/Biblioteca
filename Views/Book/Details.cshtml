@@ -48,25 +48,54 @@
     // Tags HTML para efeitos de fonte de livros descartados.
     string discardedTextStyle = "color:" + discardedTextColor + ";";
 
-    if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) discardedTextStyle += FONT_BOLD;
-    if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) discardedTextStyle += FONT_UNDERLINE;
-    if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) discardedTextStyle += FONT_ITALIC;
+    if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) {
+        discardedTextStyle += FONT_BOLD;
+    }
+
+    if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) {
+        discardedTextStyle += FONT_UNDERLINE;
+    }
+
+    if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) {
+        discardedTextStyle += FONT_ITALIC;
+    }
 
 
     // Tags HTML para efeitos de fonte de livros doados.
     string donatedTextStyle = "color:" + donatedTextColor + ";";
 
-    if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) donatedTextStyle += FONT_BOLD;
-    if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) donatedTextStyle += FONT_UNDERLINE;
-    if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) donatedTextStyle += FONT_ITALIC;
+    if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) {
+        donatedTextStyle += FONT_BOLD;
+    }
+
+    if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) {
+        donatedTextStyle += FONT_UNDERLINE;
+    }
+
+    if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) {
+        donatedTextStyle += FONT_ITALIC;
+    }
 
 
     // Tags HTML para efeitos de fonte de livros emprestados.
     string borrowedTextStyle = "color:" + borrowedTextColor + ";";
 
-    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) borrowedTextStyle += FONT_BOLD;
-    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) borrowedTextStyle += FONT_UNDERLINE;
-    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) borrowedTextStyle += FONT_ITALIC;
+    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) {
+        borrowedTextStyle += FONT_BOLD;
+    }
+
+    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) {
+        borrowedTextStyle += FONT_UNDERLINE;
+    }
+
+    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) {
+        borrowedTextStyle += FONT_ITALIC;
+    }
+
+
+    bool? showFooterCaption = settings.IsShowFooterCaption;
+
+    bool isShowFooterCaption = showFooterCaption != null ? showFooterCaption == true : false;
 
 
 }
@@ -87,7 +116,7 @@
 
 @*Conteúdo da página.*@
 
-<div class="container-fluid">
+<div class="container-fluid"> 
 
 
     @await Html.PartialAsync("_MessageErrorPartial")
@@ -108,7 +137,7 @@
 
         @*Barra de navegação (à direita).*@
 
-        <div id="nav-buttons" style="margin-top:-5px;">
+        <div id="nav-buttons" style="margin-top:-4px;">
         
             @*
                 Botões de navegação (Primeiro |<, Anterior <, Próximo >, Último >|). Estes
@@ -128,52 +157,52 @@
             *@
             
             @if (!isFirstBook) {
-                <a id="button-first" class="btn btn-primary" asp-controller="Book" asp-action="FirstBook" style="align-content:center;align-items:center">
+                <a id="button-first" class="btn btn-primary nav-button" asp-controller="Book" asp-action="FirstBook" style="align-content:center;align-items:center">
                     <img class="m-0" src="~/img/first_item_icon.png" />
                 </a>
-                <a id="button-previous" class="btn btn-primary" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id">
+                <a id="button-previous" class="btn btn-primary nav-button" asp-controller="Book" asp-action="PreviousBook" asp-route-id="@Model.Id">
                     <img class="m-0" src="~/img/previous_item_icon.png" />
                 </a>
             } else {
-                <a id="button-first" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+                <a id="button-first" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                     <img class="m-0" src="~/img/first_item_icon.png" />
                 </a>
-                <a id="button-previous" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+                <a id="button-previous" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                     <img class="m-0" src="~/img/previous_item_icon.png" />
                 </a>
             }
 
             @if (!isLastBook) {
-                <a id="button-next" class="btn btn-primary" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
+                <a id="button-next" class="btn btn-primary nav-button" asp-controller="Book" asp-action="NextBook" asp-route-id="@Model.Id">
                     <img class="m-0" src="~/img/next_item_icon.png" />
                 </a>
-                <a id="button-last" class="btn btn-primary" asp-controller="Book" asp-action="LastBook">
+                <a id="button-last" class="btn btn-primary nav-button" asp-controller="Book" asp-action="LastBook">
                     <img class="m-0" src="~/img/last_item_icon.png" />
                 </a>
             } else {
-                <a id="button-next" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+                <a id="button-next" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                     <img class="m-0" src="~/img/next_item_icon.png" />
                 </a>
-                <a id="button-last" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+                <a id="button-last" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                     <img class="m-0" src="~/img/last_item_icon.png" />
                 </a>
             }
 
             @*Botão pesquisar. Será exibido o diálogo para buscar um livro (filter-dialog).*@
 
-            <button id="button-filter" class="btn btn-primary" data-toggle="modal" data-target="#filter-dialog" style="border:hidden;">
+            <button id="button-filter" class="btn btn-primary nav-button" data-toggle="modal" data-target="#filter-dialog" style="border:hidden;">
                 <img class="m-0" src="~/img/search_item_icon.png" />
             </button>
         
             @*Botão imprimir.*@
 
-            <a id="button-print" class="btn btn-primary" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
+            <a id="button-print" class="btn btn-primary nav-button" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
                 <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
 
             @*Botão imprimir livros cadastrados.*@
 
-            <a id="button-print-collection" class="btn btn-primary" asp-controller="Report" asp-action="RegisteredBooksReport" asp-route-id="@Model.Id" target="_blank">
+            <a id="button-print-collection" class="btn btn-primary nav-button" asp-controller="Report" asp-action="RegisteredBooksReport" asp-route-id="@Model.Id" target="_blank">
                 <img class="m-0" src="~/img/multifiles_icon_16.png" />
             </a>
 
@@ -452,6 +481,20 @@
                 </table>
 
             </div>
+
+            @if (isShowFooterCaption) {
+
+                <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
+                    
+                    <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
+
+                        @(await Html.PartialAsync("_FooterLabel"))
+
+                    </p>
+
+                </div>
+
+            }
 
         </div>
 

@@ -106,7 +106,7 @@
 
 <div class="mb-3">
     <label for="summary" class="form-label">Sinopse</label>
-    <textarea id="summary" class="form-control" style="resize:none" asp-for="Summary" rows="10" cols="50" placeholder="Sinopse do livro"></textarea>
+    <textarea id="summary" class="form-control" style="resize:none;overflow:hidden;" asp-for="Summary" cols="50" placeholder="Sinopse do livro" oninput="autoResize(this)"></textarea>
 </div>
 
 @*Campo Seletor da capa do livro.*@
@@ -126,3 +126,17 @@
 <div id="img-data" class="mb-2" hidden>
     <input id="cover-data" class="form-control" asp-for="Cover">
 </div>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        autoResize(document.getElementById('summary'));
+    });
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+</script>

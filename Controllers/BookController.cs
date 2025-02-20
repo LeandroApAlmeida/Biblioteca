@@ -45,10 +45,12 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var booksResp = await _collectionService.GetAvailableBooks();
+            var booksResp = await _collectionService.GetCollectionBooks();
 
             if (booksResp.Successful) {
-                
+
+                ViewBag.Settings = new SettingsDto(_settingsService);
+
                 return View(booksResp.Data);
             
             } else {

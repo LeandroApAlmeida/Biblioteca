@@ -7,6 +7,8 @@ namespace Library.Services.CollectionService {
 
         public Task<Response<List<BookModel>>> GetAvailableBooks();
 
+        public Task<Response<List<BookModel>>> GetCollectionBooks();
+
         public Task<Response<Boolean>> IsBorrowedBook(Guid id);
 
         public Task<Response<Boolean>> IsDiscardedBook(Guid id);

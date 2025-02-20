@@ -1,9 +1,11 @@
-﻿using Library.Models;
+﻿using Library.Dto;
+using Library.Models;
 using Library.Services.BookService;
 using Library.Services.CollectionService;
 using Library.Services.DonationService;
 using Library.Services.PersonService;
 using Library.Services.SessionService;
+using Library.Services.SettingsService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,14 +25,18 @@ namespace Library.Controllers {
 
         private readonly ISessionService _sessionService;
 
+        private readonly ISettingsService _settingsService;
+
 
         public DonationController(IDonationService donationService, IBookService bookService,
-        IPersonService personService, ICollectionService collectionService, ISessionService sessionService) {
+        IPersonService personService, ICollectionService collectionService, ISessionService sessionService,
+        ISettingsService settingsService) {
             _collectionService = collectionService;
             _bookService = bookService;
             _personService = personService;
             _donationService = donationService;
             _sessionService = sessionService;
+            _settingsService = settingsService;
         }
 
 
@@ -44,6 +50,8 @@ namespace Library.Controllers {
             var donatedBooksResp = await _donationService.GetDonatedBooks();
 
             if (donatedBooksResp.Successful) {
+
+                ViewBag.Settings = new SettingsDto(_settingsService);
 
                 return View(donatedBooksResp.Data);
 

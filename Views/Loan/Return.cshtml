@@ -20,40 +20,38 @@
 }
 
 
-<div class="conteiner">
+<div class="conteiner-fluid">
 
     
     @await Html.PartialAsync("_MessageErrorPartial")
 
 
-    <form method="post" enctype="multipart/form-data" asp-controller="Loan" asp-action="Return">
+    <form method="post" asp-controller="Loan" asp-action="Return">
 
 
         @Html.AntiForgeryToken()
 
 
-        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+        <div class="d-flex justify-content-between mb-3">
 
             <h3>Devolver o Livro</h3>
 
-            <div>
+            <div class="d-flex justify-content-between">
 
-                <button type="submit" class="btn btn-success left" style="width:200px;margin-right:10px">Salvar</button>
+                <button type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                    <img class="m-0" src="~/img/save_icon_16.png" /> &nbspSalvar
+                </button>
 
-                <a class="btn btn-primary left" style="width:200px" asp-controller="Loan" asp-action="Manage">Cancelar</a>
+                <a class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Loan" asp-action="Manage">
+                    <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbspCancelar
+                </a>
 
             </div>
 
         </div>
 
 
-        <div class="mb-3"></div>
-
-
-        <div id="img-preview" class="mb-2"><img src="@Model.Book.Cover" class="center" /></div>
-
-
-        <div class="mb-3"></div>
+        <div id="img-preview" class="mb-3"><img src="@Model.Book.Cover" class="center" /></div>
 
 
         <div class="mb-3">

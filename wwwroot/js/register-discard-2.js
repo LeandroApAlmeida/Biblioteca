@@ -1,4 +1,5 @@
-﻿import { formatToDatetimeLocal } from "./utils.js"
+﻿
+import { formatToDatetimeLocal } from "./utils.js"
 import { setBookData } from "./data-book.js"
 
 
@@ -33,10 +34,10 @@ function onSelectedBook() {
                 search
             } = window.location
 
-            const url = `${origin}/api/CollectionApi/cover/${book.Id}`;
+            const url = `${origin}/api/CollectionApi/Cover/${book.Id}`;
             fetch(url).then(response => {
 
-                if (!response.ok) { throw new Error('Erro ao buscar os dados'); }
+                if (!response.ok) { throw new Error('Erro ao recuperar a capa do livro.'); }
 
                 return response.json();
 

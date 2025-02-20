@@ -27,6 +27,8 @@
 
         public void SetBoolean(string key, bool? value);
 
+        public void Reset();
+
     }
 
 

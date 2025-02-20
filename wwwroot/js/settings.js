@@ -53,6 +53,9 @@ updateDiscardedFontStyle();
 updateDonatedFontStyle();
 updateBorrowedFontStyle();
 
+document.getElementById('apply-styles-to-lists').checked = stringToBool(isApplyStylesToLists);
+document.getElementById('show-footer-caption').checked = stringToBool(isShowFooterCaption);
+
 
 if (reportFormat == 1) {
     pdfReportOpt.checked = true;
@@ -108,6 +111,18 @@ function updateReportFormat() {
     } else {
         setReportFormat(2);
     }
+}
+
+
+function updateApplyStylesToLists() {
+    const apply = document.getElementById('apply-styles-to-lists').checked;
+    setApplyStylesToLists(apply);
+}
+
+
+function updateShowFooterCaption() {
+    const show = document.getElementById('show-footer-caption').checked;
+    setShowFooterCaption(show);
 }
 
 
@@ -217,6 +232,72 @@ function setReportFormat(format) {
     } = window.location
 
     fetch(`${origin}/api/SettingsApi/SetReportFormat/${encodeURIComponent(format)}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro ao salvar a configuração.');
+        }
+        return true;
+    })
+    .catch(error => {
+        alert(error);
+        return false;
+    });
+
+}
+
+
+function setApplyStylesToLists(isApply) {
+
+    const {
+        host,
+        hostname,
+        href,
+        origin,
+        pathname,
+        port,
+        protocol,
+        search
+    } = window.location
+
+    fetch(`${origin}/api/SettingsApi/SetApplyStylesToLists/${encodeURIComponent(isApply)}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro ao salvar a configuração.');
+        }
+        return true;
+    })
+    .catch(error => {
+        alert(error);
+        return false;
+    });
+
+}
+
+
+function setShowFooterCaption(isShow) {
+
+    const {
+        host,
+        hostname,
+        href,
+        origin,
+        pathname,
+        port,
+        protocol,
+        search
+    } = window.location
+
+    fetch(`${origin}/api/SettingsApi/SetShowFooterCaption/${encodeURIComponent(isShow)}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -112,6 +112,30 @@ namespace Library.Controllers {
         }
 
 
+        [HttpPost("SetApplyStylesToLists/{isApply}")]
+        public ActionResult SetApplyStylesToLists(bool isApply) {
+            try {
+                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
+                _settingsService.SetBoolean(Constants.APPLY_STYLES_TO_LISTS_KEY, isApply);
+                return Ok();
+            } catch (Exception ex) {
+                return BadRequest(new { message = "Erro", error = ex.Message });
+            }
+        }
+
+
+        [HttpPost("SetShowFooterCaption/{isShow}")]
+        public ActionResult SetShowFooterCaption(bool isShow) {
+            try {
+                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
+                _settingsService.SetBoolean(Constants.SHOW_FOOTER_CAPTION, isShow);
+                return Ok();
+            } catch (Exception ex) {
+                return BadRequest(new { message = "Erro", error = ex.Message });
+            }
+        }
+
+
     }
 
 

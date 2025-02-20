@@ -1,10 +1,11 @@
-﻿using Library.Models;
+﻿using Library.Dto;
+using Library.Models;
 using Library.Services.BookService;
 using Library.Services.CollectionService;
 using Library.Services.LoanService;
 using Library.Services.PersonService;
 using Library.Services.SessionService;
-using Library.Services.UserService;
+using Library.Services.SettingsService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,14 +25,18 @@ namespace Library.Controllers {
 
         private readonly ISessionService _sessionService;
 
+        private readonly ISettingsService _settingsService;
+
 
         public LoanController(ILoanService loanService, IPersonService personService, 
-        IBookService bookService, ICollectionService collectionService, ISessionService sessionService) {
+        IBookService bookService, ICollectionService collectionService, ISessionService sessionService,
+        ISettingsService settingsService) {
             _collectionService = collectionService;
             _loanService = loanService;
             _bookService = bookService;
             _personService = personService;
             _sessionService = sessionService;
+            _settingsService = settingsService;
         }
 
 
@@ -45,6 +50,8 @@ namespace Library.Controllers {
             var loansResp = await _loanService.GetLoans();
 
             if (loansResp.Successful) {
+
+                ViewBag.Settings = new SettingsDto(_settingsService);
 
                 return View(loansResp.Data);
 

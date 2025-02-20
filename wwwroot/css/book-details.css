@@ -1,5 +1,8 @@
 ﻿
-/*Estilos utilizados pelas páginas ~\Views\Book\Details.cshtml e ~\Views\Book\Empty.cshtml*/
+/*
+    Estilos utilizados pelas páginas ~\Views\Book\Details.cshtml e ~\Views\Book\NoBook.cshtml.
+    Ambas as páginas compartilham o mesmo layout.
+*/
 
 
 #img-preview {
@@ -10,8 +13,13 @@
 }
 
 
-#button-first, #button-previous, #button-next, #button-last, #button-filter, #button-filter, 
-#button-print, #button-print-collection {
+#nav-buttons {
+    margin-top: 15px;
+    display: flex;
+}
+
+
+.nav-button {
     color: white;
     text-decoration: none;
     font-size: 16px;
@@ -27,7 +35,43 @@
 }
 
 
-#nav-buttons {
-    margin-top: 15px;
-    display: flex;
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+}
+
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    vertical-align: middle;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+
+.tabcontent {
+    display: none;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: none;
+    border: 1px solid #ccc;
 }

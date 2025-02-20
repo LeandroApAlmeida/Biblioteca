@@ -1,8 +1,10 @@
-﻿using Library.Models;
+﻿using Library.Dto;
+using Library.Models;
 using Library.Services.BookService;
 using Library.Services.CollectionService;
 using Library.Services.DiscardService;
 using Library.Services.SessionService;
+using Library.Services.SettingsService;
 using Library.Services.UserService;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
@@ -24,13 +26,16 @@ namespace Library.Controllers {
 
         private readonly ISessionService _sessionService;
 
+        private readonly ISettingsService _settingsService;
+
 
         public DiscardController(IDiscardService discardService, IBookService bookService,
-        ICollectionService collectionService, ISessionService sessionService) {
+        ICollectionService collectionService, ISessionService sessionService, ISettingsService settingsService) {
             _collectionService = collectionService;
             _discardService = discardService;
             _bookService = bookService;
             _sessionService = sessionService;
+            _settingsService = settingsService;
         }
 
 
@@ -48,6 +53,8 @@ namespace Library.Controllers {
             var discardedBooksResp = await _discardService.GetDiscardedBooks();
 
             if (discardedBooksResp.Successful) {
+
+                ViewBag.Settings = new SettingsDto(_settingsService);
 
                 return View(discardedBooksResp.Data);
 

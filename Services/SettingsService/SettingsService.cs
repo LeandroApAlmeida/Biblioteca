@@ -1,8 +1,9 @@
 ﻿using Library.Data;
 using Library.Models;
 using Library.Services.SessionService;
-using Library.Services.UserService;
+using Library.Utils;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace Library.Services.SettingsService {
 
@@ -292,6 +293,30 @@ namespace Library.Services.SettingsService {
                 _context.SaveChanges();
 
             }
+
+        }
+
+
+        void ISettingsService.Reset() {
+
+            SetString(Constants.DISCARDED_TEXT_COLOR_KEY, Constants.DEFAULT_DISCARDED_TEXT_COLOR);
+            SetString(Constants.DONATED_TEXT_COLOR_KEY, Constants.DEFAULT_DONATED_TEXT_COLOR);
+            SetString(Constants.BORROWED_TEXT_COLOR_KEY, Constants.DEFAULT_BORROWED_TEXT_COLOR);
+
+            SetBoolean(Constants.DISCARDED_BOLD_KEY, false);
+            SetBoolean(Constants.DISCARDED_UNDERLINE_KEY, false);
+            SetBoolean(Constants.DISCARDED_ITALIC_KEY, false);
+
+            SetBoolean(Constants.DONATED_BOLD_KEY, false);
+            SetBoolean(Constants.DONATED_UNDERLINE_KEY, false);
+            SetBoolean(Constants.DONATED_ITALIC_KEY, false);
+
+            SetBoolean(Constants.BORROWED_BOLD_KEY, false);
+            SetBoolean(Constants.BORROWED_UNDERLINE_KEY, false);
+            SetBoolean(Constants.BORROWED_ITALIC_KEY, false);
+
+            SetBoolean(Constants.APPLY_STYLES_TO_LISTS_KEY, false);
+            SetBoolean(Constants.SHOW_FOOTER_CAPTION, false);
 
         }
 

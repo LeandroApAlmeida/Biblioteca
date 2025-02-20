@@ -138,3 +138,16 @@ button {
     height: 24px;
     vertical-align:middle;
 }
+
+
+#tab-1 {
+    position: relative;
+    padding-top: 0;
+}
+
+
+#btn-reset {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

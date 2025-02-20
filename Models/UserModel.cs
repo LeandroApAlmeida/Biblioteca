@@ -11,12 +11,16 @@ namespace Library.Models {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public Guid Id { get; set; }
 
+        [Required(ErrorMessage = "Informe o privilégio de acesso do usuário")]
         public required UserRoleModel Role { get; set; }
 
+        [Required(ErrorMessage = "Digite o nome completo")]
         public required string Name { get; set; }
 
+        [Required(ErrorMessage = "Digite o nome de usuário")]
         public required string UserName { get; set; }
 
+        [Required(ErrorMessage = "Digite a senha")]
         public required byte[] PasswordHash { get; set; }
 
         [DataType(DataType.DateTime)]

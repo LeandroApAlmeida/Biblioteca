@@ -32,6 +32,20 @@ namespace Library.Controllers {
         }
 
 
+        [HttpPost]
+        public IActionResult Reset() {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _settingsService.Reset();
+
+            return RedirectToAction("Manage", "Settings");
+
+        }
+
+
     }
 
 

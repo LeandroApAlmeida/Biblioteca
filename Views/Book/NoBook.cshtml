@@ -45,41 +45,41 @@
 
         @*Barra de navegação (à direita).*@
 
-        <div id="nav-buttons" style="margin-top:-5px;">
+        <div id="nav-buttons" style="margin-top:-4px;">
 
             @*Botões de navegação (Primeiro |<, Anterior <, Próximo >, Último >|).*@
 
-            <a id="button-first" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+            <a id="button-first" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                 <img class="m-0" src="~/img/first_item_icon.png" />
             </a>
             
-            <a id="button-previous" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+            <a id="button-previous" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                 <img class="m-0" src="~/img/previous_item_icon.png" />
             </a>
 
-            <a id="button-next" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+            <a id="button-next" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                 <img class="m-0" src="~/img/next_item_icon.png" />
             </a>
             
-            <a id="button-last" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+            <a id="button-last" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                 <img class="m-0" src="~/img/last_item_icon.png" />
             </a>
 
             @*Botão pesquisar.*@
 
-            <button id="button-filter" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+            <button id="button-filter" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                 <img class="m-0" src="~/img/search_item_icon.png" />
             </button>
 
             @*Botão imprimir.*@
 
-            <a id="button-print" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+            <a id="button-print" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                 <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
 
             @*Botão imprimir livros cadastrados.*@
 
-            <a id="button-print-collection" class="btn btn-primary" style="pointer-events: none;background-color:darkgrey;">
+            <a id="button-print-collection" class="btn btn-primary nav-button" style="pointer-events: none;background-color:darkgrey;">
                 <img class="m-0" src="~/img/multifiles_icon_16.png" />
             </a>
 
@@ -217,21 +217,21 @@
                         @*Campo para exibição do ano de publicação do livro.*@
 
                         <div class="mb-3 col-sm-2">
-                            <label for="release-year" class="form-label">Ano da publicação</label>
+                            <label for="release-year" class="form-label">Publicação</label>
                             <input id="release-year" type="number" min="1" class="form-control" style="background-color:white;" disabled>
                         </div>
 
                         @*Campo para exibição do número de páginas do livro.*@
 
                         <div class="mb-3 col-sm-2">
-                            <label for="num-of-pages" class="form-label">Número de páginas</label>
+                            <label for="num-of-pages" class="form-label">Nº de páginas</label>
                             <input id="num-of-pages" type="number" min="1" class="form-control" style="background-color:white;" disabled>
                         </div>
 
                         @*Campo para exibição da data de aquisição do livro.*@
 
                         <div class="mb-3 col-sm-2">
-                            <label for="acquisition-date" class="form-label">Data da aquisição</label>
+                            <label for="acquisition-date" class="form-label">Aquisição</label>
                             <input id="acquisition-date" type="text" class="form-control" style="background-color:white;"  disabled>
                         </div>
 

@@ -1,5 +1,8 @@
 ﻿
-/*Estilos de setas para os campos <select> </select>.*/
+/*
+    Estilos de seta para o campo <select> </select>. Pode-se configurar um dos três estilos
+    de seta para o campo, denominados classic, round e minimal.
+*/
 
 
 select {

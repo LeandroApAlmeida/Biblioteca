@@ -1,4 +1,11 @@
 ﻿
+/*
+    Tratador de eventos da página de manutenção de empréstimos (~\Views\Loan\Manage.cshtml).
+*/
+
+
+/*
+
 document.getElementById("btn-tab-1").click();
 
 
@@ -22,4 +29,4 @@ function setTabIndex(evt, tabId) {
 
     evt.currentTarget.className += " active";
 
-}
+}*/

@@ -21,14 +21,14 @@
 @using Library.Services.UserService;
 
 
-@inject ISessionService SessionService
+@inject ISessionService _sessionService
 
 
 @{
 
     // Obtém os dados sobre a sessão corrente.
 
-    var sessionData = SessionService.GetSessionData();
+    var sessionData = _sessionService.GetSessionData();
 
     // Configura o layout de acordo com o privilégio de acesso do usuário.
 

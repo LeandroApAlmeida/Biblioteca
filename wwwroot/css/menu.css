@@ -1,5 +1,9 @@
 ﻿
-/*Estilos utilizados pelas páginas de layout que exibem a barra de menus na pasta ~\Views\Shared.*/
+/*
+    Estilos utilizados pelas páginas de layout que exibem a barra de menus. As páginas que
+    exibem o menu são ~\Views\Shared\_Layout.cshtml e ~\Views\Shared\_LayoutAdmin.cshtml. O
+    layout ~\Views\Shared\_LoginLayout.cshtml não tem menu.
+*/
 
 
 #navbar {

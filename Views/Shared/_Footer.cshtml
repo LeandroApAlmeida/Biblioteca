@@ -14,11 +14,21 @@
 @using Library.Utils;
 @using Library.Services.SessionService;
 @using Library.Services.UserService;
-@inject ISessionService SessionService
+@using Library.Services.SettingsService
+
+
+@inject ISessionService _sessionService
+
+@inject ISettingsService _settingsService
 
 
 @{
-    var sessionData = SessionService.GetSessionData();
+
+    var sessionData = _sessionService.GetSessionData();
+
+    bool? showFooterCaption = _settingsService.GetBoolean(Constants.SHOW_FOOTER_CAPTION, false);
+    bool isShowFooterCaption = showFooterCaption != null ? showFooterCaption == true : false;
+
 }
 
 
@@ -28,9 +38,19 @@
     
     <div class="container-fluid d-flex justify-content-between" style="padding-left:22px;padding-right:18px;">
 
-        @*Marca de copyright.*@
+        @*Marca de copyright e legendas.*@
 
-        <p style="color: #787878;">&copy; 2025 - Biblioteca</p>
+        <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
+            
+            &copy; 2025 - Biblioteca
+
+            @if (isShowFooterCaption) {
+
+                @(await Html.PartialAsync("_FooterLabel"))
+
+            }
+
+        </p>
 
         @if (sessionData != null) {
             
@@ -59,7 +79,7 @@
 
 @*
 
-    Caixa de diálogo para a informações da sessão corrente.
+    Caixa de diálogo para as informações da sessão corrente.
     
 *@
 
@@ -98,6 +118,7 @@
             </div>
 
         </div>
+
     </div>
 
 </div>
@@ -134,6 +155,7 @@
             </div>
 
         </div>
+
     </div>
 
 </div>

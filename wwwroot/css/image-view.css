@@ -1,5 +1,10 @@
 ﻿
-/*Estilos utilizados pelas páginas que exibem miniaturas da capa do livro.*/
+/*
+    Estilos utilizados pelas páginas que exibem miniaturas da capa do livro. Por exemplo,
+    a página de cadastro e de edição de um livro (~\Views\Book\Register.cshtml e
+    ~\Views\Book\Edit.cshtml) contém uma miniatura da capa associada a um campo de seleção
+    de arquivo.
+*/
 
 
 #img-preview {
@@ -10,7 +15,7 @@
 }
 
 
-.center {
+#img-preview .center {
     display: block;
     margin-left: auto;
     margin-right: auto;

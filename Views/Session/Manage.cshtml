@@ -23,30 +23,32 @@
 }
 
 
-<div class="conteiner">
+<div class="conteiner-fluid">
 
 
     <form method="get" action="/Session/Manage" class="form-inline">
 
 
-        <div class="d-flex justify-content-between alignalign-items-center mb-5">
+        <div class="d-flex justify-content-between mb-5">
             
             <h3>Log de Sessão</h3>
             
-            <div class="row g-3" display="flex">
+            <div class="row g-3" display="flex" >
 
-                <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:0px;width:160px;">
-                    <label for="beginDate" style="margin-left:0px; margin-right:10px;vertical-align:middle">De</label>
+                <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:0px;width:160px;margin-top:12px;">
+                    <label for="beginDate" style="margin-left:0px;margin-right:10px;vertical-align:middle;margin-top:-3px;">De</label>
                     <input type="date" id="beginDate" name="beginDate" value="@beginDate" class="form-control mb-1" required />
                 </div>
 
-                <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:20px;width:160px;">
-                    <label for="endDate" style="vertical-align:middle;text-align:center">à&nbsp</label>
+                <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:20px;width:160px;margin-top:12px;">
+                    <label for="endDate" style="vertical-align:middle;text-align:center;margin-top:-3px;">&nbspà&nbsp&nbsp</label>
                     <input type="date" id="endDate" name="endDate" value="@endDate" class="form-control mb-1" required />
                 </div>
 
-                <div div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-top:4px; margin-left:20px;width:90px;">
-                    <button type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 15px;">Filtrar</button>
+                <div div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-top:0px;width:140px;">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 35px;">
+                        <img class="m-0" src="~/img/search_item_icon.png" />&nbspFiltrar
+                    </button>
                 </div>
 
             </div>

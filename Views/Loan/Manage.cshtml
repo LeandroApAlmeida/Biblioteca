@@ -1,8 +1,49 @@
-﻿@model IEnumerable<LoanModel>
+﻿
+@using Library.Dto
+
+
+@model IEnumerable<LoanModel>
 
 
 @{
+
     ViewData["Title"] = "Empréstimos";
+
+    // Configurações do usuário.
+    SettingsDto settings = ViewBag.Settings;
+
+    string borrowedTextStyle;
+
+    if (settings.IsApplyStylesToLists != null && settings.IsApplyStylesToLists == true) {
+
+        string? borrowedTextColor = settings.BorrowedTextColor;
+
+        // Efeitos de fonte.
+        const string FONT_BOLD = "font-weight:bold;";
+        const string FONT_UNDERLINE = "text-decoration:underline;";
+        const string FONT_ITALIC = "font-style:italic;";
+
+        // Tags HTML para efeitos de fonte de livros emprestados.
+        borrowedTextStyle = "color:" + borrowedTextColor + ";";
+
+        if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) {
+            borrowedTextStyle += FONT_BOLD;
+        }
+
+        if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) {
+            borrowedTextStyle += FONT_UNDERLINE;
+        }
+
+        if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) {
+            borrowedTextStyle += FONT_ITALIC;
+        }
+
+    } else {
+
+        borrowedTextStyle = "color:inherit;";
+
+    }
+
 }
 
 
@@ -18,19 +59,21 @@
 }
 
 
-<div class="conteiner">
+<div class="conteiner-fluid">
 
 
-    <div class="d-flex justify-content-between alignalign-items-center mb-5" id="button-box">
+    <div class="d-flex justify-content-between mb-5" id="button-box">
 
         <h3>Empréstimos</h3>
 
-        <div>
+        <div class="d-flex justify-content-between">
 
-            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Loan" asp-action="Register2">Emprestar livro</a>
+            <a class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Loan" asp-action="Register2">
+                <img class="m-0" src="~/img/add_icon_16.png" />&nbspEmprestar
+            </a>
 
-            <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" />
+            <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
             </a>
 
         </div>
@@ -43,27 +86,30 @@
     @await Html.PartialAsync("_MessageErrorPartial")
 
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul id="tab-buttons" class="nav nav-tabs" role="tablist">
             
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-            type="button" role="tab" aria-controls="home" aria-selected="true">Livros Emprestados</button>
+            <button id="btn-tab-1" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab">
+                Livros Emprestados
+            </button>
         </li>
             
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-            type="button" role="tab" aria-controls="profile" aria-selected="false">Livros Devolvidos</button>
+            <button id="btn-tab-2" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2"type="button" role="tab">
+                Livros Devolvidos
+            </button>
         </li>
 
     </ul>
 
 
-    <div class="tab-content" id="myTabContent">
+    <div id="tabs-content" class="tab-content">
 
 
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div id="tab-1" class="tab-pane fade show active" role="tabpanel" >
 
             <table id="book-table" class="table table-light table hover table-striped" border="1">
+
 
                 <thead>
 
@@ -89,6 +135,7 @@
 
                 </thead>
 
+
                 <tbody>
 
                     @if (Model != null) {
@@ -99,30 +146,31 @@
                                     
                                 <tr>
                                         
-                                    <td scope="row">@loan.Book.Title</td>
-                                        
-                                    <td scope="row">@loan.Book.Author</td>
-                                        
-                                    <td scope="row">@loan.Book.Isbn</td>
-                                        
-                                    <td class="num-span" scope="row">@loan.Book.Edition</td>
-                                        
-                                    <td class="num-span" scope="row">@loan.Book.Volume</td>
-                                        
-                                    <td scope="row">@loan.Person.Name</td>
-                                        
-                                    <td scope="row">@loan.Date.ToString("dd/MM/yyyy")</td>
+                                    <td scope="row" style="@borrowedTextStyle">@loan.Book.Title</td>
+
+                                    <td scope="row" style="@borrowedTextStyle">@loan.Book.Author</td>
+
+                                    <td scope="row" style="@borrowedTextStyle">@loan.Book.Isbn</td>
+
+                                    <td class="num-span" scope="row" style="@borrowedTextStyle">@loan.Book.Edition</td>
+
+                                    <td class="num-span" scope="row" style="@borrowedTextStyle">@loan.Book.Volume</td>
+
+                                    <td scope="row" style="@borrowedTextStyle">@loan.Person.Name</td>
+
+                                    <td scope="row" style="@borrowedTextStyle">@loan.Date.ToString("dd/MM/yyyy")</td>
                                         
                                     <td id="controls-td" scope="row">
 
-                                        <div class="modal fade" id="deleteDlg-@loan.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                                        <div id="delete-loan-dialog-@loan.Id" class="modal fade">
 
                                             <div class="modal-dialog modal-dialog-centered">
 
                                                 <div class="modal-content">
 
                                                     <div class="modal-header">
-                                                        <h6 class="modal-title" id="deleteDlgLabel">Atenção!</h6>
+                                                        <h6 class="modal-title" >Atenção!</h6>
                                                     </div>
 
                                                     <div class="modal-body" style="text-align:left">
@@ -145,7 +193,8 @@
 
                                         </div>
 
-                                        <div class="modal fade" id="notesDlg-@loan.Id">
+
+                                        <div id="notes-dialog-@loan.Id" class="modal fade">
 
                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -175,6 +224,7 @@
 
                                         </div>
 
+
                                         <a class="btn btn-light" asp-controller="Loan" asp-action="Return" asp-route-id="@loan.Id">
                                             <img src="~/img/return_icon.png" title="Devolver o livro emprestado" />
                                         </a>
@@ -183,11 +233,11 @@
                                             <img src="~/img/edit_icon2.png" title="Editar o livro emprestado" />
                                         </a>
 
-                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@loan.Id">
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-loan-dialog-@loan.Id">
                                             <img src="~/img/delete_icon.png" title="Excluir o livro emprestado" />
                                         </a>
 
-                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notesDlg-@loan.Id">
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notes-dialog-@loan.Id">
                                             <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
                                         </a>
                                             
@@ -195,6 +245,7 @@
                                             <img src="~/img/view_icon.png" title="Detalhes do livro emprestado" />
                                         </a>
                                         
+
                                     </td>
 
                                 </tr>
@@ -207,14 +258,16 @@
 
                 </tbody>
 
+
             </table>
 
         </div>
 
 
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div id="tab-2" class="tab-pane fade" role="tabpanel" >
 
             <table id="book-table-2" class="table table-light table hover table-striped" border="1">
+
 
                 <thead>
 
@@ -241,6 +294,7 @@
                     </tr>
 
                 </thead>
+
 
                 <tbody>
 
@@ -270,14 +324,15 @@
                                         
                                     <td id="controls-td" scope="row">
 
-                                        <div class="modal fade" id="cancelDlg-@loan.Id" aria-labelledby="cancelDlgLabel" aria-hidden="true">
+
+                                        <div id="cancel-return-dialog-@loan.Id" class="modal fade">
 
                                             <div class="modal-dialog modal-dialog-centered">
 
                                                 <div class="modal-content">
 
                                                     <div class="modal-header">
-                                                        <h6 class="modal-title" id="cancelDlgLabel">Atenção!</h6>
+                                                        <h6 class="modal-title">Atenção!</h6>
                                                     </div>
 
                                                     <div class="modal-body" style="text-align:left">
@@ -300,7 +355,8 @@
 
                                         </div>
 
-                                        <div class="modal fade" id="notesDlg-@loan.Id">
+
+                                        <div id="notes-dialog-@loan.Id" class="modal fade">
 
                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -330,11 +386,12 @@
 
                                         </div>
 
-                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#cancelDlg-@loan.Id">
+
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#cancel-return-dialog-@loan.Id">
                                             <img src="~/img/delete_icon.png" title="Restaurar o empréstimo" />
                                         </a>
 
-                                        <button class="btn btn-light" data-toggle="modal" data-target="#notesDlg-@loan.Id">
+                                        <button class="btn btn-light" data-toggle="modal" data-target="#notes-dialog-@loan.Id">
                                             <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
                                         </button>
                                             
@@ -342,6 +399,7 @@
                                             <img src="~/img/view_icon.png" title="Detalhes do livro" />
                                         </a>
                                         
+
                                     </td>
 
                                 </tr>
@@ -353,6 +411,7 @@
                     }
 
                 </tbody>
+
 
             </table>
 

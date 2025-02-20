@@ -7,10 +7,6 @@ namespace Library.Dto {
     public class SettingsDto {
 
 
-        public SettingsDto() {
-        }
-
-
         public SettingsDto(ISettingsService settingsService) {
 
 
@@ -77,6 +73,15 @@ namespace Library.Dto {
                 false
             );
 
+            IsApplyStylesToLists = settingsService.GetBoolean(
+                Constants.APPLY_STYLES_TO_LISTS_KEY,
+                false
+            );
+
+            IsShowFooterCaption = settingsService.GetBoolean(
+                Constants.SHOW_FOOTER_CAPTION,
+                false
+            );
 
             ReportFormat = settingsService.GetInt(
                 Constants.REPORT_FORMAT_KEY,
@@ -113,6 +118,12 @@ namespace Library.Dto {
         public bool? IsBorrowedUnderline { get; set; }
 
         public bool? IsBorrowedItalic { get; set; }
+
+
+        public bool? IsApplyStylesToLists { get; set; }
+
+
+        public bool? IsShowFooterCaption { get; set; }
 
 
         public int? ReportFormat { get; set; }

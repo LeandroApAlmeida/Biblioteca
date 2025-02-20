@@ -103,6 +103,69 @@ namespace Library.Services.CollectionService {
         }
 
 
+        public async Task<Response<List<BookModel>>> GetCollectionBooks() {
+
+            Response<List<BookModel>> response = new();
+
+            try {
+
+                var discardedBooksIdsResp = await DiscardedBooksIds();
+                var donatedBooksIdsResp = await DonatedBooksIds();
+
+                if (!discardedBooksIdsResp.Successful) throw new Exception(discardedBooksIdsResp.Message);
+                if (!donatedBooksIdsResp.Successful) throw new Exception(donatedBooksIdsResp.Message);
+
+                List<BookModel> availableBooks = await _context.Books
+                .Select(b => new BookModel {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Subtitle = b.Subtitle,
+                    Author = b.Author,
+                    Publisher = b.Publisher,
+                    Isbn = b.Isbn,
+                    Edition = b.Edition,
+                    Volume = b.Volume,
+                    ReleaseYear = b.ReleaseYear,
+                    NumberOfPages = b.NumberOfPages,
+                    AcquisitionDate = b.AcquisitionDate,
+                    Summary = b.Summary,
+                    LastUpdateDate = b.LastUpdateDate,
+                    RegistrationDate = b.RegistrationDate,
+                    Cover = "",
+                    IsDeleted = b.IsDeleted
+                })
+                .Where(b =>
+                    !discardedBooksIdsResp.Data!.Contains(b.Id) &&
+                    !donatedBooksIdsResp.Data!.Contains(b.Id) &&
+                    b.IsDeleted == false
+                )
+                .OrderBy(b => b.Title)
+                .ThenBy(b => b.Id)
+                .AsNoTracking()
+                .ToListAsync();
+
+                foreach (var book in availableBooks) {
+                    book.IsBorrowed = borrowedBooksIds!.Contains(book.Id);
+                    book.IsDonated = donatedBooksIds!.Contains(book.Id);
+                    book.IsDiscarded = discardedBooksIds!.Contains(book.Id);
+                }
+
+                response.Data = availableBooks;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
         public async Task<Response<Boolean>> IsBorrowedBook(Guid id) {
 
             Response<Boolean> response = new();

@@ -1,10 +1,47 @@
 ﻿@using Library.Models
+@using Library.Dto
 
 @model IEnumerable<DiscardedBookModel>
 
 
 @{
+
     ViewData["Title"] = "Livros Descartados";
+
+    SettingsDto settings = ViewBag.Settings;
+
+    string discardedTextStyle;
+
+    if (settings.IsApplyStylesToLists != null && settings.IsApplyStylesToLists == true) {
+
+        string? discardedTextColor = settings.DiscardedTextColor;
+
+        // Efeitos de fonte.
+        const string FONT_BOLD = "font-weight:bold;";
+        const string FONT_UNDERLINE = "text-decoration:underline;";
+        const string FONT_ITALIC = "font-style:italic;";
+
+        // Tags HTML para efeitos de fonte de livros descartados.
+        discardedTextStyle = "color:" + discardedTextColor + ";";
+
+        if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) {
+            discardedTextStyle += FONT_BOLD;
+        }
+
+        if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) {
+            discardedTextStyle += FONT_UNDERLINE;
+        }
+
+        if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) {
+            discardedTextStyle += FONT_ITALIC;
+        }
+
+    } else {
+
+        discardedTextStyle = "color:inherit;";
+
+    }
+
 }
 
 
@@ -20,19 +57,21 @@
 }
 
 
-<div class="conteiner">
+<div class="conteiner-fluid">
 
 
-    <div class="d-flex justify-content-between alignalign-items-center mb-5">
+    <div class="d-flex justify-content-between mb-5">
             
         <h3>Livros Descartados</h3>
             
-        <div>
+        <div class="d-flex justify-content-between">
                 
-            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Discard" asp-action="Register2">Descartar livro</a>
+            <a class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Discard" asp-action="Register2">
+                <img class="m-0" src="~/img/add_icon_16.png" />&nbspDescartar
+            </a>
                 
-            <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="DiscardedBooksReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" />
+            <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="DiscardedBooksReport" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
             </a>
             
         </div>
@@ -77,17 +116,17 @@
 
                     <tr>
                             
-                        <td scope="row">@discardedBook.Book.Title</td>
-                            
-                        <td scope="row">@discardedBook.Book.Author</td>
-                            
-                        <td scope="row">@discardedBook.Book.Isbn</td>
-                            
-                        <td scope="row">@discardedBook.Book.Edition</td>
-                            
-                        <td scope="row">@discardedBook.Book.Volume</td>
-                            
-                        <td scope="row">@discardedBook.Date.ToString("dd/MM/yyyy")</td>
+                        <td scope="row" style="@discardedTextStyle">@discardedBook.Book.Title</td>
+
+                        <td scope="row" style="@discardedTextStyle">@discardedBook.Book.Author</td>
+
+                        <td scope="row" style="@discardedTextStyle">@discardedBook.Book.Isbn</td>
+
+                        <td scope="row" style="@discardedTextStyle">@discardedBook.Book.Edition</td>
+
+                        <td scope="row" style="@discardedTextStyle">@discardedBook.Book.Volume</td>
+
+                        <td scope="row" style="@discardedTextStyle">@discardedBook.Date.ToString("dd/MM/yyyy")</td>
                             
                         <td id="controls-td" scope="row">
 

@@ -1,8 +1,13 @@
-﻿// Configurações do menu do sistema. A seleção do menu é baseada no path
-// da página selecionada.
+﻿
+/*
+    Configuração da barra de menu das páginas de layout. O menu é utilizado pelos layouts
+    ~\Views\Shared\_Layout.cshtml e ~\Views\Shared\_LayoutAdmin.cshtml. O layout de login
+    ~\Views\Shared\_LoginLayout.cshtml não tem menu.
+*/
 
 
 //Propriedades da página ativa.
+
 const {
     host,
     hostname,
@@ -14,6 +19,9 @@ const {
     search
 } = window.location
 
+
+// Identifica a que item de menu a página atual está relacionada e aciona a função
+// para a configuração do menu.
 
 if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/NoBook")) {
     setMenuOption(1);
@@ -40,6 +48,18 @@ if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/NoBook"))
 }
 
 
+/**
+ * Configura o menu relacionado com a página em exibição. A função executa duas modificações:
+ * 
+ * 1. Configura o ícone na aba do navegador.
+ * 
+ * 2. Ativa o item de menu para criar a linha horizontal de destaque do menu, configurada via CSS.
+ * 
+ * O banner da página não recebe esta linha, conduzindo para a página de detalhes de um livro, a
+ * qual será configurada no menu.
+ * 
+ * @param {any} menuIndex índice do menu.
+ */
 function setMenuOption(menuIndex) {
 
     var relativePath;
@@ -120,12 +140,18 @@ function setMenuOption(menuIndex) {
 
     const absolutePath = getAbsolutePath(relativePath.replace('~', ''));
 
+    // Atribui o ícone à aba do navegador.
+
     favicon.setAttribute('type', 'image/png');
     favicon.setAttribute('sizes', '24x24');
     favicon.setAttribute('href', absolutePath);
 
     if (document.getElementById(menuId) != null) {
+
+        // Ativa o item de menu para receber a linha de horizontal
+
         document.getElementById(menuId).className = "active";
+
     }
 
 }

@@ -21,7 +21,7 @@
 }
 
 
-<div class="conteiner">
+<div class="conteiner-fluid">
 
 
     @await Html.PartialAsync("_MessageErrorPartial")
@@ -66,6 +66,11 @@
                     </div>
 
                 </div>
+
+
+                <button id="btn-reset" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:8px;" data-toggle="modal" data-target="#reset-dialog">
+                    Restaurar
+                </button>
 
 
                 <div class="row g-3" style="margin-bottom: 20px;">
@@ -192,6 +197,26 @@
                     </div>
 
                 </div>
+
+                <hr style="margin-left:-7px;margin-bottom:30px;"  />
+
+                <div>
+
+                    <div style="margin-left:-7px; display: flex; align-items: center;">
+                        <input id="apply-styles-to-lists" class="custom-checkbox" type="checkbox" style="margin-top:0px; margin-right: 5px;" onchange="updateApplyStylesToLists()">
+                        <label style="margin-top:0px; margin-left:3px;">
+                            Aplicar os destaques de texto também às listas de livros emprestados, livros descartados e livros doados
+                        </label>
+                    </div>
+
+                    <div style="margin-left:-7px; margin-top: 20px; display: flex; align-items: center;">
+                        <input id="show-footer-caption" class="custom-checkbox" type="checkbox" style="margin-top:0px; margin-right: 5px;" onchange="updateShowFooterCaption()">
+                        <label style="margin-top:0px; margin-left:3px;">
+                            Mostrar a legenda das cores no rodapé da página e dos filtros.
+                        </label>
+                    </div>
+
+                </div>
                 
 
             </div>
@@ -228,6 +253,37 @@
 </div>
 
 
+<div id="reset-dialog" class="modal fade">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h6 class="modal-title">Atenção!</h6>
+            </div>
+
+            <div class="modal-body" style="text-align:left">
+                Restaurar as configurações padrão?
+            </div>
+
+            <div class="modal-footer">
+
+                <form method="post" asp-controller="Settings" asp-action="Reset" >
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </form>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 @section Scripts {
 
     <script type="text/javascript">
@@ -247,6 +303,9 @@
         var isBorrowedBold = '@Model.IsBorrowedBold';
         var isBorrowedUnderline = '@Model.IsBorrowedUnderline';
         var isBorrowedItalic = '@Model.IsBorrowedItalic';
+
+        var isApplyStylesToLists = '@Model.IsApplyStylesToLists';
+        var isShowFooterCaption = '@Model.IsShowFooterCaption';
 
         var reportFormat = '@Model.ReportFormat';
 

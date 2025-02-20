@@ -1,8 +1,48 @@
-﻿@model IEnumerable<DonatedBookModel>
+﻿
+@using Library.Dto
+
+@model IEnumerable<DonatedBookModel>
 
 
 @{
+
     ViewData["Title"] = "Livros Doados";
+
+    // Configurações do usuário.
+    SettingsDto settings = ViewBag.Settings;
+
+    string donatedTextStyle;
+
+    if (settings.IsApplyStylesToLists != null && settings.IsApplyStylesToLists == true) {
+
+        string? donatedTextColor = settings.DonatedTextColor;
+
+        // Efeitos de fonte.
+        const string FONT_BOLD = "font-weight:bold;";
+        const string FONT_UNDERLINE = "text-decoration:underline;";
+        const string FONT_ITALIC = "font-style:italic;";
+
+        // Tags HTML para efeitos de fonte de livros doados.
+        donatedTextStyle = "color:" + donatedTextColor + ";";
+
+        if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) {
+            donatedTextStyle += FONT_BOLD;
+        }
+    
+        if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) {
+            donatedTextStyle += FONT_UNDERLINE;
+        }
+
+        if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) {
+            donatedTextStyle += FONT_ITALIC;
+        }
+
+    } else {
+
+        donatedTextStyle = "color:inherit;";
+
+    }
+
 }
 
 
@@ -18,19 +58,21 @@
 }
 
 
-<div class="conteiner">
+<div class="conteiner-fluid">
 
 
-    <div class="d-flex justify-content-between alignalign-items-center mb-5">
+    <div class="d-flex justify-content-between mb-5">
             
         <h3>Livros Doados</h3>
             
-        <div>
+        <div class="d-flex justify-content-between">
                 
-            <a class="btn btn-success" style="width:150px;height:38px;margin-right:5px" asp-controller="Donation" asp-action="Register2">Doar livro</a>
+            <a class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Donation" asp-action="Register2">
+                <img class="m-0" src="~/img/add_icon_16.png" />&nbspDoar
+            </a>
                 
-            <a class="btn btn-primary" style="height:38px;" asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" />
+            <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
             </a>
             
         </div>
@@ -77,19 +119,19 @@
 
                     <tr>
                             
-                        <td scope="row">@donatedBook.Book.Title</td>
-                            
-                        <td scope="row">@donatedBook.Book.Author</td>
-                            
-                        <td scope="row">@donatedBook.Book.Isbn</td>
-                            
-                        <td class="num-span" scope="row">@donatedBook.Book.Edition</td>
-                            
-                        <td class="num-span" scope="row">@donatedBook.Book.Volume</td>
-                            
-                        <td scope="row">@donatedBook.Person.Name</td>
-                            
-                        <td scope="row">@donatedBook.Date.ToString("dd/MM/yyyy")</td>
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Book.Title</td>
+
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Book.Author</td>
+
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Book.Isbn</td>
+
+                        <td class="num-span" scope="row" style="@donatedTextStyle">@donatedBook.Book.Edition</td>
+
+                        <td class="num-span" scope="row" style="@donatedTextStyle">@donatedBook.Book.Volume</td>
+
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Person.Name</td>
+
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Date.ToString("dd/MM/yyyy")</td>
                             
                         <td id="controls-td"  scope="row">
 

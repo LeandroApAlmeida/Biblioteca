@@ -1,4 +1,9 @@
 ﻿
+/*
+    Módulo para tratamento de campos ocultos de um livro na página.
+*/
+
+
 /**
  * Atualiza os dados de um livro nos campos ocultos da página.
  * 
@@ -7,8 +12,6 @@
  * @param {any} cover capa do livro.
  */
 function setBookData(document, book, cover) {
-
-    document.getElementsByName("Book.Cover")[0].value = cover;
     document.getElementsByName("Book.Id")[0].value = book.Id;
     document.getElementsByName("Book.Title")[0].value = book.Title;
     document.getElementsByName("Book.Subtitle")[0].value = book.Subtitle;
@@ -23,8 +26,8 @@ function setBookData(document, book, cover) {
     document.getElementsByName("Book.RegistrationDate")[0].value = book.RegistrationDate;
     document.getElementsByName("Book.LastUpdateDate")[0].value = book.LastUpdateDate;
     document.getElementsByName("Book.Summary")[0].value = book.Summary;
+    document.getElementsByName("Book.Cover")[0].value = cover;
     document.getElementsByName("Book.IsDeleted")[0].value = book.IsDeleted;
-
 }
 
 

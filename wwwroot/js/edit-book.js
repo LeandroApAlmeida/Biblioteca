@@ -1,16 +1,20 @@
 ﻿
-// Tratador de eventos da página ~\Views\Book\Edit.cshtml.
+/*
+    Tratador de eventos da página para edição de um livro (~\Views\Book\Edit.cshtml).
+*/
 
 
 import { setCoverData } from "./data-cover.js"
 
 
 // Caixa de diálogo para localizar o arquivo de capa no navegador.
+
 const chooseFile = document.getElementById("choose-file");
 
 
 // Atribui o tratador de evento para que quando o arquivo for selecionado, se faça o
 // processamento do mesmo.
+
 chooseFile.addEventListener("change", function () {
 
     const imgPreview = document.getElementById("img-preview");
@@ -23,6 +27,7 @@ chooseFile.addEventListener("change", function () {
 
 // Atribui o tratador de evento para que quando o post for realizado, os campos da
 // página sejam desabilitados.
+
 document.getElementById('book-form').addEventListener('submit', function (event) {
 
     document.getElementById('title').setAttribute('readonly', 'readonly');

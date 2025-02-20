@@ -22,6 +22,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\dic\json.json" />
     <Content Remove="wwwroot\js\jquery.min.js" />
+    <Content Remove="wwwroot\js\manage-loan.js" />
   </ItemGroup>
 
   <ItemGroup>

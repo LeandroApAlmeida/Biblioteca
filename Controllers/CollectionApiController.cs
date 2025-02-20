@@ -29,7 +29,7 @@ namespace Library.Controllers {
         /// </summary>
         /// <param name="id">Identificador do livro</param>
         /// <returns>String base64 que representa a capa do livro.</returns>
-        [HttpGet("cover/{id}")]
+        [HttpGet("Cover/{id}")]
         public async Task<ActionResult<string>> GetCover(Guid id) {
 
             if (!_sessionService.IsSessionActive()) return BadRequest(
