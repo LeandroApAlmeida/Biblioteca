@@ -297,19 +297,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var loanResp = await _loanService.GetLoan(id);
-
-            LoanModel? loan = loanResp.Data;
-
-            if (loan == null) {
-
-                TempData[Constants.ERROR_MESSAGE] = loanResp.Message;
-
-                return RedirectToAction("Manage");
-
-            }
-
-            var deleteLoanResp = await _loanService.DeleteLoan(loan);
+            var deleteLoanResp = await _loanService.DeleteLoan(id);
 
             if (deleteLoanResp.Successful) {
 
@@ -397,19 +385,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var loanResp = await _loanService.GetLoan(id);
-
-            LoanModel? loan = loanResp.Data;
-
-            if (loan == null) {
-
-                TempData[Constants.ERROR_MESSAGE] = loanResp.Message;
-
-                return RedirectToAction("Manage");
-
-            }
-
-            var cancelReturnResp = await _loanService.CancelReturn(loan);
+            var cancelReturnResp = await _loanService.CancelReturn(id);
 
             if (cancelReturnResp.Successful) {
 

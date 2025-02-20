@@ -24,9 +24,9 @@ namespace Library.Services.UserService {
 
         public Task<Response<UserModel>> EditUser(UserDto user);
 
-        public Task<Response<UserModel>> DeleteUser(UserModel user);
+        public Task<Response<UserModel>> DeleteUser(Guid id);
 
-        public Task<Response<UserModel>> UndeleteUser(UserModel user);
+        public Task<Response<UserModel>> UndeleteUser(Guid id);
 
     }
 

@@ -5,7 +5,7 @@
 
 
 /**
- * Atualiza os dados de um livro nos campos ocultos da página.
+ * Atualiza os dados de um livro selecionado nos campos ocultos da página.
  * 
  * @param {any} document página a ser atualizada.
  * @param {any} book dados do livro.

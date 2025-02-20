@@ -364,11 +364,17 @@ namespace Library.Services.BookService {
         }
 
 
-        public async Task<Response<BookModel>> DeleteBook(BookModel book) {
+        public async Task<Response<BookModel>> DeleteBook(Guid id) {
 
             Response<BookModel> response = new();
 
             try {
+
+                var bookResp = await GetBook(id);
+
+                BookModel? book = bookResp.Data;
+
+                if (book == null) throw new Exception(bookResp.Message);
 
                 var isBorrowedBookResp = await _collectionService.IsBorrowedBook(book.Id);
 
@@ -377,8 +383,6 @@ namespace Library.Services.BookService {
                 Boolean isBorrowed = isBorrowedBookResp.Data;
 
                 if (!isBorrowed) {
-
-                    _context.Attach(book);
 
                     book.IsDeleted = true;
                     book.LastUpdateDate = DateTime.Now;

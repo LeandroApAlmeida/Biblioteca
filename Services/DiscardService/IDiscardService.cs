@@ -13,7 +13,7 @@ namespace Library.Services.DiscardService {
 
         public Task<Response<DiscardedBookModel>> EditDiscardedBook(DiscardedBookModel discardedBook);
 
-        public Task<Response<DiscardedBookModel>> DeleteDiscardedBook(DiscardedBookModel discardedBook);
+        public Task<Response<DiscardedBookModel>> DeleteDiscardedBook(Guid id);
 
     }
 

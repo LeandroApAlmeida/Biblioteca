@@ -297,19 +297,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var donatedBookResp = await _donationService.GetDonatedBook(id);
-
-            DonatedBookModel? donatedBook = donatedBookResp.Data;
-
-            if (donatedBook == null) {
-
-                TempData[Constants.ERROR_MESSAGE] = donatedBookResp.Message;
-
-                return RedirectToAction("Manage");
-
-            }
-
-            var deleteDonatedBookResp = await _donationService.DeleteDonatedBook(donatedBook);
+            var deleteDonatedBookResp = await _donationService.DeleteDonatedBook(id);
 
             if (deleteDonatedBookResp.Successful) {
 

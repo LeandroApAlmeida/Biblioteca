@@ -13,11 +13,11 @@ namespace Library.Services.LoanService {
 
         public Task<Response<LoanModel>> EditLoan(LoanModel loan);
 
-        public Task<Response<LoanModel>> DeleteLoan(LoanModel loan);
+        public Task<Response<LoanModel>> DeleteLoan(Guid id);
 
         public Task<Response<LoanModel>> ReturnLoan(LoanModel loan);
 
-        public Task<Response<LoanModel>> CancelReturn(LoanModel loan);
+        public Task<Response<LoanModel>> CancelReturn(Guid id);
 
     }
 

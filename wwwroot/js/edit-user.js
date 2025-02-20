@@ -13,46 +13,34 @@
 */
 
 
-// Máscara para o campo vazio.
-
 var passwordMask = '####';
 
 
-// Campo senha
+document.addEventListener('DOMContentLoaded', function () {
 
-var passwordField = document.getElementById('password');
+    var passwordField = document.getElementById('password');
 
-// Campo confirmação da senha.
+    var cPasswordField = document.getElementById('conf-password');
 
-var cPasswordField = document.getElementById('conf-password');
+    passwordField.value = passwordMask;
+    cPasswordField.value = passwordMask;
 
+    passwordField.addEventListener('focus', handleFocus);
+    cPasswordField.addEventListener('focus', handleFocus);
+    passwordField.addEventListener('blur', handleBlur);
+    cPasswordField.addEventListener('blur', handleBlur);
 
-// Atribui a máscara aos campos de senha vazios.
+    document.getElementById('user-form').addEventListener('submit', function (event) {
 
-passwordField.value = passwordMask;
-cPasswordField.value = passwordMask;
+        if (passwordField.value === passwordMask) {
+            passwordField.value = "-";
+        }
 
+        if (cPasswordField.value === passwordMask) {
+            cPasswordField.value = "-";
+        }
 
-// Atribui os tratadores de eventos aos campos de senha.
-
-passwordField.addEventListener('focus', handleFocus);
-cPasswordField.addEventListener('focus', handleFocus);
-passwordField.addEventListener('blur', handleBlur);
-cPasswordField.addEventListener('blur', handleBlur);
-
-
-// No post da página, se os campos de senha estiverem com a máscara, envia o caractere "-" para
-// indicar para o servidor que não houve modificação da senha.
-
-document.getElementById('user-form').addEventListener('submit', function (event) {
-
-    if (passwordField.value === passwordMask) {
-        passwordField.value = "-";
-    }
-
-    if (cPasswordField.value === passwordMask) {
-        cPasswordField.value = "-";
-    }
+    });
 
 });
 

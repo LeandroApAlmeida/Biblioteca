@@ -13,7 +13,7 @@ namespace Library.Services.DonationService {
 
         public Task<Response<DonatedBookModel>> EditDonatedBook(DonatedBookModel donatedBook);
 
-        public Task<Response<DonatedBookModel>> DeleteDonatedBook(DonatedBookModel donatedBook);
+        public Task<Response<DonatedBookModel>> DeleteDonatedBook(Guid id);
 
     }
 

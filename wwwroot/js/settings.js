@@ -1,80 +1,89 @@
 ﻿
-var discardedTextColorCaption = document.getElementById('discarded-text-color');
-var donatedTextColorCaption = document.getElementById('donated-text-color');
-var borrowedTextColorCaption = document.getElementById('borrowed-text-color');
 
-var discardedColorPicker = document.getElementById('discarded-color-picker');
-var donatedColorPicker = document.getElementById('donated-color-picker');
-var borrowedColorPicker = document.getElementById('borrowed-color-picker');
-
-var pdfReportOpt = document.getElementById('pdf-report-opt');
-var htmlReportOpt = document.getElementById('html-report-opt');
+document.addEventListener('DOMContentLoaded', function () {
 
 
-discardedTextColorCaption.style.color = discardedTextColor;
-donatedTextColorCaption.style.color = donatedTextColor;
-borrowedTextColorCaption.style.color = borrowedTextColor;
+    var discardedTextColorCaption = document.getElementById('discarded-text-color');
+    var donatedTextColorCaption = document.getElementById('donated-text-color');
+    var borrowedTextColorCaption = document.getElementById('borrowed-text-color');
 
-discardedColorPicker.value = discardedTextColor;
-donatedColorPicker.value = donatedTextColor;
-borrowedColorPicker.value = borrowedTextColor;
+    discardedTextColorCaption.style.color = discardedTextColor;
+    donatedTextColorCaption.style.color = donatedTextColor;
+    borrowedTextColorCaption.style.color = borrowedTextColor;
 
-discardedColorPicker.addEventListener('change', function () {
-    discardedTextColorCaption.style.color = this.value;
-    setDiscardedTextColor(this.value);
-});
 
-donatedColorPicker.addEventListener('change', function () {
-    donatedTextColorCaption.style.color = this.value;
-    setDonatedTextColor(this.value);
-});
+    var discardedColorPicker = document.getElementById('discarded-color-picker');
+    var donatedColorPicker = document.getElementById('donated-color-picker');
+    var borrowedColorPicker = document.getElementById('borrowed-color-picker');
 
-borrowedColorPicker.addEventListener('change', function () {
-    borrowedTextColorCaption.style.color = this.value;
-    setBorrowedTextColor(this.value);
+    discardedColorPicker.value = discardedTextColor;
+    donatedColorPicker.value = donatedTextColor;
+    borrowedColorPicker.value = borrowedTextColor;
+
+    discardedColorPicker.addEventListener('change', function () {
+        discardedTextColorCaption.style.color = this.value;
+        setDiscardedTextColor(this.value);
+    });
+
+    donatedColorPicker.addEventListener('change', function () {
+        donatedTextColorCaption.style.color = this.value;
+        setDonatedTextColor(this.value);
+    });
+
+    borrowedColorPicker.addEventListener('change', function () {
+        borrowedTextColorCaption.style.color = this.value;
+        setBorrowedTextColor(this.value);
+    });
+
+
+    var pdfReportOpt = document.getElementById('pdf-report-opt');
+    var htmlReportOpt = document.getElementById('html-report-opt');
+
+    if (reportFormat == 1) {
+        pdfReportOpt.checked = true;
+    } else if (reportFormat == 2) {
+        htmlReportOpt.checked = true;
+    } else {
+        pdfReportOpt.checked = true;
+    }
+
+    pdfReportOpt.addEventListener('change', function (event) {
+        updateReportFormat();
+    });
+
+    htmlReportOpt.addEventListener('change', function (event) {
+        updateReportFormat();
+    });
+
+
+    document.getElementById('discarded-bold').checked = stringToBool(isDiscardedBold);
+    document.getElementById('discarded-underline').checked = stringToBool(isDiscardedUnderline);
+    document.getElementById('discarded-italic').checked = stringToBool(isDiscardedItalic);
+
+    document.getElementById('donated-bold').checked = stringToBool(isDonatedBold);
+    document.getElementById('donated-underline').checked = stringToBool(isDonatedUnderline);
+    document.getElementById('donated-italic').checked = stringToBool(isDonatedItalic);
+
+    document.getElementById('borrowed-bold').checked = stringToBool(isBorrowedBold);
+    document.getElementById('borrowed-underline').checked = stringToBool(isBorrowedUnderline);
+    document.getElementById('borrowed-italic').checked = stringToBool(isBorrowedItalic);
+
+    document.getElementById('apply-styles-to-lists').checked = stringToBool(isApplyStylesToLists);
+    document.getElementById('show-footer-caption').checked = stringToBool(isShowFooterCaption);
+
+    updateDiscardedFontStyle();
+    updateDonatedFontStyle();
+    updateBorrowedFontStyle();
+
+
 });
 
 
 function stringToBool(str) { return str.toLowerCase() === 'true'; }
 
-document.getElementById('discarded-bold').checked = stringToBool(isDiscardedBold);
-document.getElementById('discarded-underline').checked = stringToBool(isDiscardedUnderline);
-document.getElementById('discarded-italic').checked = stringToBool(isDiscardedItalic);
-
-document.getElementById('donated-bold').checked = stringToBool(isDonatedBold);
-document.getElementById('donated-underline').checked = stringToBool(isDonatedUnderline);
-document.getElementById('donated-italic').checked = stringToBool(isDonatedItalic);
-
-document.getElementById('borrowed-bold').checked = stringToBool(isBorrowedBold);
-document.getElementById('borrowed-underline').checked = stringToBool(isBorrowedUnderline);
-document.getElementById('borrowed-italic').checked = stringToBool(isBorrowedItalic);
-
-updateDiscardedFontStyle();
-updateDonatedFontStyle();
-updateBorrowedFontStyle();
-
-document.getElementById('apply-styles-to-lists').checked = stringToBool(isApplyStylesToLists);
-document.getElementById('show-footer-caption').checked = stringToBool(isShowFooterCaption);
-
-
-if (reportFormat == 1) {
-    pdfReportOpt.checked = true;
-} else if (reportFormat == 2) {
-    htmlReportOpt.checked = true;
-} else {
-    pdfReportOpt.checked = true;
-}
-
-pdfReportOpt.addEventListener('change', function (event) {
-    updateReportFormat();
-});
-
-htmlReportOpt.addEventListener('change', function (event) {
-    updateReportFormat();
-});
-
 
 function updateDiscardedFontStyle() {
+    var discardedTextColorCaption = document.getElementById('discarded-text-color');
     const bold = document.getElementById('discarded-bold').checked;
     const underline = document.getElementById('discarded-underline').checked;
     const italic = document.getElementById('discarded-italic').checked;
@@ -85,6 +94,7 @@ function updateDiscardedFontStyle() {
 }
 
 function updateDonatedFontStyle() {
+    var donatedTextColorCaption = document.getElementById('donated-text-color');
     const bold = document.getElementById('donated-bold').checked;
     const underline = document.getElementById('donated-underline').checked;
     const italic = document.getElementById('donated-italic').checked;
@@ -95,6 +105,7 @@ function updateDonatedFontStyle() {
 }
 
 function updateBorrowedFontStyle() {
+    var borrowedTextColorCaption = document.getElementById('borrowed-text-color');
     const bold = document.getElementById('borrowed-bold').checked;
     const underline = document.getElementById('borrowed-underline').checked;
     const italic = document.getElementById('borrowed-italic').checked;

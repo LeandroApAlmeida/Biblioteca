@@ -196,19 +196,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var personResp = await _personService.GetPerson(id);
-
-            PersonModel? person = personResp.Data;
-
-            if (person == null) {
-
-                TempData[Constants.ERROR_MESSAGE] = personResp.Message;
-
-                return RedirectToAction("Manage");
-
-            }
-
-            var deletePersonResp = await _personService.DeletePerson(person);
+            var deletePersonResp = await _personService.DeletePerson(id);
 
             if (deletePersonResp.Successful) {
 

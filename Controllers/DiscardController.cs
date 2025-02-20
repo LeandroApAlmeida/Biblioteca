@@ -319,19 +319,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var discardedBookResp = await _discardService.GetDiscardedBook(id);
-
-            DiscardedBookModel? discardedBook = discardedBookResp.Data;
-
-            if (discardedBook == null) {
-
-                TempData[Constants.ERROR_MESSAGE] = discardedBookResp.Message;
-
-                return RedirectToAction("Manage");
-
-            }
-
-            var deleteDiscardedBooksResp = await _discardService.DeleteDiscardedBook(discardedBook);
+            var deleteDiscardedBooksResp = await _discardService.DeleteDiscardedBook(id);
 
             if (deleteDiscardedBooksResp.Successful) {
 

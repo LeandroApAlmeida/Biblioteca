@@ -1,19 +1,29 @@
 ﻿
+/*
+    Tratador de eventos da página de cadastro de livro descartado (2) (~\Views\Discard\Register2.cshtml).
+    A capa do livro selecionado na página será recuperada pela chamada de api "/CollectionApi/GetBookCover/",
+    pois os livros recuperados na lista todos estão com o campo capa definido como "", por uma questão de
+    melhor eficiência na recuperação da lista de livros.
+*/
+
+
 import { formatToDatetimeLocal } from "./utils.js"
 import { setBookData } from "./data-book.js"
 
 
-var selector = document.getElementById('select-book');
-selector.addEventListener('change', onSelectedBook);
+document.addEventListener('DOMContentLoaded', function () {
 
+    var selector = document.getElementById('select-book');
 
-document.getElementById("discard-date").value = formatToDatetimeLocal(new Date());
+    document.getElementById("discard-date").value = formatToDatetimeLocal(new Date());
 
+    selector.addEventListener('change', onSelectedBook);
 
-onSelectedBook();
+    selector.dispatchEvent(new Event('change'));
 
+});
 
-function onSelectedBook() {
+function onSelectedBook(event) {
 
     var jsonData = window.booksData;
 
@@ -21,7 +31,7 @@ function onSelectedBook() {
 
         var book = jsonData[i];
 
-        if (book.Id == selector.value) {
+        if (book.Id == event.target.value) {
 
             const {
                 host,
@@ -34,7 +44,7 @@ function onSelectedBook() {
                 search
             } = window.location
 
-            const url = `${origin}/api/CollectionApi/Cover/${book.Id}`;
+            const url = `${origin}/api/CollectionApi/GetBookCover/${book.Id}`;
             fetch(url).then(response => {
 
                 if (!response.ok) { throw new Error('Erro ao recuperar a capa do livro.'); }

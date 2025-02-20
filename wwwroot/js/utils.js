@@ -1,5 +1,4 @@
 ﻿
-
 function formatToDatetimeLocal(refDate) {
     var date = refDate,
     ten = function (i) {

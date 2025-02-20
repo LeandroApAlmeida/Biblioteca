@@ -1,6 +1,7 @@
 ﻿using Library.Dto;
 using Library.Models;
 using Library.Services.SettingsService;
+using System.Globalization;
 using System.Text;
 
 namespace Library.Services.ReportService {
@@ -24,6 +25,10 @@ namespace Library.Services.ReportService {
                 <html>
 
                     <head>
+
+                        <meta charset=""utf-8"" />
+        
+                        <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />
 
                         <style> 
                             
@@ -49,9 +54,13 @@ namespace Library.Services.ReportService {
                         
                         </style>
 
+                        <link rel=""icon"" type=""image/png"" sizes=""16x16"" href=""/img/report_icon_24.png"" />
+
                     </head>
 
                     <body> 
+
+                        <!--report-title-location-->
 
                         <div class='title' align=""justify"">{book.Title + (book.Subtitle != null && book.Subtitle.Length > 0 ?
                             " - " + book.Subtitle : "")}</div>
@@ -162,9 +171,13 @@ namespace Library.Services.ReportService {
                             
                         </style>
 
+                        <link rel=""icon"" type=""image/png"" sizes=""16x16"" href=""/img/report_icon_24.png"" />
+
                     </head>
 
                     <body>
+
+                        <!--report-title-location-->
                        
                         <table class=""table"" border=""0"">
 
@@ -290,7 +303,7 @@ namespace Library.Services.ReportService {
                                 width: 100%;
                             }}
 
-                            td {{
+                            #table-1 td {{
                                 text-align: left;
                                 padding: 8px;
                                 font-family: Arial;
@@ -299,7 +312,7 @@ namespace Library.Services.ReportService {
                                 vertical-align: top;
                             }}
 
-                            th {{
+                            #table-1 th {{
                                 text-align: left;
                                 padding: 8px;
                                 margin-bottom: 10px;
@@ -312,21 +325,59 @@ namespace Library.Services.ReportService {
                                 vertical-align: top;
                             }}
 
-                            tr:nth-child(even) {{
+                            #table-1 tr:nth-child(even) {{
                                 background: #e9e9e9;
                             }}
 
-                            thead {{display: table-header-group; }}
+                            #table-1 thead {{display: table-header-group; }}
 
-                            tbody tr {{ page-break-inside: avoid; }}
+                            #table-1 tbody tr {{ page-break-inside: avoid; }}
+
+                            #table-2 th {{
+                                text-align: left;
+                                padding: 8px;
+                                margin-bottom: 10px;
+                                font-weight: bold;
+                                font-family: Arial;
+                                font-size: 16px;
+                                color: white;
+                                background: black;
+                                text-align: left;
+                                vertical-align: top;
+                            }}
+
+                            #table-2 td {{
+                                text-align: left;
+                                padding: 8px;
+                                font-family: Arial;
+                                font-size: 16px;
+                                vertical-align: top;
+                            }}
+
+                            span {{
+                                font-family: Arial;
+                                font-size: 16px;
+                            }}
+
+                            .square {{
+                                width: 22px;
+                                height: 22px;
+                                border: 1px solid #cccc;
+                                border-radius: 12px;
+                                display: inline-block;
+                            }}
                             
                         </style>
+
+                        <link rel=""icon"" type=""image/png"" sizes=""16x16"" href=""/img/report_icon_24.png"" />
 
                     </head>
 
                     <body>
+
+                        <!--report-title-location-->
                        
-                        <table class=""table"" border=""0"" >
+                        <table id=""table-1"" class=""table"" border=""0"" >
 
                             <thead >
 
@@ -347,6 +398,43 @@ namespace Library.Services.ReportService {
                             <tbody>
 
                                 {sb.ToString()}
+
+                            </tbody>
+
+                        </table>
+
+                        <table id = ""table-2"" class=""table"" border=""1"" style =""margin-top:50px;"" >
+
+                            <thead >
+
+                                <tr>
+                                    <th style=""width: 3%;"">Cor</th>
+                                    <th>Significado</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td style="""" ><span class=""square"" style=""margin-left:5px;background-color:{discardedTextColor};""></span></td>
+                                    <td >Livros que foram descartados</td>                  
+                                </tr>
+
+                                <tr>
+                                    <td style="""" ><span class=""square"" style=""margin-left:5px;background-color:{donatedTextColor};""></span></td>
+                                    <td >Livros que foram doados</td>                  
+                                </tr>
+
+                                <tr>
+                                    <td style="""" ><span class=""square"" style=""margin-left:5px; margin-right:4px;background-color:{borrowedTextColor};""></span></td>
+                                    <td >Livros que estão emprestados</td>                  
+                                </tr>
+
+                                <tr>
+                                    <td style="""" ><span class=""square"" style=""margin-left:5px; margin-right:4px;background-color:black;""></span></td>
+                                    <td >Livros disponíveis no acervo</td>                  
+                                </tr>
 
                             </tbody>
 
@@ -435,9 +523,13 @@ namespace Library.Services.ReportService {
                             
                         </style>
 
+                        <link rel=""icon"" type=""image/png"" sizes=""16x16"" href=""/img/report_icon_24.png"" />
+
                     </head>
 
                     <body>
+
+                        <!--report-title-location-->
                        
                         <table class=""table"" border=""0"">
 
@@ -550,9 +642,13 @@ namespace Library.Services.ReportService {
                             
                         </style>
 
+                        <link rel=""icon"" type=""image/png"" sizes=""16x16"" href=""/img/report_icon_24.png"" />
+
                     </head>
 
                     <body>
+
+                        <!--report-title-location-->
                        
                         <table class=""table"" border=""0"">
 
@@ -662,9 +758,13 @@ namespace Library.Services.ReportService {
                             
                         </style>
 
+                        <link rel=""icon"" type=""image/png"" sizes=""16x16"" href=""/img/report_icon_24.png"" />
+
                     </head>
 
                     <body>
+
+                        <!--report-title-location-->
                        
                         <table class=""table"" border=""0"">
 
@@ -699,6 +799,111 @@ namespace Library.Services.ReportService {
                 </html>
 
             ";
+
+        }
+
+
+        private string FormatReportTitle(string reportTitle) {
+
+            DateTime now = DateTime.Now;
+            
+            string formattedDate = "Impresso em: " +  now.ToString("dd/MM/yyyy, HH:mm:ss");
+
+            string title = $@"
+
+                <style>
+                    .header {{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-family: Arial;
+                        font-size: 16px;
+                        font-weight: bold;
+                        margin-bottom: 2px;                        
+                    }}
+                    
+                </style>
+
+                <div class=""header"">
+                    <div class=""title"">{reportTitle}</div>
+                    <div class=""date"" id=""currentDate"">{formattedDate}</div>
+                </div>
+
+                <hr style = ""margin-bottom: 30px;""/>
+
+            ";
+            return title;
+        }
+
+
+        public string BookDetailedWithTitle(BookModel book) {
+
+            string htmlScript = BookDetailed(book);
+
+            return htmlScript.Replace(
+                "<!--report-title-location-->",
+                FormatReportTitle("Detalhes do Livro (versão HTML)")
+            );
+
+        }
+
+
+        public string BooksInTheCollectionWithTitle(IEnumerable<BookModel> booksList) {
+
+            string htmlScript = BooksInTheCollection(booksList);
+
+            return htmlScript.Replace(
+                "<!--report-title-location-->",
+                FormatReportTitle("Livros no Acervo (versão HTML)")
+            );
+
+        }
+
+
+        public string RegisteredBooksWithTitle(IEnumerable<BookModel> booksList) {
+
+            string htmlScript = RegisteredBooks(booksList);
+
+            return htmlScript.Replace(
+                "<!--report-title-location-->",
+                FormatReportTitle("Livros Cadastrados (versão HTML)")
+            );
+
+        }
+
+
+        public string BorrowedBooksWithTitle(IEnumerable<LoanModel> loanList) {
+
+            string htmlScript = BorrowedBooks(loanList);
+
+            return htmlScript.Replace(
+                "<!--report-title-location-->",
+                FormatReportTitle("Livros Emprestados (versão HTML)")
+            );
+
+        }
+
+
+        public string DiscardedBooksWithTitle(IEnumerable<DiscardedBookModel> discardedBooksList) {
+
+            string htmlScript = DiscardedBooks(discardedBooksList);
+
+            return htmlScript.Replace(
+                "<!--report-title-location-->",
+                FormatReportTitle("Livros Descartados (versão HTML)")
+            );
+
+        }
+
+
+        public string DonatedBooksWithTitle(IEnumerable<DonatedBookModel> donatedBooksList) {
+
+            string htmlScript = DonatedBooks(donatedBooksList);
+
+            return htmlScript.Replace(
+                "<!--report-title-location-->",
+                FormatReportTitle("Livros Doados (versão HTML)")
+            );
 
         }
 

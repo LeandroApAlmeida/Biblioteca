@@ -29,8 +29,8 @@ namespace Library.Controllers {
         /// </summary>
         /// <param name="id">Identificador do livro</param>
         /// <returns>String base64 que representa a capa do livro.</returns>
-        [HttpGet("Cover/{id}")]
-        public async Task<ActionResult<string>> GetCover(Guid id) {
+        [HttpGet("GetBookCover/{id}")]
+        public async Task<ActionResult<string>> GetBookCover(Guid id) {
 
             if (!_sessionService.IsSessionActive()) return BadRequest(
                 new { message = "Erro", error = "Sessão inativa." }

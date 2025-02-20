@@ -158,13 +158,17 @@ namespace Library.Services.PersonService {
         }
 
 
-        public async Task<Response<PersonModel>> DeletePerson(PersonModel person) {
+        public async Task<Response<PersonModel>> DeletePerson(Guid id) {
 
             Response<PersonModel> response = new();
 
             try {
 
-                _context.Attach(person);
+                var personResp = await GetPerson(id);
+
+                PersonModel? person = personResp.Data;
+
+                if (person == null) throw new Exception(personResp.Message);
 
                 person.IsDeleted = true;
                 person.LastUpdateDate = DateTime.Now;

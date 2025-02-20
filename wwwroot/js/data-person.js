@@ -5,7 +5,7 @@
 
 
 /**
- * Atualiza os dados de uma pessoa nos campos ocultos da página.
+ * Atualiza os dados de uma pessoa selecionada nos campos ocultos da página.
  * 
  * @param {any} document página a ser atualizada.
  * @param {any} person dados da pessoa.

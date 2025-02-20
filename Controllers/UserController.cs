@@ -251,19 +251,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var userResp = await _userService.GetUser(id);
-
-            UserModel? user = userResp.Data;
-
-            if (user == null) {
-
-                TempData[Constants.ERROR_MESSAGE] = userResp.Message;
-
-                return RedirectToAction("Manage");
-
-            }
-
-            var deleteUserResp = await _userService.DeleteUser(user);
+            var deleteUserResp = await _userService.DeleteUser(id);
 
             if (deleteUserResp.Successful) {
 
@@ -290,19 +278,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var userResp = await _userService.GetUser(id);
-
-            UserModel? user = userResp.Data;
-
-            if (user == null) {
-
-                TempData[Constants.ERROR_MESSAGE] = userResp.Message;
-
-                return RedirectToAction("Manage");
-
-            }
-
-            var undeleteUserResp = await _userService.UndeleteUser(user);
+            var undeleteUserResp = await _userService.UndeleteUser(id);
 
             if (undeleteUserResp.Successful) {
 
@@ -314,7 +290,7 @@ namespace Library.Controllers {
 
                 TempData[Constants.ERROR_MESSAGE] = undeleteUserResp.Message;
 
-                return View(user);
+                return RedirectToAction("Manage");
 
             }
 

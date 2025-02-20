@@ -13,22 +13,14 @@
 */
 
 
-// Campo visível que renderiza a imagem da capa do livro.
+document.addEventListener('DOMContentLoaded', function () {
 
-const imgPreview = document.getElementById("img-preview");
+    const imgPreview = document.getElementById("img-preview");
 
+    const imgData = document.getElementById("cover-data");
 
-// Campo oculto que contém a string base64 com os dados da imagem.
+    imgPreview.innerHTML = '<img src="' + imgData.value + '" class="center"/>';
 
-const imgData = document.getElementById("cover-data");
+    imgPreview.removeAttribute("hidden");
 
-
-// Renderiza a imagem codificada em cover-data em img-preview, usando o decodificador de string base64
-// do próprio HTML.
-
-imgPreview.innerHTML = '<img src="' + imgData.value + '" class="center"/>';
-
-
-// Remove o atributo oculto.
-
-imgPreview.removeAttribute("hidden");
+});

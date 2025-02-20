@@ -13,7 +13,7 @@ namespace Library.Services.PersonService {
 
         public Task<Response<PersonModel>> EditPerson(PersonModel person);
 
-        public Task<Response<PersonModel>> DeletePerson(PersonModel person);
+        public Task<Response<PersonModel>> DeletePerson(Guid id);
 
     }
 

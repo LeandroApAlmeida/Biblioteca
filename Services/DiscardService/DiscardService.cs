@@ -229,13 +229,17 @@ namespace Library.Services.DiscardService {
         }
 
 
-        public async Task<Response<DiscardedBookModel>> DeleteDiscardedBook(DiscardedBookModel discardedBook) {
+        public async Task<Response<DiscardedBookModel>> DeleteDiscardedBook(Guid id) {
 
             Response<DiscardedBookModel> response = new();
 
             try {
 
-                _context.Attach(discardedBook);
+                var discardedBookResp = await GetDiscardedBook(id);
+
+                DiscardedBookModel? discardedBook = discardedBookResp.Data;
+
+                if (discardedBook == null) throw new Exception(discardedBookResp.Message);
 
                 _context.DiscardedBooks.Remove(discardedBook);
 

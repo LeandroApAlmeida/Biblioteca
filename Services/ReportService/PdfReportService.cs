@@ -65,7 +65,7 @@ namespace Library.Services.ReportService {
                     FontName = "Arial",
                     FontSize = 10,
                     Line = true,
-                    Left = "Impresso em: " + DateTime.Now.ToString(),
+                    Left = "Impresso em: " + DateTime.Now.ToString("dd/MM/yyyy, HH:mm:ss"),
                     Right = "Pág. [page] de [toPage]",
                     Spacing = 5
                 }

@@ -17,6 +17,18 @@ namespace Library.Services.ReportService {
 
         public string DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList);
 
+        public string BookDetailedWithTitle(BookModel book);
+
+        public string BooksInTheCollectionWithTitle(IEnumerable<BookModel> booksList);
+
+        public string RegisteredBooksWithTitle(IEnumerable<BookModel> booksList);
+
+        public string BorrowedBooksWithTitle(IEnumerable<LoanModel> loanList);
+
+        public string DiscardedBooksWithTitle(IEnumerable<DiscardedBookModel> discardedBooksList);
+
+        public string DonatedBooksWithTitle(IEnumerable<DonatedBookModel> donatedBooksList);
+
     }
 
 

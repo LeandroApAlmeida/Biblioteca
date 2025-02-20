@@ -411,19 +411,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var bookResp = await _bookService.GetBook(id);
-
-            BookModel? book = bookResp.Data;
-
-            if (book == null) {
-
-                TempData[Constants.ERROR_MESSAGE] = bookResp.Message;
-                
-                return RedirectToAction("Manage");
-            
-            }
-
-            var deleteBookResp = await _bookService.DeleteBook(book);
+            var deleteBookResp = await _bookService.DeleteBook(id);
 
             if (deleteBookResp.Successful) {
 

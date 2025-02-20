@@ -1,3 +1,8 @@
 ﻿import { formatToDatetimeLocal } from "./utils.js"
 
-document.getElementById("return-date").value = formatToDatetimeLocal(new Date());
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.getElementById("return-date").value = formatToDatetimeLocal(new Date());
+
+});

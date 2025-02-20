@@ -266,13 +266,17 @@ namespace Library.Services.DonationService {
         }
 
 
-        public async Task<Response<DonatedBookModel>> DeleteDonatedBook(DonatedBookModel donatedBook) {
+        public async Task<Response<DonatedBookModel>> DeleteDonatedBook(Guid id) {
 
             Response<DonatedBookModel> response = new();
 
             try {
 
-                _context.Attach(donatedBook);
+                var donatedBookResp = await GetDonatedBook(id);
+
+                DonatedBookModel? donatedBook = donatedBookResp.Data;
+
+                if (donatedBook == null) throw new Exception(donatedBookResp.Message);
 
                 _context.DonatedBooks.Remove(donatedBook);
 

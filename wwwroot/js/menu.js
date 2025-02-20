@@ -6,46 +6,49 @@
 */
 
 
-//Propriedades da página ativa.
+document.addEventListener('DOMContentLoaded', function () {
 
-const {
-    host,
-    hostname,
-    href,
-    origin,
-    pathname,
-    port,
-    protocol,
-    search
-} = window.location
+    //Propriedades da página ativa.
 
+    const {
+        host,
+        hostname,
+        href,
+        origin,
+        pathname,
+        port,
+        protocol,
+        search
+    } = window.location
 
-// Identifica a que item de menu a página atual está relacionada e aciona a função
-// para a configuração do menu.
+    // Identifica a que item de menu a página atual está relacionada e aciona a função
+    // para a configuração do menu.
 
-if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/NoBook")) {
-    setMenuOption(1);
-} else if (pathname.startsWith("/Book")) {
-    setMenuOption(2);
-} else if (pathname.startsWith("/Discard")) {
-    setMenuOption(3);
-} else if (pathname.startsWith("/Donation")) {
-    setMenuOption(4);
-} else if (pathname.startsWith("/Loan")) {
-    setMenuOption(5);
-} else if (pathname.startsWith("/Person")) {
-    setMenuOption(6);
-} else if (pathname.startsWith("/User")) {
-    setMenuOption(7);
-} else if (pathname.startsWith("/Session")) {
-    setMenuOption(9);
-} else if (pathname.startsWith("/Settings")) {
-    setMenuOption(10);
-} else if (pathname.startsWith("/Home/About")) {
-    setMenuOption(8);
-} else {
-    setMenuOption(1);
-}
+    if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/NoBook")) {
+        setMenuOption(1);
+    } else if (pathname.startsWith("/Book")) {
+        setMenuOption(2);
+    } else if (pathname.startsWith("/Discard")) {
+        setMenuOption(3);
+    } else if (pathname.startsWith("/Donation")) {
+        setMenuOption(4);
+    } else if (pathname.startsWith("/Loan")) {
+        setMenuOption(5);
+    } else if (pathname.startsWith("/Person")) {
+        setMenuOption(6);
+    } else if (pathname.startsWith("/User")) {
+        setMenuOption(7);
+    } else if (pathname.startsWith("/Session")) {
+        setMenuOption(9);
+    } else if (pathname.startsWith("/Settings")) {
+        setMenuOption(10);
+    } else if (pathname.startsWith("/Home/About")) {
+        setMenuOption(8);
+    } else {
+        setMenuOption(1);
+    }
+
+});
 
 
 /**

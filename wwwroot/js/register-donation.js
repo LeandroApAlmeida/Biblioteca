@@ -1,18 +1,22 @@
-﻿import { formatToDatetimeLocal } from "./utils.js"
+﻿
+import { formatToDatetimeLocal } from "./utils.js"
 import { setPersonData } from "./data-person.js"
 
 
-var selector = document.getElementById('select-person');
-selector.addEventListener('change', onSelectedPerson);
+document.addEventListener('DOMContentLoaded', function () {
+
+    var selector = document.getElementById("select-person");
+
+    selector.addEventListener('change', onSelectedPerson);
+
+    document.getElementById("donation-date").value = formatToDatetimeLocal(new Date());
+
+    selector.dispatchEvent(new Event('change'));
+
+});
 
 
-document.getElementById("donation-date").value = formatToDatetimeLocal(new Date());
-
-
-onSelectedPerson();
-
-
-function onSelectedPerson() {
+function onSelectedPerson(event) {
 
     var jsonData = window.personsData;
 
@@ -20,7 +24,7 @@ function onSelectedPerson() {
 
         var person = jsonData[i];
 
-        if (person.Id == selector.value) {
+        if (person.Id == event.target.value) {
 
             setPersonData(document, person);
 

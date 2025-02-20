@@ -504,11 +504,17 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<Response<UserModel>> DeleteUser(UserModel user) {
+        public async Task<Response<UserModel>> DeleteUser(Guid id) {
 
             Response<UserModel> response = new();
 
             try {
+
+                var userResp = await GetUser(id);
+
+                UserModel? user = userResp.Data;
+
+                if (user == null) throw new Exception(userResp.Message);
 
                 if (user.Role.Id == (int)UserRole.Admin) {
                     throw new Exception("Não é permitido excluir um usuário administrador.");
@@ -519,8 +525,6 @@ namespace Library.Services.UserService {
                 if (!userWithHashResp.Successful) throw new Exception(userWithHashResp.Message);
 
                 UserModel model = userWithHashResp.Data!;
-
-                _context.Attach(model);
 
                 model.IsDeleted = true;
                 model.LastUpdateDate = DateTime.Now;
@@ -548,11 +552,17 @@ namespace Library.Services.UserService {
         }
 
 
-        public async Task<Response<UserModel>> UndeleteUser(UserModel user) {
+        public async Task<Response<UserModel>> UndeleteUser(Guid id) {
 
             Response<UserModel> response = new();
 
             try {
+
+                var userResp = await GetUser(id);
+
+                UserModel? user = userResp.Data;
+
+                if (user == null) throw new Exception(userResp.Message);
 
                 var userWithHashResp = await GetUserWithHash(user.Id);
 

@@ -1,3 +1,14 @@
-﻿import { formatToDatetimeLocal } from "./utils.js"
+﻿
+/*
+    Tratador de eventos da página de cadastro de livro descartado (~\Views\Discard\Register.cshtml).
+*/
 
-document.getElementById("discard-date").value = formatToDatetimeLocal(new Date());
+
+import { formatToDatetimeLocal } from "./utils.js"
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.getElementById("discard-date").value = formatToDatetimeLocal(new Date());
+
+});

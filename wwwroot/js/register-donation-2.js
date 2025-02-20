@@ -4,21 +4,23 @@ import { setPersonData } from "./data-person.js"
 import { setBookData } from "./data-book.js"
 
 
-var personSelector = document.getElementById('select-person');
-personSelector.addEventListener('change', onSelectedPerson);
+document.addEventListener('DOMContentLoaded', function () {
 
-var bookSelector = document.getElementById('select-book');
-bookSelector.addEventListener('change', onSelectedBook);
+    var personSelector = document.getElementById('select-person');
+    var bookSelector = document.getElementById('select-book');
 
-document.getElementById("donation-date").value = formatToDatetimeLocal(new Date());
+    personSelector.addEventListener('change', onSelectedPerson);
+    bookSelector.addEventListener('change', onSelectedBook);
+
+    document.getElementById("donation-date").value = formatToDatetimeLocal(new Date());
+
+    personSelector.dispatchEvent(new Event('change'));
+    bookSelector.dispatchEvent(new Event('change'));
+
+});
 
 
-onSelectedPerson();
-
-onSelectedBook();
-
-
-function onSelectedPerson() {
+function onSelectedPerson(event) {
 
     var jsonData = window.personsData;
 
@@ -26,7 +28,7 @@ function onSelectedPerson() {
 
         var person = jsonData[i];
 
-        if (person.Id == personSelector.value) {
+        if (person.Id == event.target.value) {
 
             setPersonData(document, person);
 
@@ -39,7 +41,7 @@ function onSelectedPerson() {
 }
 
 
-function onSelectedBook() {
+function onSelectedBook(event) {
 
     var jsonData = window.booksData;
 
@@ -47,7 +49,7 @@ function onSelectedBook() {
 
         var book = jsonData[i];
 
-        if (book.Id == bookSelector.value) {
+        if (book.Id == event.target.value) {
 
             const {
                 host,
@@ -60,7 +62,7 @@ function onSelectedBook() {
                 search
             } = window.location
 
-            const url = `${origin}/api/CollectionApi/Cover/${book.Id}`;
+            const url = `${origin}/api/CollectionApi/GetBookCover/${book.Id}`;
             fetch(url).then(response => {
 
                 if (!response.ok) { throw new Error('Erro ao recuperar a capa do livro.'); }

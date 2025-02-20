@@ -89,7 +89,7 @@ namespace Library.Services.BookService {
         /// </summary>
         /// <param name="book">Identificador do livro a ser excluído</param>
         /// <returns>Instância de ResponseModel contendo o livro excluído</returns>
-        public Task<Response<BookModel>> DeleteBook(BookModel book);
+        public Task<Response<BookModel>> DeleteBook(Guid book);
 
 
     }

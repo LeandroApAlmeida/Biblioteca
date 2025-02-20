@@ -278,13 +278,17 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<Response<LoanModel>> DeleteLoan(LoanModel loan) {
+        public async Task<Response<LoanModel>> DeleteLoan(Guid id) {
 
             Response<LoanModel> response = new();
 
             try {
 
-                _context.Attach(loan);
+                var loanResp = await GetLoan(id);
+
+                LoanModel? loan = loanResp.Data;
+
+                if (loan == null) throw new Exception(loanResp.Message);
 
                 loan.LastUpdateDate = DateTime.Now;
                 loan.IsDeleted = true;
@@ -347,13 +351,13 @@ namespace Library.Services.LoanService {
         }
 
 
-        public async Task<Response<LoanModel>> CancelReturn(LoanModel loan) {
+        public async Task<Response<LoanModel>> CancelReturn(Guid id) {
 
             Response<LoanModel> response = new();
 
             try {
 
-                var isBorrowedBookResp = await _collectionService.IsBorrowedBook(loan.Book.Id);
+                var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
 
                 if (!isBorrowedBookResp.Successful) throw new Exception(isBorrowedBookResp.Message);
 
@@ -361,7 +365,11 @@ namespace Library.Services.LoanService {
 
                 if (!isBorrowed) {
 
-                    _context.Attach(loan);
+                    var loanResp = await GetLoan(id);
+
+                    LoanModel? loan = loanResp.Data;
+
+                    if (loan == null) throw new Exception(loanResp.Message);
 
                     loan.LastUpdateDate = DateTime.Now;
                     loan.IsReturned = false;
