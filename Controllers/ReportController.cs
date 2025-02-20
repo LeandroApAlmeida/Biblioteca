@@ -112,7 +112,7 @@ namespace Library.Controllers {
                         "text/html; charset=utf-8"
                     );
 
-                    var htmlScript = _htmlReportService.BookDetailedWithTitle(book);
+                    var htmlScript = _htmlReportService.BookDetailed(book, true);
 
                     return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
@@ -134,7 +134,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var booksResp = await _collectionService.GetAvailableBooks();
+            var booksResp = await _collectionService.GetCollectionBooks();
 
             if (booksResp.Successful) {
 
@@ -164,7 +164,7 @@ namespace Library.Controllers {
                         "text/html; charset=utf-8"
                     );
 
-                    var htmlScript = _htmlReportService.BooksInTheCollectionWithTitle(books);
+                    var htmlScript = _htmlReportService.BooksInTheCollection(books, true);
 
                     return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
@@ -216,7 +216,7 @@ namespace Library.Controllers {
                         "text/html; charset=utf-8"
                     );
 
-                    var htmlScript = _htmlReportService.RegisteredBooksWithTitle(books);
+                    var htmlScript = _htmlReportService.RegisteredBooks(books, true);
 
                     return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
@@ -268,7 +268,7 @@ namespace Library.Controllers {
                         "text/html; charset=utf-8"
                     );
 
-                    var htmlScript = _htmlReportService.DiscardedBooksWithTitle(discardedBooks);
+                    var htmlScript = _htmlReportService.DiscardedBooks(discardedBooks, true);
 
                     return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
@@ -320,7 +320,7 @@ namespace Library.Controllers {
                         "text/html; charset=utf-8"
                     );
 
-                    var htmlScript = _htmlReportService.DonatedBooksWithTitle(donatedBooks);
+                    var htmlScript = _htmlReportService.DonatedBooks(donatedBooks, true);
 
                     return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
@@ -372,7 +372,7 @@ namespace Library.Controllers {
                         "text/html; charset=utf-8"
                     );
 
-                    var htmlScript = _htmlReportService.BorrowedBooksWithTitle(borrowedBooks);
+                    var htmlScript = _htmlReportService.BorrowedBooks(borrowedBooks, true);
 
                     return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 

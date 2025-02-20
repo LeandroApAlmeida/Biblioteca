@@ -5,29 +5,17 @@ namespace Library.Services.ReportService {
 
     public interface IHtmlReportService {
 
-        public string BookDetailed(BookModel book);
+        public string BookDetailed(BookModel book, bool renderTitle);
 
-        public string BooksInTheCollection(IEnumerable<BookModel> booksList);
+        public string BooksInTheCollection(IEnumerable<BookModel> booksList, bool renderTitle);
 
-        public string RegisteredBooks(IEnumerable<BookModel> booksList);
+        public string RegisteredBooks(IEnumerable<BookModel> booksList, bool renderTitle);
 
-        public string BorrowedBooks(IEnumerable<LoanModel> loanList);
+        public string BorrowedBooks(IEnumerable<LoanModel> loanList, bool renderTitle);
 
-        public string DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList);
+        public string DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList, bool renderTitle);
 
-        public string DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList);
-
-        public string BookDetailedWithTitle(BookModel book);
-
-        public string BooksInTheCollectionWithTitle(IEnumerable<BookModel> booksList);
-
-        public string RegisteredBooksWithTitle(IEnumerable<BookModel> booksList);
-
-        public string BorrowedBooksWithTitle(IEnumerable<LoanModel> loanList);
-
-        public string DiscardedBooksWithTitle(IEnumerable<DiscardedBookModel> discardedBooksList);
-
-        public string DonatedBooksWithTitle(IEnumerable<DonatedBookModel> donatedBooksList);
+        public string DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList, bool renderTitle);
 
     }
 

@@ -1,7 +1,6 @@
 ﻿using Library.Dto;
 using Library.Models;
 using Library.Services.SettingsService;
-using System.Globalization;
 using System.Text;
 
 namespace Library.Services.ReportService {
@@ -18,9 +17,44 @@ namespace Library.Services.ReportService {
         }
 
 
-        public string BookDetailed(BookModel book) {
+        private string FormatReportTitle(string reportTitle) {
 
-            return $@"
+            DateTime now = DateTime.Now;
+
+            string formattedDate = "Impresso em: " + now.ToString("dd/MM/yyyy, HH:mm:ss");
+
+            string title = $@"
+
+                <style>
+                    .header {{
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        font-family: Arial;
+                        font-size: 16px;
+                        font-weight: bold;
+                        margin-bottom: 2px;                        
+                    }}
+                    
+                </style>
+
+                <div class=""header"">
+                    <div class=""title"">{reportTitle}</div>
+                    <div class=""date"" id=""currentDate"">{formattedDate}</div>
+                </div>
+
+                <hr style = ""margin-bottom: 30px;""/>
+
+            ";
+
+            return title;
+
+        }
+
+
+        public string BookDetailed(BookModel book, bool renderTitle) {
+
+            string htmlScript = $@"
                 
                 <html>
 
@@ -97,10 +131,23 @@ namespace Library.Services.ReportService {
 
             ";
 
+            if (renderTitle) {
+
+                return htmlScript.Replace(
+                    "<!--report-title-location-->",
+                    FormatReportTitle("Detalhes do Livro (versão HTML)")
+                );
+
+            } else {
+
+                return htmlScript;
+
+            }
+
         }
 
 
-        public string BooksInTheCollection(IEnumerable<BookModel> booksList) {
+        public string BooksInTheCollection(IEnumerable<BookModel> booksList, bool renderTitle) {
 
             StringBuilder sb = new StringBuilder();
 
@@ -126,7 +173,7 @@ namespace Library.Services.ReportService {
 
             }
 
-            return $@"
+            string htmlScript = $@"
 
                 <html>
 
@@ -210,10 +257,24 @@ namespace Library.Services.ReportService {
                 </html>
 
             ";
+
+            if (renderTitle) {
+
+                return htmlScript.Replace(
+                    "<!--report-title-location-->",
+                    FormatReportTitle("Livros no Acervo (versão HTML)")
+                );
+
+            } else {
+
+                return htmlScript;
+            
+            }
+
         }
 
 
-        public string RegisteredBooks(IEnumerable<BookModel> booksList) {
+        public string RegisteredBooks(IEnumerable<BookModel> booksList, bool renderTitle) {
 
             SettingsDto settings = new SettingsDto(_settingsService);
 
@@ -290,7 +351,7 @@ namespace Library.Services.ReportService {
 
             }
 
-            return $@"
+            string htmlScript = $@"
 
                 <html>
 
@@ -403,7 +464,7 @@ namespace Library.Services.ReportService {
 
                         </table>
 
-                        <table id = ""table-2"" class=""table"" border=""1"" style =""margin-top:50px;"" >
+                        <table id = ""table-2"" class=""table"" border=""1"" style =""margin-top:25px;"" >
 
                             <thead >
 
@@ -446,10 +507,23 @@ namespace Library.Services.ReportService {
 
             ";
 
+            if (renderTitle) {
+
+                return htmlScript.Replace(
+                    "<!--report-title-location-->",
+                    FormatReportTitle("Livros Cadastrados (versão HTML)")
+                );
+
+            } else {
+            
+                return htmlScript;
+            
+            }
+
         }
 
 
-        public string BorrowedBooks(IEnumerable<LoanModel> loanList) {
+        public string BorrowedBooks(IEnumerable<LoanModel> loanList, bool renderTitle) {
 
             StringBuilder sb = new StringBuilder();
 
@@ -478,7 +552,7 @@ namespace Library.Services.ReportService {
 
             }
 
-            return $@"
+            string htmlScript = $@"
 
                 <html>
 
@@ -566,10 +640,23 @@ namespace Library.Services.ReportService {
 
             ";
 
+            if (renderTitle) {
+
+                return htmlScript.Replace(
+                    "<!--report-title-location-->",
+                    FormatReportTitle("Livros Emprestados (versão HTML)")
+                );
+
+            } else {
+
+                return htmlScript;
+            
+            }
+
         }
 
 
-        public string DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList) {
+        public string DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList, bool renderTitle) {
 
             StringBuilder sb = new StringBuilder();
 
@@ -597,7 +684,7 @@ namespace Library.Services.ReportService {
 
             }
 
-            return $@"
+            string htmlScript = $@"
 
                 <html>
 
@@ -683,10 +770,23 @@ namespace Library.Services.ReportService {
 
             ";
 
+            if (renderTitle) {
+
+                return htmlScript.Replace(
+                    "<!--report-title-location-->",
+                    FormatReportTitle("Livros Descartados (versão HTML)")
+                );
+
+            } else {
+
+                return htmlScript;
+            
+            }
+
         }
 
 
-        public string DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList) {
+        public string DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList, bool renderTitle) {
 
             StringBuilder sb = new StringBuilder();
 
@@ -714,7 +814,7 @@ namespace Library.Services.ReportService {
 
             }
 
-            return $@"
+            string htmlScript = $@"
                 <html>
 
                     <head>
@@ -800,110 +900,18 @@ namespace Library.Services.ReportService {
 
             ";
 
-        }
+            if (renderTitle) {
 
+                return htmlScript.Replace(
+                    "<!--report-title-location-->",
+                    FormatReportTitle("Livros Doados (versão HTML)")
+                );
 
-        private string FormatReportTitle(string reportTitle) {
+            } else {
 
-            DateTime now = DateTime.Now;
+                return htmlScript;
             
-            string formattedDate = "Impresso em: " +  now.ToString("dd/MM/yyyy, HH:mm:ss");
-
-            string title = $@"
-
-                <style>
-                    .header {{
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        font-family: Arial;
-                        font-size: 16px;
-                        font-weight: bold;
-                        margin-bottom: 2px;                        
-                    }}
-                    
-                </style>
-
-                <div class=""header"">
-                    <div class=""title"">{reportTitle}</div>
-                    <div class=""date"" id=""currentDate"">{formattedDate}</div>
-                </div>
-
-                <hr style = ""margin-bottom: 30px;""/>
-
-            ";
-            return title;
-        }
-
-
-        public string BookDetailedWithTitle(BookModel book) {
-
-            string htmlScript = BookDetailed(book);
-
-            return htmlScript.Replace(
-                "<!--report-title-location-->",
-                FormatReportTitle("Detalhes do Livro (versão HTML)")
-            );
-
-        }
-
-
-        public string BooksInTheCollectionWithTitle(IEnumerable<BookModel> booksList) {
-
-            string htmlScript = BooksInTheCollection(booksList);
-
-            return htmlScript.Replace(
-                "<!--report-title-location-->",
-                FormatReportTitle("Livros no Acervo (versão HTML)")
-            );
-
-        }
-
-
-        public string RegisteredBooksWithTitle(IEnumerable<BookModel> booksList) {
-
-            string htmlScript = RegisteredBooks(booksList);
-
-            return htmlScript.Replace(
-                "<!--report-title-location-->",
-                FormatReportTitle("Livros Cadastrados (versão HTML)")
-            );
-
-        }
-
-
-        public string BorrowedBooksWithTitle(IEnumerable<LoanModel> loanList) {
-
-            string htmlScript = BorrowedBooks(loanList);
-
-            return htmlScript.Replace(
-                "<!--report-title-location-->",
-                FormatReportTitle("Livros Emprestados (versão HTML)")
-            );
-
-        }
-
-
-        public string DiscardedBooksWithTitle(IEnumerable<DiscardedBookModel> discardedBooksList) {
-
-            string htmlScript = DiscardedBooks(discardedBooksList);
-
-            return htmlScript.Replace(
-                "<!--report-title-location-->",
-                FormatReportTitle("Livros Descartados (versão HTML)")
-            );
-
-        }
-
-
-        public string DonatedBooksWithTitle(IEnumerable<DonatedBookModel> donatedBooksList) {
-
-            string htmlScript = DonatedBooks(donatedBooksList);
-
-            return htmlScript.Replace(
-                "<!--report-title-location-->",
-                FormatReportTitle("Livros Doados (versão HTML)")
-            );
+            }
 
         }
 

@@ -83,36 +83,51 @@ function stringToBool(str) { return str.toLowerCase() === 'true'; }
 
 
 function updateDiscardedFontStyle() {
+
     var discardedTextColorCaption = document.getElementById('discarded-text-color');
+
     const bold = document.getElementById('discarded-bold').checked;
     const underline = document.getElementById('discarded-underline').checked;
     const italic = document.getElementById('discarded-italic').checked;
+
     discardedTextColorCaption.classList.toggle('bold', bold);
     discardedTextColorCaption.classList.toggle('underline', underline);
     discardedTextColorCaption.classList.toggle('italic', italic);
+
     setDiscardedFontStyle(bold, underline, italic);
+
 }
 
 function updateDonatedFontStyle() {
+
     var donatedTextColorCaption = document.getElementById('donated-text-color');
+
     const bold = document.getElementById('donated-bold').checked;
     const underline = document.getElementById('donated-underline').checked;
     const italic = document.getElementById('donated-italic').checked;
+
     donatedTextColorCaption.classList.toggle('bold', bold);
     donatedTextColorCaption.classList.toggle('underline', underline);
     donatedTextColorCaption.classList.toggle('italic', italic);
+
     setDonatedFontStyle(bold, underline, italic);
+
 }
 
 function updateBorrowedFontStyle() {
+
     var borrowedTextColorCaption = document.getElementById('borrowed-text-color');
+
     const bold = document.getElementById('borrowed-bold').checked;
     const underline = document.getElementById('borrowed-underline').checked;
     const italic = document.getElementById('borrowed-italic').checked;
+
     borrowedTextColorCaption.classList.toggle('bold', bold);
     borrowedTextColorCaption.classList.toggle('underline', underline);
     borrowedTextColorCaption.classList.toggle('italic', italic);
+
     setBorrowedFontStyle(bold, underline, italic);
+
 }
 
 

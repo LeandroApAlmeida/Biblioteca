@@ -79,7 +79,7 @@ namespace Library.Services.ReportService {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Detalhes do Livro",
-                _htmlReportService.BookDetailed(book)
+                _htmlReportService.BookDetailed(book, false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -103,7 +103,7 @@ namespace Library.Services.ReportService {
             
             var objectSettings = GetDefaultObjectSettings(
                 "Livros no Acervo",
-                _htmlReportService.BooksInTheCollection(booksList)
+                _htmlReportService.BooksInTheCollection(booksList, false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -127,7 +127,7 @@ namespace Library.Services.ReportService {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Livros Cadastrados",
-                _htmlReportService.RegisteredBooks(booksList)
+                _htmlReportService.RegisteredBooks(booksList, false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -151,7 +151,7 @@ namespace Library.Services.ReportService {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Livros Descartados",
-                _htmlReportService.DiscardedBooks(discardedBooksList)
+                _htmlReportService.DiscardedBooks(discardedBooksList, false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -175,7 +175,7 @@ namespace Library.Services.ReportService {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Livros Doados",
-                _htmlReportService.DonatedBooks(donatedBooksList)
+                _htmlReportService.DonatedBooks(donatedBooksList, false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -199,7 +199,7 @@ namespace Library.Services.ReportService {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Livros Emprestados",
-                _htmlReportService.BorrowedBooks(loanList)
+                _htmlReportService.BorrowedBooks(loanList, false)
             );
 
             var pdf = new HtmlToPdfDocument {
