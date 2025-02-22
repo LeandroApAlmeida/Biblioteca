@@ -127,12 +127,12 @@ function setMenuOption(menuIndex) {
 
     }
 
-    let favicon = document.querySelector('link[rel="icon"]');
+    let icon = document.querySelector('link[rel="icon"]');
 
-    if (!favicon) {
-        favicon = document.createElement('link');
-        favicon.setAttribute('rel', 'icon');
-        document.head.appendChild(favicon);
+    if (!icon) {
+        icon = document.createElement('link');
+        icon.setAttribute('rel', 'icon');
+        document.head.appendChild(icon);
     }
 
     const getAbsolutePath = function(href) {
@@ -145,16 +145,14 @@ function setMenuOption(menuIndex) {
 
     // Atribui o ícone à aba do navegador.
 
-    favicon.setAttribute('type', 'image/png');
-    favicon.setAttribute('sizes', '24x24');
-    favicon.setAttribute('href', absolutePath);
+    icon.setAttribute('type', 'image/png');
+    icon.setAttribute('sizes', '24x24');
+    icon.setAttribute('href', absolutePath);
+
+    // Ativa o item de menu para receber a linha de horizontal
 
     if (document.getElementById(menuId) != null) {
-
-        // Ativa o item de menu para receber a linha de horizontal
-
         document.getElementById(menuId).className = "active";
-
     }
 
 }

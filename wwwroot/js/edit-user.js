@@ -13,7 +13,7 @@
 */
 
 
-var passwordMask = '####';
+const passwordMask = '####';
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -45,10 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-/**
- * Evento foco recebido. Limpa o campo de edição da senha.
- * @param {any} event evento
- */
 function handleFocus(event) {
     if (event.target.value === passwordMask) {
         event.target.value = "";
@@ -56,10 +52,6 @@ function handleFocus(event) {
 }
 
 
-/**
- * Evento foco perdido. Se o campo está vazio, Atribui a máscara novamente.
- * @param {any} event evento
- */
 function handleBlur(event) {
     if (event.target.value === "") {
         event.target.value = passwordMask;

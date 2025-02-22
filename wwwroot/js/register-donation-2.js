@@ -1,7 +1,12 @@
 ﻿
-import { formatToDatetimeLocal } from "./utils.js"
-import { setPersonData } from "./data-person.js"
-import { setBookData } from "./data-book.js"
+/*
+    Tratador de eventos da página de cadastro de doação (2) (~\Views\Donation\Register2.cshtml).
+*/
+
+
+import { formatToDatetimeLocal } from "./module-datetime.js"
+import { setPersonData } from "./module-person-data.js"
+import { setBookData } from "./module-book-data.js"
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -22,11 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function onSelectedPerson(event) {
 
-    var jsonData = window.personsData;
+    var personsData = window.personsData;
 
-    for (var i = 0; i < jsonData.length; i++) {
+    for (var i = 0; i < personsData.length; i++) {
 
-        var person = jsonData[i];
+        var person = personsData[i];
 
         if (person.Id == event.target.value) {
 
@@ -43,11 +48,11 @@ function onSelectedPerson(event) {
 
 function onSelectedBook(event) {
 
-    var jsonData = window.booksData;
+    var booksData = window.booksData;
 
-    for (var i = 0; i < jsonData.length; i++) {
+    for (var i = 0; i < booksData.length; i++) {
 
-        var book = jsonData[i];
+        var book = booksData[i];
 
         if (book.Id == event.target.value) {
 
@@ -62,7 +67,7 @@ function onSelectedBook(event) {
                 search
             } = window.location
 
-            const url = `${origin}/api/CollectionApi/GetBookCover/${book.Id}`;
+            const url = `${origin}/Api/CollectionApi/GetBookCover/${book.Id}`;
             fetch(url).then(response => {
 
                 if (!response.ok) { throw new Error('Erro ao recuperar a capa do livro.'); }

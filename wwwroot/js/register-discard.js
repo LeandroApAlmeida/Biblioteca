@@ -4,7 +4,7 @@
 */
 
 
-import { formatToDatetimeLocal } from "./utils.js"
+import { formatToDatetimeLocal } from "./module-datetime.js"
 
 
 document.addEventListener('DOMContentLoaded', function () {

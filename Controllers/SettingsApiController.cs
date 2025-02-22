@@ -7,7 +7,7 @@ namespace Library.Controllers {
 
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     public class SettingsApiController : Controller {
 
 
@@ -22,117 +22,126 @@ namespace Library.Controllers {
         }
 
 
-        [HttpPost("SetBorrowedTextColor/{color}")]
-        public ActionResult SetBorrowedTextColor(string color) {
+        private ActionResult SetStringValue(string key, string value) {
             try {
                 if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetString(Constants.BORROWED_TEXT_COLOR_KEY, color);
+                _settingsService.SetString(key, value);
                 return Ok();
             } catch (Exception ex) {
                 return BadRequest(new { message = "Erro", error = ex.Message });
-            }  
+            }
+        }
+
+
+        private ActionResult SetBooleanValue(string key, bool value) {
+            try {
+                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
+                _settingsService.SetBoolean(key, value);
+                return Ok();
+            } catch (Exception ex) {
+                return BadRequest(new { message = "Erro", error = ex.Message });
+            }
+        }
+
+
+        private ActionResult SetIntValue(string key, int value) {
+            try {
+                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
+                _settingsService.SetInt(key, value);
+                return Ok();
+            } catch (Exception ex) {
+                return BadRequest(new { message = "Erro", error = ex.Message });
+            }
+        }
+
+
+        [HttpPost("SetBorrowedTextColor/{color}")]
+        public ActionResult SetBorrowedTextColor(string color) {
+            return SetStringValue(Constants.BORROWED_TEXT_COLOR_KEY, color);
         }
 
 
         [HttpPost("SetDiscardedTextColor/{color}")]
         public ActionResult SetDiscardedTextColor(string color) {
-            try {
-                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetString(Constants.DISCARDED_TEXT_COLOR_KEY, color);
-                return Ok();
-            } catch (Exception ex) {
-                return BadRequest(new { message = "Erro", error = ex.Message });
-            }
+            return SetStringValue(Constants.DISCARDED_TEXT_COLOR_KEY, color);
         }
 
 
         [HttpPost("SetDonatedTextColor/{color}")]
         public ActionResult SetDonatetTextColor(string color) {
-            try {
-                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetString(Constants.DONATED_TEXT_COLOR_KEY, color);
-                return Ok();
-            } catch (Exception ex) {
-                return BadRequest(new { message = "Erro", error = ex.Message });
-            }
+            return SetStringValue(Constants.DONATED_TEXT_COLOR_KEY, color);
         }
 
 
-        [HttpPost("SetBorrowedFontStyle/{isBold}/{isUnderline}/{isItalic}")]
-        public ActionResult SetBorrowedFontStyle(bool isBold, bool isUnderline, bool isItalic) {
-            try {
-                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetBoolean(Constants.BORROWED_BOLD_KEY, isBold);
-                _settingsService.SetBoolean(Constants.BORROWED_UNDERLINE_KEY, isUnderline);
-                _settingsService.SetBoolean(Constants.BORROWED_ITALIC_KEY, isItalic);
-                return Ok();
-            } catch (Exception ex) {
-                return BadRequest(new { message = "Erro", error = ex.Message });
-            }
+        [HttpPost("SetDiscardedBold/{isBold}")]
+        public ActionResult SetDiscardedBold(bool isBold) {
+            return SetBooleanValue(Constants.DISCARDED_BOLD_KEY, isBold);
         }
 
 
-        [HttpPost("SetDiscardedFontStyle/{isBold}/{isUnderline}/{isItalic}")]
-        public ActionResult SetDiscardedFontStyle(bool isBold, bool isUnderline, bool isItalic) {
-            try {
-                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetBoolean(Constants.DISCARDED_BOLD_KEY, isBold);
-                _settingsService.SetBoolean(Constants.DISCARDED_UNDERLINE_KEY, isUnderline);
-                _settingsService.SetBoolean(Constants.DISCARDED_ITALIC_KEY, isItalic);
-                return Ok();
-            } catch (Exception ex) {
-                return BadRequest(new { message = "Erro", error = ex.Message });
-            }
+        [HttpPost("SetDiscardedUnderline/{isUnderline}")]
+        public ActionResult SetDiscardedUnderline(bool isUnderline) {
+            return SetBooleanValue(Constants.DISCARDED_UNDERLINE_KEY, isUnderline);
         }
 
 
-        [HttpPost("SetDonatedFontStyle/{isBold}/{isUnderline}/{isItalic}")]
-        public ActionResult SetDonatedFontStyle(bool isBold, bool isUnderline, bool isItalic) {
-            try {
-                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetBoolean(Constants.DONATED_BOLD_KEY, isBold);
-                _settingsService.SetBoolean(Constants.DONATED_UNDERLINE_KEY, isUnderline);
-                _settingsService.SetBoolean(Constants.DONATED_ITALIC_KEY, isItalic);
-                return Ok();
-            } catch (Exception ex) {
-                return BadRequest(new { message = "Erro", error = ex.Message });
-            }
+        [HttpPost("SetDiscardedItalic/{isItalic}")]
+        public ActionResult SetDiscardedItalic(bool isItalic) {
+            return SetBooleanValue(Constants.DISCARDED_ITALIC_KEY, isItalic);
+        }
+
+
+        [HttpPost("SetDonatedBold/{isBold}")]
+        public ActionResult SetDonatedBold(bool isBold) {
+            return SetBooleanValue(Constants.DONATED_BOLD_KEY, isBold);
+        }
+
+
+        [HttpPost("SetDonatedUnderline/{isUnderline}")]
+        public ActionResult SetDonatedUnderline(bool isUnderline) {
+            return SetBooleanValue(Constants.DONATED_UNDERLINE_KEY, isUnderline);
+        }
+
+
+        [HttpPost("SetDonatedItalic/{isItalic}")]
+        public ActionResult SetDonatedItalic(bool isItalic) {
+            return SetBooleanValue(Constants.DONATED_ITALIC_KEY, isItalic);
+        }
+
+
+        [HttpPost("SetBorrowedBold/{isBold}")]
+        public ActionResult SetBorrowedBold(bool isBold) {
+            return SetBooleanValue(Constants.BORROWED_BOLD_KEY, isBold);
+        }
+
+
+        [HttpPost("SetBorrowedUnderline/{isUnderline}")]
+        public ActionResult SetBorrowedUnderline(bool isUnderline) {
+            return SetBooleanValue(Constants.BORROWED_UNDERLINE_KEY, isUnderline);
+        }
+
+
+        [HttpPost("SetBorrowedItalic/{isItalic}")]
+        public ActionResult SetBorrowedItalic(bool isItalic) {
+            return SetBooleanValue(Constants.BORROWED_ITALIC_KEY, isItalic);
         }
 
 
         [HttpPost("SetReportFormat/{format}")]
         public ActionResult SetReportFormat(int format) {
-            try {
-                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetInt(Constants.REPORT_FORMAT_KEY, format);
-                return Ok();
-            } catch (Exception ex) {
-                return BadRequest(new { message = "Erro", error = ex.Message });
-            }
+            return SetIntValue(Constants.REPORT_FORMAT_KEY, format);
         }
 
 
         [HttpPost("SetApplyStylesToLists/{isApply}")]
         public ActionResult SetApplyStylesToLists(bool isApply) {
-            try {
-                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetBoolean(Constants.APPLY_STYLES_TO_LISTS_KEY, isApply);
-                return Ok();
-            } catch (Exception ex) {
-                return BadRequest(new { message = "Erro", error = ex.Message });
-            }
+            return SetBooleanValue(Constants.APPLY_STYLES_TO_LISTS_KEY, isApply);
         }
 
 
         [HttpPost("SetShowFooterCaption/{isShow}")]
         public ActionResult SetShowFooterCaption(bool isShow) {
-            try {
-                if (!_sessionService.IsSessionActive()) throw new Exception("Sessão inativa.");
-                _settingsService.SetBoolean(Constants.SHOW_FOOTER_CAPTION, isShow);
-                return Ok();
-            } catch (Exception ex) {
-                return BadRequest(new { message = "Erro", error = ex.Message });
-            }
+            return SetBooleanValue(Constants.SHOW_FOOTER_CAPTION, isShow);
         }
 
 

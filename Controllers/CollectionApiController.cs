@@ -9,7 +9,7 @@ namespace Library.Controllers {
     /// Api para manutenção do acervo.
     /// </summary>
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     public class CollectionApiController : Controller {
 
 

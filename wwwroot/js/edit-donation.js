@@ -4,12 +4,13 @@
 */
 
 
-import { setPersonData } from "./data-person.js"
+import { setPersonData } from "./module-person-data.js"
 
 
 document.addEventListener('DOMContentLoaded', function () {
 
     var selector = document.getElementById('select-person');
+
     var personsData = window.personsData;
     var personData = window.personData;
 

@@ -3,13 +3,13 @@
 document.addEventListener('DOMContentLoaded', function () {
 
 
-    var discardedTextColorCaption = document.getElementById('discarded-text-color');
-    var donatedTextColorCaption = document.getElementById('donated-text-color');
-    var borrowedTextColorCaption = document.getElementById('borrowed-text-color');
+    var discardedTextColorInput = document.getElementById('discarded-text-color');
+    var donatedTextColorInput = document.getElementById('donated-text-color');
+    var borrowedTextColorInput = document.getElementById('borrowed-text-color');
 
-    discardedTextColorCaption.style.color = discardedTextColor;
-    donatedTextColorCaption.style.color = donatedTextColor;
-    borrowedTextColorCaption.style.color = borrowedTextColor;
+    discardedTextColorInput.style.color = discardedTextColor;
+    donatedTextColorInput.style.color = donatedTextColor;
+    borrowedTextColorInput.style.color = borrowedTextColor;
 
 
     var discardedColorPicker = document.getElementById('discarded-color-picker');
@@ -21,18 +21,18 @@ document.addEventListener('DOMContentLoaded', function () {
     borrowedColorPicker.value = borrowedTextColor;
 
     discardedColorPicker.addEventListener('change', function () {
-        discardedTextColorCaption.style.color = this.value;
-        setDiscardedTextColor(this.value);
+        discardedTextColorInput.style.color = this.value;
+        setSetting('SetDiscardedTextColor', this.value);
     });
 
     donatedColorPicker.addEventListener('change', function () {
-        donatedTextColorCaption.style.color = this.value;
-        setDonatedTextColor(this.value);
+        donatedTextColorInput.style.color = this.value;
+        setSetting('SetDonatedTextColor', this.value);
     });
 
     borrowedColorPicker.addEventListener('change', function () {
-        borrowedTextColorCaption.style.color = this.value;
-        setBorrowedTextColor(this.value);
+        borrowedTextColorInput.style.color = this.value;
+        setSetting('SetBorrowedTextColor', this.value);
     });
 
 
@@ -71,273 +71,123 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('apply-styles-to-lists').checked = stringToBool(isApplyStylesToLists);
     document.getElementById('show-footer-caption').checked = stringToBool(isShowFooterCaption);
 
-    updateDiscardedFontStyle();
-    updateDonatedFontStyle();
-    updateBorrowedFontStyle();
-
 
 });
+
+
+function setSetting(endPoint, value) {
+
+    const {
+        host,
+        hostname,
+        href,
+        origin,
+        pathname,
+        port,
+        protocol,
+        search
+    } = window.location;
+
+    fetch(`${origin}/Api/SettingsApi/${endPoint}/${value}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Erro ao salvar a configuração.');
+        }
+        return true;
+    }).catch(error => {
+        alert(error);
+        return false;
+    });
+
+}
 
 
 function stringToBool(str) { return str.toLowerCase() === 'true'; }
 
 
-function updateDiscardedFontStyle() {
-
-    var discardedTextColorCaption = document.getElementById('discarded-text-color');
-
+function updateDiscardedBold() {
+    var discardedTextColorInput = document.getElementById('discarded-text-color');
     const bold = document.getElementById('discarded-bold').checked;
+    discardedTextColorInput.classList.toggle('bold', bold);
+    setSetting('SetDiscardedBold', bold);
+}
+
+function updateDiscardedUnderline() {
+    var discardedTextColorInput = document.getElementById('discarded-text-color');
     const underline = document.getElementById('discarded-underline').checked;
+    discardedTextColorInput.classList.toggle('underline', underline);
+    setSetting('SetDiscardedUnderline', underline);
+}
+
+function updateDiscardedItalic() {
+    var discardedTextColorInput = document.getElementById('discarded-text-color');
     const italic = document.getElementById('discarded-italic').checked;
-
-    discardedTextColorCaption.classList.toggle('bold', bold);
-    discardedTextColorCaption.classList.toggle('underline', underline);
-    discardedTextColorCaption.classList.toggle('italic', italic);
-
-    setDiscardedFontStyle(bold, underline, italic);
-
+    discardedTextColorInput.classList.toggle('italic', italic);
+    setSetting('SetDiscardedItalic', italic);
 }
 
-function updateDonatedFontStyle() {
 
-    var donatedTextColorCaption = document.getElementById('donated-text-color');
-
+function updateDonatedBold() {
+    var donatedTextColorInput = document.getElementById('donated-text-color');
     const bold = document.getElementById('donated-bold').checked;
-    const underline = document.getElementById('donated-underline').checked;
-    const italic = document.getElementById('donated-italic').checked;
-
-    donatedTextColorCaption.classList.toggle('bold', bold);
-    donatedTextColorCaption.classList.toggle('underline', underline);
-    donatedTextColorCaption.classList.toggle('italic', italic);
-
-    setDonatedFontStyle(bold, underline, italic);
-
+    donatedTextColorInput.classList.toggle('bold', bold);
+    setSetting('SetDonatedBold', bold);
 }
 
-function updateBorrowedFontStyle() {
+function updateDonatedUnderline() {
+    var donatedTextColorInput = document.getElementById('donated-text-color');
+    const underline = document.getElementById('donated-underline').checked;
+    donatedTextColorInput.classList.toggle('underline', underline);
+    setSetting('SetDonatedUnderline', underline);
+}
 
-    var borrowedTextColorCaption = document.getElementById('borrowed-text-color');
+function updateDonatedItalic() {
+    var donatedTextColorInput = document.getElementById('donated-text-color');
+    const italic = document.getElementById('donated-italic').checked;
+    donatedTextColorInput.classList.toggle('italic', italic);
+    setSetting('SetDonatedItalic', italic);
+}
 
+
+function updateBorrowedBold() {
+    var borrowedTextColorInput = document.getElementById('borrowed-text-color');
     const bold = document.getElementById('borrowed-bold').checked;
+    borrowedTextColorInput.classList.toggle('bold', bold);
+    setSetting('SetBorrowedBold', bold);
+}
+
+function updateBorrowedUnderline() {
+    var borrowedTextColorInput = document.getElementById('borrowed-text-color');
     const underline = document.getElementById('borrowed-underline').checked;
+    borrowedTextColorInput.classList.toggle('underline', underline);
+    setSetting('SetBorrowedUnderline', underline);
+}
+
+function updateBorrowedItalic() {
+    var borrowedTextColorInput = document.getElementById('borrowed-text-color');
     const italic = document.getElementById('borrowed-italic').checked;
-
-    borrowedTextColorCaption.classList.toggle('bold', bold);
-    borrowedTextColorCaption.classList.toggle('underline', underline);
-    borrowedTextColorCaption.classList.toggle('italic', italic);
-
-    setBorrowedFontStyle(bold, underline, italic);
-
+    borrowedTextColorInput.classList.toggle('italic', italic);
+    setSetting('SetBorrowedItalic', italic);
 }
 
 
 function updateReportFormat() {
-    if (document.getElementById('pdf-report-opt').checked) {
-        setReportFormat(1);
-    } else {
-        setReportFormat(2);
-    }
+    var format = document.getElementById('pdf-report-opt').checked ? 1 : 2;
+    setSetting('SetReportFormat', format);
 }
 
 
 function updateApplyStylesToLists() {
     const apply = document.getElementById('apply-styles-to-lists').checked;
-    setApplyStylesToLists(apply);
+    setSetting('SetApplyStylesToLists', apply);
 }
 
 
 function updateShowFooterCaption() {
     const show = document.getElementById('show-footer-caption').checked;
-    setShowFooterCaption(show);
-}
-
-
-function setTextColor(endPoint, color) {
-
-    const {
-        host,
-        hostname,
-        href,
-        origin,
-        pathname,
-        port,
-        protocol,
-        search
-    } = window.location
-
-    fetch(`${origin}/api/SettingsApi/${endPoint}/${encodeURIComponent(color)}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro ao salvar a configuração.');
-        }
-        return true;
-    })
-    .catch(error => {
-        alert(error);
-        return false;
-    });
-
-}
-
-
-function setBorrowedTextColor(color) {
-    return setTextColor('SetBorrowedTextColor', color);
-}
-
-function setDiscardedTextColor(color) {
-    return setTextColor('SetDiscardedTextColor', color);
-}
-
-function setDonatedTextColor(color) {
-    return setTextColor('SetDonatedTextColor', color);
-}
-
-
-function setFontStyle(endPoint, isBold, isUnderline, isItalic) {
-
-    const {
-        host,
-        hostname,
-        href,
-        origin,
-        pathname,
-        port,
-        protocol,
-        search
-    } = window.location
-
-    fetch(`${origin}/api/SettingsApi/${endPoint}/${encodeURIComponent(isBold)}/${encodeURIComponent(isUnderline)}/${encodeURIComponent(isItalic)}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro ao salvar a configuração.');
-        }
-        return true;
-    })
-    .catch(error => {
-        alert(error);
-        return false;
-    });
-
-}
-
-
-function setBorrowedFontStyle(isBold, isUnderline, isItalic) {
-    return setFontStyle('SetBorrowedFontStyle', isBold, isUnderline, isItalic);
-}
-
-function setDiscardedFontStyle(isBold, isUnderline, isItalic) {
-    return setFontStyle('SetDiscardedFontStyle', isBold, isUnderline, isItalic);
-}
-
-function setDonatedFontStyle(isBold, isUnderline, isItalic) {
-    return setFontStyle('SetDonatedFontStyle', isBold, isUnderline, isItalic);
-}
-
-
-function setReportFormat(format) {
-
-    const {
-        host,
-        hostname,
-        href,
-        origin,
-        pathname,
-        port,
-        protocol,
-        search
-    } = window.location
-
-    fetch(`${origin}/api/SettingsApi/SetReportFormat/${encodeURIComponent(format)}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro ao salvar a configuração.');
-        }
-        return true;
-    })
-    .catch(error => {
-        alert(error);
-        return false;
-    });
-
-}
-
-
-function setApplyStylesToLists(isApply) {
-
-    const {
-        host,
-        hostname,
-        href,
-        origin,
-        pathname,
-        port,
-        protocol,
-        search
-    } = window.location
-
-    fetch(`${origin}/api/SettingsApi/SetApplyStylesToLists/${encodeURIComponent(isApply)}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro ao salvar a configuração.');
-        }
-        return true;
-    })
-    .catch(error => {
-        alert(error);
-        return false;
-    });
-
-}
-
-
-function setShowFooterCaption(isShow) {
-
-    const {
-        host,
-        hostname,
-        href,
-        origin,
-        pathname,
-        port,
-        protocol,
-        search
-    } = window.location
-
-    fetch(`${origin}/api/SettingsApi/SetShowFooterCaption/${encodeURIComponent(isShow)}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro ao salvar a configuração.');
-        }
-        return true;
-    })
-    .catch(error => {
-        alert(error);
-        return false;
-    });
-
+    setSetting('SetShowFooterCaption', show);
 }

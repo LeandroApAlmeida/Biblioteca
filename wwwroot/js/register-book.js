@@ -4,8 +4,8 @@
 */
 
 
-import { formatToDatetimeLocal } from "./utils.js"
-import { setCoverData } from "./data-cover.js"
+import { formatToDatetimeLocal } from "./module-datetime.js"
+import { setCoverData } from "./module-cover-data.js"
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -16,14 +16,12 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('release-year').value = 2000;
     document.getElementById('num-of-pages').value = 1;
 
-    const chooseFile = document.getElementById("choose-file");
-
-    chooseFile.addEventListener("change", function () {
+    document.getElementById("choose-file").addEventListener("change", function (event) {
 
         const imgPreview = document.getElementById("img-preview");
         const imgData = document.getElementById("cover-data");
 
-        setCoverData(chooseFile.files[0], imgPreview, imgData);
+        setCoverData(event.target.files[0], imgPreview, imgData);
 
     });
 
