@@ -5,17 +5,17 @@ namespace Library.Services.ReportService {
     
     public interface IPdfReportService {
 
-        public byte[] BookDetailed(BookModel book);
+        public byte[] BookDetailed(Guid id);
 
-        public byte[] BooksInTheCollection(IEnumerable<BookModel> booksList);
+        public byte[] BooksInTheCollection();
 
-        public byte[] RegisteredBooks(IEnumerable<BookModel> booksList);
+        public byte[] RegisteredBooks();
 
-        public byte[] DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList);
+        public byte[] DiscardedBooks();
 
-        public byte[] DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList);
+        public byte[] DonatedBooks();
 
-        public byte[] BorrowedBooks(IEnumerable<LoanModel> loanList);
+        public byte[] BorrowedBooks();
 
     }
 

@@ -1,5 +1,10 @@
 ﻿using Library.Dto;
 using Library.Models;
+using Library.Services.BookService;
+using Library.Services.CollectionService;
+using Library.Services.DiscardService;
+using Library.Services.DonationService;
+using Library.Services.LoanService;
 using Library.Services.SettingsService;
 using System.Text;
 
@@ -11,9 +16,26 @@ namespace Library.Services.ReportService {
 
         private readonly ISettingsService _settingsService;
 
+        private readonly ICollectionService _collectionService;
 
-        public HtmlReportService(ISettingsService settingsService) {
+        private readonly IBookService _bookService;
+
+        private readonly IDiscardService _discardService;
+
+        private readonly IDonationService _donationService;
+
+        private readonly ILoanService _loanService;
+
+
+        public HtmlReportService(ISettingsService settingsService, ICollectionService collectionService,
+        IBookService bookService, IDiscardService discardService, IDonationService donationService,
+        ILoanService loanService) {
             _settingsService = settingsService;
+            _collectionService = collectionService;
+            _bookService = bookService;
+            _discardService = discardService;
+            _donationService = donationService;
+            _loanService = loanService;
         }
 
 
@@ -52,7 +74,35 @@ namespace Library.Services.ReportService {
         }
 
 
-        public string BookDetailed(BookModel book, bool renderTitle) {
+        public string BookDetailed(Guid id, bool renderTitle) {
+
+            var bookResp = _bookService.GetBook(id).GetAwaiter().GetResult();
+
+            BookModel? book;
+
+            if (bookResp.Successful) {
+                book = bookResp.Data!;
+            } else {
+                return $@"
+
+                    <html>
+
+                        <head>
+
+                            <meta charset=""utf-8"" />
+        
+                            <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />
+
+                        </head>
+
+                        <body> 
+
+                        </body>
+
+                    </html>
+
+                ";
+            }
 
             string htmlScript = $@"
                 
@@ -147,9 +197,17 @@ namespace Library.Services.ReportService {
         }
 
 
-        public string BooksInTheCollection(IEnumerable<BookModel> booksList, bool renderTitle) {
+        public string BooksInTheCollection(bool renderTitle) {
 
             StringBuilder sb = new StringBuilder();
+
+            var booksResp = _collectionService.GetCollectionBooks().GetAwaiter().GetResult();
+
+            List<BookModel> booksList = new List<BookModel>();
+
+            if (booksResp.Successful) {
+                booksList = booksResp.Data!;
+            }
 
             if (booksList != null) {
 
@@ -274,7 +332,153 @@ namespace Library.Services.ReportService {
         }
 
 
-        public string RegisteredBooks(IEnumerable<BookModel> booksList, bool renderTitle) {
+        public string DiscardedBooks(bool renderTitle) {
+
+            StringBuilder sb = new StringBuilder();
+
+            List<DiscardedBookModel> discardedBooksList = new List<DiscardedBookModel>();
+
+            var discardedBooksResp = _discardService.GetDiscardedBooks().GetAwaiter().GetResult();
+
+            if (discardedBooksResp.Successful) {
+                discardedBooksList = discardedBooksResp.Data!;
+            }
+
+            if (discardedBooksList != null) {
+
+                foreach (DiscardedBookModel donatedBook in discardedBooksList) {
+
+                    sb.Append($@"
+                        <tr>
+                            <td>{donatedBook.Book.Title + (donatedBook.Book.Subtitle != null ? " - " +
+                            donatedBook.Book.Subtitle : "")}</td>
+                            <td>{donatedBook.Book.Author}</td>
+                            <td>{donatedBook.Book.Publisher}</td>
+                            <td>{donatedBook.Book.Isbn}</td>
+                            <td class=""num-span"">{donatedBook.Book.Edition}</td>
+                            <td class=""num-span"">{donatedBook.Book.Volume}</td>
+                            <td class=""num-span"">{donatedBook.Book.ReleaseYear}</td>
+                            <td class=""num-span"">{donatedBook.Book.NumberOfPages}</td>
+                            <td >{donatedBook.Book.AcquisitionDate:dd/MM/yyyy}</td>
+                            <td >{donatedBook.Date:dd/MM/yyyy}</td>
+                        </tr>    
+                    ");
+
+                }
+
+            }
+
+            string htmlScript = $@"
+
+                <html>
+
+                    <head>
+
+                        <style> 
+
+                            table {{
+                                border-collapse: collapse;
+                                width: 100%;
+                            }}
+
+                            td {{
+                                text-align: left;
+                                padding: 8px;
+                                font-family: Arial;
+                                font-size: 16px;
+                                text-align: left;
+                                vertical-align: top;
+                            }}
+
+                            th {{
+                                text-align: left;
+                                padding: 8px;
+                                margin-bottom: 10px;
+                                font-weight: bold;
+                                font-family: Arial;
+                                font-size: 16px;
+                                color: white;
+                                background: black;
+                                text-align: left;
+                                vertical-align: top;
+                            }}
+
+                            tr:nth-child(even) {{
+                                background: #e9e9e9;
+                            }}
+
+                            thead {{display: table-header-group; }}
+
+                            tbody tr {{ page-break-inside: avoid; }}
+                            
+                        </style>
+
+                        <link rel=""icon"" type=""image/png"" sizes=""16x16"" href=""/img/report_icon_24.png"" />
+
+                    </head>
+
+                    <body>
+
+                        <!--report-title-location-->
+                       
+                        <table class=""table"" border=""0"">
+
+                            <thead>
+
+                                <tr>
+                                    <th ><u>Título e Subtítulo</u></th>
+                                    <th style=""width: 16%;"">Autor</th>
+                                    <th style=""width: 14%;"">Editora</th>
+                                    <th style=""width: 12%;"">ISBN</th>
+                                    <th style=""width: 2%;"">Ed.</th>
+                                    <th style=""width: 2%;"">Vol.</th>
+                                    <th style=""width: 2%;"">Pub.</th>
+                                    <th style=""width: 2%;"">Pgs</th>
+                                    <th style=""width: 5%;"">Aquisição</th>
+                                    <th style=""width: 5%;"">Descarte</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {sb.ToString()}
+
+                            </tbody>
+
+                        </table>
+
+                    </body>
+
+                </html>
+
+            ";
+
+            if (renderTitle) {
+
+                return htmlScript.Replace(
+                    "<!--report-title-location-->",
+                    FormatReportTitle("Livros Descartados (versão HTML)")
+                );
+
+            } else {
+
+                return htmlScript;
+
+            }
+
+        }
+
+
+        public string RegisteredBooks(bool renderTitle) {
+
+            var booksResp = _bookService.GetBooks().GetAwaiter().GetResult();
+
+            List<BookModel> booksList = new List<BookModel>();
+
+            if (booksResp.Successful) {
+                booksList = booksResp.Data!;
+            }
 
             SettingsDto settings = new SettingsDto(_settingsService);
 
@@ -523,13 +727,21 @@ namespace Library.Services.ReportService {
         }
 
 
-        public string BorrowedBooks(IEnumerable<LoanModel> loanList, bool renderTitle) {
+        public string BorrowedBooks(bool renderTitle) {
 
             StringBuilder sb = new StringBuilder();
 
-            if (loanList != null) {
+            var loansResp = _loanService.GetLoans().GetAwaiter().GetResult();
 
-                foreach (LoanModel loan in loanList) {
+            List<LoanModel> loansList = new List<LoanModel>();
+
+            if (loansResp.Successful) {
+                loansList = loansResp.Data!;
+            }
+
+            if (loansList != null) {
+
+                foreach (LoanModel loan in loansList) {
 
                     sb.Append($@"
                         <tr>
@@ -656,139 +868,17 @@ namespace Library.Services.ReportService {
         }
 
 
-        public string DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList, bool renderTitle) {
+        public string DonatedBooks(bool renderTitle) {
 
             StringBuilder sb = new StringBuilder();
 
-            if (discardedBooksList != null) {
+            var donatedBooksResp = _donationService.GetDonatedBooks().GetAwaiter().GetResult();
 
-                foreach (DiscardedBookModel donatedBook in discardedBooksList) {
+            List<DonatedBookModel> donatedBooksList = new List<DonatedBookModel>();
 
-                    sb.Append($@"
-                        <tr>
-                            <td>{donatedBook.Book.Title + (donatedBook.Book.Subtitle != null ? " - " +
-                            donatedBook.Book.Subtitle : "")}</td>
-                            <td>{donatedBook.Book.Author}</td>
-                            <td>{donatedBook.Book.Publisher}</td>
-                            <td>{donatedBook.Book.Isbn}</td>
-                            <td class=""num-span"">{donatedBook.Book.Edition}</td>
-                            <td class=""num-span"">{donatedBook.Book.Volume}</td>
-                            <td class=""num-span"">{donatedBook.Book.ReleaseYear}</td>
-                            <td class=""num-span"">{donatedBook.Book.NumberOfPages}</td>
-                            <td >{donatedBook.Book.AcquisitionDate:dd/MM/yyyy}</td>
-                            <td >{donatedBook.Date:dd/MM/yyyy}</td>
-                        </tr>    
-                    ");
-
-                }
-
+            if (donatedBooksResp.Successful) {
+                donatedBooksList = donatedBooksResp.Data!;
             }
-
-            string htmlScript = $@"
-
-                <html>
-
-                    <head>
-
-                        <style> 
-
-                            table {{
-                                border-collapse: collapse;
-                                width: 100%;
-                            }}
-
-                            td {{
-                                text-align: left;
-                                padding: 8px;
-                                font-family: Arial;
-                                font-size: 16px;
-                                text-align: left;
-                                vertical-align: top;
-                            }}
-
-                            th {{
-                                text-align: left;
-                                padding: 8px;
-                                margin-bottom: 10px;
-                                font-weight: bold;
-                                font-family: Arial;
-                                font-size: 16px;
-                                color: white;
-                                background: black;
-                                text-align: left;
-                                vertical-align: top;
-                            }}
-
-                            tr:nth-child(even) {{
-                                background: #e9e9e9;
-                            }}
-
-                            thead {{display: table-header-group; }}
-
-                            tbody tr {{ page-break-inside: avoid; }}
-                            
-                        </style>
-
-                        <link rel=""icon"" type=""image/png"" sizes=""16x16"" href=""/img/report_icon_24.png"" />
-
-                    </head>
-
-                    <body>
-
-                        <!--report-title-location-->
-                       
-                        <table class=""table"" border=""0"">
-
-                            <thead>
-
-                                <tr>
-                                    <th ><u>Título e Subtítulo</u></th>
-                                    <th style=""width: 16%;"">Autor</th>
-                                    <th style=""width: 14%;"">Editora</th>
-                                    <th style=""width: 12%;"">ISBN</th>
-                                    <th style=""width: 2%;"">Ed.</th>
-                                    <th style=""width: 2%;"">Vol.</th>
-                                    <th style=""width: 2%;"">Pub.</th>
-                                    <th style=""width: 2%;"">Pgs</th>
-                                    <th style=""width: 5%;"">Aquisição</th>
-                                    <th style=""width: 5%;"">Descarte</th>
-                                </tr>
-
-                            </thead>
-
-                            <tbody>
-
-                                {sb.ToString()}
-
-                            </tbody>
-
-                        </table>
-
-                    </body>
-
-                </html>
-
-            ";
-
-            if (renderTitle) {
-
-                return htmlScript.Replace(
-                    "<!--report-title-location-->",
-                    FormatReportTitle("Livros Descartados (versão HTML)")
-                );
-
-            } else {
-
-                return htmlScript;
-            
-            }
-
-        }
-
-
-        public string DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList, bool renderTitle) {
-
-            StringBuilder sb = new StringBuilder();
 
             if (donatedBooksList != null) {
 

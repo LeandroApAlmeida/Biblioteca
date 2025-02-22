@@ -75,11 +75,11 @@ namespace Library.Services.ReportService {
         }
 
 
-        public byte[] BookDetailed(BookModel book) {
+        public byte[] BookDetailed(Guid id) {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Detalhes do Livro",
-                _htmlReportService.BookDetailed(book, false)
+                _htmlReportService.BookDetailed(id, false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -99,11 +99,11 @@ namespace Library.Services.ReportService {
         }
 
 
-        public byte[] BooksInTheCollection(IEnumerable<BookModel> booksList) {
+        public byte[] BooksInTheCollection() {
             
             var objectSettings = GetDefaultObjectSettings(
                 "Livros no Acervo",
-                _htmlReportService.BooksInTheCollection(booksList, false)
+                _htmlReportService.BooksInTheCollection(false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -123,11 +123,11 @@ namespace Library.Services.ReportService {
         }
 
 
-        byte[] IPdfReportService.RegisteredBooks(IEnumerable<BookModel> booksList) {
+        byte[] IPdfReportService.RegisteredBooks() {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Livros Cadastrados",
-                _htmlReportService.RegisteredBooks(booksList, false)
+                _htmlReportService.RegisteredBooks(false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -147,11 +147,11 @@ namespace Library.Services.ReportService {
         }
 
 
-        public byte[] DiscardedBooks(IEnumerable<DiscardedBookModel> discardedBooksList) {
+        public byte[] DiscardedBooks() {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Livros Descartados",
-                _htmlReportService.DiscardedBooks(discardedBooksList, false)
+                _htmlReportService.DiscardedBooks(false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -171,11 +171,11 @@ namespace Library.Services.ReportService {
         }
 
 
-        public byte[] DonatedBooks(IEnumerable<DonatedBookModel> donatedBooksList) {
+        public byte[] DonatedBooks() {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Livros Doados",
-                _htmlReportService.DonatedBooks(donatedBooksList, false)
+                _htmlReportService.DonatedBooks(false)
             );
 
             var pdf = new HtmlToPdfDocument {
@@ -195,11 +195,11 @@ namespace Library.Services.ReportService {
         }
 
 
-        public byte[] BorrowedBooks(IEnumerable<LoanModel> loanList) {
+        public byte[] BorrowedBooks() {
 
             var objectSettings = GetDefaultObjectSettings(
                 "Livros Emprestados",
-                _htmlReportService.BorrowedBooks(loanList, false)
+                _htmlReportService.BorrowedBooks(false)
             );
 
             var pdf = new HtmlToPdfDocument {

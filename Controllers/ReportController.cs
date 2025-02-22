@@ -84,7 +84,7 @@ namespace Library.Controllers {
                         ".pdf"
                     );
 
-                    var pdfBytes = _pdfReportService.BookDetailed(book);
+                    var pdfBytes = _pdfReportService.BookDetailed(id);
 
                     return File(pdfBytes, "application/pdf");
 
@@ -112,7 +112,7 @@ namespace Library.Controllers {
                         "text/html; charset=utf-8"
                     );
 
-                    var htmlScript = _htmlReportService.BookDetailed(book, true);
+                    var htmlScript = _htmlReportService.BookDetailed(id, true);
 
                     return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
@@ -128,51 +128,39 @@ namespace Library.Controllers {
 
 
         [HttpGet]
-        public async Task<IActionResult> BooksInTheCollectionReport() {
+        public IActionResult BooksInTheCollectionReport() {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            var booksResp = await _collectionService.GetCollectionBooks();
+            if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
+            Constants.PDF_FORMAT) {
 
-            if (booksResp.Successful) {
+                var pdfBytes = _pdfReportService.BooksInTheCollection();
 
-                List<BookModel> books = booksResp.Data!;
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosNoAcervo.pdf"
+                );
 
-                if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
-                Constants.PDF_FORMAT) {
-
-                    var pdfBytes = _pdfReportService.BooksInTheCollection(books);
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosNoAcervo.pdf"
-                    );
-
-                    return File(pdfBytes, "application/pdf");
-
-                } else {
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosNoAcervo.html"
-                    );
-
-                    Response.Headers.Append(
-                        "Content-Type",
-                        "text/html; charset=utf-8"
-                    );
-
-                    var htmlScript = _htmlReportService.BooksInTheCollection(books, true);
-
-                    return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
-
-                }
+                return File(pdfBytes, "application/pdf");
 
             } else {
 
-                return BadRequest(booksResp.Message);
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosNoAcervo.html"
+                );
+
+                Response.Headers.Append(
+                    "Content-Type",
+                    "text/html; charset=utf-8"
+                );
+
+                var htmlScript = _htmlReportService.BooksInTheCollection(true);
+
+                return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
             }
 
@@ -180,51 +168,39 @@ namespace Library.Controllers {
 
 
         [HttpGet]
-        public async Task<IActionResult> RegisteredBooksReport() {
+        public  IActionResult RegisteredBooksReport() {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            var booksResp = await _bookService.GetBooks();
+            if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
+            Constants.PDF_FORMAT) {
 
-            if (booksResp.Successful) {
+                var pdfBytes = _pdfReportService.RegisteredBooks();
 
-                List<BookModel> books = booksResp.Data!;
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosCadastrados.pdf"
+                );
 
-                if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
-                Constants.PDF_FORMAT) {
-
-                    var pdfBytes = _pdfReportService.RegisteredBooks(books);
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosCadastrados.pdf"
-                    );
-
-                    return File(pdfBytes, "application/pdf");
-
-                } else {
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosCadastrados.html"
-                    );
-
-                    Response.Headers.Append(
-                        "Content-Type",
-                        "text/html; charset=utf-8"
-                    );
-
-                    var htmlScript = _htmlReportService.RegisteredBooks(books, true);
-
-                    return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
-
-                }
+                return File(pdfBytes, "application/pdf");
 
             } else {
 
-                return BadRequest(booksResp.Message);
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosCadastrados.html"
+                );
+
+                Response.Headers.Append(
+                    "Content-Type",
+                    "text/html; charset=utf-8"
+                );
+
+                var htmlScript = _htmlReportService.RegisteredBooks(true);
+
+                return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
             }
 
@@ -232,51 +208,39 @@ namespace Library.Controllers {
 
 
         [HttpGet]
-        public async Task<IActionResult> DiscardedBooksReport() {
+        public IActionResult DiscardedBooksReport() {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            var discardedBooksResp = await _discardService.GetDiscardedBooks();
+            if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
+            Constants.PDF_FORMAT) {
 
-            if (discardedBooksResp.Successful) {
+                var pdfBytes = _pdfReportService.DiscardedBooks();
 
-                List<DiscardedBookModel> discardedBooks = discardedBooksResp.Data!;
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosDescartados.pdf"
+                );
 
-                if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
-                Constants.PDF_FORMAT) {
-
-                    var pdfBytes = _pdfReportService.DiscardedBooks(discardedBooks);
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosDescartados.pdf"
-                    );
-
-                    return File(pdfBytes, "application/pdf");
-
-                } else {
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosDescartados.html"
-                    );
-
-                    Response.Headers.Append(
-                        "Content-Type",
-                        "text/html; charset=utf-8"
-                    );
-
-                    var htmlScript = _htmlReportService.DiscardedBooks(discardedBooks, true);
-
-                    return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
-
-                }
+                return File(pdfBytes, "application/pdf");
 
             } else {
 
-                return BadRequest(discardedBooksResp.Message);
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosDescartados.html"
+                );
+
+                Response.Headers.Append(
+                    "Content-Type",
+                    "text/html; charset=utf-8"
+                );
+
+                var htmlScript = _htmlReportService.DiscardedBooks(true);
+
+                return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
             }
 
@@ -284,51 +248,39 @@ namespace Library.Controllers {
 
 
         [HttpGet]
-        public async Task<IActionResult> DonatedBooksReport() {
+        public IActionResult DonatedBooksReport() {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            var donatedBooksResp = await _donationService.GetDonatedBooks();
+            if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
+            Constants.PDF_FORMAT) {
 
-            if (donatedBooksResp.Successful) {
+                var pdfBytes = _pdfReportService.DonatedBooks();
 
-                List<DonatedBookModel> donatedBooks = donatedBooksResp.Data!;
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosDoados.pdf"
+                );
 
-                if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
-                Constants.PDF_FORMAT) {
-
-                    var pdfBytes = _pdfReportService.DonatedBooks(donatedBooks);
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosDoados.pdf"
-                    );
-
-                    return File(pdfBytes, "application/pdf");
-
-                } else {
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosDoados.html"
-                    );
-
-                    Response.Headers.Append(
-                        "Content-Type",
-                        "text/html; charset=utf-8"
-                    );
-
-                    var htmlScript = _htmlReportService.DonatedBooks(donatedBooks, true);
-
-                    return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
-
-                }
+                return File(pdfBytes, "application/pdf");
 
             } else {
 
-                return BadRequest(donatedBooksResp.Message);
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosDoados.html"
+                );
+
+                Response.Headers.Append(
+                    "Content-Type",
+                    "text/html; charset=utf-8"
+                );
+
+                var htmlScript = _htmlReportService.DonatedBooks(true);
+
+                return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
             }
 
@@ -336,51 +288,39 @@ namespace Library.Controllers {
 
 
         [HttpGet]
-        public async Task<IActionResult> BorrowedBooksReport() {
+        public IActionResult BorrowedBooksReport() {
 
             if (!_sessionService.IsSessionActive()) {
                 return RedirectToAction("Login", "Login");
             }
 
-            var loansResp = await _loanService.GetLoans();
+            if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
+            Constants.PDF_FORMAT) {
 
-            if (loansResp.Successful) {
+                var pdfBytes = _pdfReportService.BorrowedBooks();
 
-                List<LoanModel> borrowedBooks = loansResp.Data!;
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosEmprestados.pdf"
+                );
 
-                if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
-                Constants.PDF_FORMAT) {
-
-                    var pdfBytes = _pdfReportService.BorrowedBooks(borrowedBooks);
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosEmprestados.pdf"
-                    );
-
-                    return File(pdfBytes, "application/pdf");
-
-                } else {
-
-                    Response.Headers.Append(
-                        "Content-Disposition",
-                        "inline; filename=LivrosEmprestados.html"
-                    );
-
-                    Response.Headers.Append(
-                        "Content-Type",
-                        "text/html; charset=utf-8"
-                    );
-
-                    var htmlScript = _htmlReportService.BorrowedBooks(borrowedBooks, true);
-
-                    return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
-
-                }
+                return File(pdfBytes, "application/pdf");
 
             } else {
 
-                return BadRequest(loansResp.Message);
+                Response.Headers.Append(
+                    "Content-Disposition",
+                    "inline; filename=LivrosEmprestados.html"
+                );
+
+                Response.Headers.Append(
+                    "Content-Type",
+                    "text/html; charset=utf-8"
+                );
+
+                var htmlScript = _htmlReportService.BorrowedBooks(true);
+
+                return File(System.Text.Encoding.UTF8.GetBytes(htmlScript), "text/html; charset=utf-8");
 
             }
 
