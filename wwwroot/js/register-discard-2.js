@@ -71,7 +71,7 @@ function onSelectedBook(event) {
                 search
             } = window.location
 
-            const url = `${origin}/Api/CollectionApi/GetBookCover/${book.Id}`;
+            const url = `${origin}/Api/CollectionApi/GetBookCover/${encodeURIComponent(book.Id)}`;
             fetch(url).then(response => {
 
                 if (!response.ok) { throw new Error('Erro ao recuperar a capa do livro.'); }

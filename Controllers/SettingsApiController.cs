@@ -55,12 +55,6 @@ namespace Library.Controllers {
         }
 
 
-        [HttpPost("SetBorrowedTextColor/{color}")]
-        public ActionResult SetBorrowedTextColor(string color) {
-            return SetStringValue(Constants.BORROWED_TEXT_COLOR_KEY, color);
-        }
-
-
         [HttpPost("SetDiscardedTextColor/{color}")]
         public ActionResult SetDiscardedTextColor(string color) {
             return SetStringValue(Constants.DISCARDED_TEXT_COLOR_KEY, color);
@@ -70,6 +64,11 @@ namespace Library.Controllers {
         [HttpPost("SetDonatedTextColor/{color}")]
         public ActionResult SetDonatetTextColor(string color) {
             return SetStringValue(Constants.DONATED_TEXT_COLOR_KEY, color);
+        }
+
+        [HttpPost("SetBorrowedTextColor/{color}")]
+        public ActionResult SetBorrowedTextColor(string color) {
+            return SetStringValue(Constants.BORROWED_TEXT_COLOR_KEY, color);
         }
 
 

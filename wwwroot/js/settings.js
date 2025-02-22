@@ -3,13 +3,13 @@
 document.addEventListener('DOMContentLoaded', function () {
 
 
-    var discardedTextColorInput = document.getElementById('discarded-text-color');
-    var donatedTextColorInput = document.getElementById('donated-text-color');
-    var borrowedTextColorInput = document.getElementById('borrowed-text-color');
+    var discardedTextColorHint = document.getElementById('discarded-text-color');
+    var donatedTextColorHint = document.getElementById('donated-text-color');
+    var borrowedTextColorHint = document.getElementById('borrowed-text-color');
 
-    discardedTextColorInput.style.color = discardedTextColor;
-    donatedTextColorInput.style.color = donatedTextColor;
-    borrowedTextColorInput.style.color = borrowedTextColor;
+    discardedTextColorHint.style.color = discardedTextColor;
+    donatedTextColorHint.style.color = donatedTextColor;
+    borrowedTextColorHint.style.color = borrowedTextColor;
 
 
     var discardedColorPicker = document.getElementById('discarded-color-picker');
@@ -21,17 +21,17 @@ document.addEventListener('DOMContentLoaded', function () {
     borrowedColorPicker.value = borrowedTextColor;
 
     discardedColorPicker.addEventListener('change', function () {
-        discardedTextColorInput.style.color = this.value;
+        discardedTextColorHint.style.color = this.value;
         setSetting('SetDiscardedTextColor', this.value);
     });
 
     donatedColorPicker.addEventListener('change', function () {
-        donatedTextColorInput.style.color = this.value;
+        donatedTextColorHint.style.color = this.value;
         setSetting('SetDonatedTextColor', this.value);
     });
 
     borrowedColorPicker.addEventListener('change', function () {
-        borrowedTextColorInput.style.color = this.value;
+        borrowedTextColorHint.style.color = this.value;
         setSetting('SetBorrowedTextColor', this.value);
     });
 
@@ -88,7 +88,7 @@ function setSetting(endPoint, value) {
         search
     } = window.location;
 
-    fetch(`${origin}/Api/SettingsApi/${endPoint}/${value}`, {
+    fetch(`${origin}/Api/SettingsApi/${endPoint}/${encodeURIComponent(value)}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
