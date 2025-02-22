@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('borrow-book-form').addEventListener('submit', function (event) {
 
+        document.getElementById('spinner').style.display = 'block';
+
         document.getElementById('img-preview').setAttribute('readonly', 'readonly');
         document.getElementById('select-person').setAttribute('readonly', 'readonly');
         document.getElementById('loan-date').setAttribute('readonly', 'readonly');
@@ -33,14 +35,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.addEventListener('keydown', function (event) {
-        if (event.key !== 'Tab' && event.key !== 'Enter') {
-            if (event.ctrlKey && event.key.toLowerCase() === 's') {
-                event.preventDefault();
-                document.getElementById('save-button').click();
-            } else if (event.key === 'Escape') {
-                event.preventDefault();
-                document.getElementById('cancel-button').click();
-            }
+        if (event.ctrlKey && event.key.toLowerCase() === 's') {
+            event.preventDefault();
+            document.getElementById('save-button').click();
+        } else if (event.key === 'Escape') {
+            event.preventDefault();
+            document.getElementById('cancel-button').click();
         }
     });
 

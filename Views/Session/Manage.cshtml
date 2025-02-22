@@ -19,6 +19,7 @@
 
     <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
 }
 
@@ -26,7 +27,7 @@
 <div class="conteiner-fluid">
 
 
-    <form method="get" action="/Session/Manage" class="form-inline">
+    <form id="log-session-form" method="get" action="/Session/Manage" class="form-inline">
 
 
         <div class="d-flex justify-content-between mb-5">
@@ -54,6 +55,9 @@
             </div>
 
         </div>
+
+
+        <div id="spinner" class="spinner" style="display: none;"></div>
 
 
         @await Html.PartialAsync("_MessageSuccessPartial")
@@ -126,45 +130,65 @@
 
     <script type="text/javascript">
 
-       var table = $('#log-table').DataTable({
-            language: { url: "/dic/log-table-pt_br.json" },
-            order: [],
-            ordering: false,
-            columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
-            lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
-            pageLength: 5
+        $(document).ready(function () {
+
+            var table = $('#log-table').DataTable({
+                language: { url: "/dic/log-table-pt_br.json" },
+                order: [],
+                ordering: false,
+                columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+                lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+                pageLength: 5
+            });
+
+            $(document).keydown(function(event) {
+
+                const beginDate = document.getElementById('begin-date');
+                const endDate = document.getElementById('end-date');
+                const filterButton = document.getElementById('filter-button');
+
+                if (document.activeElement !== beginDate && document.activeElement !== endDate &&
+                document.activeElement !== filterButton) {
+
+                    switch(event.keyCode) {
+
+                        case 37: {
+                            event.preventDefault();
+                            table.page('previous').draw('page');
+                        }break;
+
+                        case 39: {
+                            event.preventDefault();
+                            table.page('next').draw('page');
+                        } break;
+
+                        case 38: {
+                            event.preventDefault();
+                            table.page('first').draw('page');
+                        } break;
+
+                        case 40: {
+                            event.preventDefault();
+                            table.page('last').draw('page');
+                        } break;
+
+                        default :{
+                            if (event.ctrlKey && event.key.toLowerCase() === 'f') {
+                                event.preventDefault();
+                                document.getElementById('begin-date').focus();
+                            }
+                        } break;
+                    }
+
+                }
+
+            });
+
+            document.getElementById('log-session-form').addEventListener('submit', function (event) {
+                document.getElementById('spinner').style.display = 'block';
+            });
+
         });
-
-        $(document).keydown(function(event) {
-
-            const beginDate = document.getElementById('begin-date');
-            const endDate = document.getElementById('end-date');
-            const filterButton = document.getElementById('filter-button');
-
-            if (document.activeElement !== beginDate && document.activeElement !== endDate &&
-            document.activeElement !== filterButton) {
-
-                 if (event.key !== 'Tab' && event.key !== 'Enter') {
-
-                     event.preventDefault();
-
-                     switch(event.keyCode) {
-                         case 37: table.page('previous').draw('page'); break;
-                         case 39: table.page('next').draw('page'); break;
-                         case 38: table.page('first').draw('page'); break;
-                         case 40: table.page('last').draw('page'); break;
-                         default :{
-                             if (event.ctrlKey && event.key.toLowerCase() === 'f') {
-                                 document.getElementById('begin-date').focus();
-                             }
-                         } break;
-                     }
-
-                 }
-
-             }
-
-         });
 
     </script>
 

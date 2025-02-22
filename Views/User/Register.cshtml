@@ -18,6 +18,8 @@
     
     <meta charset="utf-8" />
 
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
+
 }
 
 
@@ -52,12 +54,12 @@
         </div>
 
 
+        <div id="spinner" class="spinner" style="display: none;"></div>
+
+
         @{
             await Html.RenderPartialAsync("~/Views/User/_UserPartial.cshtml", Model);
         }
-
-
-        <div id="spinner" class="spinner" style="display: none;"></div>
 
 
         @Html.Hidden("Role", role)

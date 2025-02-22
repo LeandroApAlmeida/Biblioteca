@@ -23,8 +23,8 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
-
     <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
 }
 
@@ -58,6 +58,9 @@
             </div>
 
         </div>
+
+
+        <div id="spinner" class="spinner" style="display: none;"></div>
 
 
         <div id="img-preview" class="mb-3"><img src="@Model.Book.Cover" class="center" /></div>

@@ -15,12 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('login-form').addEventListener('submit', function (event) {
 
+        document.getElementById('spinner').style.display = 'block';
+
         document.getElementById('user-name').setAttribute('readonly', 'readonly');
         document.getElementById('password').setAttribute('readonly', 'readonly');
         document.getElementById('login-button').disabled = true;
-
-        var spinner = document.getElementById('spinner');
-        spinner.style.display = 'block';
 
     });
 
