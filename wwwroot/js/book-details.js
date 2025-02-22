@@ -1,28 +1,36 @@
 ﻿
-document.addEventListener('keydown', function (event) {
+document.addEventListener('DOMContentLoaded', function () {
 
-    const dialog = document.getElementById('filter-dialog');
+    document.addEventListener('keydown', function (event) {
 
-    if (!dialog.classList.contains('show')) {
+        if (event.key !== 'Tab' && event.key !== 'Enter') {
 
-        event.preventDefault();
+            const dialog = document.getElementById('filter-dialog');
 
-        if (event.key === 'ArrowRight') {
-            document.getElementById('button-next').click();
-        } else if (event.key === 'ArrowLeft') {
-            document.getElementById('button-previous').click();
-        } else if (event.key === 'ArrowUp') {
-            document.getElementById('button-first').click();
-        } else if (event.key === 'ArrowDown') {
-            document.getElementById('button-last').click();
-        } else if (event.ctrlKey && event.key.toLowerCase() === 'f') {
-            document.getElementById('button-filter').click();
-        } else if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'p') {
-            document.getElementById('button-print-collection').click();
-        } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
-            document.getElementById('button-print').click();
+            if (!dialog.classList.contains('show')) {
+
+                event.preventDefault();
+
+                if (event.key === 'ArrowRight') {
+                    document.getElementById('button-next').click();
+                } else if (event.key === 'ArrowLeft') {
+                    document.getElementById('button-previous').click();
+                } else if (event.key === 'ArrowUp') {
+                    document.getElementById('button-first').click();
+                } else if (event.key === 'ArrowDown') {
+                    document.getElementById('button-last').click();
+                } else if (event.ctrlKey && event.key.toLowerCase() === 'f') {
+                    document.getElementById('button-filter').click();
+                } else if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'p') {
+                    document.getElementById('button-print-collection').click();
+                } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
+                    document.getElementById('button-print').click();
+                }
+
+            }
+
         }
 
-    }
+    });
 
 });

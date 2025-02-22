@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.addEventListener('keydown', function (event) {
-        if (event.key !== 'Tab') {
+        if (event.key !== 'Tab' && event.key !== 'Enter') {
             if (event.ctrlKey && event.key.toLowerCase() === 's') {
                 event.preventDefault();
                 document.getElementById('save-button').click();

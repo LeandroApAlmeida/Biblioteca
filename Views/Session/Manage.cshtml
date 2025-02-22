@@ -36,17 +36,17 @@
             <div class="row g-3" display="flex" >
 
                 <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:0px;width:160px;margin-top:12px;">
-                    <label for="beginDate" style="margin-left:0px;margin-right:10px;vertical-align:middle;margin-top:-3px;">De</label>
-                    <input type="date" id="beginDate" name="beginDate" value="@beginDate" class="form-control mb-1" required />
+                    <label for="begin-date" style="margin-left:0px;margin-right:10px;vertical-align:middle;margin-top:-3px;">De</label>
+                    <input id="begin-date" type="date" name="beginDate" value="@beginDate" class="form-control mb-1" required />
                 </div>
 
                 <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:20px;width:160px;margin-top:12px;">
-                    <label for="endDate" style="vertical-align:middle;text-align:center;margin-top:-3px;">&nbspà&nbsp&nbsp</label>
-                    <input type="date" id="endDate" name="endDate" value="@endDate" class="form-control mb-1" required />
+                    <label for="end-date" style="vertical-align:middle;text-align:center;margin-top:-3px;">&nbspà&nbsp&nbsp</label>
+                    <input id="end-date" type="date" name="endDate" value="@endDate" class="form-control mb-1" required />
                 </div>
 
                 <div div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-top:0px;width:140px;">
-                    <button type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 35px;">
+                    <button id="filter-button" type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 35px;">
                         <img class="m-0" src="~/img/search_item_icon.png" />&nbspFiltrar
                     </button>
                 </div>
@@ -126,7 +126,7 @@
 
     <script type="text/javascript">
 
-        $('#log-table').DataTable({
+       var table = $('#log-table').DataTable({
             language: { url: "/dic/log-table-pt_br.json" },
             order: [],
             ordering: false,
@@ -134,6 +134,37 @@
             lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
             pageLength: 5
         });
+
+        $(document).keydown(function(event) {
+
+            const beginDate = document.getElementById('begin-date');
+            const endDate = document.getElementById('end-date');
+            const filterButton = document.getElementById('filter-button');
+
+            if (document.activeElement !== beginDate && document.activeElement !== endDate &&
+            document.activeElement !== filterButton) {
+
+                 if (event.key !== 'Tab' && event.key !== 'Enter') {
+
+                     event.preventDefault();
+
+                     switch(event.keyCode) {
+                         case 37: table.page('previous').draw('page'); break;
+                         case 39: table.page('next').draw('page'); break;
+                         case 38: table.page('first').draw('page'); break;
+                         case 40: table.page('last').draw('page'); break;
+                         default :{
+                             if (event.ctrlKey && event.key.toLowerCase() === 'f') {
+                                 document.getElementById('begin-date').focus();
+                             }
+                         } break;
+                     }
+
+                 }
+
+             }
+
+         });
 
     </script>
 

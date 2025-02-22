@@ -68,8 +68,8 @@
 
         <div class="d-flex justify-content-between">
 
-            <a class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Loan" asp-action="Register2">
-                <img id="register-button" class="m-0" src="~/img/add_icon_16.png" />&nbspEmprestar
+            <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Loan" asp-action="Register2">
+                <img class="m-0" src="~/img/add_icon_16.png" />&nbspEmprestar
             </a>
 
             <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
@@ -450,38 +450,46 @@
 
         $(document).keydown(function(event) {
 
-            event.preventDefault();
+            if (event.key !== 'Tab' && event.key !== 'Enter') {
 
-            var tab1 = document.getElementById("tab-1");
+                event.preventDefault();
+
+                var tab1 = document.getElementById("tab-1");
             
-            if (tab1.classList.contains("active")) {
-                switch(event.keyCode) {
-                    case 37: table1.page('previous').draw('page'); break;
-                    case 39: table1.page('next').draw('page'); break;
-                    case 38: table1.page('first').draw('page'); break;
-                    case 40: table1.page('last').draw('page'); break;
-                    default :{
-                        if (event.ctrlKey && event.key.toLowerCase() === 'i') {
-                            document.getElementById('register-button').click();
-                        } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
-                            document.getElementById('print-button').click();
-                        }
-                    } break;
+                if (tab1.classList.contains("active")) {
+
+                    switch(event.keyCode) {
+                        case 37: table1.page('previous').draw('page'); break;
+                        case 39: table1.page('next').draw('page'); break;
+                        case 38: table1.page('first').draw('page'); break;
+                        case 40: table1.page('last').draw('page'); break;
+                        default :{
+                            if (event.ctrlKey && event.key.toLowerCase() === 'i') {
+                                document.getElementById('register-button').click();
+                            } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
+                                document.getElementById('print-button').click();
+                            }
+                        } break;
+                    }
+
+                } else {
+
+                    switch(event.keyCode) {
+                        case 37: table2.page('previous').draw('page'); break;
+                        case 39: table2.page('next').draw('page'); break;
+                        case 38: table2.page('first').draw('page'); break;
+                        case 40: table2.page('last').draw('page'); break;
+                        default :{
+                            if (event.ctrlKey && event.key.toLowerCase() === 'i') {
+                                document.getElementById('register-button').click();
+                            } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
+                                document.getElementById('print-button').click();
+                            }
+                        } break;
+                    }
+
                 }
-            } else {
-                switch(event.keyCode) {
-                    case 37: table2.page('previous').draw('page'); break;
-                    case 39: table2.page('next').draw('page'); break;
-                    case 38: table2.page('first').draw('page'); break;
-                    case 40: table2.page('last').draw('page'); break;
-                    default :{
-                        if (event.ctrlKey && event.key.toLowerCase() === 'i') {
-                            document.getElementById('register-button').click();
-                        } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
-                            document.getElementById('print-button').click();
-                        }
-                    } break;
-                }
+
             }
 
         });
