@@ -27,7 +27,7 @@
     bool isLastBook = ViewBag.IsLastBook;
 
     // Lista de livros cadastrados.
-    List <BookModel> books = ViewBag.Books;
+    List<BookModel> books = ViewBag.Books;
 
     // Configurações do usuário.
     SettingsDto settings = ViewBag.Settings;
@@ -116,7 +116,7 @@
 
 @*Conteúdo da página.*@
 
-<div class="container-fluid"> 
+<div class="container-fluid">
 
 
     @await Html.PartialAsync("_MessageErrorPartial")
@@ -131,31 +131,31 @@
 
 
         @*Título da página (à esquerda).*@
-        
+
         <h3>Detalhes do Livro</h3>
 
 
         @*Barra de navegação (à direita).*@
 
         <div id="nav-buttons" style="margin-top:-4px;">
-        
+
             @*
                 Botões de navegação (Primeiro |<, Anterior <, Próximo >, Último >|). Estes
                 serão configurados da seguinte forma:
-                
+
                 1. No caso de o livro em exibição não ser nem o primeiro nem o último da lista,
                 habilita todos os botões de navegação.
 
                 2. No caso de o livro em exibição ser o primeiro da lista, desabilita os botões
                 anterior e ir para o primeiro livro (<, |<).
-                
+
                 3. No caso de o livro em exibição ser o último da lista, desabilita os botões 
                 próximo e ir para o último livro (>, >|).
 
                 4. No caso de o livro em exibição ser o primeiro e também o último da lista,
                 desabilita todos os botões de navegação.
             *@
-            
+
             @if (!isFirstBook) {
                 <a id="button-first" class="btn btn-primary nav-button" asp-controller="Book" asp-action="FirstBook" style="align-content:center;align-items:center">
                     <img class="m-0" src="~/img/first_item_icon.png" />
@@ -193,7 +193,7 @@
             <button id="button-filter" class="btn btn-primary nav-button" data-toggle="modal" data-target="#filter-dialog" style="border:hidden;">
                 <img class="m-0" src="~/img/search_item_icon.png" />
             </button>
-        
+
             @*Botão imprimir.*@
 
             <a id="button-print" class="btn btn-primary nav-button" asp-controller="Report" asp-action="BookDetailedReport" asp-route-id="@Model.Id" target="_blank">
@@ -240,15 +240,15 @@
                 Cria as abas. A primeira aba tem o título "Detalhes". A segunda aba tem o título 
                 "Sinopse".
             *@
-            
+
             <ul id="tab-buttons" class="nav nav-tabs" role="tablist">
-        
+
                 <li class="nav-item" role="presentation">
                     <button id="btn-tab-1" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab">
                         Detalhes
                     </button>
                 </li>
-        
+
                 <li class="nav-item" role="presentation">
                     <button id="btn-tab-2" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab">
                         Sinopse
@@ -268,7 +268,7 @@
                     autor, editora, ISBN, edição, volume, ano de publicação, número de páginas,
                     data da aquisição e situação.
                 *@
-                
+
                 <div id="tab-1" class="tab-pane fade show active" role="tabpanel">
 
                     <div class="row g-3" display="flex">
@@ -283,9 +283,9 @@
                         @*Campo para exibição da situação do livro.*@
 
                         <div class="mb-3 col-sm-2" style="width: 15%">
-                            
+
                             <label for="status" class="form-label">Situação</label>
-                            
+
                             @if (Model.IsBorrowed) {
                                 <input id="status" type="text" class="form-control" style="background-color:white;@borrowedTextStyle" value="Emprestado" disabled>
                             } else if (Model.IsDonated) {
@@ -386,10 +386,10 @@
 
             </div>
 
-            
+
         </div>
 
-      
+
     </div>
 
 
@@ -403,39 +403,41 @@
 *@
 
 <div id="filter-dialog" class="modal fade">
-        
+
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-        
+
         <div class="modal-content">
-            
+
             @*Cabeçalho do diálogo. Contém o título e o botão fechar.*@    
 
             <div class="modal-header">
 
                 <h6>Buscar livro:</h6>
 
-                <button id="close-button" type="button" class="close" 
-                style="background: white;border:0px;padding-top:0px;padding-bottom:0px;" 
-                data-dismiss="modal"><h3>&times;</h3></button>
+                <button id="close-button" type="button" class="close"
+                        style="background: white;border:0px;padding-top:0px;padding-bottom:0px;"
+                        data-dismiss="modal">
+                    <h3>&times;</h3>
+                </button>
 
             </div>
 
             @*Corpo do diálogo. Contém a lista dos livros cadastrados.*@
 
             <div class="modal-body" style="background:white; ">
-                    
+
                 <table id="filter-table" class="table table-borderless" border="0">
 
                     <thead class="text-start">
 
                         <tr>
-                                
+
                             <th scope="col" style="width: 60%;">Título</th>
-                                
+
                             <th scope="col" style="width: 20%;">ISBN</th>
-                                
+
                             <th scope="col"></th>
-                            
+
                         </tr>
 
                     </thead>
@@ -463,13 +465,13 @@
                                     }
 
                                     <td id="controls-td" scope="row">
-                                        
+
                                         <a class="btn btn-info" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
                                             <img src="~/img/next_item_icon.png" title="Selecionar o livro" />
                                         </a>
-                                        
+
                                     </td>
-                                    
+
                                 </tr>
 
                             }
@@ -485,7 +487,7 @@
             @if (isShowFooterCaption) {
 
                 <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
-                    
+
                     <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
 
                         @(await Html.PartialAsync("_FooterLabel"))
@@ -506,6 +508,8 @@
 @section Scripts {
 
     <script src="~/js/datatables.min.js"></script>
+
+    <script src="~/js/book-details.js"></script>
 
     <script type="text/javascript">
 

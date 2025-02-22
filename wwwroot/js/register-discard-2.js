@@ -15,11 +15,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var selector = document.getElementById('select-book');
 
-    document.getElementById("discard-date").value = formatToDatetimeLocal(new Date());
-
     selector.addEventListener('change', onSelectedBook);
 
     selector.dispatchEvent(new Event('change'));
+
+    document.getElementById("select-book").focus();
+
+    document.getElementById("discard-date").value = formatToDatetimeLocal(new Date());
+
+    document.getElementById('discard-book-form').addEventListener('submit', function (event) {
+
+        document.getElementById('select-book').setAttribute('readonly', 'readonly');
+        document.getElementById('img-preview').setAttribute('readonly', 'readonly');
+        document.getElementById('discard-date').setAttribute('readonly', 'readonly');
+        document.getElementById('reason').setAttribute('readonly', 'readonly');
+
+        document.getElementById('save-button').disabled = true;
+        document.getElementById('cancel-button').classList.add('disabled');
+
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Tab') {
+            if (event.ctrlKey && event.key.toLowerCase() === 's') {
+                event.preventDefault();
+                document.getElementById('save-button').click();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                document.getElementById('cancel-button').click();
+            }
+        }
+    });
 
 });
 

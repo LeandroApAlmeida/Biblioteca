@@ -9,7 +9,9 @@ import { setPersonData } from "./module-person-data.js"
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    var selector = document.getElementById('select-person');
+    var personSelector = document.getElementById('select-person');
+
+    personSelector.focus()
 
     var personsData = window.personsData;
     var personData = window.personData;
@@ -20,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (person.Id == personData.Id) {
 
-            selector.options.selectedIndex = i;
+            personSelector.options.selectedIndex = i;
 
             setPersonData(document, person);
 
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
 
-    selector.addEventListener('change', function () {
+    personSelector.addEventListener('change', function () {
 
         var jsonData = window.personsData;
 
@@ -38,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var person = jsonData[i];
 
-            if (person.Id == selector.value) {
+            if (person.Id == personSelector.value) {
 
                 setPersonData(document, person);
 
@@ -48,6 +50,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
+    });
+
+    document.getElementById('borrow-book-form').addEventListener('submit', function (event) {
+
+        document.getElementById('img-preview').setAttribute('readonly', 'readonly');
+        document.getElementById('select-person').setAttribute('readonly', 'readonly');
+        document.getElementById('loan-date').setAttribute('readonly', 'readonly');
+        document.getElementById('notes').setAttribute('readonly', 'readonly');
+
+        document.getElementById('save-button').disabled = true;
+        document.getElementById('cancel-button').classList.add('disabled');
+
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Tab') {
+            if (event.ctrlKey && event.key.toLowerCase() === 's') {
+                event.preventDefault();
+                document.getElementById('save-button').click();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                document.getElementById('cancel-button').click();
+            }
+        }
     });
 
 });

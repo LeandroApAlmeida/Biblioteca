@@ -10,6 +10,8 @@ import { setCoverData } from "./module-cover-data.js"
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    document.getElementById('title').focus();
+
     document.getElementById("acquisition-date").value = formatToDatetimeLocal(new Date());
     document.getElementById('edition').value = 1;
     document.getElementById('volume').value = 1;
@@ -43,6 +45,18 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('save-button').disabled = true;
         document.getElementById('cancel-button').classList.add('disabled');
 
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Tab') {
+            if (event.ctrlKey && event.key.toLowerCase() === 's') {
+                event.preventDefault();
+                document.getElementById('save-button').click();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                document.getElementById('cancel-button').click();
+            }
+        }
     });
 
 });

@@ -69,10 +69,10 @@
         <div class="d-flex justify-content-between">
 
             <a class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Loan" asp-action="Register2">
-                <img class="m-0" src="~/img/add_icon_16.png" />&nbspEmprestar
+                <img id="register-button" class="m-0" src="~/img/add_icon_16.png" />&nbspEmprestar
             </a>
 
-            <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
+            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
                 <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
             </a>
 
@@ -430,7 +430,7 @@
 
     <script type="text/javascript">
 
-        $('#book-table').DataTable({
+        var table1 = $('#book-table').DataTable({
             language: { url: "/dic/book-table-pt_br.json" },
             order: [],
             ordering: false,
@@ -439,13 +439,51 @@
             pageLength: 5
         });
 
-        $('#book-table-2').DataTable({
+        var table2 = $('#book-table-2').DataTable({
             language: { url: "/dic/book-table-pt_br.json" },
             order: [],
             ordering: false,
             columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
             lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
             pageLength: 5
+        });
+
+        $(document).keydown(function(event) {
+
+            event.preventDefault();
+
+            var tab1 = document.getElementById("tab-1");
+            
+            if (tab1.classList.contains("active")) {
+                switch(event.keyCode) {
+                    case 37: table1.page('previous').draw('page'); break;
+                    case 39: table1.page('next').draw('page'); break;
+                    case 38: table1.page('first').draw('page'); break;
+                    case 40: table1.page('last').draw('page'); break;
+                    default :{
+                        if (event.ctrlKey && event.key.toLowerCase() === 'i') {
+                            document.getElementById('register-button').click();
+                        } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
+                            document.getElementById('print-button').click();
+                        }
+                    } break;
+                }
+            } else {
+                switch(event.keyCode) {
+                    case 37: table2.page('previous').draw('page'); break;
+                    case 39: table2.page('next').draw('page'); break;
+                    case 38: table2.page('first').draw('page'); break;
+                    case 40: table2.page('last').draw('page'); break;
+                    default :{
+                        if (event.ctrlKey && event.key.toLowerCase() === 'i') {
+                            document.getElementById('register-button').click();
+                        } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
+                            document.getElementById('print-button').click();
+                        }
+                    } break;
+                }
+            }
+
         });
 
     </script>

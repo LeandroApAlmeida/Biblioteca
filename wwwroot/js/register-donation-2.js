@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var personSelector = document.getElementById('select-person');
     var bookSelector = document.getElementById('select-book');
 
+    bookSelector.focus();
+
     personSelector.addEventListener('change', onSelectedPerson);
     bookSelector.addEventListener('change', onSelectedBook);
 
@@ -21,6 +23,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
     personSelector.dispatchEvent(new Event('change'));
     bookSelector.dispatchEvent(new Event('change'));
+
+    document.getElementById('donate-book-form').addEventListener('submit', function (event) {
+
+        document.getElementById('select-book').setAttribute('readonly', 'readonly');
+        document.getElementById('img-preview').setAttribute('readonly', 'readonly');
+        document.getElementById('select-person').setAttribute('readonly', 'readonly');
+        document.getElementById('donation-date').setAttribute('readonly', 'readonly');
+        document.getElementById('notes').setAttribute('readonly', 'readonly');
+
+        document.getElementById('save-button').disabled = true;
+        document.getElementById('cancel-button').classList.add('disabled');
+
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Tab') {
+            if (event.ctrlKey && event.key.toLowerCase() === 's') {
+                event.preventDefault();
+                document.getElementById('save-button').click();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                document.getElementById('cancel-button').click();
+            }
+        }
+    });
 
 });
 

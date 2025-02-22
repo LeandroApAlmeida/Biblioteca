@@ -27,7 +27,7 @@
     @await Html.PartialAsync("_MessageErrorPartial")
 
 
-    <form id="adm-form" method="post" asp-controller="User" asp-action="RegisterAdm">
+    <form id="user-form" method="post" asp-controller="User" asp-action="RegisterAdm">
 
 
         @Html.AntiForgeryToken()
@@ -71,6 +71,6 @@
 
 @section Scripts {
     
-    <script src="~/js/register-adm.js" asp-append-version="true"></script>
+    <script src="~/js/register-user.js" asp-append-version="true"></script>
 
 }

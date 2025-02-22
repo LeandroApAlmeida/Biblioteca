@@ -34,7 +34,7 @@
     @await Html.PartialAsync("_MessageErrorPartial")
 
 
-    <form method="post" asp-controller="Donation" asp-action="Edit">
+    <form id="donate-book-form" method="post" asp-controller="Donation" asp-action="Edit">
 
 
         @Html.AntiForgeryToken()
@@ -46,11 +46,11 @@
 
             <div class="d-flex justify-content-between">
 
-                <button type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
                     <img class="m-0" src="~/img/save_icon_16.png" /> &nbspSalvar
                 </button>
 
-                <a class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Donation" asp-action="Manage">
+                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Donation" asp-action="Manage">
                     <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbspCancelar
                 </a>
 
@@ -86,8 +86,7 @@
 
         <div class="mb-3">
             <label for="notes" class="form-label">Anotações</label>
-            <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes"
-                      rows="10" cols="50" placeholder="Anotações sobre a doação"></textarea>
+            <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" rows="10" cols="50" placeholder="Anotações sobre a doação"></textarea>
             <span class="text-danger" asp-validation-for="Notes"></span>
         </div>
 

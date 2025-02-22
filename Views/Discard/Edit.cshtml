@@ -31,7 +31,7 @@
     @await Html.PartialAsync("_MessageErrorPartial")
 
 
-    <form method="post" asp-controller="Discard" asp-action="Edit">
+    <form id="discard-book-form" method="post" asp-controller="Discard" asp-action="Edit">
 
 
         @Html.AntiForgeryToken()
@@ -49,11 +49,11 @@
 
             <div class="d-flex justify-content-between">
 
-                <button type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
                     <img class="m-0" src="~/img/save_icon_16.png" /> &nbspSalvar
                 </button>
 
-                <a class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Discard" asp-action="Manage">
+                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Discard" asp-action="Manage">
                     <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbspCancelar
                 </a>
 
@@ -114,6 +114,6 @@
 
 @section Scripts {
 
-    <script src="~/js/discard-book.js" asp-append-version="true"></script>
+    <script src="~/js/edit-discard.js" asp-append-version="true"></script>
 
 }

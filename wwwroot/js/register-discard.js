@@ -9,6 +9,33 @@ import { formatToDatetimeLocal } from "./module-datetime.js"
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    document.getElementById("discard-date").value = formatToDatetimeLocal(new Date());
+    var discardDate = document.getElementById("discard-date");
+
+    discardDate.focus();
+
+    discardDate.value = formatToDatetimeLocal(new Date());
+
+    document.getElementById('discard-book-form').addEventListener('submit', function (event) {
+
+        document.getElementById('img-preview').setAttribute('readonly', 'readonly');
+        document.getElementById('discard-date').setAttribute('readonly', 'readonly');
+        document.getElementById('reason').setAttribute('readonly', 'readonly');
+
+        document.getElementById('save-button').disabled = true;
+        document.getElementById('cancel-button').classList.add('disabled');
+
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Tab') {
+            if (event.ctrlKey && event.key.toLowerCase() === 's') {
+                event.preventDefault();
+                document.getElementById('save-button').click();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                document.getElementById('cancel-button').click();
+            }
+        }
+    });
 
 });

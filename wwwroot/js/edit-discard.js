@@ -1,19 +1,14 @@
-﻿import { formatToDatetimeLocal } from "./module-datetime.js"
-
+﻿
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    var returnDate = document.getElementById("return-date");
+    document.getElementById('discard-date').focus()
 
-    returnDate.focus();
-
-    returnDate.value = formatToDatetimeLocal(new Date());
-
-    document.getElementById('return-book-form').addEventListener('submit', function (event) {
+    document.getElementById('discard-book-form').addEventListener('submit', function (event) {
 
         document.getElementById('img-preview').setAttribute('readonly', 'readonly');
-        document.getElementById('return-date').setAttribute('readonly', 'readonly');
-        document.getElementById('notes').setAttribute('readonly', 'readonly');
+        document.getElementById('discard-date').setAttribute('readonly', 'readonly');
+        document.getElementById('reason').setAttribute('readonly', 'readonly');
 
         document.getElementById('save-button').disabled = true;
         document.getElementById('cancel-button').classList.add('disabled');

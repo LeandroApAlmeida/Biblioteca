@@ -83,11 +83,11 @@
 
         <div class="d-flex justify-content-between">
                 
-            <a class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Book" asp-action="Register">
+            <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Book" asp-action="Register">
                 <img class="m-0" src="~/img/add_icon_16.png" />&nbspCadastrar
             </a>
                 
-            <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
+            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
                 <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
             </a>
             
@@ -296,13 +296,33 @@
 
     <script type="text/javascript">
 
-        $('#book-table').DataTable({
+        var table = $('#book-table').DataTable({
             language: { url: "/dic/book-table-pt_br.json" },
             order: [],
             ordering: false,
             columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
             lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
             pageLength: 5
+        });
+
+        $(document).keydown(function(event) {
+            
+            event.preventDefault();
+            
+            switch(event.keyCode) {
+                case 37: table.page('previous').draw('page'); break;
+                case 39: table.page('next').draw('page'); break;
+                case 38: table.page('first').draw('page'); break;
+                case 40: table.page('last').draw('page'); break;
+                default :{
+                    if (event.ctrlKey && event.key.toLowerCase() === 'i') {
+                        document.getElementById('register-button').click();
+                    } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
+                        document.getElementById('print-button').click();
+                    }
+                } break;
+            }
+
         });
 
     </script>
