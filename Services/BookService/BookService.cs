@@ -3,6 +3,8 @@ using Library.Models;
 using Library.Services.CollectionService;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Library.Services.BookService {
 

@@ -60,13 +60,23 @@
             <div id="spinner" class="spinner" style="display: none;"></div>
 
             <div id="buttons" class="mt-5">
-
-                <button id="login-button" type="submit" class="btn btn-light" 
-                style="width: 200px;height:38px;margin-right:10px;">Entrar</button>
                     
-                @if (!registeredAdmin) {
-                    <a class="btn btn-light" asp-controller="User" asp-action="RegisterAdm" 
-                    style="width: 200px;height:38px;margin-right:10px;">Cadastrar Admin.</a>
+                @if (registeredAdmin) {
+
+                    <button id="login-button" type="submit" class="btn btn-light d-flex justify-content-center align-items-center" style="width: 200px;height:38px;margin-right:10px;">
+                        <img class="m-0" src="~/img/house_icon_16.png" /> &nbspEntrar
+                    </button>
+
+                } else {
+
+                    <a class="btn btn-light d-flex justify-content-center align-items-center" asp-controller="User" asp-action="RegisterAdm" style="width: 200px;height:38px;margin-right:10px;">
+                        <img class="m-0" src="~/img/user_icon_16.png" /> &nbspCadastrar Admin.
+                    </a>
+
+                    <a class="btn btn-light d-flex justify-content-center align-items-center" asp-controller="Home" asp-action="HelpFirstAccess" target="_blank" style="width: 200px;height:38px;cursor:pointer;">
+                        <img class="m-0" src="~/img/help_icon_16.png" /> &nbspObter Ajuda
+                    </a>
+
                 }
 
             </div>

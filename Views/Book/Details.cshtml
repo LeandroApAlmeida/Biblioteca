@@ -108,7 +108,6 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="~/css/book-details.css" asp-append-version="false" />
-    <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
 }
@@ -412,7 +411,7 @@
 
             <div class="modal-header">
 
-                <h6>Buscar livro:</h6>
+                <h6>Pesquisar livro:</h6>
 
                 <button id="close-button" type="button" class="close"
                         style="background: white;border:0px;padding-top:0px;padding-bottom:0px;"
@@ -519,12 +518,17 @@
                 language: { url: "/dic/book-table-pt_br.json"},
                 order: [],
                 ordering: false,
-                columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+                columnDefs: [
+                    { targets: '_all', className: 'dt-body-left dt-head-left vertical-align-middle' },
+                    { targets: -1, className: 'dt-body-right' }
+                ],
                 lengthMenu: [[-1], ["Todos"]],
                 pageLength: -1
             });
 
         });
+
+        $('#filter-table tbody tr td').css('vertical-align', 'middle');
 
     </script>
 

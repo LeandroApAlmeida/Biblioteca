@@ -53,7 +53,6 @@
 
     <meta charset="utf-8" />
 
-    <link rel="stylesheet" href="~/css/table-style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
 }
@@ -436,7 +435,10 @@
                 language: { url: "/dic/book-table-pt_br.json" },
                 order: [],
                 ordering: false,
-                columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+                columnDefs: [
+                    { targets: '_all', className: 'dt-body-left dt-head-left vertical-align-middle' },
+                    { targets: -1, className: 'dt-body-right' }
+                ],
                 lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
                 pageLength: 5
             });
@@ -445,10 +447,16 @@
                 language: { url: "/dic/book-table-pt_br.json" },
                 order: [],
                 ordering: false,
-                columnDefs: [{ targets: '_all', className: 'dt-body-left' }],
+                columnDefs: [
+                    { targets: '_all', className: 'dt-body-left dt-head-left vertical-align-middle' },
+                    { targets: -1, className: 'dt-body-right' }
+                ],
                 lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
                 pageLength: 5
             });
+
+            $('#book-table tbody tr td').css('vertical-align', 'middle');
+            $('#book-table-2 tbody tr td').css('vertical-align', 'middle');
 
             $(document).keydown(function(event) {
 
