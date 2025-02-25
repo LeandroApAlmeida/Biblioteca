@@ -36,7 +36,7 @@ namespace Library.Controllers {
 
         [HttpGet]
         public IActionResult HelpFirstAccess() {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "register-adm.html");
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "user", "register-adm.html");
             return PhysicalFile(filePath, "text/html");
         }
 
