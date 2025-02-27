@@ -1,4 +1,8 @@
 ﻿
+/*
+    Estilo do spinner que é exibido sempre que faz o submit de um form.
+*/
+
 
 .spinner {
     position:fixed;

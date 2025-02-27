@@ -1,4 +1,9 @@
 ﻿
+/*
+    Tratador de eventos da página para Detalhes do Livro (~\Views\Book\Details.cshtml).
+*/
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('keydown', function (event) {
@@ -28,9 +33,6 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
                 event.preventDefault();
                 document.getElementById('button-print').click();
-            } else if (event.key === 'F1') {
-                event.preventDefault();
-                window.open('/Home/Help', '_blank');
             }
 
         }

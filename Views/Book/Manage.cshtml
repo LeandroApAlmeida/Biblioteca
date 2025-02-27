@@ -471,6 +471,11 @@
                         table.page('first').draw('page');
                     } break;
 
+                    case 40: {
+                        event.preventDefault();
+                        table.page('last').draw('page');
+                    } break;
+
                     case 112: {
                         event.preventDefault();
                         window.open('/Home/Help', '_blank');

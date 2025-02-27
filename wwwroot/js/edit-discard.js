@@ -1,4 +1,8 @@
 ﻿
+/*
+    Tratador de eventos da página para edição de um registro de descarte (~\Views\Discard\Edit.cshtml).
+*/
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
