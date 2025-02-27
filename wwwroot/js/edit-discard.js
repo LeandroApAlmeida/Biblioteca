@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('discard-book-form').addEventListener('submit', function (event) {
 
         document.getElementById('spinner').style.display = 'block';
+        document.body.style.overflow = 'hidden';
 
         document.getElementById('img-preview').setAttribute('readonly', 'readonly');
         document.getElementById('discard-date').setAttribute('readonly', 'readonly');

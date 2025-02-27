@@ -25,7 +25,7 @@
 }
 
 
-<div class="conteiner-fluid" >
+<div class="conteiner-fluid" style="margin-bottom:20px;">
 
 
     @await Html.PartialAsync("_MessageErrorPartial")
@@ -62,9 +62,6 @@
         </div>
 
 
-        <div id="spinner" class="spinner" style="display: none;"></div>
-
-
         @*Renderiza o layout para definição dos atributos de um livro.*@
         
         @{ 
@@ -76,6 +73,9 @@
 
 
 </div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
 
 
 @section Scripts {

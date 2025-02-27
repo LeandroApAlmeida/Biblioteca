@@ -15,7 +15,7 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
 }
@@ -52,28 +52,37 @@
         </div>
 
 
-        <div id="spinner" class="spinner" style="display: none;"></div>
+        <div class="row g-3" display="flex">
 
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
+                <img src="@Model.Book.Cover" class="center" />
+            </div>
 
-        <div id="img-preview" class="mb-3"><img src="@Model.Book.Cover" class="center" /></div>
+            <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
 
+                <div class="row g-3" display="flex">
 
-        <div class="mb-3">
-            <label for="person" class="form-label">Tomador</label>
-            <input id="person" type="text" class="form-control" value="@Model.Person.Name" disabled>
-        </div>
+                    <div class="mb-3 col-sm-2" style="width: 80%;">
+                        <label for="person" class="form-label">Tomador</label>
+                        <input id="person" type="text" class="form-control" value="@Model.Person.Name" disabled>
+                    </div>
 
-        <div class="mb-3 col-sm-2" style="width: 20%;">
-            <label for="return-date" class="form-label">Data da Devolução</label>
-            <input id="return-date" type="datetime-local" class="form-control" asp-for="ReturnDate">
-            <span class="text-danger" asp-validation-for="ReturnDate"></span>
-        </div>
+                    <div class="mb-3 col-sm-2" style="width: 20%;">
+                        <label for="return-date" class="form-label">Data</label>
+                        <input id="return-date" type="datetime-local" class="form-control" asp-for="ReturnDate">
+                        <span class="text-danger" asp-validation-for="ReturnDate"></span>
+                    </div>
 
-        <div class="mb-3">
-            <label for="notes" class="form-label">Anotações</label>
-            <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" 
-            rows="10" cols="50" placeholder="Anotações sobre o empréstimo"></textarea>
-            <span class="text-danger" asp-validation-for="Notes"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Anotações</label>
+                    <textarea id="notes" class="form-control" style="resize:none;height:350px;" asp-for="Notes" cols="50" placeholder="Anotações sobre o empréstimo"></textarea>
+                    <span class="text-danger" asp-validation-for="Notes"></span>
+                </div>
+
+            </div>
+
         </div>
 
 
@@ -121,6 +130,9 @@
 
 
 </div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
 
 
 @section Scripts {

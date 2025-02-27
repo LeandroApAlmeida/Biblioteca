@@ -54,9 +54,6 @@
         </div>
 
 
-        <div id="spinner" class="spinner" style="display: none;"></div>
-        
-
         @{
             await Html.RenderPartialAsync("~/Views/User/_UserPartial.cshtml", Model);
         }
@@ -69,6 +66,9 @@
 
 
 </div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
 
 
 @section Scripts {

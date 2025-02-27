@@ -46,10 +46,12 @@ namespace Library.Controllers {
             }
 
             var booksResp = await _collectionService.GetCollectionBooks();
+            var deletedBooksResp = await _collectionService.GetDeletedBooks();
 
             if (booksResp.Successful) {
 
                 ViewBag.Settings = new SettingsDto(_settingsService);
+                ViewBag.DeletedBooks = deletedBooksResp.Data != null ? deletedBooksResp.Data : new List<BookModel>();
 
                 return View(booksResp.Data);
             
@@ -422,6 +424,38 @@ namespace Library.Controllers {
             } else {
 
                 TempData[Constants.ERROR_MESSAGE] = deleteBookResp.Message;
+
+                return RedirectToAction("Manage");
+
+            }
+
+        }
+
+
+        /// <summary>
+        /// Excluir o cadastro de um livro.
+        /// </summary>
+        /// <param name="id">Identificador do livro.</param>
+        /// <returns>Página de redirecionamento.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Undelete(Guid id) {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            var undeleteBookResp = await _bookService.UndeleteBook(id);
+
+            if (undeleteBookResp.Successful) {
+
+                TempData[Constants.SUCCESS_MESSAGE] = undeleteBookResp.Message;
+
+                return RedirectToAction("Manage");
+
+            } else {
+
+                TempData[Constants.ERROR_MESSAGE] = undeleteBookResp.Message;
 
                 return RedirectToAction("Manage");
 

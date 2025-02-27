@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('person-form').addEventListener('submit', function (event) {
 
         document.getElementById('spinner').style.display = 'block';
+        document.body.style.overflow = 'hidden';
 
         document.getElementById('name').setAttribute('readonly', 'readonly');
         document.getElementById('street').setAttribute('readonly', 'readonly');

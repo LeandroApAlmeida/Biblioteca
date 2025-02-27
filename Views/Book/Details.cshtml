@@ -115,7 +115,7 @@
 
 @*Conteúdo da página.*@
 
-<div class="container-fluid">
+<div class="container-fluid" >
 
 
     @await Html.PartialAsync("_MessageErrorPartial")
@@ -483,19 +483,20 @@
 
             </div>
 
-            @if (isShowFooterCaption) {
 
-                <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
+            <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
 
-                    <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
+                <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
 
+                    @if (isShowFooterCaption) {
                         @(await Html.PartialAsync("_FooterLabel"))
+                    } else {
+                        <spam>&nbsp; &nbsp;</spam>
+                    }
 
-                    </p>
+                </p>
 
-                </div>
-
-            }
+            </div>
 
         </div>
 

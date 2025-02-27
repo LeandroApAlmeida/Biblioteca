@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('book-form').addEventListener('submit', function (event) {
 
         document.getElementById('spinner').style.display = 'block';
+        document.body.style.overflow = 'hidden';
 
         document.getElementById('title').setAttribute('readonly', 'readonly');
         document.getElementById('subtitle').setAttribute('readonly', 'readonly');

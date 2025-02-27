@@ -418,6 +418,44 @@ namespace Library.Services.BookService {
         }
 
 
+        public async Task<Response<BookModel>> UndeleteBook(Guid id) {
+
+            Response<BookModel> response = new();
+
+            try {
+
+                var bookResp = await GetBook(id);
+
+                BookModel? book = bookResp.Data;
+
+                if (book == null) throw new Exception(bookResp.Message);
+
+                book.IsDeleted = false;
+                book.LastUpdateDate = DateTime.Now;
+
+                _context.Entry(book).State = EntityState.Modified;
+
+                _context.Books.Update(book);
+
+                await _context.SaveChangesAsync();
+
+                response.Message = "Livro retornado com sucesso!";
+                response.Data = book;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
     }
 
 

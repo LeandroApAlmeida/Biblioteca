@@ -4,9 +4,9 @@
     <head>
 
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    
+
         <title></title>
-    
+
         <style type="text/css">
 
             a {
@@ -15,75 +15,198 @@
             }
 
             p {
-                line-height: 115%;
-                margin-bottom: 0.05cm;
-                margin-top: 0.05cm;
+                margin-top: 20px;
                 background: transparent;
-                line-height: 200%;
             }
 
             body {
                 font-family: 'Arial', sans-serif;
             }
 
+            .highlight {
+                color: red;
+            }
+
+            .treeview {
+                padding-left: 0px;
+                padding-top: 5px;
+            }
+
+            .treeview ul {
+                list-style-type: none;
+                padding-left:0px;
+                padding-top: 0px;
+            }
+
+            .treeview ul li {
+                margin-left: 20px; 
+                margin-top: 18px;
+            }
+
+            .treeview label {
+                cursor: pointer;
+            }
+
+            .treeview input {
+                display: none;
+            }
+
+            .treeview input:checked + ul {
+                display: block;
+            }
+
+            .treeview input + ul {
+                display: none;
+            }
+
         </style>
+
+        <script type="text/javascript">
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                var checkbox = document.getElementById("menu");
+                var label = document.querySelector("label[for='menu']");
+
+                function updateLabel() {
+                    if (checkbox.checked) {
+                        label.innerHTML = "&#9660;&nbsp;Opções de Menu";
+                    } else {
+                        label.innerHTML = "&#9654;&nbsp;Opções de Menu";
+                    }
+                }
+
+                updateLabel();
+
+                checkbox.addEventListener("change", updateLabel);
+
+            });
+
+            function markClickedLink(event) {
+                var links = document.querySelectorAll('a');
+                links.forEach(function(link) {
+                    link.classList.remove('highlight');
+                });
+                event.target.classList.add('highlight');
+            }
+
+        </script>
 
     </head>
 
 
-    <body lang="pt-BR" background="data:image/jpeg;base64,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" dir="ltr">
+    <body lang="pt-BR" dir="ltr">
 
-        <p style="line-height: 100%; margin-bottom: 0cm; margin-top:16px;">
-            <a href="welcome/welcome.html" target="panel"><font size="4" style="font-size: 14pt"><b>Biblioteca</b></font></a>
-        </p>
-    
-        <hr />
-
-        <p style="margin-top: 0.5cm;"><a href="login/login.html" target="panel">&#9654;&nbsp;Login</a></p>
-
-        <p>&#9654;&nbsp;Menu</p>
-
-        <p style="margin-left: 0.5cm;">
-            <a href="book-details/book-details.html" target="panel">&#9679;&nbsp;Livro ( Detalhes do Livro )</a>
+        <p class="d-flex justify-content-center align-items-center" style="margin-bottom: 0px; margin-top: 0px;">
+            <img style="height: 48px; padding-left: 0px; vertical-align: middle;" src="logo.png" />
+            <span style="vertical-align: middle; font-size: 16pt; margin-left: 8px; color: #a09dbd;">
+                <b>Biblioteca</b>
+            </span>
         </p>
 
-        <p style="margin-left: 0.5cm;">
-            <a href="collection/collection.html" target="panel">&#9679;&nbsp;Acervo ( Livros no Acervo )</a>
+        <hr style="border: 1px solid #c4c4c4;" />    <!--style="box-shadow: 0 2px 2px 0 rgba(0,0,0,.4);"-->
+
+        <p style="margin-top: 20px;">
+            <a class="highlight" href="welcome/welcome.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Sobre este tutorial
+            </a>
         </p>
 
-        <p style="margin-left: 0.5cm;">
-            <a href="discard/discard.html" target="panel">&#9679;&nbsp;Descarte ( Livros Descartados )</a>
+        <p>
+            <a href="login/login.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Acesso ao sistema
+            </a>
         </p>
 
-        <p style="margin-left: 0.5cm;">
-            <a href="donation/donation.html" target="panel">&#9679;&nbsp;Doação ( Livros Doados )</a>
+        <div class="treeview">
+
+            <label for="menu"></label>
+
+            <input type="checkbox" id="menu" checked />
+
+            <ul>
+
+                <li>
+                    <a href="logo/logo.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Logotipo
+                    </a>
+                </li>
+
+                <li>
+                    <a href="book-details/book-details.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Livro
+                    </a>
+                </li>
+
+                <li>
+                    <a href="collection/collection.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Acervo
+                    </a>
+                </li>
+
+                <li>
+                    <a href="discard/discard.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Descarte
+                    </a>
+                </li>
+
+                <li>
+                    <a href="donation/donation.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Doação
+                    </a>
+                </li>
+
+                <li>
+                    <a href="loan/loan.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Empréstimo
+                    </a>
+                </li>
+
+                <li>
+                    <a href="person/person.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Pessoa
+                    </a>
+                </li>
+
+                <li>
+                    <a href="user/user.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Usuário
+                    </a>
+                </li>
+
+                <li>
+                    <a href="log/log.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Log
+                    </a>
+                </li>
+
+                <li>
+                    <a href="options/options.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Opções
+                    </a>
+                </li>
+
+                <li>
+                    <a href="about/about.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Sobre
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <p>
+            <a href="shortcuts/shortcuts.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Atalhos de teclado
+            </a>
         </p>
 
-        <p style="margin-left: 0.5cm;">
-            <a href="loan/loan.html" target="panel">&#9679;&nbsp;Empréstimo ( Empréstimos )</a>
+        <p>
+            <a href="shortcuts/shortcuts.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Sobre o projeto
+            </a>
         </p>
-
-        <p style="margin-left: 0.5cm;">
-            <a href="person/person.html" target="panel">&#9679;&nbsp;Pessoa ( Pessoas )</a>
-        </p>
-
-        <p style="margin-left: 0.5cm;">
-            <a href="user/user.html" target="panel">&#9679;&nbsp;Usuário ( Usuários )</a>
-        </p>
-
-        <p style="margin-left: 0.5cm;">
-            <a href="log/log.html" target="panel">&#9679;&nbsp;Log ( Log de Sessão )</a>
-        </p>
-
-        <p style="margin-left: 0.5cm;">
-            <a href="options/options.html" target="panel">&#9679;&nbsp;Opções ( Pesonalização )</a>
-        </p>
-
-        <p style="margin-left: 0.5cm;">
-            <a href="about/about.html" target="panel">&#9679;&nbsp;Sobre ( Créditos )</a>
-        </p>
-
-        <p><a target="panel" href="shortcuts/shortcuts.html">&#9654;&nbsp;Atalhos de teclado</a></p>
 
     </body>
 

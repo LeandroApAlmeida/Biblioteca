@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('user-form').addEventListener('submit', function (event) {
 
         document.getElementById('spinner').style.display = 'block';
+        document.body.style.overflow = 'hidden';
 
         document.getElementById('name').setAttribute('readonly', 'readonly');
         document.getElementById('user-name').setAttribute('readonly', 'readonly');

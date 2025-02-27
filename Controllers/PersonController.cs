@@ -39,7 +39,11 @@ namespace Library.Controllers {
 
             var personsResp = await _personService.GetPersons();
 
+            var deletedPersonsResp = await _personService.GetDeletedPersons();
+
             if (personsResp.Successful) {
+
+                ViewBag.DeletedPersons = deletedPersonsResp.Data != null ? deletedPersonsResp.Data : new List<PersonModel>();
 
                 return View(personsResp.Data);
 
@@ -207,6 +211,33 @@ namespace Library.Controllers {
             } else {
 
                 TempData[Constants.ERROR_MESSAGE] = deletePersonResp.Message;
+
+                return RedirectToAction("Manage");
+
+            }
+
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Undelete(Guid id) {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            var deletedPersonResp = await _personService.UndeletePerson(id);
+
+            if (deletedPersonResp.Successful) {
+
+                TempData[Constants.SUCCESS_MESSAGE] = deletedPersonResp.Message;
+
+                return RedirectToAction("Manage");
+
+            } else {
+
+                TempData[Constants.ERROR_MESSAGE] = deletedPersonResp.Message;
 
                 return RedirectToAction("Manage");
 

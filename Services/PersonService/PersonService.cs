@@ -47,6 +47,36 @@ namespace Library.Services.PersonService {
         }
 
 
+        public async Task<Response<List<PersonModel>>> GetDeletedPersons() {
+
+            Response<List<PersonModel>> response = new();
+
+            try {
+
+                List<PersonModel> persons = await _context.Persons
+                .Select(b => b)
+                .Where(b => b.IsDeleted == true)
+                .OrderBy(b => b.Name)
+                .AsNoTracking()
+                .ToListAsync();
+
+                response.Data = persons;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Data = null;
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
         public async Task<Response<PersonModel?>> GetPerson(Guid id) {
 
             Response<PersonModel?> response = new();
@@ -56,7 +86,7 @@ namespace Library.Services.PersonService {
                 if (id != Guid.Empty) {
 
                     List<PersonModel> persons = await _context.Persons
-                    .Where(p => p.Id == id && p.IsDeleted == false)
+                    .Where(p => p.Id == id)
                     .AsNoTracking()
                     .ToListAsync();
 
@@ -180,6 +210,44 @@ namespace Library.Services.PersonService {
                 await _context.SaveChangesAsync();
 
                 response.Message = "Pessoa excluída com sucesso!";
+                response.Data = person;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<PersonModel>> UndeletePerson(Guid id) {
+
+            Response<PersonModel> response = new();
+
+            try {
+
+                var personResp = await GetPerson(id);
+
+                PersonModel? person = personResp.Data;
+
+                if (person == null) throw new Exception(personResp.Message);
+
+                person.IsDeleted = false;
+                person.LastUpdateDate = DateTime.Now;
+
+                _context.Entry(person).State = EntityState.Modified;
+
+                _context.Persons.Update(person);
+
+                await _context.SaveChangesAsync();
+
+                response.Message = "Pessoa restaurada com sucesso!";
                 response.Data = person;
 
                 return response;

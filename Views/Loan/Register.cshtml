@@ -23,7 +23,7 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
 }
@@ -60,39 +60,43 @@
         </div>
 
 
-        <div id="spinner" class="spinner" style="display: none;"></div>
-
-
-        <div class="mb-3" id="img-preview"><img src="@book!.Cover" class="center" /></div>
-
-        
         <div class="row g-3" display="flex">
 
-            <div class="form-group mb-3" style="width: 80%;">
-                <label for="select-person" class="form-label">Tomador</label>
-                <select id="select-person" class="form-control classic">
-                    @if (persons != null) {
-                        @foreach (var person in persons) {
-                            <option value="@person.Id">@person.Name</option>
-                        }
-                    }
-                </select>
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
+                <img src="@book!.Cover" class="center" />
             </div>
 
-            <div class="mb-3 col-sm-2" style="width: 20%;">
-                <label for="loan-date" class="form-label">Data</label>
-                <input id="loan-date" type="datetime-local" class="form-control" asp-for="Date">
-                <span class="text-danger" asp-validation-for="Date"></span>
+            <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
+        
+                <div class="row g-3" display="flex">
+
+                    <div class="mb-3 col-sm-2" style="width: 80%;">
+                        <label for="select-person" class="form-label">Tomador</label>
+                        <select id="select-person" class="form-control classic">
+                            @if (persons != null) {
+                                @foreach (var person in persons) {
+                                    <option value="@person.Id">@person.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3 col-sm-2" style="width: 20%;">
+                        <label for="loan-date" class="form-label">Data</label>
+                        <input id="loan-date" type="datetime-local" class="form-control" asp-for="Date">
+                        <span class="text-danger" asp-validation-for="Date"></span>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Anotações</label>
+                    <textarea id="notes" class="form-control" style="resize:none;height:350px;" asp-for="Notes" cols="50" placeholder="Anotações sobre o empréstimo"></textarea>
+                    <span class="text-danger" asp-validation-for="Notes"></span>
+                </div>
+
             </div>
 
-        </div>
-
-
-        <div class="mb-3">
-            <label for="notes" class="form-label">Anotações</label>
-            <textarea id="notes" class="form-control" style="resize:none" asp-for="Notes" 
-            rows="10" cols="50" placeholder="Anotações sobre o empréstimo"></textarea>
-            <span class="text-danger" asp-validation-for="Notes"></span>
         </div>
 
 
@@ -133,6 +137,9 @@
 
 
 </div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
 
 
 @section Scripts {

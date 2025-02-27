@@ -11,6 +11,18 @@ document.addEventListener('DOMContentLoaded', function () {
     donatedTextColorHint.style.color = donatedTextColor;
     borrowedTextColorHint.style.color = borrowedTextColor;
 
+    discardedTextColorHint.classList.toggle('bold', stringToBool(isDiscardedBold));
+    discardedTextColorHint.classList.toggle('underline', stringToBool(isDiscardedUnderline));
+    discardedTextColorHint.classList.toggle('italic', stringToBool(isDiscardedItalic));
+
+    donatedTextColorHint.classList.toggle('bold', stringToBool(isDonatedBold));
+    donatedTextColorHint.classList.toggle('underline', stringToBool(isDonatedUnderline));
+    donatedTextColorHint.classList.toggle('italic', stringToBool(isDonatedItalic));
+
+    borrowedTextColorHint.classList.toggle('bold', stringToBool(isBorrowedBold));
+    borrowedTextColorHint.classList.toggle('underline', stringToBool(isBorrowedUnderline));
+    borrowedTextColorHint.classList.toggle('italic', stringToBool(isBorrowedItalic));
+
 
     var discardedColorPicker = document.getElementById('discarded-color-picker');
     var donatedColorPicker = document.getElementById('donated-color-picker');

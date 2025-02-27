@@ -20,7 +20,7 @@
 
     <meta charset="utf-8" />
 
-    <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
@@ -58,37 +58,43 @@
         </div>
 
 
-        <div id="spinner" class="spinner" style="display: none;"></div>
+        <div class="row g-3" display="flex">
 
+        
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;" hidden></div>
 
-        <div class="form-group mb-3">
-            <label for="select-book" class="form-label">Livro</label>
-            <select id="select-book" class="form-control classic">
-                @if (books != null) { 
-                    @foreach (var book in books) {
-                        <option value="@book.Id">@book.Title</option>
-                    }
-                }
-            </select>
+            <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
+
+                <div class="row g-3" display="flex">
+
+                    <div class="mb-3 col-sm-2" style="width:85%;">
+                        <label for="select-book" class="form-label">Livro</label>
+                        <select id="select-book" class="form-control classic">
+                            @if (books != null) {
+                                @foreach (var book in books) {
+                                    <option value="@book.Id">@book.Title</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3 col-sm-2" style="width:15%;">
+                        <label for="discard-date" class="form-label">Data</label>
+                        <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date">
+                        <span class="text-danger" asp-validation-for="Date"></span>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Motivo</label>
+                    <textarea id="reason" class="form-control" style="resize:none; height: 350px;" asp-for="Reason" cols="50" placeholder="Motivo do descarte"></textarea>
+                    <span class="text-danger" asp-validation-for="Reason"></span>
+                </div>
+
+            </div>
+
         </div>
-
-
-        <div class="mb-3" id="img-preview" hidden></div>
-
-
-        <div class="mb-3 col-sm-2">
-            <label for="discard-date" class="form-label">Data</label>
-            <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date">
-            <span class="text-danger" asp-validation-for="Date"></span>
-        </div>
-
-        <div class="mb-3">
-            <label for="reason" class="form-label">Motivo</label>
-            <textarea id="reason" class="form-control" style="resize:none" asp-for="Reason" 
-            rows="10" cols="50" placeholder="Motivo do descarte"></textarea>
-            <span class="text-danger" asp-validation-for="Reason"></span>
-        </div>
-
 
         @Html.Hidden("Book.Cover", "")
         @Html.Hidden("Book.Id", "")
@@ -112,6 +118,9 @@
 
 
 </div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
 
 
 @section Scripts {

@@ -10,7 +10,7 @@
 
 
 @{
-    ViewData["title"] = "Editar Livro Descartado";
+    ViewData["title"] = "Editar Descarte";
 }
 
 
@@ -20,7 +20,7 @@
 
     <meta charset="utf-8" />
 
-    <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
 }
@@ -44,7 +44,7 @@
 
             @*Título da página (à esquerda).*@
 
-            <h3>Editar Livro Descartado</h3>
+            <h3>Editar Descarte</h3>
 
             @*Botões "Salvar" e "Cancelar" (à direita).*@
 
@@ -63,28 +63,37 @@
         </div>
 
 
-        <div id="spinner" class="spinner" style="display: none;"></div>
+        <div class="row g-3" display="flex">
 
 
-        @*Imagem de capa do livro.*@
+            @*Imagem de capa do livro.*@
 
-        <div id="img-preview" class="mb-3"><img src="@Model.Book.Cover" class="center" /></div>
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
+                
+                <img src="@Model.Book.Cover" class="center" />
+                
+            </div>
 
+            <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
 
-        @*Campo data do descarte.*@
+                @*Campo data do descarte.*@
 
-        <div class="mb-3 col-sm-2">
-            <label for="discard-date" class="form-label">Data</label>
-            <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date" required>
-            <span class="text-danger" asp-validation-for="Date"></span>
-        </div>
+                <div class="mb-3 col-sm-2">
+                    <label for="discard-date" class="form-label">Data</label>
+                    <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date" required>
+                    <span class="text-danger" asp-validation-for="Date"></span>
+                </div>
 
-        @*Campo motivo do descarte.*@
+                @*Campo motivo do descarte.*@
 
-        <div class="mb-3">
-            <label for="reason" class="form-label">Motivo</label>
-            <textarea id="reason" class="form-control" style="resize:none" asp-for="Reason" rows="10" cols="50" placeholder="Motivo do descarte"></textarea>
-            <span class="text-danger" asp-validation-for="Reason"></span>
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Motivo</label>
+                    <textarea id="reason" class="form-control" style="resize:none;height:350px;" asp-for="Reason" cols="50" placeholder="Motivo do descarte"></textarea>
+                    <span class="text-danger" asp-validation-for="Reason"></span>
+                </div>
+
+            </div>
+
         </div>
 
 
@@ -114,6 +123,9 @@
 
 
 </div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
 
 
 @section Scripts {

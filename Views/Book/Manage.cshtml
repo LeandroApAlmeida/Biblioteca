@@ -31,6 +31,8 @@
     // Configurações do usuário.
     SettingsDto settings = ViewBag.Settings;
 
+    List<BookModel> deletedBooks = ViewBag.DeletedBooks;
+
     string? borrowedTextColor = settings.BorrowedTextColor;
 
     // Efeitos de fonte.
@@ -86,8 +88,12 @@
                 <img class="m-0" src="~/img/add_icon_16.png" />&nbspCadastrar
             </a>
                 
-            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
+            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
                 <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
+            </a>
+
+            <a id="print-button" class="btn btn-dark d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" data-toggle="modal" data-target="#restore-dialog">
+                <img class="m-0" src="~/img/undo_icon_16.png" /> &nbspRestaurar
             </a>
             
         </div>
@@ -233,7 +239,7 @@
                                         <div class="modal-footer">
 
                                             <form method="post" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">
-                                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                <button type="submit" class="btn btn-secondary">Confirmar</button>
                                             </form>
 
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -289,6 +295,127 @@
 </div>
 
 
+@*
+    Diálogo para buscar um livro. Se o livro está emprestado, foi doado, ou foi excluído,
+    a linha que corresponde a este livro terá uma cor de fonte e efeitos de texto (negrito,
+    sublinhado, itálico) específicos, conforme foi configurado pelo usuário.
+*@
+
+<div id="restore-dialog" class="modal fade">
+
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+
+        <div class="modal-content">
+
+            @*Cabeçalho do diálogo. Contém o título e o botão fechar.*@    
+
+            <div class="modal-header">
+
+                <h6>Restaurar livro excluído:</h6>
+
+                <button id="close-button" type="button" class="close"
+                        style="background: white;border:0px;padding-top:0px;padding-bottom:0px;"
+                        data-dismiss="modal">
+                    <h3>&times;</h3>
+                </button>
+
+            </div>
+
+            @*Corpo do diálogo. Contém a lista dos livros cadastrados.*@
+
+            <div class="modal-body" style="background:white; ">
+
+                <table id="restore-table" class="table table-light table hover table-striped" border="1">
+
+
+                    <thead class="text-start">
+
+                        <tr>
+
+                            <th scope="col" style="width: 24%;">Título</th>
+
+                            <th scope="col" style="width: 17%;">Autor</th>
+
+                            <th scope="col" style="width: 12%;">ISBN</th>
+
+                            <th scope="col" style="width: 2%;">Edic.</th>
+
+                            <th scope="col" style="width: 2%;">Vol.</th>
+
+                            <th scope="col" style="width: 7%;">Aquisição</th>
+
+                            <th scope="col" style="width: 7%;">Exclusão</th>
+
+                            <th scope="col"></th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @if (deletedBooks != null) {
+
+                            @foreach(var book in deletedBooks) {
+
+                                <tr>
+
+                                    <td scope="row">@book.Title</td>
+
+                                    <td scope="row">@book.Author</td>
+
+                                    <td scope="row">@book.Isbn</td>
+
+                                    <td class="num-span" scope="row">@book.Edition</td>
+
+                                    <td class="num-span" scope="row">@book.Volume</td>
+
+                                    <td class="num-span" scope="row">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
+
+                                    <td class="num-span" scope="row">@book.LastUpdateDate.ToString("dd/MM/yyyy")</td>
+
+                                    <td id="controls-td" scope="row">
+
+                                        <form method="post" asp-controller="Book" asp-action="Undelete" asp-route-id="@book.Id">
+                                            <button type="submit" class="btn" style="background-color:white">
+                                                <img src="~/img/return_icon.png" title="Restaurar" />
+                                            </button>
+                                        </form>
+                            
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        }
+
+                    </tbody>
+
+
+
+                </table>
+
+            </div>
+
+            <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
+
+                <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
+
+                    &nbsp;&nbsp;
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 @section Scripts {
 
     <script src="~/js/datatables.min.js"></script>
@@ -296,6 +423,20 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+            $('#restore-table').DataTable({
+                language: { url: "/dic/book-table-pt_br.json" },
+                order: [],
+                ordering: false,
+                columnDefs: [
+                    { targets: '_all', className: 'vertical-align-middle dt-body-left dt-head-left' },
+                    { targets: -1, className: 'dt-body-right' }
+                ],
+                lengthMenu: [[-1], ["Todos"]],
+                pageLength: -1
+            });
+
+            $('#restore-table tbody tr td').css('vertical-align', 'middle');
 
             var table = $('#book-table').DataTable({
                 language: { url: "/dic/book-table-pt_br.json" },
