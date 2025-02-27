@@ -14,7 +14,7 @@
         
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         
-        <title>@ViewData["Title"]</title>
+        <title>Biblioteca: @ViewData["Title"]</title>
         
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
@@ -79,6 +79,27 @@
         <script src="~/js/bootstrap.min.js"></script>
         <script src="~/js/menu.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $(document).keydown(function(event) {
+                    switch(event.keyCode) {
+                        case 112: { 
+                            event.preventDefault();
+                            var newWindow = window.open('/Home/Help', '_blank');
+                            if (newWindow) {
+                                newWindow.focus();
+                            } else {
+                                alert('Por favor, permita pop-ups para este site.');
+                            }
+                            break;
+                        }
+                    }
+                });
+            });
+
+        </script>
 
 
         @*Renderiza o conteúdo da seção Scripts de uma página.*@

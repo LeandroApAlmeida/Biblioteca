@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
                 event.preventDefault();
                 document.getElementById('button-print').click();
+            } else if (event.key === 'F1') {
+                event.preventDefault();
+                window.open('/Home/Help', '_blank');
             }
 
         }
