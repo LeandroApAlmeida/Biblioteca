@@ -25,6 +25,11 @@ namespace Library.Dto {
                 Constants.DEFAULT_DISCARDED_TEXT_COLOR
             );
 
+            PageBackgroundColor = settingsService.GetString(
+                Constants.PAGE_BACKGROUND_COLOR_KEY,
+                Constants.DEFAULT_PAGE_BACKGROUND_COLOR
+            );
+
 
             IsDiscardedBold = settingsService.GetBoolean(
                 Constants.DISCARDED_BOLD_KEY,
@@ -97,6 +102,8 @@ namespace Library.Dto {
         public string? DonatedTextColor { get; set; }
 
         public string? DiscardedTextColor { get; set; }
+
+        public string? PageBackgroundColor { get; set; }
 
 
         public bool? IsDiscardedBold { get; set; }

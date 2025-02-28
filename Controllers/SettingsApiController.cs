@@ -66,9 +66,16 @@ namespace Library.Controllers {
             return SetStringValue(Constants.DONATED_TEXT_COLOR_KEY, color);
         }
 
+
         [HttpPost("SetBorrowedTextColor/{color}")]
         public ActionResult SetBorrowedTextColor(string color) {
             return SetStringValue(Constants.BORROWED_TEXT_COLOR_KEY, color);
+        }
+
+
+        [HttpPost("SetPageBackgroundColor/{color}")]
+        public ActionResult SetPageBackgroundColor(string color) {
+            return SetStringValue(Constants.PAGE_BACKGROUND_COLOR_KEY, color);
         }
 
 

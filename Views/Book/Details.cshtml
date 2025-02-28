@@ -9,6 +9,7 @@
 
 @using Library.Services.CollectionService
 @using Library.Dto
+@using Library.Utils
 
 
 @model BookModel
@@ -39,25 +40,19 @@
     string? borrowedTextColor = settings.BorrowedTextColor;
 
 
-    // Efeitos de fonte.
-    const string FONT_BOLD = "font-weight:bold;";
-    const string FONT_UNDERLINE = "text-decoration:underline;";
-    const string FONT_ITALIC = "font-style:italic;";
-
-
     // Tags HTML para efeitos de fonte de livros descartados.
     string discardedTextStyle = "color:" + discardedTextColor + ";";
 
     if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) {
-        discardedTextStyle += FONT_BOLD;
+        discardedTextStyle += Constants.HTML_FONT_BOLD;
     }
 
     if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) {
-        discardedTextStyle += FONT_UNDERLINE;
+        discardedTextStyle += Constants.HTML_FONT_UNDERLINE;
     }
 
     if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) {
-        discardedTextStyle += FONT_ITALIC;
+        discardedTextStyle += Constants.HTML_FONT_ITALIC;
     }
 
 
@@ -65,15 +60,15 @@
     string donatedTextStyle = "color:" + donatedTextColor + ";";
 
     if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) {
-        donatedTextStyle += FONT_BOLD;
+        donatedTextStyle += Constants.HTML_FONT_BOLD;
     }
 
     if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) {
-        donatedTextStyle += FONT_UNDERLINE;
+        donatedTextStyle += Constants.HTML_FONT_UNDERLINE;
     }
 
     if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) {
-        donatedTextStyle += FONT_ITALIC;
+        donatedTextStyle += Constants.HTML_FONT_ITALIC;
     }
 
 
@@ -81,15 +76,15 @@
     string borrowedTextStyle = "color:" + borrowedTextColor + ";";
 
     if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) {
-        borrowedTextStyle += FONT_BOLD;
+        borrowedTextStyle += Constants.HTML_FONT_BOLD;
     }
 
     if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) {
-        borrowedTextStyle += FONT_UNDERLINE;
+        borrowedTextStyle += Constants.HTML_FONT_UNDERLINE;
     }
 
     if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) {
-        borrowedTextStyle += FONT_ITALIC;
+        borrowedTextStyle += Constants.HTML_FONT_ITALIC;
     }
 
 
@@ -232,7 +227,7 @@
 
         @*Cria o painel com 2 abas, para exibição dos detalhes do livro.*@
 
-        <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:355px">
+        <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:355px;">
 
 
             @*
@@ -240,16 +235,16 @@
                 "Sinopse".
             *@
 
-            <ul id="tab-buttons" class="nav nav-tabs" role="tablist">
+            <ul id="tab-buttons" class="nav nav-tabs" role="tablist" style="background-color:inherit;">
 
                 <li class="nav-item" role="presentation">
-                    <button id="btn-tab-1" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab">
+                    <button id="btn-tab-1" style="background-color:inherit;" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab">
                         Detalhes
                     </button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button id="btn-tab-2" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab">
+                    <button id="btn-tab-2" style="background-color:inherit;" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab">
                         Sinopse
                     </button>
                 </li>
@@ -482,7 +477,6 @@
                 </table>
 
             </div>
-
 
             <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
 

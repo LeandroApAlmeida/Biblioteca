@@ -5,7 +5,23 @@
 
 <!DOCTYPE html>
 
+
+@using Library.Utils
+@using Library.Services.SettingsService
+
+
+@inject ISettingsService settings;
+
+
 <html lang="pt-br">
+
+
+    @{
+        var backgroundColor = settings.GetString(
+            Constants.PAGE_BACKGROUND_COLOR_KEY,
+            Constants.DEFAULT_PAGE_BACKGROUND_COLOR
+        );
+    }
 
 
     <head>
@@ -26,6 +42,12 @@
         @*Renderiza o conteúdo da seção Styles de uma página.*@
 
         @await RenderSectionAsync("Styles", required: false)
+
+        <style>
+            body {
+                background-color: @backgroundColor;
+            }
+        </style>
 
     </head>
 
@@ -87,6 +109,7 @@
         <script type="text/javascript">
 
             $(document).ready(function () {
+
                 $(document).keydown(function(event) {
                     switch(event.keyCode) {
                         case 112: {
@@ -101,6 +124,7 @@
                         }
                     }
                 });
+
             });
 
         </script>

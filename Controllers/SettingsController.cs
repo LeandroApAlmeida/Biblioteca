@@ -2,6 +2,7 @@
 using Library.Services.SessionService;
 using Library.Services.SettingsService;
 using Microsoft.AspNetCore.Mvc;
+using Library.Utils;
 
 namespace Library.Controllers {
 
@@ -28,6 +29,23 @@ namespace Library.Controllers {
             }
 
             return View(new SettingsDto(_settingsService));
+
+        }
+
+
+        [HttpPost]
+        public IActionResult DefaultPageBackgroundColor() {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            _settingsService.SetString(
+                Constants.PAGE_BACKGROUND_COLOR_KEY,
+                Constants.DEFAULT_PAGE_BACKGROUND_COLOR
+            );
+
+            return RedirectToAction("Manage", "Settings");
 
         }
 

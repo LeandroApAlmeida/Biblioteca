@@ -1,5 +1,8 @@
-﻿@using Library.Models
+﻿
+@using Library.Models
 @using Library.Dto
+@using Library.Utils
+
 
 @model IEnumerable<DiscardedBookModel>
 
@@ -16,24 +19,19 @@
 
         string? discardedTextColor = settings.DiscardedTextColor;
 
-        // Efeitos de fonte.
-        const string FONT_BOLD = "font-weight:bold;";
-        const string FONT_UNDERLINE = "text-decoration:underline;";
-        const string FONT_ITALIC = "font-style:italic;";
-
         // Tags HTML para efeitos de fonte de livros descartados.
         discardedTextStyle = "color:" + discardedTextColor + ";";
 
         if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) {
-            discardedTextStyle += FONT_BOLD;
+            discardedTextStyle += Constants.HTML_FONT_BOLD;
         }
 
         if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) {
-            discardedTextStyle += FONT_UNDERLINE;
+            discardedTextStyle += Constants.HTML_FONT_UNDERLINE;
         }
 
         if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) {
-            discardedTextStyle += FONT_ITALIC;
+            discardedTextStyle += Constants.HTML_FONT_ITALIC;
         }
 
     } else {
@@ -66,11 +64,11 @@
         <div class="d-flex justify-content-between">
                 
             <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Discard" asp-action="Register2">
-                <img class="m-0" src="~/img/add_icon_16.png" />&nbspDescartar
+                <img class="m-0" src="~/img/add_icon_16.png" />&nbsp;Descartar
             </a>
                 
             <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="DiscardedBooksReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
+                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbsp;Imprimir
             </a>
             
         </div>
@@ -84,6 +82,7 @@
 
 
     <table id="book-table" class="table table-light table hover table-striped" border="1">
+
 
         <thead>
 
@@ -107,6 +106,7 @@
 
         </thead>
 
+
         <tbody>
 
             @if (Model != null) {
@@ -129,7 +129,8 @@
                             
                         <td id="controls-td" scope="row">
 
-                            <div class="modal fade" id="delete-book-dlg-@discardedBook.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                            <div id="delete-book-dialog-@discardedBook.Id" class="modal fade">
 
                                 <div class="modal-dialog modal-dialog-centered">
 
@@ -159,7 +160,8 @@
 
                             </div>
 
-                            <div class="modal fade" id="reasonDlg-@discardedBook.Id">
+
+                            <div id="reason-dialog-@discardedBook.Id" class="modal fade">
 
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -189,15 +191,16 @@
 
                             </div>
 
+
                             <a class="btn btn-light" asp-controller="Discard" asp-action="Edit" asp-route-id="@discardedBook.Id">
                                 <img src="~/img/edit_icon2.png" title="Editar o livro descartado" />
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-book-dlg-@discardedBook.Id">
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-book-dialog-@discardedBook.Id">
                                 <img src="~/img/delete_icon.png" title="Excluir o livro descartado" />
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#reasonDlg-@discardedBook.Id">
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#reason-dialog-@discardedBook.Id">
                                 <img src="~/img/info_icon_24.png" title="Informações do livro descartado" />
                             </a>
                                 
@@ -205,6 +208,7 @@
                                 <img src="~/img/view_icon.png" title="Detalhes do livro descartado" />
                             </a>
                             
+
                         </td>
 
                     </tr>
@@ -214,6 +218,7 @@
             }
 
         </tbody>
+
 
     </table>
 

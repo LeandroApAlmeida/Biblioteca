@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var discardedTextColorHint = document.getElementById('discarded-text-color');
     var donatedTextColorHint = document.getElementById('donated-text-color');
     var borrowedTextColorHint = document.getElementById('borrowed-text-color');
-
+    
     discardedTextColorHint.style.color = discardedTextColor;
     donatedTextColorHint.style.color = donatedTextColor;
     borrowedTextColorHint.style.color = borrowedTextColor;
@@ -27,10 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var discardedColorPicker = document.getElementById('discarded-color-picker');
     var donatedColorPicker = document.getElementById('donated-color-picker');
     var borrowedColorPicker = document.getElementById('borrowed-color-picker');
+    var pageBackgroundColorPicker = document.getElementById('page-background-picker');
 
     discardedColorPicker.value = discardedTextColor;
     donatedColorPicker.value = donatedTextColor;
     borrowedColorPicker.value = borrowedTextColor;
+    pageBackgroundColorPicker.value = pageBackgroundColor;
 
     discardedColorPicker.addEventListener('change', function () {
         discardedTextColorHint.style.color = this.value;
@@ -45,6 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
     borrowedColorPicker.addEventListener('change', function () {
         borrowedTextColorHint.style.color = this.value;
         setSetting('SetBorrowedTextColor', this.value);
+    });
+
+    pageBackgroundColorPicker.addEventListener('change', function () {
+        document.body.style.backgroundColor = this.value;
+        setSetting('SetPageBackgroundColor', this.value);
     });
 
 

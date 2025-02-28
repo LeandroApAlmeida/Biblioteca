@@ -19,6 +19,7 @@
 *@
 
 @using Library.Dto
+@using Library.Utils
 
 
 @model IEnumerable<BookModel>
@@ -35,24 +36,19 @@
 
     string? borrowedTextColor = settings.BorrowedTextColor;
 
-    // Efeitos de fonte.
-    const string FONT_BOLD = "font-weight:bold;";
-    const string FONT_UNDERLINE = "text-decoration:underline;";
-    const string FONT_ITALIC = "font-style:italic;";
-
     // Tags HTML para efeitos de fonte de livros emprestados.
     string borrowedTextStyle = "color:" + borrowedTextColor + ";";
 
     if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) {
-        borrowedTextStyle += FONT_BOLD;
+        borrowedTextStyle += Constants.HTML_FONT_BOLD;
     }
 
     if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) {
-        borrowedTextStyle += FONT_UNDERLINE;
+        borrowedTextStyle += Constants.HTML_FONT_UNDERLINE;
     }
     
     if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) {
-        borrowedTextStyle += FONT_ITALIC;
+        borrowedTextStyle += Constants.HTML_FONT_ITALIC;
     }
 
 }
@@ -85,15 +81,15 @@
         <div class="d-flex justify-content-between">
                 
             <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Book" asp-action="Register">
-                <img class="m-0" src="~/img/add_icon_16.png" />&nbspCadastrar
+                <img class="m-0" src="~/img/add_icon_16.png" />&nbsp;Cadastrar
             </a>
                 
             <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
+                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbsp;Imprimir
             </a>
 
             <a id="print-button" class="btn btn-dark d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" data-toggle="modal" data-target="#restore-dialog">
-                <img class="m-0" src="~/img/undo_icon_16.png" /> &nbspRestaurar
+                <img class="m-0" src="~/img/undo_icon_16.png" /> &nbsp;Restaurar
             </a>
             
         </div>
@@ -239,7 +235,7 @@
                                         <div class="modal-footer">
 
                                             <form method="post" asp-controller="Book" asp-action="Delete" asp-route-id="@book.Id">
-                                                <button type="submit" class="btn btn-secondary">Confirmar</button>
+                                                <button type="submit" class="btn btn-primary">Confirmar</button>
                                             </form>
 
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -307,6 +303,7 @@
 
         <div class="modal-content">
 
+
             @*Cabeçalho do diálogo. Contém o título e o botão fechar.*@    
 
             <div class="modal-header">
@@ -320,6 +317,7 @@
                 </button>
 
             </div>
+
 
             @*Corpo do diálogo. Contém a lista dos livros cadastrados.*@
 
@@ -394,10 +392,10 @@
                     </tbody>
 
 
-
                 </table>
 
             </div>
+
 
             <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
 
@@ -408,6 +406,7 @@
                 </p>
 
             </div>
+
 
         </div>
 
@@ -476,11 +475,6 @@
                         table.page('last').draw('page');
                     } break;
 
-                    case 112: {
-                        event.preventDefault();
-                        window.open('/Home/Help', '_blank');
-                    }
-
                     default :{
                         if (event.ctrlKey && event.key.toLowerCase() === 'i') {
                             event.preventDefault();
@@ -490,6 +484,7 @@
                             document.getElementById('print-button').click();
                         }
                     } break;
+
                 }
 
             });

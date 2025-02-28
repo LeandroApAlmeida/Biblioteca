@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('name').focus();
 
     var passwordField = document.getElementById('password');
-
     var cPasswordField = document.getElementById('conf-password');
 
     passwordField.value = passwordMask;
