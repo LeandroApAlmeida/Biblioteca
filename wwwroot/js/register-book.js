@@ -19,12 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('num-of-pages').value = 1;
 
     document.getElementById("choose-file").addEventListener("change", function (event) {
-
         const imgPreview = document.getElementById("img-preview");
         const imgData = document.getElementById("cover-data");
-
         setCoverData(event.target.files[0], imgPreview, imgData);
-
     });
 
     document.getElementById('book-form').addEventListener('submit', function (event) {

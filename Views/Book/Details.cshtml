@@ -38,6 +38,7 @@
     string? discardedTextColor = settings.DiscardedTextColor;
     string? donatedTextColor = settings.DonatedTextColor;
     string? borrowedTextColor = settings.BorrowedTextColor;
+    string? pageBackgroudColor = settings.PageBackgroundColor;
 
 
     // Tags HTML para efeitos de fonte de livros descartados.
@@ -104,6 +105,21 @@
 
     <link rel="stylesheet" href="~/css/book-details.css" asp-append-version="false" />
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+
+    <style>
+
+        #btn-tab-1, #btn-tab-2 {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        #btn-tab-1.active, #btn-tab-2.active {
+            border-bottom: 1px solid @pageBackgroudColor;
+        }
+
+      
+    </style>
 
 }
 

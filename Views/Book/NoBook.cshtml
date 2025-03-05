@@ -4,9 +4,21 @@
 *@
 
 
+@using Library.Utils
+@using Library.Services.SettingsService
+
+
+@inject ISettingsService settings;
+
+
 @{
 
     ViewData["Title"] = "Detalhes do Livro";
+
+    var pageBackgroudColor = settings.GetString(
+        Constants.PAGE_BACKGROUND_COLOR_KEY,
+        Constants.DEFAULT_PAGE_BACKGROUND_COLOR
+    );
 
 }
 
@@ -18,6 +30,20 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="~/css/book-details.css" asp-append-version="false" />
+
+    <style>
+
+        #btn-tab-1, #btn-tab-2 {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        #btn-tab-1.active, #btn-tab-2.active {
+            border-bottom: 1px solid @pageBackgroudColor;
+        }
+
+    </style>
 
 }
 
@@ -121,13 +147,13 @@
             <ul id="tab-buttons" class="nav nav-tabs" role="tablist">
 
                 <li class="nav-item" role="presentation">
-                    <button id="btn-tab-1" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab">
+                    <button id="btn-tab-1" style="background-color:inherit;" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab">
                         Detalhes
                     </button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button id="btn-tab-2" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab">
+                    <button id="btn-tab-2" style="background-color:inherit;" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab">
                         Sinopse
                     </button>
                 </li>

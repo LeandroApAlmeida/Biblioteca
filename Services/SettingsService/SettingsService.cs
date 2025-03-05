@@ -315,9 +315,6 @@ namespace Library.Services.SettingsService {
             SetBoolean(Constants.BORROWED_UNDERLINE_KEY, false);
             SetBoolean(Constants.BORROWED_ITALIC_KEY, false);
 
-            SetBoolean(Constants.APPLY_STYLES_TO_LISTS_KEY, false);
-            SetBoolean(Constants.SHOW_FOOTER_CAPTION, false);
-
         }
 
 

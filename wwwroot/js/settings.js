@@ -1,7 +1,7 @@
 ﻿
+let palleteColor = "#feffff";
 
 document.addEventListener('DOMContentLoaded', function () {
-
 
     var discardedTextColorHint = document.getElementById('discarded-text-color');
     var donatedTextColorHint = document.getElementById('donated-text-color');
@@ -89,6 +89,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('apply-styles-to-lists').checked = stringToBool(isApplyStylesToLists);
     document.getElementById('show-footer-caption').checked = stringToBool(isShowFooterCaption);
+
+    document.getElementById('color-pallete').addEventListener('change', (event) => {
+        const select = event.target;
+        if (select.selectedOptions.length > 1) {
+            const lastSelected = select.selectedOptions[select.selectedOptions.length - 1];
+            Array.from(select.options).forEach(option => {
+                option.selected = false;
+            });
+            lastSelected.selected = true;
+        }
+        palleteColor = select.value;
+        document.getElementById('color-view').style.backgroundColor = palleteColor;
+    });
 
 
 });
@@ -209,4 +222,12 @@ function updateApplyStylesToLists() {
 function updateShowFooterCaption() {
     const show = document.getElementById('show-footer-caption').checked;
     setSetting('SetShowFooterCaption', show);
+}
+
+
+function setPalleteColor() {
+    var pageBackgroundColorPicker = document.getElementById('page-background-picker');
+    pageBackgroundColorPicker.value = palleteColor;
+    document.body.style.backgroundColor = palleteColor;
+    setSetting('SetPageBackgroundColor', palleteColor);
 }

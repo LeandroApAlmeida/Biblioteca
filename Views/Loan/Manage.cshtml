@@ -12,6 +12,8 @@
     // Configurações do usuário.
     SettingsDto settings = ViewBag.Settings;
 
+    string? pageBackgroudColor = settings.PageBackgroundColor;
+
     string borrowedTextStyle;
 
     if (settings.IsApplyStylesToLists != null && settings.IsApplyStylesToLists == true) {
@@ -54,6 +56,20 @@
     <meta charset="utf-8" />
 
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+
+    <style>
+
+        #btn-tab-1, #btn-tab-2 {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        #btn-tab-1.active, #btn-tab-2.active {
+            border-bottom: 1px solid @pageBackgroudColor;
+        }
+
+    </style>
 
 }
 
