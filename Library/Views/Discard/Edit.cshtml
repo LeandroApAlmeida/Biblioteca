@@ -1,0 +1,138 @@
+﻿@using Library.Db.Models
+
+@*
+
+    Página para edição de um livro descartado.
+
+*@
+
+
+@model DiscardedBookModel
+
+
+@{
+    ViewData["title"] = "Editar Descarte";
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
+
+}
+
+
+<div class="conteiner-fluid">
+
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    <form id="discard-book-form" method="post" asp-controller="Discard" asp-action="Edit">
+
+
+        @Html.AntiForgeryToken()
+
+
+        @*Cabeçalho da página. Contém o título da página e os botões "Salvar" e "Cancelar".*@
+
+        <div class="d-flex justify-content-between mb-3">
+
+            @*Título da página (à esquerda).*@
+
+            <h3>Editar Descarte</h3>
+
+            @*Botões "Salvar" e "Cancelar" (à direita).*@
+
+            <div class="d-flex justify-content-between">
+
+                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                    <img class="m-0" src="~/img/save_icon_16.png" /> &nbsp;Salvar
+                </button>
+
+                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Discard" asp-action="Manage">
+                    <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbsp;Cancelar
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-3" display="flex">
+
+
+            @*Imagem de capa do livro.*@
+
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
+                
+                <img src="@Model.Book.Cover.Data" class="center" />
+                
+            </div>
+
+            <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
+
+                @*Campo data do descarte.*@
+
+                <div class="mb-3 col-sm-2">
+                    <label for="discard-date" class="form-label">Data</label>
+                    <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date" required>
+                    <span class="text-danger" asp-validation-for="Date"></span>
+                </div>
+
+                @*Campo motivo do descarte.*@
+
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Motivo</label>
+                    <textarea id="reason" class="form-control" style="resize:none;height:350px;" asp-for="Reason" cols="50" placeholder="Motivo do descarte"></textarea>
+                    <span class="text-danger" asp-validation-for="Reason"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.RegistrationDate)
+        @Html.HiddenFor(m => m.LastUpdateDate)
+
+        @Html.HiddenFor(m => m.Book.Id)
+        @Html.HiddenFor(m => m.Book.Title)
+        @Html.HiddenFor(m => m.Book.Subtitle)
+        @Html.HiddenFor(m => m.Book.Author)
+        @Html.HiddenFor(m => m.Book.Publisher)
+        @Html.HiddenFor(m => m.Book.Isbn)
+        @Html.HiddenFor(m => m.Book.Edition)
+        @Html.HiddenFor(m => m.Book.Volume)
+        @Html.HiddenFor(m => m.Book.NumberOfPages)
+        @Html.HiddenFor(m => m.Book.ReleaseYear)
+        @Html.HiddenFor(m => m.Book.AcquisitionDate)
+        @Html.HiddenFor(m => m.Book.RegistrationDate)
+        @Html.HiddenFor(m => m.Book.LastUpdateDate)
+        @Html.HiddenFor(m => m.Book.Summary)
+        @Html.HiddenFor(m => m.Book.IsDeleted)
+
+        @Html.HiddenFor(m => m.Book.Cover.Id)
+        @Html.HiddenFor(m => m.Book.Cover.Data)
+
+
+    </form>
+
+
+</div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
+
+
+@section Scripts {
+
+    <script src="~/js/edit-discard.js" asp-append-version="true"></script>
+
+}

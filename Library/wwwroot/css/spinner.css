@@ -1,0 +1,31 @@
+﻿
+/*
+    Estilo do spinner que é exibido sempre que faz o submit de um form.
+*/
+
+
+.spinner {
+    position:fixed;
+    top: 45vh;
+    left: 45vw;
+    border: 20px solid #135d8f;
+    border-top: 20px solid #2fc64d;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+
+@keyframes spin {
+
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+
+}

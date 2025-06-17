@@ -1,0 +1,24 @@
+{
+  "decimal": "",
+  "emptyTable": "Nenhum log encontrado",
+  "info": "Logs _START_ a _END_ de _TOTAL_",
+  "infoEmpty": "Nenhum log em exibição",
+  "infoFiltered": "",
+  "infoPostFix": "",
+  "thousands": ",",
+  "lengthMenu": "Mostrar: _MENU_ logs",
+  "loadingRecords": "Exibindo...",
+  "processing": "",
+  "search": "Pesquisar: ",
+  "zeroRecords": "Nenhum log encontrado",
+  "paginate": {
+    "first": "Primeiro",
+    "last": "Último",
+    "next": "Próximo",
+    "previous": "Anterior"
+  },
+  "aria": {
+    "orderable": "Ordenar por esta coluna",
+    "orderableReverse": "Reverter a ordem da coluna"
+  }
+}

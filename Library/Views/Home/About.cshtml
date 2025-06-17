@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Sobre";
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <style>
+
+        body {
+            position: relative;
+        }
+
+        .conteiner {
+            position: relative;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+        }
+
+    </style>
+
+}
+
+
+<div class="conteiner">
+
+    <div class="text">  
+
+        <p>
+            <b>Versão:</b> 2.0
+            <br />
+            <br />
+            <b>Autor:</b> Leandro Ap. de Almeida
+            <br />
+            <br />
+            <b>Data:</b> 27/02/2025
+        </p>
+
+    </div>
+
+    <a class="btn btn-success d-flex justify-content-center align-items-center top-right" style="width:160px;height:38px;" asp-controller="Home" asp-action="Help" target="_blank">
+        Abrir o Tutorial
+    </a>
+
+
+</div>

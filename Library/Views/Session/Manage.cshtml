@@ -1,0 +1,197 @@
+﻿@using Library.Db.Models
+@model IEnumerable<SessionModel>
+
+
+@{
+    
+    ViewData["Title"] = "Log de Sessão";
+    
+    var beginDate = ViewData["BeginDate"] as string;
+    var endDate = ViewData["EndDate"] as string;
+
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
+
+}
+
+
+<div class="conteiner-fluid">
+
+
+    <form id="log-session-form" method="get" action="/Session/Manage" class="form-inline">
+
+
+        <div class="d-flex justify-content-between mb-5">
+            
+            <h3>Log de Sessão</h3>
+            
+            <div class="row g-3" display="flex" >
+
+                <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:0px;width:160px;margin-top:12px;">
+                    <label for="begin-date" style="margin-left:0px;margin-right:10px;vertical-align:middle;margin-top:-3px;">De</label>
+                    <input id="begin-date" type="date" name="beginDate" value="@beginDate" class="form-control mb-1" required />
+                </div>
+
+                <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:20px;width:160px;margin-top:12px;">
+                    <label for="end-date" style="vertical-align:middle;text-align:center;margin-top:-3px;">&nbspà&nbsp&nbsp</label>
+                    <input id="end-date" type="date" name="endDate" value="@endDate" class="form-control mb-1" required />
+                </div>
+
+                <div div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-top:0px;width:140px;">
+                    <button id="filter-button" type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 35px;">
+                        <img class="m-0" src="~/img/search_item_icon.png" />&nbspFiltrar
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div id="spinner" class="spinner" style="display: none;"></div>
+
+
+        @await Html.PartialAsync("_MessageSuccessPartial")
+
+        @await Html.PartialAsync("_MessageErrorPartial")
+
+
+        <table id="log-table" class="table table-light table hover table-striped" border="1">
+
+            <thead>
+
+                <tr>
+
+                    <th scope="col" style="width: 25%;">Usuário</th>
+                        
+                    <th scope="col" style="width: 25%;">Tipo</th>
+                        
+                    <th scope="col" style="width: 15%;">Data do login</th>
+                        
+                    <th scope="col" style="width: 15%;">Data do logout</th>
+                        
+                    <th scope="col" style="width: 15%;">IP de origem</th>
+                    
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @if (Model != null) {
+
+                    @foreach (var session in Model) {
+                            
+                        <tr>
+                            
+                            <td scope="row">@session.User.Name</td>
+                                
+                            <td scope="row">@session.User.Role.Description</td>
+                                
+                            <td scope="row">@session.LoginDate.ToString()</td>
+                                
+                            <td scope="row">@session.LogoutDate.ToString()</td>
+                                
+                            @if (session.Ip != null) {
+                                <td scope="row">@session.Ip</td>
+                            } else {
+                                <td scope="row">""</td>
+                            }
+                            
+                        </tr>
+                        
+                    }
+
+                }
+
+            </tbody>
+
+        </table>
+
+
+    </form>
+
+
+</div>
+
+
+@section Scripts {
+
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var table = $('#log-table').DataTable({
+                language: { url: "/dic/log-table-pt_br.json" },
+                order: [],
+                ordering: false,
+                columnDefs: [{ targets: '_all', className: 'dt-body-left dt-head-left vertical-align-middle' }],
+                lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+                pageLength: 5
+            });
+
+            $('#log-table tbody tr td').css('vertical-align', 'middle');
+
+            $(document).keydown(function(event) {
+
+                const beginDate = document.getElementById('begin-date');
+                const endDate = document.getElementById('end-date');
+                const filterButton = document.getElementById('filter-button');
+
+                if (document.activeElement !== beginDate && document.activeElement !== endDate &&
+                document.activeElement !== filterButton) {
+
+                    switch(event.keyCode) {
+
+                        case 37: {
+                            event.preventDefault();
+                            table.page('previous').draw('page');
+                        }break;
+
+                        case 39: {
+                            event.preventDefault();
+                            table.page('next').draw('page');
+                        } break;
+
+                        case 38: {
+                            event.preventDefault();
+                            table.page('first').draw('page');
+                        } break;
+
+                        case 40: {
+                            event.preventDefault();
+                            table.page('last').draw('page');
+                        } break;
+
+                        default :{
+                            if (event.ctrlKey && event.key.toLowerCase() === 'f') {
+                                event.preventDefault();
+                                document.getElementById('begin-date').focus();
+                            }
+                        } break;
+                    }
+
+                }
+
+            });
+
+            document.getElementById('log-session-form').addEventListener('submit', function (event) {
+                document.getElementById('spinner').style.display = 'block';
+            });
+
+        });
+
+    </script>
+
+}

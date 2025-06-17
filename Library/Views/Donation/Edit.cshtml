@@ -1,0 +1,158 @@
+﻿@using Library.Db.Models
+@using Newtonsoft.Json;
+
+@model DonatedBookModel
+
+
+@{
+
+    ViewData["Title"] = "Editar Doação";
+
+    var persons = ViewBag.Persons as List<PersonModel>;
+    
+    var personsJson = JsonConvert.SerializeObject(persons, Formatting.Indented);
+    
+    var personJson = JsonConvert.SerializeObject(Model.Person, Formatting.Indented);
+
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
+
+}
+
+
+<div class="conteiner-fluid">
+
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    <form id="donate-book-form" method="post" asp-controller="Donation" asp-action="Edit">
+
+
+        @Html.AntiForgeryToken()
+
+
+        <div class="d-flex justify-content-between mb-3">
+
+            <h3>Editar Doação</h3>
+
+            <div class="d-flex justify-content-between">
+
+                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                    <img class="m-0" src="~/img/save_icon_16.png" /> &nbspSalvar
+                </button>
+
+                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Donation" asp-action="Manage">
+                    <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbspCancelar
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-3" display="flex">
+
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
+                <img src="@Model.Book.Cover" class="center" />
+            </div>
+
+            <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
+
+                <div class="row g-3" display="flex">
+
+                    <div class="mb-3 col-sm-2" style="width: 80%;">
+                        <label for="select-person" class="form-label">Beneficiário</label>
+                        <select id="select-person" class="form-control classic">
+                            @if (persons != null) {
+                                @foreach (var person in persons) {
+                                    <option value="@person.Id">@person.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3 col-sm-2" style="width: 20%;">
+                        <label for="donation-date" class="form-label">Data</label>
+                        <input id="donation-date" type="datetime-local" class="form-control" asp-for="Date">
+                        <span class="text-danger" asp-validation-for="Date"></span>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Anotações</label>
+                    <textarea id="notes" class="form-control" style="resize:none;height: 350px;" asp-for="Notes" cols="50" placeholder="Anotações sobre a doação"></textarea>
+                    <span class="text-danger" asp-validation-for="Notes"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.RegistrationDate)
+        @Html.HiddenFor(m => m.LastUpdateDate)
+
+        @Html.Hidden("Book.Cover", Model.Book.Cover)
+        @Html.Hidden("Book.Id", Model.Book.Id)
+        @Html.Hidden("Book.Title", Model.Book.Title)
+        @Html.Hidden("Book.Subtitle", Model.Book.Subtitle)
+        @Html.Hidden("Book.Author", Model.Book.Author)
+        @Html.Hidden("Book.Publisher", Model.Book.Publisher)
+        @Html.Hidden("Book.Isbn", Model.Book.Isbn)
+        @Html.Hidden("Book.Edition", Model.Book.Edition)
+        @Html.Hidden("Book.Volume", Model.Book.Volume)
+        @Html.Hidden("Book.NumberOfPages", Model.Book.NumberOfPages)
+        @Html.Hidden("Book.ReleaseYear", Model.Book.ReleaseYear)
+        @Html.Hidden("Book.AcquisitionDate", Model.Book.AcquisitionDate)
+        @Html.Hidden("Book.RegistrationDate", Model.Book.RegistrationDate)
+        @Html.Hidden("Book.LastUpdateDate", Model.Book.LastUpdateDate)
+        @Html.Hidden("Book.Summary", Model.Book.Summary)
+        @Html.Hidden("Book.IsDeleted", Model.Book.IsDeleted)
+
+        @Html.Hidden("Person.Id", "")
+        @Html.Hidden("Person.Name", "")
+        @Html.Hidden("Person.City", "")
+        @Html.Hidden("Person.FederalState", "")
+        @Html.Hidden("Person.Street", "")
+        @Html.Hidden("Person.Number", "")
+        @Html.Hidden("Person.District", "")
+        @Html.Hidden("Person.PostalCode", "")
+        @Html.Hidden("Person.Complement", "")
+        @Html.Hidden("Person.Country", "")
+        @Html.Hidden("Person.Description", "")
+        @Html.Hidden("Person.RegistrationDate", "")
+        @Html.Hidden("Person.LastUpdateDate", "")
+        @Html.Hidden("Person.IsDeleted", "")
+
+
+    </form>
+
+
+</div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
+
+
+@section Scripts {
+
+    <script type="module" src="~/js/edit-donation.js" asp-append-version="true"></script>
+        
+    <script>window.personsData = @Html.Raw(personsJson);</script>
+        
+    <script>window.personData = @Html.Raw(personJson);</script>
+
+}

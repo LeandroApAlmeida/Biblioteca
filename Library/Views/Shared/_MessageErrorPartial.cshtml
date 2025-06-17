@@ -1,0 +1,7 @@
+﻿@using Library.Utils;
+
+@if (TempData[Constants.ERROR_MESSAGE] != null) {
+    <div class="alert alert-danger text-black" role="alert">
+        @TempData[Constants.ERROR_MESSAGE]
+    </div>
+}

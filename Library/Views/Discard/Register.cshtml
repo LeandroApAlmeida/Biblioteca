@@ -1,0 +1,116 @@
+﻿@using Library.Db.Models
+@model DiscardedBookModel
+
+
+@{
+    
+    ViewData["title"] = "Descartar o Livro";
+    
+    BookModel? book = ViewBag.Book as BookModel;
+
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
+
+}
+
+
+<div class="conteiner-fluid">
+
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    <form id="discard-book-form" method="post" asp-controller="Discard" asp-action="Register">
+
+
+        @Html.AntiForgeryToken()
+
+
+        <div class="d-flex justify-content-between mb-3">
+
+            <h3>Descartar o Livro</h3>
+
+            <div class="d-flex justify-content-between">
+
+                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                    <img class="m-0" src="~/img/save_icon_16.png" /> &nbspSalvar
+                </button>
+
+                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Book" asp-action="Manage">
+                    <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbspCancelar
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-3" display="flex">
+
+
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
+                <img src="@book!.Cover.Data" class="center" />
+            </div>
+
+            <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
+
+                <div class="mb-3 col-sm-2">
+                    <label for="discard-date" class="form-label">Data</label>
+                    <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date">
+                    <span class="text-danger" asp-validation-for="Date"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Motivo</label>
+                    <textarea id="reason" class="form-control" style="resize:none;height:350px;" asp-for="Reason" cols="50" placeholder="Motivo do descarte"></textarea>
+                    <span class="text-danger" asp-validation-for="Reason"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @Html.Hidden("Book.Id", @book.Id)
+        @Html.Hidden("Book.Title", @book.Title)
+        @Html.Hidden("Book.Subtitle", @book.Subtitle)
+        @Html.Hidden("Book.Author", @book.Author)
+        @Html.Hidden("Book.Publisher", @book.Publisher)
+        @Html.Hidden("Book.Isbn", @book.Isbn)
+        @Html.Hidden("Book.Edition", @book.Edition)
+        @Html.Hidden("Book.Volume", @book.Volume)
+        @Html.Hidden("Book.NumberOfPages", @book.NumberOfPages)
+        @Html.Hidden("Book.ReleaseYear", @book.ReleaseYear)
+        @Html.Hidden("Book.AcquisitionDate", @book.AcquisitionDate)
+        @Html.Hidden("Book.RegistrationDate", @book.RegistrationDate)
+        @Html.Hidden("Book.LastUpdateDate", @book.LastUpdateDate)
+        @Html.Hidden("Book.Summary", @book.Summary)
+        @Html.Hidden("Book.IsDeleted", @book.IsDeleted)
+
+        @Html.Hidden("Book.Cover.Id", @book.Cover.Id)
+        @Html.Hidden("Book.Cover.Data", @book.Cover.Data)
+
+
+    </form>
+
+
+</div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
+
+
+@section Scripts {
+
+    <script type="module" src="~/js/register-discard.js" asp-append-version="true"></script>
+
+}

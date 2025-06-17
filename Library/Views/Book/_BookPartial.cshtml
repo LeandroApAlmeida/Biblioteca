@@ -1,0 +1,148 @@
+﻿@using Library.Db.Models
+
+@*
+
+    Layout dos campos para o cadastro/edição de um livro.
+
+    Use:
+
+    @{
+        await Html.RenderPartialAsync("~/Views/Book/_BookPartial.cshtml", Model);
+    }
+
+    para renderizar o layout em uma página.
+
+*@
+
+
+@model BookModel
+
+
+@*Campo Título do livro.*@
+
+<div class="mb-3">
+    <label for="title" class="form-label">Título</label>
+    <input id="title" type="text" class="form-control" asp-for="Title" placeholder="Título do livro">
+    <span class="text-danger" asp-validation-for="Title"></span>
+</div>
+
+@*Campo Subtítulo do livro.*@
+
+<div class="mb-3">
+    <label for="subtitle" class="form-label">Subtítulo</label>
+    <input id="subtitle" type="text" class="form-control" asp-for="Subtitle" placeholder="Subtítulo do livro">
+</div>
+
+@*Campo Autor do livro.*@
+
+<div class="mb-3">
+    <label for="author" class="form-label">Autor</label>
+    <input id="author" type="text" class="form-control" asp-for="Author" placeholder="Autor do livro">
+    <span class="text-danger" asp-validation-for="Author"></span>
+</div>
+
+@*Campo Editora do livro.*@
+
+<div class="mb-3">
+    <label for="publisher" class="form-label">Editora</label>
+    <input id="publisher" type="text" class="form-control" asp-for="Publisher" placeholder="Editora do livro">
+    <span class="text-danger" asp-validation-for="Publisher"></span>
+</div>
+
+
+<div class="row g-3" display="flex">
+
+    @*Campo ISBN do livro.*@
+
+    <div class="mb-3 col-sm-2">
+        <label for="isbn" class="form-label">ISBN</label>
+        <input id="isbn" type="text" class="form-control" asp-for="Isbn" placeholder="ISBN do livro">
+        <span class="text-danger" asp-validation-for="Isbn"></span>
+    </div>
+
+    @*Campo Edição do livro.*@
+
+    <div class="mb-3 col-sm-2">
+        <label for="edition" class="form-label">Edição</label>
+        <input id="edition" type="number" min="1" class="form-control" asp-for="Edition" placeholder="Número da edição">
+        <span class="text-danger" asp-validation-for="Edition"></span>
+    </div>
+
+    @*Campo Volume do livro.*@
+
+    <div class="mb-3 col-sm-2">
+        <label for="volume" class="form-label">Volume</label>
+        <input id="volume" type="number" min="1" class="form-control" asp-for="Volume" placeholder="Número do volume">
+        <span class="text-danger" asp-validation-for="Volume"></span>
+    </div>
+
+    @*Campo Ano da publicação do livro.*@
+
+    <div class="mb-3 col-sm-2">
+        <label for="release-year" class="form-label">Publicação</label>
+        <input id="release-year" type="number" min="1" class="form-control" asp-for="ReleaseYear" placeholder="Ano de lançamento do livro">
+        <span class="text-danger" asp-validation-for="ReleaseYear"></span>
+    </div>
+
+    @*Campo Número de páginas do livro.*@
+
+    <div class="mb-3 col-sm-2">
+        <label for="num-of-pages" class="form-label">Nº de páginas</label>
+        <input id="num-of-pages" type="number" min="1" class="form-control" asp-for="NumberOfPages" placeholder="Número de páginas do livro">
+        <span class="text-danger" asp-validation-for="NumberOfPages"></span>
+    </div>
+
+    @*Campo Data de aquisição do livro.*@
+
+    <div class="mb-3 col-sm-2">
+        <label for="acquisition-date" class="form-label">Aquisição</label>
+        <input id="acquisition-date" type="datetime-local" class="form-control" asp-for="AcquisitionDate">
+        <span class="text-danger" asp-validation-for="AcquisitionDate"></span>
+    </div>
+
+</div>
+
+
+@*Campo Sinopse do livro.*@
+
+<div class="mb-3">
+    <label for="summary" class="form-label">Sinopse</label>
+    <textarea id="summary" class="form-control" style="resize:none;overflow:hidden;" asp-for="Summary" cols="50" placeholder="Sinopse do livro" oninput="autoResize(this)"></textarea>
+</div>
+
+@*Campo Seletor da capa do livro.*@
+
+<div class="mb-3">
+    <label for="choose-file" class="form-label">Capa</label>
+    <input id="choose-file" class="form-control mb-3" type="file" accept="image/*" name="choose-file" />
+    <span class="text-danger" asp-validation-for="Cover.Data"></span>
+</div>
+
+
+@if (Model != null && Model.Cover != null) {
+    @Html.HiddenFor(m => m.Cover!.Id)
+}
+
+@*Campo Imagem da capa do livro.*@
+
+<div id="img-preview" class="mb-2" hidden></div>
+
+@*Campo String base64 da capa do livro.*@
+
+<div id="img-data" class="mb-2" hidden>
+    <input id="cover-data" class="form-control" asp-for="Cover.Data">
+</div>
+
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        autoResize(document.getElementById('summary'));
+    });
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+</script>

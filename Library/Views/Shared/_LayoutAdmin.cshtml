@@ -1,0 +1,141 @@
+﻿@*
+    Layout para sessão de administrador. Neste layout, o menu fornece todas as funcionalidades disponíveis,
+    o que inclui todas as funcionalidades de manutenção do acervo e também cadastro de usuários e log de sessão.
+*@
+
+<!DOCTYPE html>
+
+
+@using Library.Services.User
+@using Library.Utils
+
+
+@inject ISettingsService settings;
+
+
+<html lang="pt-br">
+
+
+    @{
+        var backgroundColor = settings.GetString(
+            Constants.PAGE_BACKGROUND_COLOR_KEY,
+            Constants.DEFAULT_PAGE_BACKGROUND_COLOR
+        );
+    }
+
+
+    <head>
+        
+        <meta charset="utf-8" />
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <title>Biblioteca: @ViewData["Title"]</title>
+        
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
+        
+        <link rel="icon" type="image/png" sizes="16x16" href="~/img/book_icon_24.png" />
+
+        @*Renderiza o conteúdo da seção Styles de uma página.*@
+
+        @await RenderSectionAsync("Styles", required: false)
+
+        <style>
+            body {
+                background-color: @backgroundColor;
+            }
+        </style>
+
+    </head>
+
+
+    <body>
+
+
+        @*
+            O cabeçalho da página de Layout do administrador contém uma barra de menus, fixa no topo da página. O
+            menu da página de administrador disponibiliza todas as funcionalidades da aplicação.
+        *@
+
+        <header id="main-menu">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div id="navbar" class="container-fluid">
+                <a id="logo" class="navbar-brand" asp-controller="Book" asp-action="Details" style="height:60px;display:flex;align-items:center;justify-content:center;vertical-align:middle" >
+                        <img style="height:48px;padding-left:0px;" src="~/img/library.png" />&nbsp&nbspBiblioteca
+                    </a>
+                    <div id="navbar-right">
+                        <a id="menu-1" asp-controller="Book" asp-action="Details">Livro</a>
+                        <a id="menu-2" asp-controller="Book" asp-action="Manage">Acervo</a>
+                        <a id="menu-3" asp-controller="Discard" asp-action="Manage">Descarte</a>
+                        <a id="menu-4" asp-controller="Donation" asp-action="Manage">Doação</a>
+                        <a id="menu-5" asp-controller="Loan" asp-action="Manage">Empréstimo</a>
+                        <a id="menu-6" asp-controller="Person" asp-action="Manage">Pessoa</a>
+                        <a id="menu-7" asp-controller="User" asp-action="Manage">Usuário</a>
+                        <a id="menu-9" asp-controller="Session" asp-action="Manage" 
+                        asp-route-beginDate="1900-01-01" asp-route-endDate="9999-12-31">Log</a>
+                        <a id="menu-10" asp-controller="Settings" asp-action="Manage">Opções</a>
+                        <a id="menu-8" asp-area="" asp-controller="Home" asp-action="About">Sobre</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        @*
+            Renderiza o conteúdo da página que está sendo exibida no layout. A página renderizada é qualquer
+            interface para manutenção do acervo, por exemplo, cadastro de livro, cadastro de usuário, empréstimo
+            de livro, etc, e também páginas específicas para a sessão de administrador, por exemplo, cadastro
+            de usuário, log de sessão, etc.
+        *@
+
+        <div id="content-area" class="container-fluid">
+            @RenderBody()
+        </div>
+
+
+        @*Renderiza o rodapé da página de layout.*@
+
+        @await Html.PartialAsync("_Footer")
+
+
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/menu.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $(document).keydown(function(event) {
+                    switch(event.keyCode) {
+                        case 112: {
+                            event.preventDefault();
+                            var newWindow = window.open('/Home/Help', '_blank');
+                            if (newWindow) {
+                                newWindow.focus();
+                            } else {
+                                alert('Por favor, permita pop-ups para este site.');
+                            }
+                            break;
+                        }
+                    }
+                });
+
+            });
+
+        </script>
+
+
+        @*Renderiza o conteúdo da seção Scripts de uma página.*@
+
+        @await RenderSectionAsync("Scripts", required: false)
+
+
+    </body>
+
+
+</html>

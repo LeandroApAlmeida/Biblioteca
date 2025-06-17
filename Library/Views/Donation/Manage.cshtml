@@ -1,0 +1,291 @@
+﻿@using Library.Db.Models
+@using Library.Services.Model.Dto
+
+@model IEnumerable<DonatedBookModel>
+
+
+@{
+
+    ViewData["Title"] = "Livros Doados";
+
+    // Configurações do usuário.
+    SettingsDto settings = ViewBag.Settings;
+
+    string donatedTextStyle;
+
+    if (settings.IsApplyStylesToLists != null && settings.IsApplyStylesToLists == true) {
+
+        string? donatedTextColor = settings.DonatedTextColor;
+
+        // Efeitos de fonte.
+        const string FONT_BOLD = "font-weight:bold;";
+        const string FONT_UNDERLINE = "text-decoration:underline;";
+        const string FONT_ITALIC = "font-style:italic;";
+
+        // Tags HTML para efeitos de fonte de livros doados.
+        donatedTextStyle = "color:" + donatedTextColor + ";";
+
+        if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) {
+            donatedTextStyle += FONT_BOLD;
+        }
+    
+        if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) {
+            donatedTextStyle += FONT_UNDERLINE;
+        }
+
+        if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) {
+            donatedTextStyle += FONT_ITALIC;
+        }
+
+    } else {
+
+        donatedTextStyle = "color:inherit;";
+
+    }
+
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+
+}
+
+
+<div class="conteiner-fluid">
+
+
+    <div class="d-flex justify-content-between mb-5">
+            
+        <h3>Livros Doados</h3>
+            
+        <div class="d-flex justify-content-between">
+                
+            <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Donation" asp-action="Register2">
+                <img class="m-0" src="~/img/add_icon_16.png" />&nbspDoar
+            </a>
+                
+            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
+            </a>
+            
+        </div>
+        
+    </div>
+
+
+    @await Html.PartialAsync("_MessageSuccessPartial")
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    <table id="book-table" class="table table-light table hover table-striped" border="1">
+
+        <thead>
+
+            <tr>
+                    
+                <th scope="col" style="width: 20%;">Título</th>
+                    
+                <th scope="col" style="width: 16%;">Autor</th>
+                    
+                <th scope="col" style="width: 12%;">ISBN</th>
+                    
+                <th scope="col" style="width: 2%;">Edic.</th>
+                    
+                <th scope="col" style="width: 2%;">Vol.</th>
+                    
+                <th scope="col" style="width: 14%;">Beneficiário</th>
+                    
+                <th scope="col" style="width: 5%;">Data</th>
+                    
+                <th scope="col"></th>
+                
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @if (Model != null) {
+
+                @foreach (var donatedBook in Model) {
+
+                    <tr>
+                            
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Book.Title</td>
+
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Book.Author</td>
+
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Book.Isbn</td>
+
+                        <td class="num-span" scope="row" style="@donatedTextStyle">@donatedBook.Book.Edition</td>
+
+                        <td class="num-span" scope="row" style="@donatedTextStyle">@donatedBook.Book.Volume</td>
+
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Person.Name</td>
+
+                        <td scope="row" style="@donatedTextStyle">@donatedBook.Date.ToString("dd/MM/yyyy")</td>
+                            
+                        <td id="controls-td"  scope="row">
+
+                            <div class="modal fade" id="deleteDlg-@donatedBook.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                                <div class="modal-dialog modal-dialog-centered">
+
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="deleteDlgLabel">Atenção!</h6>
+                                        </div>
+
+                                        <div class="modal-body" style="text-align:left">
+                                            Excluir o livro "@donatedBook.Book.Title"?
+                                        </div>
+
+                                        <div class="modal-footer">
+
+                                            <form method="post" asp-controller="Donation" asp-action="Delete" asp-route-id="@donatedBook.Id">
+                                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                                            </form>
+
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal fade" id="notesDlg-@donatedBook.Id">
+
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+
+                                            <h6>Detalhes:</h6>
+
+                                        </div>
+
+                                        <div class="modal-body">
+                                            @if (donatedBook.Notes != null) {
+                                                <p style="text-align: justify;">@Html.Raw(donatedBook.Notes.Replace("\n", "<br />"))</p>
+                                            } else {
+                                                <p style="text-align: justify;">[Sem Anotações]</p>
+                                            }
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <a class="btn btn-light" asp-controller="Donation" asp-action="Edit" asp-route-id="@donatedBook.Id">
+                                <img src="~/img/edit_icon2.png" title="Editar o livro doado" />
+                            </a>
+
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@donatedBook.Id">
+                                <img src="~/img/delete_icon.png" title="Excluir o livro doado" />
+                            </a>
+
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notesDlg-@donatedBook.Id">
+                                <img src="~/img/info_icon_24.png" title="Informações do livro doado" />
+                            </a>
+                                
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@donatedBook.Book.Id">
+                                <img src="~/img/view_icon.png" title="Detalhes do livro doado" />
+                            </a>
+                            
+                        </td>
+
+                    </tr>
+                }
+
+            }
+
+        </tbody>
+
+    </table>
+
+
+</div>
+
+
+@section Scripts {
+
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var table = $('#book-table').DataTable({
+                language: { url: "/dic/book-table-pt_br.json" },
+                order: [],
+                ordering: false,
+                columnDefs: [
+                    { targets: '_all', className: 'dt-body-left dt-head-left' },
+                    { targets: -1, className: 'dt-body-right' }
+                ],
+                lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+                pageLength: 5
+            });
+
+            $('#book-table tbody tr td').css('vertical-align', 'middle');
+
+            $(document).keydown(function(event) {
+
+                switch(event.keyCode) {
+
+                    case 37: {
+                        event.preventDefault();
+                        table.page('previous').draw('page');
+                    }break;
+
+                    case 39: {
+                        event.preventDefault();
+                        table.page('next').draw('page');
+                    } break;
+
+                    case 38: {
+                        event.preventDefault();
+                        table.page('first').draw('page');
+                    } break;
+
+                    case 40: {
+                        event.preventDefault();
+                        table.page('last').draw('page');
+                    } break;
+
+                    default :{
+                        if (event.ctrlKey && event.key.toLowerCase() === 'i') {
+                            event.preventDefault();
+                            document.getElementById('register-button').click();
+                        } else if (event.ctrlKey && event.key.toLowerCase() === 'p') {
+                            event.preventDefault();
+                            document.getElementById('print-button').click();
+                        }
+                    } break;
+                }
+
+            });
+
+        });
+
+    </script>
+
+}

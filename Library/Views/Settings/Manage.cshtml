@@ -1,0 +1,424 @@
+﻿@using Library.Services.Model.Dto
+
+
+@model SettingsDto
+
+
+@{
+
+    ViewData["Title"] = "Opções";
+
+}
+
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <style>
+
+        #btn-tab-1, #btn-tab-2, #btn-tab-3 {
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+
+        #btn-tab-1.active, #btn-tab-2.active, #btn-tab-3.active {
+            border-bottom: 1px solid @Model.PageBackgroundColor;
+        }
+
+    </style>
+
+}
+
+
+<div class="conteiner-fluid">
+
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    @Html.AntiForgeryToken()
+
+
+    <ul class="nav nav-tabs" id="tab-buttons" role="tablist">
+
+        <li class="nav-item" role="presentation">
+            <button id="btn-tab-1" style="background-color:inherit;" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-1" type="button" role="tab">
+                Destaques de texto
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button id="btn-tab-2" style="background-color:inherit;" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2" type="button" role="tab">
+                Relatório
+            </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button id="btn-tab-3" style="background-color:inherit;" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3" type="button" role="tab">
+                Ambiente
+            </button>
+        </li>
+
+    </ul>
+
+
+    <div id="settings-content" class="tab-content" style="margin-top: 30px;">
+
+
+        <div id="tab-1" class="tab-pane fade show active" role="tabpanel">
+
+            <div style="width:900px;">
+
+
+                <div class="row g-3" display="fixed">
+
+                    <div class="mb-3 col-sm-2">
+                        <h6>Cor de Texto</h6>
+                    </div>
+
+                    <div class="mb-3 col-sm-2" style="margin-left:408px;">
+                        <h6 >Estilo de Fonte</h6>
+                    </div>
+
+                </div>
+
+
+                <button id="btn-reset" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:8px;" data-toggle="modal" data-target="#reset-dialog">
+                    Restaurar
+                </button>
+
+
+                <div class="row g-3" style="margin-bottom: 10px;">
+
+                    <div class="mb-3 col-sm-2 color-picker" >
+
+                        <div class="text-color-hint" style="background-color:inherit;" >
+                            <h6 id="discarded-text-color">Cor de texto para livros descartados.</h6>
+                        </div>
+
+                        <div class="text-color-selector">
+                            <input id="discarded-color-picker" type="color" style="cursor:pointer" title="Selecionar uma cor">
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 col-sm-2 font-style" >
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="discarded-bold" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDiscardedBold()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Negrito
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="discarded-underline" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDiscardedUnderline()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Sublinhado
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="discarded-italic" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDiscardedItalic()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Itálico
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+                <div class="row g-3" style="margin-bottom: 10px;">
+
+                    <div class="mb-3 col-sm-2 color-picker">
+
+                        <div class="text-color-hint" style="background-color:inherit;">
+                            <h6 id="donated-text-color">Cor de texto para livros doados.</h6>
+                        </div>
+
+                        <div class="text-color-selector">
+                            <input id="donated-color-picker" type="color" style="cursor:pointer" title="Selecionar uma cor">
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 col-sm-2 font-style">
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="donated-bold" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDonatedBold()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Negrito
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="donated-underline" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDonatedUnderline()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Sublinhado
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="donated-italic" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateDonatedItalic()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Itálico
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row g-3" style="margin-bottom: 10px;">
+
+                    <div class="mb-3 col-sm-2 color-picker">
+
+                        <div class="text-color-hint" style="background-color:inherit;">
+                            <h6 id="borrowed-text-color">Cor de texto para livros emprestados.</h6>
+                        </div>
+
+                        <div class="text-color-selector">
+                            <input id="borrowed-color-picker" type="color" style="cursor:pointer" title="Selecionar uma cor">
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3 col-sm-2 font-style">
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="borrowed-bold" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateBorrowedBold()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Negrito
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="borrowed-underline" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateBorrowedUnderline()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Sublinhado
+                            </label>
+                        </div>
+
+                        <div class="label-checkbox" style="margin-left:10px;">
+                            <input id="borrowed-italic" class="custom-checkbox" type="checkbox" style="margin-top:0px;" onchange="updateBorrowedItalic()">
+                            <label style="margin-top:0px; margin: 5px;">
+                                Itálico
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+                
+
+            </div>
+
+        </div>
+
+
+        <div id="tab-2" class="tab-pane fade" role="tabpanel">
+
+            <div class="mb-3 ">
+
+                <div class="label-radio" style="margin-bottom:20px;">
+                    <input id="pdf-report-opt" class="custom-radio" type="radio" name="printOption" >
+                    <label style="vertical-align:middle;margin-top:-2px;">
+                        Imprimir Como Documento PDF (Versão Para Impressão)
+                    </label>
+                </div>
+
+                <div class="label-radio">
+                    <input id="html-report-opt" class="custom-radio" type="radio" name="printOption" style="margin-top:0px;">
+                    <label style="vertical-align:middle;margin-top:-2px;">
+                        Imprimir Como Página Web (Apenas Para Conferência)
+                    </label>
+                </div>
+
+            </div>
+                
+        </div>
+
+
+        <div id="tab-3" class="tab-pane fade" role="tabpanel">
+
+            <div class="d-flex">
+
+                <div class="page-background-color-selector">
+                    <input id="page-background-picker" type="color" style="cursor:pointer" title="Selecionar uma cor">
+                </div>
+
+                <div style="background-color:inherit;margin-left:15px;">
+                    <p id="page-background-color">Cor de fundo da página.</p>
+                </div>
+
+                <p style="margin-left:10px;">
+                    (&nbsp;
+                    <a href="#" data-toggle="modal" data-target="#color-pallete-dialog">
+                        Cores pré-definidas
+                    </a>
+                    &nbsp;)
+                </p>
+                
+            </div>
+
+            @*<hr style="margin-bottom:30px;border:dotted" />*@
+
+
+            <div style="margin-top:20px;">
+
+                <div style="display: flex; align-items: center;">
+                    <input id="apply-styles-to-lists" class="custom-checkbox" type="checkbox" style="margin-top:0px; margin-right: 5px;" onchange="updateApplyStylesToLists()">
+                    <label style="margin-top:0px; margin-left:3px;">
+                        Aplicar os destaques de texto às listas de livros emprestados, livros descartados e livros doados
+                    </label>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; align-items: center;">
+                    <input id="show-footer-caption" class="custom-checkbox" type="checkbox" style="margin-top:0px; margin-right: 5px;" onchange="updateShowFooterCaption()">
+                    <label style="margin-top:0px; margin-left:3px;">
+                        Mostrar a legenda das cores no rodapé da página e dos filtros.
+                    </label>
+                </div>
+
+            </div>
+
+        </div>
+        
+
+    </div>
+
+
+</div>
+
+
+<div id="reset-dialog" class="modal fade">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h6 class="modal-title">Atenção!</h6>
+            </div>
+
+            <div class="modal-body" style="text-align:left">
+                Restaurar as configurações padrão?
+            </div>
+
+            <div class="modal-footer">
+
+                <form method="post" asp-controller="Settings" asp-action="Reset" >
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </form>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="color-pallete-dialog" class="modal fade">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h6 class="modal-title">Selecionar cor pré-definida</h6>
+            </div>
+
+            <div class="modal-body" style="text-align:left;height:100%; width: 100%;">
+                <select id="color-pallete" style="height:80%; width: 100%;" multiple>
+                    <option value="#feffff" style="background-color: #feffff; font-weight:bold;" selected>Default</option>
+                    <option value="#ffffff" style="background-color: #ffffff;">Branco</option>
+                    <option value="#fdfdfd" style="background-color: #f8f8f8;">Cinza-1</option>
+                    <option value="#fcfcfc" style="background-color: #f4f4f4;">Cinza-2</option>
+                    <option value="#f5fdf2" style="background-color: #eeeeee;">Cinza-3</option>
+                    <option value="#eff7eb" style="background-color: #e7e7e7;">Cinza-4</option>
+                    <option value="#ebf3e8" style="background-color: #e0e0e0;">Cinza-5</option>
+                    <option value="#f2f5ff" style="background-color: #f2f5ff;">Azul-1</option>
+                    <option value="#eef2ff" style="background-color: #eef2ff;">Azul-2</option>
+                    <option value="#e9eeff" style="background-color: #e9eeff;">Azul-3</option>
+                    <option value="#e4eaff" style="background-color: #e4eaff;">Azul-4</option>
+                    <option value="#dce4ff" style="background-color: #dce4ff;">Azul-5</option>
+                    <option value="#f5fff6" style="background-color: #f5fff6;">Verde-1</option>
+                    <option value="#eeffef" style="background-color: #eeffef;">Verde-2</option>
+                    <option value="#e9ffea" style="background-color: #e9ffea;">Verde-3</option>
+                    <option value="#e4ffe5" style="background-color: #e4ffe5;">Verde-4</option>
+                    <option value="#d8ffda" style="background-color: #d8ffda;">Verde-5</option>
+                    <option value="#fffff2" style="background-color: #fffff2;">Laranja-1</option>
+                    <option value="#ffffe8" style="background-color: #ffffe8;">Laranja-2</option>
+                    <option value="#ffffe0" style="background-color: #ffffe0;">Laranja-3</option>
+                    <option value="#ffffd9" style="background-color: #ffffd9;">Laranja-4</option>
+                    <option value="#ffffcf" style="background-color: #ffffcf;">Laranja-5</option>
+                    <option value="#fff9f9" style="background-color: #fff9f9;">Vermelho-1</option>
+                    <option value="#fff6f6" style="background-color: #fff6f6;">Vermelho-2</option>
+                    <option value="#fff2f2" style="background-color: #fff2f2;">Vermelho-3</option>
+                    <option value="#ffeeee" style="background-color: #ffeeee;">Vermelho-4</option>
+                    <option value="#ffebeb" style="background-color: #ffebeb;">Vermelho-5</option>
+                </select>
+                <div id="color-view" class="d-flex justify-content-center align-items-center" style="border: 1px solid black; height:18%;border-radius:2px;">
+                    <p>Cor selecionada</p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" onclick="setPalleteColor()" data-dismiss="modal">Selecionar</button>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+        
+        var borrowedTextColor = '@Model.BorrowedTextColor';
+        var donatedTextColor = '@Model.DonatedTextColor';
+        var discardedTextColor = '@Model.DiscardedTextColor';
+        var pageBackgroundColor = '@Model.PageBackgroundColor';
+
+        var isDiscardedBold = '@Model.IsDiscardedBold';
+        var isDiscardedUnderline = '@Model.IsDiscardedUnderline';
+        var isDiscardedItalic = '@Model.IsDiscardedItalic';
+
+        var isDonatedBold = '@Model.IsDonatedBold';
+        var isDonatedUnderline = '@Model.IsDonatedUnderline';
+        var isDonatedItalic = '@Model.IsDonatedItalic';
+
+        var isBorrowedBold = '@Model.IsBorrowedBold';
+        var isBorrowedUnderline = '@Model.IsBorrowedUnderline';
+        var isBorrowedItalic = '@Model.IsBorrowedItalic';
+
+        var isApplyStylesToLists = '@Model.IsApplyStylesToLists';
+        var isShowFooterCaption = '@Model.IsShowFooterCaption';
+
+        var reportFormat = '@Model.ReportFormat';
+
+    </script>
+
+    <script src="~/js/settings.js" asp-append-version="true"></script>
+
+}

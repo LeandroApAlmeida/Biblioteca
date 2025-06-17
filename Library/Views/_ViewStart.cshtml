@@ -1,0 +1,52 @@
+﻿@*
+    Como esta página centraliza as configurações das razor pages, nela será configurado
+    o layout das páginas. O layout é contextual, e depende dos privilégios de acesso do
+    usuário em sessão.
+
+    Os layouts são:
+    
+    _LayoutLogin.cshtml: Layout para a página de login e para a página de cadastro de
+    administrador.
+
+    _LayoutAdmin.cshtml: Layout para sessão de administrador. Na sessão de administrador,
+    todas as funcionalidades da aplicação devem estar disponíveis por meio do menu.
+
+    _Layout.cshtml: Layout para sessão de convidado. Na sessão de convidado, apenas as
+    funcionalidades de manutenção do acervo estarão disponíveis.
+
+    Todos os layouts estão no diretório Shared.
+*@
+
+@using Library.Services.Authentication
+@using Library.Services.Session
+@using Library.Services.User
+
+
+@inject ISessionService _sessionService
+
+
+@{
+
+    // Obtém os dados sobre a sessão corrente.
+
+    var sessionData = _sessionService.GetSessionData();
+
+    // Configura o layout de acordo com o privilégio de acesso do usuário.
+
+    if (sessionData != null) {
+        
+        switch (sessionData?.User.Role.Id) {
+            
+            case (int)UserRole.Admin: Layout = "_LayoutAdmin"; break;
+            
+            case (int)UserRole.Guest: Layout = "_Layout"; break;
+
+        }
+
+    } else {
+        
+        Layout = "_LayoutLogin";
+    
+    }
+
+}

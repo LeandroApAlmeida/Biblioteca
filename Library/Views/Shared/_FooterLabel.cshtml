@@ -1,0 +1,53 @@
+﻿@using Library.Services.User
+@using Library.Utils;
+
+
+@inject ISettingsService _settingsService
+
+
+@{
+
+ 
+    string discardedTextColor;
+
+    string donatedTextColor;
+
+    string borrowedTextColor;
+
+
+    string? borrowedColor = _settingsService.GetString(
+        Constants.BORROWED_TEXT_COLOR_KEY,
+        Constants.DEFAULT_BORROWED_TEXT_COLOR
+    );
+
+    string? discardedColor = _settingsService.GetString(
+        Constants.DISCARDED_TEXT_COLOR_KEY,
+        Constants.DEFAULT_DISCARDED_TEXT_COLOR
+    );
+
+    string? donatedColor = _settingsService.GetString(
+        Constants.DONATED_TEXT_COLOR_KEY,
+        Constants.DEFAULT_DONATED_TEXT_COLOR
+    );
+
+
+    discardedTextColor = "background-color:" + discardedColor + ";";
+
+    donatedTextColor = "background-color:" + donatedColor + ";";
+
+    borrowedTextColor = "background-color:" + borrowedColor + ";";
+
+}
+
+<span style="margin-left:5px;">[ Legenda: </span>
+
+<span class="square" style="margin-left:4px;@discardedTextColor"></span>
+<span style="margin-left:5px;">Descartado</span>
+
+<span class="square" style="margin-left:5px;@donatedTextColor"></span>
+<span style="margin-left:5px;">Doado</span>
+
+<span class="square" style="margin-left:5px; margin-right:4px;@borrowedTextColor"></span>
+<span style="margin-left:5px;">Emprestado</span>
+
+<span style="margin-left:5px;">]</span>

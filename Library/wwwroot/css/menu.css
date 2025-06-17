@@ -1,0 +1,57 @@
+﻿
+/*
+    Estilos utilizados pelas páginas de layout que exibem a barra de menus. As páginas que
+    exibem o menu são ~\Views\Shared\_Layout.cshtml e ~\Views\Shared\_LayoutAdmin.cshtml. O
+    layout ~\Views\Shared\_LoginLayout.cshtml não tem menu.
+*/
+
+
+#navbar {
+    overflow: visible;
+    background-color: white;
+    padding: 5px 10px;
+    width: 100%;
+    top: 0;
+    z-index: 99;
+    position: fixed;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+}
+
+
+#navbar a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 16px;
+    line-height: 25px;
+    border-radius: 0px;
+}
+
+
+#navbar #logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: #a09dbd 
+}
+
+
+#navbar a:hover {
+    background-color: #f5f5fd;
+    color: black;
+}
+
+
+#navbar a.active {
+    color: black;
+    width: auto;
+    height: 47px;
+    border-bottom: 5px solid #d0d0d0;
+    position: static;
+}
+
+
+#navbar-right {
+    float: right;
+}

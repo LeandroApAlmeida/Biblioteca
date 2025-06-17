@@ -1,0 +1,24 @@
+{
+  "decimal": "",
+  "emptyTable": "Nenhuma pessoa encontrada",
+  "info": "Pessoas _START_ a _END_ de _TOTAL_",
+  "infoEmpty": "Nenhuma pessoa em exibição",
+  "infoFiltered": "",
+  "infoPostFix": "",
+  "thousands": ",",
+  "lengthMenu": "Mostrar: _MENU_ pessoas",
+  "loadingRecords": "Exibindo...",
+  "processing": "",
+  "search": "Pesquisar: ",
+  "zeroRecords": "Nenhuma pessoa encontrada",
+  "paginate": {
+    "first": "Primeiro",
+    "last": "Último",
+    "next": "Próximo",
+    "previous": "Anterior"
+  },
+  "aria": {
+    "orderable": "Ordenar por esta coluna",
+    "orderableReverse": "Reverter a ordem da coluna"
+  }
+}

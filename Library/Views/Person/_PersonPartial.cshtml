@@ -1,0 +1,78 @@
+﻿@using Library.Db.Models
+@model PersonModel
+
+
+<div class="mb-3">
+    <label for="name" class="form-label">Nome</label>
+    <input id="name" type="text" class="form-control" asp-for="Name" placeholder="Nome da pessoa">
+    <span class="text-danger" asp-validation-for="Name"></span>
+</div>
+
+
+<div class="row g-3" display="flex">
+
+    <div class="mb-3 col-sm-2" style="width: 60%;">
+        <label for="street" class="form-label">Rua</label>
+        <input id="street" type="text" class="form-control" asp-for="Street" placeholder="Nome da rua">
+        <span class="text-danger" asp-validation-for="Street"></span>
+    </div>
+
+    <div class="mb-3 col-sm-2" style="width: 20%;">
+        <label for="number" class="form-label">Número</label>
+        <input id="number" type="text" class="form-control" asp-for="Number" placeholder="Número do imóvel">
+        <span class="text-danger" asp-validation-for="Number"></span>
+    </div>
+
+    <div class="mb-3 col-sm-2" style="width: 20%;">
+        <label for="complement" class="form-label">Complemento</label>
+        <input id="complement" type="text" class="form-control" asp-for="Complement" placeholder="Complemento do imóvel">
+        <span class="text-danger" asp-validation-for="Complement"></span>
+    </div>
+
+</div>
+
+
+<div class="row g-3" display="flex">
+
+    <div class="mb-3" style="width: 80%;">
+        <label for="district" class="form-label">Bairro</label>
+        <input id="district" type="text" class="form-control" asp-for="District" placeholder="Bairro do endereço">
+        <span class="text-danger" asp-validation-for="District"></span>
+    </div>
+
+    <div class="mb-3 col-sm-2" style="width: 20%;">
+        <label for="postal-code" class="form-label">CEP</label>
+        <input id="postal-code" type="text" class="form-control" asp-for="PostalCode" placeholder="Código postal">
+        <span class="text-danger" asp-validation-for="PostalCode"></span>
+    </div>
+
+</div>
+
+
+<div class="row g-3" display="flex">
+
+    <div class="mb-3 col-sm-2" style="width: 60%;">
+        <label for="city" class="form-label">Município</label>
+        <input id="city" type="text" class="form-control" asp-for="City" placeholder="Nome do município">
+        <span class="text-danger" asp-validation-for="City"></span>
+    </div>
+
+    <div class="mb-3 col-sm-2" style="width: 20%;">
+        <label for="federal-state" class="form-label">Estado</label>
+        <input id="federal-state" type="text" class="form-control" asp-for="FederalState" placeholder="Nome do estado">
+        <span class="text-danger" asp-validation-for="FederalState"></span>
+    </div>
+
+    <div class="mb-3 col-sm-2" style="width: 20%;">
+        <label for="cowntry" class="form-label">País</label>
+        <input id="cowntry" type="text" class="form-control" asp-for="Country" placeholder="Nome do país">
+        <span class="text-danger" asp-validation-for="Country"></span>
+    </div>
+
+</div>
+
+
+<div class="mb-3">
+    <label for="description" class="form-label">Anotações</label>
+    <textarea id="description" class="form-control" style="resize:none" asp-for="Description" rows="10" cols="50" placeholder="Anotações adicionais sobre a pessoa"></textarea>
+</div>

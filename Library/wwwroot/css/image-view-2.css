@@ -1,0 +1,23 @@
+﻿
+/*
+    Estilos utilizados pelas páginas que exibem miniaturas da capa do livro na borda esquerda.
+*/
+
+
+#img-preview .center {
+    padding: 0px 0px 0px 0px;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;
+    width: 349px;
+    height: 498px;
+}
+
+
+#img-preview {
+    padding:0px 0px 0px 0px;
+    width: 350px;
+    height: 500px;
+    border: 1px solid black;
+}

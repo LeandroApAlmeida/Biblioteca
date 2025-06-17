@@ -1,0 +1,92 @@
+﻿@using Library.Db.Models
+
+@*
+
+    Página para edição do cadastro de um livro. 
+
+*@
+
+
+@model BookModel
+
+
+@{
+    ViewData["title"] = "Editar Livro";
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/image-view.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
+
+}
+
+
+<div class="conteiner-fluid" >
+
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    <form id="book-form" method="post" asp-controller="Book" asp-action="Edit">
+
+
+        @Html.AntiForgeryToken()
+
+
+        @*Cabeçalho da página. Contém o título da página e os botões "Salvar" e "Cancelar".*@
+
+        <div class="d-flex justify-content-between mb-3">
+
+            @*Título da página (à esquerda).*@
+
+            <h3>Editar Livro</h3>
+
+            @*Botões "Salvar" e "Cancelar" (à direita).*@
+
+            <div class="d-flex justify-content-between">
+
+                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                    <img class="m-0" src="~/img/save_icon_16.png" /> &nbsp;Salvar
+                </button>
+
+                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Book" asp-action="Manage">
+                    <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbsp;Cancelar
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <input type="hidden" asp-for="Id"/>
+
+
+        @*Renderiza o layout para edição dos atributos de um livro.*@
+
+        @{
+            await Html.RenderPartialAsync("~/Views/Book/_BookPartial.cshtml", Model);
+        }
+        
+
+    </form>
+
+
+</div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
+
+
+@section Scripts {
+
+    <script type="module" src="~/js/edit-book.js" asp-append-version="true"></script>
+        
+    <script type="module" src="~/js/decode-cover.js" asp-append-version="true"></script>
+
+}

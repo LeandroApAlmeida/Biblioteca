@@ -1,0 +1,97 @@
+﻿@using Library.Services.Model.Dto
+
+@model LoginDto
+
+
+@{
+
+    ViewData["title"] = "Login";
+
+    Boolean registeredAdmin = ViewBag.RegisteredAdmin;
+
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+}
+
+
+@await Html.PartialAsync("_MessageSuccessPartial")
+
+@await Html.PartialAsync("_MessageErrorPartial")
+
+
+<div class="conteiner-fluid">
+
+
+    <form id="login-form" method="post" asp-asp-controller="Login" asp-action="Login">
+
+
+        @Html.AntiForgeryToken()
+
+
+        <div id="login-container">
+
+            <div class="mb-0">
+
+                <h5 class="dynamic-text-shadow m-3" style="text-align: center; padding-bottom:10px;">
+                    <img style="height:48px;padding-left:0px;" src="~/img/library.png" />&nbsp&nbspBIBLIOTECA - SISTEMA PARA GESTÃO DO ACERVO PESSOAL
+                </h5>
+
+                <hr style="border: 2px solid white;">
+
+            </div>
+
+            <div class="mb-3" style="padding-top:16px;">
+                <label for="user-name" class="form-label" style="color:white; font-weight:bold;">Usuário</label>
+                <input id="user-name" type="text" class="form-control" asp-for="UserName">
+            </div>
+
+            <div class="mb-5">
+                <label for="password" class="form-label" style="color:white;font-weight:bold;">Senha</label>
+                <input id="password" type="password" class="form-control" asp-for="Password">
+            </div>
+
+            <div id="spinner" class="spinner" style="display: none;"></div>
+
+            <div id="buttons" class="mt-5">
+                    
+                @if (registeredAdmin) {
+
+                    <button id="login-button" type="submit" class="btn btn-light d-flex justify-content-center align-items-center" style="width: 200px;height:38px;margin-right:10px;">
+                        <img class="m-0" src="~/img/house_icon_16.png" /> &nbspEntrar
+                    </button>
+
+                } else {
+
+                    <a class="btn btn-light d-flex justify-content-center align-items-center" asp-controller="User" asp-action="RegisterAdm" style="width: 200px;height:38px;margin-right:10px;">
+                        <img class="m-0" src="~/img/user_icon_16.png" /> &nbspCadastrar Admin.
+                    </a>
+
+                    <a class="btn btn-light d-flex justify-content-center align-items-center" asp-controller="Home" asp-action="HelpFirstAccess" target="_blank" style="width: 200px;height:38px;cursor:pointer;">
+                        <img class="m-0" src="~/img/help_icon_16.png" /> &nbspObter Ajuda
+                    </a>
+
+                }
+
+            </div>
+
+        </div>
+
+        
+    </form>
+
+
+</div>
+
+
+@section Scripts {
+
+    <script src="~/js/login.js" asp-append-version="true"></script>
+
+}

@@ -1,0 +1,261 @@
+﻿@using Library.Db.Models
+@using Library.Services.Authentication
+@using Library.Services.User;
+
+@model IEnumerable<UserModel>
+
+
+@{
+    ViewData["Title"] = "Usuários";
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+
+}
+
+
+<div class="conteiner-fluid">
+
+
+    <div class="d-flex justify-content-between mb-5">
+            
+        <h3>Usuários</h3>
+            
+        <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:160px;height:38px;margin-top:-2px;" asp-controller="User" asp-action="Register">
+            <img class="m-0" src="~/img/add_icon_16.png" />&nbspCadastrar
+        </a>
+        
+    </div>
+
+
+    @await Html.PartialAsync("_MessageSuccessPartial")
+
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    <table id="user-table" class="table table-light table hover table-striped" border="1">
+
+        <thead>
+
+            <tr>
+                    
+                <th scope="col" style="width: 25%;">Nome Completo</th>
+                    
+                <th scope="col" style="width: 20%;">Nome de Usuário</th>
+                    
+                <th scope="col" style="width: 18%;">Tipo</th>
+                    
+                <th scope="col" style="width: 12%;">Cadastro</th>
+                    
+                <th scope="col"></th>
+                
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @if (Model != null) {
+
+                @foreach(var user in Model) {
+
+                    <tr>
+
+                        @if (!user.IsDeleted) {
+
+                            <td scope="row">@user.Name</td>
+
+                            <td scope="row">@user.UserName</td>
+
+                            <td scope="row">@user.Role.Description</td>
+
+                            <td scope="row">@user.RegistrationDate.ToString("dd/MM/yyyy")</td>
+
+                            <td id="controls-td" scope="row">
+
+                                <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
+                                    <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+                                </a>
+
+                                @if (user.Role.Id != (int)UserRole.Admin) {
+
+                                    <div class="modal fade" id="deleteDlg-@user.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                                        <div class="modal-dialog modal-dialog-centered">
+
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h6 class="modal-title" id="deleteDlgLabel">Atenção!</h6>
+                                                </div>
+
+                                                <div class="modal-body" style="text-align:left">
+                                                    Afastar o usuário "@user.Name"?
+                                                </div>
+
+                                                <div class="modal-footer">
+
+                                                    <form method="post" asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">
+                                                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                    </form>
+
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@user.Id">
+                                        <img src="~/img/delete_icon.png" title="Afastar o usuário" />
+                                    </a>
+
+                                } else {
+
+                                    <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;">
+                                        <img src="~/img/delete_icon.png" title="Excluir o usuário" />
+                                    </a>
+
+                                }
+
+                            </td>
+
+                        } else {
+
+                            <td scope="row" style="color:red">@user.Name</td>
+
+                            <td scope="row" style="color:red">@user.UserName</td>
+
+                            <td scope="row" style="color:red">@user.Role.Description</td>
+
+                            <td scope="row" style="color:red">@user.RegistrationDate.ToString("dd/MM/yyyy")</td>
+
+                            <td id="controls-td" scope="row">
+
+                                <div class="modal fade" id="undeleteDlg-@user.Id" aria-labelledby="undeleteDlgLabel" aria-hidden="true">
+
+                                    <div class="modal-dialog modal-dialog-centered">
+
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <h6 class="modal-title" id="undeleteDlgLabel">Atenção!</h6>
+                                            </div>
+
+                                            <div class="modal-body" style="text-align:left">
+                                                Restaurar o usuário "@user.Name"?
+                                            </div>
+
+                                            <div class="modal-footer">
+
+                                                <form method="post" asp-controller="User" asp-action="Undelete" asp-route-id="@user.Id">
+                                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                </form>
+
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
+                                    <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+                                </a>
+
+                                <a class="btn btn-light" href="#" data-toggle="modal" data-target="#undeleteDlg-@user.Id">
+                                    <img src="~/img/return_icon.png" title="Restaurar o usuário" />
+                                </a>
+
+                            </td>
+
+                        }
+                            
+                    </tr>
+
+                }
+
+            }
+
+        </tbody>
+
+    </table>
+
+
+</div>
+
+
+@section Scripts {
+
+    <script src="~/js/datatables.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var table = $('#user-table').DataTable({
+                language: { url: "/dic/user-table-pt_br.json" },
+                order: [],
+                ordering: false,
+                columnDefs: [
+                    { targets: '_all', className: 'dt-body-left dt-head-left vertical-align-middle' },
+                    { targets: -1, className: 'dt-body-right' }
+                ],
+                lengthMenu: [[5, 10, 25, 50, 100, -1], [5, 10, 25, 50, 100, "Todos"]],
+                pageLength: 5
+            });
+
+            $('#user-table tbody tr td').css('vertical-align', 'middle');
+
+            $(document).keydown(function(event) {
+
+                switch(event.keyCode) {
+
+                    case 37: {
+                        event.preventDefault();
+                        table.page('previous').draw('page');
+                    }break;
+
+                    case 39: {
+                        event.preventDefault();
+                        table.page('next').draw('page');
+                    } break;
+
+                    case 38: {
+                        event.preventDefault();
+                        table.page('first').draw('page');
+                    } break;
+
+                    case 40: {
+                        event.preventDefault();
+                        table.page('last').draw('page');
+                    } break;
+
+                    default :{
+                        if (event.ctrlKey && event.key.toLowerCase() === 'i') {
+                            event.preventDefault();
+                            document.getElementById('register-button').click();
+                        }
+                    } break;
+                }
+
+            });
+
+        });
+
+    </script>
+
+}

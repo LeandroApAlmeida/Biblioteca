@@ -1,0 +1,57 @@
+// Nome do cookie que armazena os dados do último menu clicado.
+const cookieName = "selectedMenu";
+
+// Obter o nome do último menu clicado gravado no cookie da página.
+const cookieValue = getCookie()
+
+// Seleciona o respectivo menu.
+if (cookieValue) {
+    switch (cookieValue) {
+        case 'menu1': document.getElementById("menu1").className = className; break;
+        case 'menu2': document.getElementById("menu2").className = className; break;
+        case 'menu3': document.getElementById("menu3").className = className; break;
+        case 'menu4': document.getElementById("menu4").className = className; break;
+        case 'menu5': document.getElementById("menu5").className = className; break;
+        case 'menu6': document.getElementById("menu6").className = className; break;
+        case 'menu7': document.getElementById("menu7").className = className; break;
+        case 'menu8': document.getElementById("menu8").className = className; break;
+        default: document.getElementById("menu1").className = className;
+    }
+} else {
+    document.getElementById("menu1").className = className;
+}
+
+// Gravar um novo valor no cookie da página.
+function setCookie(value) {
+    document.cookie = cookieName + "=" + value + ";expires=;path=/";
+}
+
+
+// Obter o valor gravado no cookie da página.
+function getCookie() {
+
+    if (document.cookie != '') {
+
+        const name = cookieName + "=";
+
+        const ca = document.cookie.split(';');
+
+        for (let i = 0; ca.length; i++) {
+
+            let c = ca[i];
+
+            while (c.charAt(0) === '') {
+                c = c.substring(1, c.length);
+            }
+
+            if (c.indexOf(name) === 0) {
+                return c.substring(name.length, c.length);
+            }
+
+        }
+
+    }
+
+    return null;
+
+}

@@ -1,0 +1,160 @@
+﻿
+@*
+
+    Rodapé de uma página de layout. O rodapé contém a marca de copyright à esquerda e o nome
+    do usuário e o ícone de encerrar sessão à direita.
+
+    Ao clicar no nome do usuário, exibe a caixa de diálogo com as informações sobre o mesmo
+    e a sessão corrente. Ao clicar no ícone encerrar sessão, exibe a caixa de diálogo para a
+    confirmação do encerramento da sessão corrente.
+
+*@
+
+
+@using Library.Services.Session
+@using Library.Services.User
+@using Library.Utils;
+
+
+@inject ISessionService _sessionService
+
+@inject ISettingsService _settingsService
+
+
+@{
+
+    var sessionData = _sessionService.GetSessionData();
+
+    bool? showFooterCaption = _settingsService.GetBoolean(Constants.SHOW_FOOTER_CAPTION, false);
+    bool isShowFooterCaption = showFooterCaption != null ? showFooterCaption == true : false;
+
+}
+
+
+@*Rodapé de uma página de layout.*@
+
+<footer id="page-footer" class="border-top footer text-muted">
+    
+    <div class="container-fluid d-flex justify-content-between" style="padding-left:22px;padding-right:18px;">
+
+        @*Marca de copyright e legendas.*@
+
+        <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
+            
+            &copy; 2025 - Biblioteca
+
+            @if (isShowFooterCaption) {
+
+                @(await Html.PartialAsync("_FooterLabel"))
+
+            }
+
+        </p>
+
+        @if (sessionData != null) {
+            
+            <p style="color: #787878;cursor:pointer">
+
+                @*Nome do usuário.*@
+
+                <a href="#" data-toggle="modal" data-target="#session-info-dialog" title="Clique para exibir os dados da sessão">
+                    <b>Usuário:</b> @sessionData.User.Name
+                </a>
+                
+                @*Ícone de encerramento da sessão.*@
+
+                <a id="menu-10" href="#" data-toggle="modal" data-target="#logout-dialog" title="Encerrar a sessão">
+                    <img class="m-2" sizes="16x16" src="~/img/logout_icon_24.png" />
+                </a>
+            
+            </p>
+        
+        }
+
+    </div>
+
+</footer>
+
+
+@*
+
+    Caixa de diálogo para as informações da sessão corrente.
+    
+*@
+
+<div id="session-info-dialog" class="modal fade" >
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h6 class="modal-title" >Informações da Sessão</h6>
+            </div>
+
+            <div class="modal-body">
+                <p>
+
+                    <b>Nome:</b> @sessionData!.User.Name
+
+                    <br /><br />
+
+                    <b>Usuário:</b> @sessionData.User.UserName
+
+                    <br /><br />
+
+                    <b>Privilégio:</b> @sessionData.User.Role.Description
+
+                    <br /><br />
+
+                    <b>Início:</b> @sessionData.LoginDate.ToString("dd/MM/yyyy, HH:mm:ss")
+
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@*
+
+    Caixa de diálogo para a confirmação do encerramento da sessão corrente.
+    
+*@
+
+<div id="logout-dialog" class="modal fade">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h6 class="modal-title" id="logoutModalLabel">Atenção!</h6>
+            </div>
+
+            <div class="modal-body">
+                Encerrar a sessão corrente?
+            </div>
+
+            <div class="modal-footer">
+
+                <form method="post" asp-controller="Login" asp-action="Logout">
+                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                </form>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

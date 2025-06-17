@@ -1,0 +1,219 @@
+<html>
+
+
+    <head>
+
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+        <style type="text/css">
+
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            p {
+                margin-top: 20px;
+                background: transparent;
+            }
+
+            body {
+                font-family: 'Arial', sans-serif;
+            }
+
+            .highlight {
+                color: red;
+                font-weight: bold;
+            }
+
+            .treeview {
+                padding-left: 0px;
+                padding-top: 5px;
+            }
+
+            .treeview ul {
+                list-style-type: none;
+                padding-left:0px;
+                padding-top: 0px;
+            }
+
+            .treeview ul li {
+                margin-left: 20px; 
+                margin-top: 18px;
+            }
+
+            .treeview label {
+                cursor: pointer;
+            }
+
+            .treeview input {
+                display: none;
+            }
+
+            .treeview input:checked + ul {
+                display: block;
+            }
+
+            .treeview input + ul {
+                display: none;
+            }
+
+        </style>
+
+        <script type="text/javascript">
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                var checkbox = document.getElementById("menu");
+                var label = document.querySelector("label[for='menu']");
+
+                function updateLabel() {
+                    if (checkbox.checked) {
+                        label.innerHTML = "&#9660;&nbsp;Opções de Menu";
+                    } else {
+                        label.innerHTML = "&#9654;&nbsp;Opções de Menu";
+                    }
+                }
+
+                updateLabel();
+
+                checkbox.addEventListener("change", updateLabel);
+
+            });
+
+            function markClickedLink(event) {
+                var links = document.querySelectorAll('a');
+                links.forEach(function(link) {
+                    link.classList.remove('highlight');
+                });
+                event.target.classList.add('highlight');
+            }
+
+        </script>
+
+    </head>
+
+
+    <body lang="pt-BR" dir="ltr">
+
+        <p class="d-flex justify-content-center align-items-center" style="margin-bottom: 0px; margin-top: 0px;">
+            <img style="height: 48px; padding-left: 0px; vertical-align: middle;" src="logo.png" />
+            <span style="vertical-align: middle; font-size: 16pt; margin-left: 8px; color: #a09dbd;">
+                <b>Biblioteca</b>
+            </span>
+        </p>
+
+        <hr style="border: 1px solid #c4c4c4;" />    <!--style="box-shadow: 0 2px 2px 0 rgba(0,0,0,.4);"-->
+
+        <p style="margin-top: 20px;">
+            <a class="highlight" href="welcome/welcome.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Sobre este tutorial
+            </a>
+        </p>
+
+        <p>
+            <a href="login/login.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Acesso ao sistema
+            </a>
+        </p>
+
+        <div class="treeview">
+
+            <label for="menu"></label>
+
+            <input type="checkbox" id="menu" checked />
+
+            <ul>
+
+                <li>
+                    <a href="logo/logo.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Logotipo
+                    </a>
+                </li>
+
+                <li>
+                    <a href="book-details/book-details.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Livro
+                    </a>
+                </li>
+
+                <li>
+                    <a href="collection/collection.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Acervo
+                    </a>
+                </li>
+
+                <li>
+                    <a href="discard/discard.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Descarte
+                    </a>
+                </li>
+
+                <li>
+                    <a href="donation/donation.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Doação
+                    </a>
+                </li>
+
+                <li>
+                    <a href="loan/loan.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Empréstimo
+                    </a>
+                </li>
+
+                <li>
+                    <a href="person/person.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Pessoa
+                    </a>
+                </li>
+
+                <li>
+                    <a href="user/user.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Usuário
+                    </a>
+                </li>
+
+                <li>
+                    <a href="log/log.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Log
+                    </a>
+                </li>
+
+                <li>
+                    <a href="options/options.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Opções
+                    </a>
+                </li>
+
+                <li>
+                    <a href="about/about.html" target="panel" onclick="markClickedLink(event)">
+                        &rArr;&nbsp;Menu Sobre
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+        <p>
+            <a href="shortcuts/shortcuts.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Atalhos de teclado
+            </a>
+        </p>
+
+        <p>
+            <a href="project/project.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Sobre o projeto
+            </a>
+        </p>
+
+        <p>
+            <a href="licence/licence.html" target="panel" onclick="markClickedLink(event)">
+                &#9654;&nbsp;Licença
+            </a>
+        </p>
+
+    </body>
+
+
+</html>

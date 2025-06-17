@@ -1,0 +1,24 @@
+{
+  "decimal": "",
+  "emptyTable": "Nenhum usuário encontrado",
+  "info": "Usuários _START_ a _END_ de _TOTAL_",
+  "infoEmpty": "Nenhum usuário em exibição",
+  "infoFiltered": "",
+  "infoPostFix": "",
+  "thousands": ",",
+  "lengthMenu": "Mostrar: _MENU_ usuários",
+  "loadingRecords": "Exibindo...",
+  "processing": "",
+  "search": "Pesquisar: ",
+  "zeroRecords": "Nenhum usuário encontrado",
+  "paginate": {
+    "first": "Primeiro",
+    "last": "Último",
+    "next": "Próximo",
+    "previous": "Anterior"
+  },
+  "aria": {
+    "orderable": "Ordenar por esta coluna",
+    "orderableReverse": "Reverter a ordem da coluna"
+  }
+}

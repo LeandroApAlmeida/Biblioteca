@@ -1,0 +1,143 @@
+﻿@using Library.Db.Models
+@using Newtonsoft.Json;
+
+@model LoanModel
+
+
+@{
+    ViewData["Title"] = "Devolver o Livro";
+}
+
+
+@section Styles {
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="~/css/select-style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
+
+}
+
+
+<div class="conteiner-fluid">
+
+    
+    @await Html.PartialAsync("_MessageErrorPartial")
+
+
+    <form id="return-book-form" method="post" asp-controller="Loan" asp-action="Return">
+
+
+        @Html.AntiForgeryToken()
+
+
+        <div class="d-flex justify-content-between mb-3">
+
+            <h3>Devolver o Livro</h3>
+
+            <div class="d-flex justify-content-between">
+
+                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                    <img class="m-0" src="~/img/save_icon_16.png" /> &nbspSalvar
+                </button>
+
+                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Loan" asp-action="Manage">
+                    <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbspCancelar
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="row g-3" display="flex">
+
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
+                <img src="@Model.Book.Cover" class="center" />
+            </div>
+
+            <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
+
+                <div class="row g-3" display="flex">
+
+                    <div class="mb-3 col-sm-2" style="width: 80%;">
+                        <label for="person" class="form-label">Tomador</label>
+                        <input id="person" type="text" class="form-control" value="@Model.Person.Name" disabled>
+                    </div>
+
+                    <div class="mb-3 col-sm-2" style="width: 20%;">
+                        <label for="return-date" class="form-label">Data</label>
+                        <input id="return-date" type="datetime-local" class="form-control" asp-for="ReturnDate">
+                        <span class="text-danger" asp-validation-for="ReturnDate"></span>
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Anotações</label>
+                    <textarea id="notes" class="form-control" style="resize:none;height:350px;" asp-for="Notes" cols="50" placeholder="Anotações sobre o empréstimo"></textarea>
+                    <span class="text-danger" asp-validation-for="Notes"></span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Date)
+        @Html.HiddenFor(m => m.RegistrationDate)
+        @Html.HiddenFor(m => m.LastUpdateDate)
+        @Html.HiddenFor(m => m.IsDeleted)
+        @Html.HiddenFor(m => m.IsReturned)
+                  
+        @Html.Hidden("Book.Id", Model.Book.Id)
+        @Html.Hidden("Book.Cover", Model.Book.Cover)
+        @Html.Hidden("Book.Title", Model.Book.Title)
+        @Html.Hidden("Book.Subtitle", Model.Book.Subtitle)
+        @Html.Hidden("Book.Author", Model.Book.Author)
+        @Html.Hidden("Book.Publisher", Model.Book.Publisher)
+        @Html.Hidden("Book.Isbn", Model.Book.Isbn)
+        @Html.Hidden("Book.Edition", Model.Book.Edition)
+        @Html.Hidden("Book.Volume", Model.Book.Volume)
+        @Html.Hidden("Book.NumberOfPages", Model.Book.NumberOfPages)
+        @Html.Hidden("Book.ReleaseYear", Model.Book.ReleaseYear)
+        @Html.Hidden("Book.AcquisitionDate", Model.Book.AcquisitionDate)
+        @Html.Hidden("Book.RegistrationDate", Model.Book.RegistrationDate)
+        @Html.Hidden("Book.LastUpdateDate", Model.Book.LastUpdateDate)
+        @Html.Hidden("Book.Summary", Model.Book.Summary)
+        @Html.Hidden("Book.IsDeleted", Model.Book.IsDeleted)
+
+        @Html.Hidden("Person.Id", Model.Person.Id)
+        @Html.Hidden("Person.Name", Model.Person.Name)
+        @Html.Hidden("Person.City", Model.Person.City)
+        @Html.Hidden("Person.FederalState", Model.Person.FederalState)
+        @Html.Hidden("Person.Street", Model.Person.Street)
+        @Html.Hidden("Person.Number", Model.Person.Number)
+        @Html.Hidden("Person.District", Model.Person.District)
+        @Html.Hidden("Person.PostalCode", Model.Person.PostalCode)
+        @Html.Hidden("Person.Complement", Model.Person.Complement)
+        @Html.Hidden("Person.Country", Model.Person.Country)
+        @Html.Hidden("Person.Description", Model.Person.Description)
+        @Html.Hidden("Person.RegistrationDate", Model.Person.RegistrationDate)
+        @Html.Hidden("Person.LastUpdateDate", Model.Person.LastUpdateDate)
+        @Html.Hidden("Person.IsDeleted", Model.Person.IsDeleted)
+
+
+    </form>
+
+
+</div>
+
+
+<div id="spinner" class="spinner" style="display: none; position:absolute"></div>
+
+
+@section Scripts {
+
+    <script type="module" src="~/js/return-loan.js" asp-append-version="true"></script>
+    
+}
