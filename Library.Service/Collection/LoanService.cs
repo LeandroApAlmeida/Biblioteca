@@ -10,12 +10,9 @@ namespace Library.Services.Collection {
 
         private readonly ApplicationDbContext _context;
 
-        private readonly ICollectionService _collectionService;
 
-
-        public LoanService(ApplicationDbContext context, ICollectionService collectionService) {
+        public LoanService(ApplicationDbContext context) {
             _context = context;
-            _collectionService = collectionService;
         }
 
 
@@ -26,64 +23,11 @@ namespace Library.Services.Collection {
             try {
 
                 List<LoanModel> borrowedBooks = await _context.Loans
-                .Select(lm => new LoanModel {
-
-                    Id = lm.Id,
-
-                    Book = new BookModel {
-                        Id = lm.Book.Id,
-                        Cover = lm.Book.Cover,
-                        Title = lm.Book.Title,
-                        Subtitle = lm.Book.Subtitle,
-                        Author = lm.Book.Author,
-                        Publisher = lm.Book.Publisher,
-                        Isbn = lm.Book.Isbn,
-                        Edition = lm.Book.Edition,
-                        Volume = lm.Book.Volume,
-                        ReleaseYear = lm.Book.ReleaseYear,
-                        NumberOfPages = lm.Book.NumberOfPages,
-                        AcquisitionDate = lm.Book.AcquisitionDate,
-                        Summary = lm.Book.Summary,
-                        LastUpdateDate = lm.Book.LastUpdateDate,
-                        RegistrationDate = lm.Book.RegistrationDate,
-                        IsDeleted = lm.Book.IsDeleted
-                    },
-
-                    Person = new PersonModel {
-                        Id = lm.Person.Id,
-                        Name = lm.Person.Name,
-                        Street = lm.Person.Street,
-                        Complement = lm.Person.Complement,
-                        District = lm.Person.District,
-                        FederalState = lm.Person.FederalState,
-                        Country = lm.Person.Country,
-                        City = lm.Person.City,
-                        Number = lm.Person.Number,
-                        PostalCode = lm.Person.PostalCode,
-                        Description = lm.Person.Description,
-                        RegistrationDate = lm.Person.RegistrationDate,
-                        LastUpdateDate = lm.Person.LastUpdateDate,
-                        IsDeleted = lm.Person.IsDeleted
-                    },
-
-                    Notes = lm.Notes,
-
-                    Date = lm.Date,
-
-                    ReturnDate = lm.ReturnDate,
-
-                    RegistrationDate = lm.RegistrationDate,
-
-                    LastUpdateDate = lm.LastUpdateDate,
-
-                    IsDeleted = lm.IsDeleted,
-
-                    IsReturned = lm.IsReturned
-
-                })
-                .Where(lm => lm.IsDeleted == false)
-                .OrderBy(lm => lm.Date)
-                .ThenBy(b => b.Book.Title)
+                .Include(l => l.Person)
+                .Include(l => l.Book)
+                .Where(l => l.IsDeleted == false)
+                .OrderBy(l => l.Date)
+                .ThenBy(l => l.Book.Title)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -103,6 +47,33 @@ namespace Library.Services.Collection {
         }
 
 
+        public async Task<Response<List<Guid>>> GetBorrowedBooksIds() {
+
+            Response<List<Guid>> response = new();
+
+            try {
+
+                List<Guid> booksIds = await _context.Loans
+                .Where(l => l.IsReturned == false && l.IsDeleted == false)
+                .Select(l => l.Book.Id).ToListAsync();
+
+                response.Data = booksIds;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Data = [];
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
         public async Task<Response<LoanModel?>> GetLoan(Guid id) {
 
             Response<LoanModel?> response = new();
@@ -112,62 +83,10 @@ namespace Library.Services.Collection {
                 if (id != Guid.Empty) {
 
                     List<LoanModel> loans = await _context.Loans
-                    .Select(lm => new LoanModel {
-
-                        Id = lm.Id,
-
-                        Book = new BookModel {
-                            Id = lm.Book.Id,
-                            Title = lm.Book.Title,
-                            Subtitle = lm.Book.Subtitle,
-                            Author = lm.Book.Author,
-                            Publisher = lm.Book.Publisher,
-                            Isbn = lm.Book.Isbn,
-                            Edition = lm.Book.Edition,
-                            Volume = lm.Book.Volume,
-                            ReleaseYear = lm.Book.ReleaseYear,
-                            NumberOfPages = lm.Book.NumberOfPages,
-                            AcquisitionDate = lm.Book.AcquisitionDate,
-                            Summary = lm.Book.Summary,
-                            LastUpdateDate = lm.Book.LastUpdateDate,
-                            RegistrationDate = lm.Book.RegistrationDate,
-                            Cover = lm.Book.Cover,
-                            IsDeleted = lm.Book.IsDeleted
-                        },
-
-                        Person = new PersonModel {
-                            Id = lm.Person.Id,
-                            Name = lm.Person.Name,
-                            Street = lm.Person.Street,
-                            Complement = lm.Person.Complement,
-                            District = lm.Person.District,
-                            FederalState = lm.Person.FederalState,
-                            Country = lm.Person.Country,
-                            City = lm.Person.City,
-                            Number = lm.Person.Number,
-                            PostalCode = lm.Person.PostalCode,
-                            Description = lm.Person.Description,
-                            RegistrationDate = lm.Person.RegistrationDate,
-                            LastUpdateDate = lm.Person.LastUpdateDate,
-                            IsDeleted = lm.Person.IsDeleted
-                        },
-
-                        Date = lm.Date,
-
-                        ReturnDate = lm.ReturnDate,
-
-                        RegistrationDate = lm.RegistrationDate,
-
-                        LastUpdateDate = lm.LastUpdateDate,
-
-                        Notes = lm.Notes,
-
-                        IsDeleted = lm.IsDeleted,
-
-                        IsReturned = lm.IsReturned
-
-                    })
-                    .Where(db => db.Id == id)
+                    .Include(l => l.Person)
+                    .Include(l => l.Book)
+                    .ThenInclude(l => l.Cover)
+                    .Where(l => l.Id == id)
                     .AsNoTracking()
                     .ToListAsync();
 
@@ -200,7 +119,7 @@ namespace Library.Services.Collection {
 
             try {
 
-                var isBorrowedBookResp = await _collectionService.IsBorrowedBook(loan.Book.Id);
+                var isBorrowedBookResp = await IsBorrowedBook(loan.Book.Id);
 
                 if (!isBorrowedBookResp.Successful) throw new Exception(isBorrowedBookResp.Message);
 
@@ -356,7 +275,7 @@ namespace Library.Services.Collection {
 
             try {
 
-                var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
+                var isBorrowedBookResp = await IsBorrowedBook(id);
 
                 if (!isBorrowedBookResp.Successful) throw new Exception(isBorrowedBookResp.Message);
 
@@ -389,6 +308,51 @@ namespace Library.Services.Collection {
                     response.Message = "O livro consta como emprestado. Faça a devolução!";
 
                     return response;
+
+                }
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<bool>> IsBorrowedBook(Guid id) {
+
+            Response<bool> response = new();
+
+            try {
+
+                if (id != Guid.Empty) {
+
+                    var loans = await _context.Loans
+                    .Select(l => new { l.IsReturned, l.IsDeleted, l.Book.Id })
+                    .Where(l => l.IsDeleted == false && l.IsReturned == false)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                    bool isBorrowed = false;
+
+                    foreach (var loan in loans) {
+                        if (loan.Id == id) {
+                            isBorrowed = true;
+                            break;
+                        }
+                    }
+
+                    response.Data = isBorrowed;
+
+                    return response;
+
+                } else {
+
+                    throw new Exception("Identificador do livro inválido.");
 
                 }
 

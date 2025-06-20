@@ -4,6 +4,9 @@ using Library.Services.Model.Dto;
 namespace Library.Services.User {
 
 
+    /// <summary>
+    /// Interface para manutenção de usuários.
+    /// </summary>
     public interface IUserService {
 
         public Task<Response<List<UserRoleModel>>> GetUserRoles();
@@ -12,11 +15,11 @@ namespace Library.Services.User {
 
         public Task<Response<List<UserModel>>> GetUsers();
 
-        public Task<Response<UserModel>> GetUser(Guid id);
+        public Task<Response<UserModel>> GetUserWithoutHash(Guid id);
 
         public Task<Response<UserModel>> GetUserWithHash(Guid id);
 
-        public Task<Response<UserModel>> GetUser(string userName);
+        public Task<Response<UserModel>> GetUserWithHash(string userName);
 
         public Task<Response<bool>> RegisteredAdmin();
 

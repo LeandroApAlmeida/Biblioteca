@@ -7,6 +7,8 @@ namespace Library.Services.Collection {
 
         public Task<Response<List<DiscardedBookModel>>> GetDiscardedBooks();
 
+        public Task<Response<List<Guid>>> GetDiscardedBooksIds();
+
         public Task<Response<DiscardedBookModel>> GetDiscardedBook(Guid id);
 
         public Task<Response<DiscardedBookModel>> RegisterDiscardedBook(DiscardedBookModel discardedBook);
@@ -14,6 +16,8 @@ namespace Library.Services.Collection {
         public Task<Response<DiscardedBookModel>> EditDiscardedBook(DiscardedBookModel discardedBook);
 
         public Task<Response<DiscardedBookModel>> DeleteDiscardedBook(Guid id);
+
+        public Task<Response<bool>> IsDiscardedBook(Guid id);
 
     }
 

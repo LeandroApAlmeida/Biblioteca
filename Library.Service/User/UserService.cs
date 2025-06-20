@@ -84,33 +84,33 @@ namespace Library.Services.User {
             try {
 
                 List<UserModel> users = await _context.Users
-                .Select(um => new UserModel {
+                .Select(u => new UserModel {
 
-                    Id = um.Id,
+                    Id = u.Id,
 
                     Role = new UserRoleModel {
-                        Id = um.Role.Id,
-                        Description = um.Role.Description
+                        Id = u.Role.Id,
+                        Description = u.Role.Description
                     },
 
-                    Name = um.Name,
+                    Name = u.Name,
 
-                    UserName = um.UserName,
+                    UserName = u.UserName,
 
                     PasswordHash = new byte[] { 0 },
 
-                    RegistrationDate = um.RegistrationDate,
+                    RegistrationDate = u.RegistrationDate,
 
-                    LastUpdateDate = um.LastUpdateDate,
+                    LastUpdateDate = u.LastUpdateDate,
 
-                    IsDeleted = um.IsDeleted,
+                    IsDeleted = u.IsDeleted,
 
-                    IsActive = um.IsActive
+                    IsActive = u.IsActive
 
                 })
-                //.Where(um => !um.IsDeleted && um.IsActive)
-                .OrderBy(um => um.Role.Id)
-                .ThenBy(um => um.Name)
+                //.Where(u => !u.IsDeleted && u.IsActive)
+                .OrderBy(u => u.Role.Id)
+                .ThenBy(u => u.Name)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -130,38 +130,38 @@ namespace Library.Services.User {
         }
 
 
-        public async Task<Response<UserModel>> GetUser(Guid id) {
+        public async Task<Response<UserModel>> GetUserWithoutHash(Guid id) {
 
             Response<UserModel> response = new();
 
             try {
 
                 List<UserModel> users = await _context.Users
-                .Select(um => new UserModel {
+                .Select(u => new UserModel {
 
-                    Id = um.Id,
+                    Id = u.Id,
 
                     Role = new UserRoleModel {
-                        Id = um.Role.Id,
-                        Description = um.Role.Description
+                        Id = u.Role.Id,
+                        Description = u.Role.Description
                     },
 
-                    Name = um.Name,
+                    Name = u.Name,
 
-                    UserName = um.UserName,
+                    UserName = u.UserName,
 
                     PasswordHash = new byte[] { 0 },
 
-                    RegistrationDate = um.RegistrationDate,
+                    RegistrationDate = u.RegistrationDate,
 
-                    LastUpdateDate = um.LastUpdateDate,
+                    LastUpdateDate = u.LastUpdateDate,
 
-                    IsDeleted = um.IsDeleted,
+                    IsDeleted = u.IsDeleted,
 
-                    IsActive = um.IsActive
+                    IsActive = u.IsActive
 
                 })
-                .Where(um => um.Id == id)
+                .Where(u => u.Id == id)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -188,31 +188,8 @@ namespace Library.Services.User {
             try {
 
                 List<UserModel> users = await _context.Users
-                .Select(um => new UserModel {
-
-                    Id = um.Id,
-
-                    Role = new UserRoleModel {
-                        Id = um.Role.Id,
-                        Description = um.Role.Description
-                    },
-
-                    Name = um.Name,
-
-                    UserName = um.UserName,
-
-                    PasswordHash = um.PasswordHash,
-
-                    RegistrationDate = um.RegistrationDate,
-
-                    LastUpdateDate = um.LastUpdateDate,
-
-                    IsDeleted = um.IsDeleted,
-
-                    IsActive = um.IsActive
-
-                })
-                .Where(um => um.Id == id)
+                .Include(u => u.Role)
+                .Where(u => u.Id == id)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -232,38 +209,15 @@ namespace Library.Services.User {
         }
 
 
-        public async Task<Response<UserModel>> GetUser(string userName) {
+        public async Task<Response<UserModel>> GetUserWithHash(string userName) {
 
             Response<UserModel> response = new();
 
             try {
 
                 List<UserModel> users = await _context.Users
-                .Select(um => new UserModel {
-
-                    Id = um.Id,
-
-                    Role = new UserRoleModel {
-                        Id = um.Role.Id,
-                        Description = um.Role.Description
-                    },
-
-                    Name = um.Name,
-
-                    UserName = um.UserName,
-
-                    PasswordHash = um.PasswordHash,
-
-                    RegistrationDate = um.RegistrationDate,
-
-                    LastUpdateDate = um.LastUpdateDate,
-
-                    IsDeleted = um.IsDeleted,
-
-                    IsActive = um.IsActive
-
-                })
-                .Where(um => um.UserName == userName)
+                .Include(u => u.Role)
+                .Where(u => u.UserName == userName)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -296,7 +250,7 @@ namespace Library.Services.User {
                 DateTime date = DateTime.Now;
 
                 List<UserModel> users = await _context.Users
-                .Where(um => um.Role.Id == (int)UserRole.Admin)
+                .Where(u => u.Role.Id == (int)UserRole.Admin)
                 .ToListAsync();
 
                 response.Data = users.Count > 0;
@@ -324,7 +278,7 @@ namespace Library.Services.User {
                 DateTime date = DateTime.Now;
 
                 List<UserModel> users = await _context.Users
-                .Where(um => um.UserName == userName)
+                .Where(u => u.UserName == userName)
                 .ToListAsync();
 
                 response.Data = users.Count > 0;
@@ -361,8 +315,8 @@ namespace Library.Services.User {
 
                 if (userRoleResp.Data!.Id == (int) UserRole.Admin) {
 
-                    // É permitido apenas um usuário administrador cadastrado. Neste
-                    // ponto é feito este controle, de tal forma que se já existir um
+                    // É permitido apenas u usuário administrador cadastrado. Neste
+                    // ponto é feito este controle, de tal forma que se já existir u
                     // administrador, não permite o cadastro de outro.
                     
                     var registeredAdminResp = await RegisteredAdmin();
@@ -375,7 +329,7 @@ namespace Library.Services.User {
                         
                     if (registeredAdminResp.Data == true) {
 
-                        throw new Exception("Já existe um usuário administrador cadastrado!");
+                        throw new Exception("Já existe u usuário administrador cadastrado!");
 
                     }
 
@@ -441,7 +395,7 @@ namespace Library.Services.User {
 
                 DateTime date = DateTime.Now;
 
-                var userResp = await GetUser(user.Id);
+                var userResp = await GetUserWithoutHash(user.Id);
 
                 if (!userResp.Successful) throw new Exception(userResp.Message);
 
@@ -510,14 +464,14 @@ namespace Library.Services.User {
 
             try {
 
-                var userResp = await GetUser(id);
+                var userResp = await GetUserWithoutHash(id);
 
                 UserModel? user = userResp.Data;
 
                 if (user == null) throw new Exception(userResp.Message);
 
                 if (user.Role.Id == (int)UserRole.Admin) {
-                    throw new Exception("Não é permitido excluir um usuário administrador.");
+                    throw new Exception("Não é permitido excluir u usuário administrador.");
                 }
 
                 var userWithHashResp = await GetUserWithHash(user.Id);
@@ -558,7 +512,7 @@ namespace Library.Services.User {
 
             try {
 
-                var userResp = await GetUser(id);
+                var userResp = await GetUserWithoutHash(id);
 
                 UserModel? user = userResp.Data;
 
@@ -596,6 +550,8 @@ namespace Library.Services.User {
             }
 
         }
+
+
     }
 
 

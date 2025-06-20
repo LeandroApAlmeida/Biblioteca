@@ -1,0 +1,163 @@
+﻿@using Library.Db.Models
+@using Library.Services.Model.Dto
+@using Library.Utils
+
+
+@model IEnumerable<BookModel>
+
+
+@{
+
+    ViewData["Title"] = "Acervo";
+
+    // Configurações do usuário.
+    SettingsDto settings = ViewBag.Settings;
+
+    List<BookModel> deletedBooks = ViewBag.DeletedBooks;
+
+    string? borrowedTextColor = settings.BorrowedTextColor;
+
+    // Tags HTML para efeitos de fonte de livros emprestados.
+    string borrowedTextStyle = "color:" + borrowedTextColor + ";";
+
+    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) {
+        borrowedTextStyle += Constants.HTML_FONT_BOLD;
+    }
+
+    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) {
+        borrowedTextStyle += Constants.HTML_FONT_UNDERLINE;
+    }
+
+    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) {
+        borrowedTextStyle += Constants.HTML_FONT_ITALIC;
+    }
+
+}
+
+
+<div class="conteiner-fluid">
+
+
+    @*Tabela que lista os livros disponíveis no acervo.*@
+
+    <table id="book-table" class="table line-spacing align-td">
+
+
+        <thead class="text-start">
+
+            <tr>
+
+                <th scope="col" style="width: 90px;">Capa</th>
+
+                <th scope="col" style="width: 30%;">Título</th>
+
+                <th scope="col" style="width: 17%;">Autor</th>
+
+                <th scope="col" style="width: 14%;">Editora</th>
+
+                <th scope="col" style="width: 12%;">ISBN</th>
+
+                <th scope="col" style="width: 2%;">Edic.</th>
+
+                <th scope="col" style="width: 2%;">Vol.</th>
+
+                <th scope="col" style="width: 5%;">Ano</th>
+
+                <th scope="col" >Aquisição</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            @if (Model != null) {
+
+                @foreach (var book in Model) {
+
+                    <tr>
+
+                        @if (!book.IsBorrowed) {
+
+                            <td scope="row">
+                                <div style="border: 1px solid gray;">
+                                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
+                                        <img src="@book.Cover.Thumbnail" class="center" style="width: 90px; height: 120px;" />
+                                    </a>
+                                </div>
+                            </td>
+
+                            @if (book.Subtitle != null && book.Subtitle != "") {
+                                <td scope="row">
+                                    @book.Title - @book.Subtitle
+                                </td>
+                            } else {
+                                <td scope="row">
+                                    @book.Title
+                                </td>
+                            }
+
+                            <td scope="row">@book.Author</td>
+
+                            <td scope="row">@book.Publisher</td>
+
+                            <td scope="row">@book.Isbn</td>
+
+                            <td class="num-span" scope="row">@book.Edition</td>
+
+                            <td class="num-span" scope="row">@book.Volume</td>
+
+                            <td class="num-span" scope="row">@book.ReleaseYear</td>
+
+                            <td class="num-span" scope="row">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
+
+                        } else {
+
+                            <td scope="row">
+                                <div style="border: 1px solid @borrowedTextColor;">
+                                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
+                                        <img src="@book.Cover.Thumbnail" class="center" style="width: 90px; height: 120px;"/>
+                                    </a>
+                                </div>
+                            </td>
+
+                            @if (book.Subtitle != null && book.Subtitle != "") {
+                                <td scope="row" style="@borrowedTextStyle">
+                                    @book.Title - @book.Subtitle
+                                </td>
+                            } else {
+                                <td scope="row" style="@borrowedTextStyle">
+                                    @book.Title
+                                </td>
+                            }
+
+                            <td scope="row" style="@borrowedTextStyle">@book.Author</td>
+
+                            <td scope="row" style="@borrowedTextStyle">@book.Publisher</td>
+
+                            <td scope="row" style="@borrowedTextStyle">@book.Isbn</td>
+
+                            <td class="num-span" scope="row" style="@borrowedTextStyle">@book.Edition</td>
+
+                            <td class="num-span" scope="row" style="@borrowedTextStyle">@book.Volume</td>
+
+                            <td class="num-span" scope="row" style="@borrowedTextStyle">@book.ReleaseYear</td>
+
+                            <td class="num-span" scope="row" style="@borrowedTextStyle">@book.AcquisitionDate.ToString("dd/MM/yyyy")</td>
+
+                        }                        
+
+                    </tr>
+
+                }
+
+            }
+
+        </tbody>
+
+
+    </table>
+
+
+</div>

@@ -90,11 +90,6 @@
     }
 
 
-    bool? showFooterCaption = settings.IsShowFooterCaption;
-
-    bool isShowFooterCaption = showFooterCaption != null ? showFooterCaption == true : false;
-
-
 }
 
 
@@ -143,7 +138,7 @@
 
         @*Título da página (à esquerda).*@
 
-        <h3>Detalhes do Livro</h3>
+        <h4>Detalhes do Livro</h4>
 
 
         @*Barra de navegação (à direita).*@
@@ -201,7 +196,7 @@
 
             @*Botão pesquisar. Será exibido o diálogo para buscar um livro (filter-dialog).*@
 
-            <button id="button-filter" class="btn btn-primary nav-button" data-toggle="modal" data-target="#filter-dialog" style="border:hidden;">
+            <button id="button-filter" class="btn btn-primary nav-button" data-toggle="modal" data-target="#book-filter-dialog" style="border:hidden;">
                 <img class="m-0" src="~/img/search_item_icon.png" />
             </button>
 
@@ -339,7 +334,6 @@
                         <div class="mb-3 col-sm-2">
                             <label for="isbn" class="form-label">ISBN</label>
                             <input id="isbn" type="text" class="form-control" style="background-color:white;" asp-for="Isbn" disabled>
-
                         </div>
 
                         @*Campo para exibição da edição do livro.*@
@@ -407,131 +401,29 @@
 </div>
 
 
-@*
-    Diálogo para buscar um livro. Se o livro está emprestado, foi doado, ou foi excluído,
-    a linha que corresponde a este livro terá uma cor de fonte e efeitos de texto (negrito,
-    sublinhado, itálico) específicos, conforme foi configurado pelo usuário.
-*@
 
-<div id="filter-dialog" class="modal fade">
 
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+@await Html.PartialAsync("~/Views/Shared/Filter/_BookFilter.cshtml", books)
 
-        <div class="modal-content">
 
-            @*Cabeçalho do diálogo. Contém o título e o botão fechar.*@    
-
-            <div class="modal-header">
-
-                <h6>Pesquisar livro:</h6>
-
-                <button id="close-button" type="button" class="close"
-                        style="background: white;border:0px;padding-top:0px;padding-bottom:0px;"
-                        data-dismiss="modal">
-                    <h3>&times;</h3>
-                </button>
-
-            </div>
-
-            @*Corpo do diálogo. Contém a lista dos livros cadastrados.*@
-
-            <div class="modal-body" style="background:white; ">
-
-                <table id="filter-table" class="table table-borderless" border="0">
-
-                    <thead class="text-start">
-
-                        <tr>
-
-                            <th scope="col" style="width: 60%;">Título</th>
-
-                            <th scope="col" style="width: 20%;">ISBN</th>
-
-                            <th scope="col"></th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        @if (books != null) {
-
-                            @foreach (var book in books) {
-
-                                <tr>
-
-                                    @if (book.IsBorrowed) {
-                                        <td scope="row" style="@borrowedTextStyle">@book.Title</td>
-                                        <td scope="row" style="@borrowedTextStyle">@book.Isbn</td>
-                                    } else if (book.IsDonated) {
-                                        <td scope="row" style="@donatedTextStyle">@book.Title</td>
-                                        <td scope="row" style="@donatedTextStyle">@book.Isbn</td>
-                                    } else if (book.IsDiscarded) {
-                                        <td scope="row" style="@discardedTextStyle">@book.Title</td>
-                                        <td scope="row" style="@discardedTextStyle">@book.Isbn</td>
-                                    } else {
-                                        <td scope="row">@book.Title</td>
-                                        <td scope="row">@book.Isbn</td>
-                                    }
-
-                                    <td id="controls-td" scope="row">
-
-                                        <a class="btn btn-info" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
-                                            <img src="~/img/next_item_icon.png" title="Selecionar o livro" />
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-
-                            }
-
-                        }
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-            <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
-
-                <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
-
-                    @if (isShowFooterCaption) {
-                        @(await Html.PartialAsync("_FooterLabel"))
-                    } else {
-                        <spam>&nbsp; &nbsp;</spam>
-                    }
-
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 
 @section Scripts {
 
-    <script src="~/js/datatables.min.js"></script>
-
     <script src="~/js/book-details.js"></script>
+
+    <script src="~/js/datatables.min.js"></script>
 
     <script type="text/javascript">
 
         $(document).ready(function () {
 
-            $('#filter-table').DataTable({
+            $('#book-filter-table').DataTable({
                 language: { url: "/dic/book-table-pt_br.json"},
                 order: [],
                 ordering: false,
                 columnDefs: [
-                    { targets: '_all', className: 'dt-body-left dt-head-left vertical-align-middle' },
+                    { targets: '_all', className: 'dt-body-left vertical-align-middle' },
                     { targets: -1, className: 'dt-body-right' }
                 ],
                 lengthMenu: [[-1], ["Todos"]],
@@ -540,7 +432,7 @@
 
         });
 
-        $('#filter-table tbody tr td').css('vertical-align', 'middle');
+        $('#book-filter-table tbody tr td').css('vertical-align', 'middle');
 
     </script>
 

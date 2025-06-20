@@ -106,7 +106,7 @@ function onSelectedBook(event) {
 
                 const imgPreview = document.getElementById("img-preview");
                 imgPreview.style.display = "block";
-                imgPreview.innerHTML = '<img src="' + cover + '" class="center"/>';
+                imgPreview.innerHTML = '<img src="' + cover.Data + '" class="center"/>';
                 imgPreview.removeAttribute("hidden");
 
                 setBookData(document, book, cover);

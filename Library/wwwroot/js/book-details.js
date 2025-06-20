@@ -6,9 +6,23 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
+    document.querySelectorAll(".btn-select-book").forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            let itemId = this.getAttribute("data-id");
+
+            window.location.href = `/Book/Details?id=${itemId}`;         
+
+        });
+
+    });
+
+
     document.addEventListener('keydown', function (event) {
 
-        const dialog = document.getElementById('filter-dialog');
+        const dialog = document.getElementById('book-filter-dialog');
 
         if (!dialog.classList.contains('show')) {
 
@@ -38,5 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     });
+
 
 });

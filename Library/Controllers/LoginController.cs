@@ -31,7 +31,7 @@ namespace Library.Controllers {
         public async Task<IActionResult> Login() {
 
             if (_sessionService.IsSessionActive()) {
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
             }
 
             var registeredAdminResp = await _userService.RegisteredAdmin();
@@ -69,7 +69,7 @@ namespace Library.Controllers {
 
                     if (loginResp.Data != null) {
 
-                        return RedirectToAction("Details", "Book");
+                        return RedirectToAction("Index", "Home");
 
                     } else {
 
@@ -115,7 +115,7 @@ namespace Library.Controllers {
 
                 TempData[Constants.ERROR_MESSAGE] += logoutResp.Message;
 
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
 
             }
 

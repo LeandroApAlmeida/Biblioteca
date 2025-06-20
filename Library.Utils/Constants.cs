@@ -1,6 +1,9 @@
 ﻿namespace Library.Utils {
     
     
+    /// <summary>
+    /// Constantes da aplicação.
+    /// </summary>
     public static class Constants {
         
         public const string SUCCESS_MESSAGE = "success-message";

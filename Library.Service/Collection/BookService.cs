@@ -1,6 +1,12 @@
 ﻿using Library.Data;
 using Library.Db.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace Library.Services.Collection {
 
@@ -13,7 +19,11 @@ namespace Library.Services.Collection {
 
         private readonly ApplicationDbContext _context;
 
-        private readonly ICollectionService _collectionService;
+        private readonly IDiscardService _discardService;
+
+        private readonly IDonationService _donationService;
+
+        private readonly ILoanService _loanService;
 
         private List<Guid>? borrowedBooksIds;
 
@@ -22,18 +32,21 @@ namespace Library.Services.Collection {
         private List<Guid>? discardedBooksIds;
 
 
-        public BookService(ApplicationDbContext context, ICollectionService collectionService) {
+        public BookService(ApplicationDbContext context, IDiscardService discardService,
+        ILoanService loanService, IDonationService donationService) {
             _context = context;
-            _collectionService = collectionService;
+            _discardService = discardService;
+            _loanService = loanService;
+            _donationService = donationService;
             FillBooksLists().Wait();
         }
 
 
         private async Task FillBooksLists() {
             
-            var borrowedBooksIdsResp = await _collectionService.BorrowedBooksIds();
-            var donatedBooksIdsResp = await _collectionService.DonatedBooksIds();
-            var discardedBooksIdsResp = await _collectionService.DiscardedBooksIds();
+            var borrowedBooksIdsResp = await _loanService.GetBorrowedBooksIds();
+            var donatedBooksIdsResp = await _donationService.GetDonatedBooksIds();
+            var discardedBooksIdsResp = await _discardService.GetDiscardedBooksIds();
             
             borrowedBooksIds = borrowedBooksIdsResp.Data;
             donatedBooksIds = donatedBooksIdsResp.Data;
@@ -48,16 +61,8 @@ namespace Library.Services.Collection {
 
             try {
 
-                var discardedBooksIdsResp = await _collectionService.DiscardedBooksIds();
-                var donatedBooksIdsResp = await _collectionService.DonatedBooksIds();
-
-                if (!discardedBooksIdsResp.Successful) throw new Exception(discardedBooksIdsResp.Message);
-                if (!donatedBooksIdsResp.Successful) throw new Exception(donatedBooksIdsResp.Message);
-
                 List<BookModel> books = await _context.Books
-                .Where(b =>
-                    b.IsDeleted == false
-                )
+                .Where(b => b.IsDeleted == false)
                 .OrderBy(b => b.Title)
                 .ThenBy(b => b.Id)
                 .AsNoTracking()
@@ -70,6 +75,130 @@ namespace Library.Services.Collection {
                 }
 
                 response.Data = books;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<List<BookModel>>> GetBooksWithThumbnails() {
+
+            Response<List<BookModel>> response = new();
+
+            try {
+
+                List<BookModel> books = await _context.Books
+                .Select(static b => new BookModel {
+                    
+                    Id = b.Id,
+                    Title = b.Title,
+                    Subtitle = b.Subtitle,
+                    Author = b.Author,
+                    Publisher = b.Publisher,
+                    Isbn = b.Isbn,
+                    Edition = b.Edition,
+                    Volume = b.Volume,
+                    ReleaseYear = b.ReleaseYear,
+                    AcquisitionDate = b.AcquisitionDate,
+                    NumberOfPages = b.NumberOfPages,
+                    RegistrationDate = b.RegistrationDate,
+                    LastUpdateDate = b.LastUpdateDate,
+                    Summary = b.Summary,
+                    IsDeleted = b.IsDeleted, 
+                    IsBorrowed = b.IsBorrowed,
+                    IsDiscarded = b.IsDiscarded,
+                    IsDonated = b.IsDonated,
+                    
+                    Cover = new CoverModel {
+                        Id = b.Cover.Id,
+                        Data = "",
+                        Thumbnail = b.Cover.Thumbnail,
+                        RegistrationDate = b.Cover.RegistrationDate,
+                        LastUpdateDate = b.Cover.LastUpdateDate
+                    }
+
+                })
+                .Where(b => b.IsDeleted == false)
+                .OrderBy(b => b.Title)
+                .ThenBy(b => b.Id)
+                .AsNoTracking()
+                .ToListAsync();
+
+
+                foreach (var book in books) {
+                    book.IsBorrowed = borrowedBooksIds!.Contains(book.Id);
+                    book.IsDonated = donatedBooksIds!.Contains(book.Id);
+                    book.IsDiscarded = discardedBooksIds!.Contains(book.Id);
+                }
+
+                response.Data = books;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<List<Guid>>> GetBooksIds() {
+
+            Response<List<Guid>> response = new();
+
+            try {
+
+                List<Guid> booksIds = await _context.Books
+                .Where(b => b.IsDeleted == false)
+                .OrderBy(b => b.Title)
+                .ThenBy(b => b.Id)
+                .Select(b => b.Id).ToListAsync();
+
+                response.Data = booksIds;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Data = [];
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<List<BookModel>>> GetDeletedBooks() {
+
+            Response<List<BookModel>> response = new();
+
+            try {
+
+                List<BookModel> availableBooks = await _context.Books
+                .Where(b => b.IsDeleted == true)
+                .OrderBy(b => b.Title)
+                .ThenBy(b => b.Id)
+                .AsNoTracking()
+                .ToListAsync();
+
+                response.Data = availableBooks;
 
                 return response;
 
@@ -103,13 +232,9 @@ namespace Library.Services.Collection {
 
                         BookModel book = books.First();
 
-                        var borrowedResp = await _collectionService.IsBorrowedBook(book.Id);
-                        var donatedResp = await _collectionService.IsDonatedBook(book.Id);
-                        var discardedResp = await _collectionService.IsDiscardedBook(book.Id);
-                        
-                        book.IsBorrowed = borrowedResp.Data;
-                        book.IsDonated = donatedResp.Data;
-                        book.IsDiscarded = discardedResp.Data;
+                        book.IsBorrowed = borrowedBooksIds!.Contains(book.Id);
+                        book.IsDonated = donatedBooksIds!.Contains(book.Id);
+                        book.IsDiscarded = discardedBooksIds!.Contains(book.Id);
 
                         response.Data = book;
 
@@ -150,7 +275,7 @@ namespace Library.Services.Collection {
 
                     Guid guid = id;
 
-                    var booksIdsResp = await _collectionService.GetBooksIds();
+                    var booksIdsResp = await GetBooksIds();
 
                     bool getNextId = false;
 
@@ -197,7 +322,7 @@ namespace Library.Services.Collection {
 
                     Guid guid = id;
 
-                    var booksIdsResp = await _collectionService.GetBooksIds();
+                    var booksIdsResp = await GetBooksIds();
 
                     Guid guidTmp = booksIdsResp.Data!.First();
 
@@ -237,7 +362,7 @@ namespace Library.Services.Collection {
 
             try {
 
-                var booksIdsResp = await _collectionService.GetBooksIds();
+                var booksIdsResp = await GetBooksIds();
 
                 response.Data = booksIdsResp.Data!.First();
 
@@ -261,7 +386,7 @@ namespace Library.Services.Collection {
 
             try {
 
-                var booksIdsResp = await _collectionService.GetBooksIds();
+                var booksIdsResp = await GetBooksIds();
 
                 response.Data = booksIdsResp.Data!.Last();
 
@@ -273,6 +398,46 @@ namespace Library.Services.Collection {
                 response.Successful = false;
 
                 return response;
+
+            }
+
+        }
+
+
+        private string CreateCoverThumbnail(string imageBase64) {
+            
+            string base64Data = imageBase64.Substring(imageBase64.IndexOf(",") + 1);
+            byte[] imageData = Convert.FromBase64String(base64Data);
+
+            using MemoryStream ms = new MemoryStream(imageData);
+            using Image image = Image.FromStream(ms);
+            using Bitmap thumbnail = new Bitmap(image, new Size(90, 120));
+            using MemoryStream thumbStream = new MemoryStream();
+
+            thumbnail.Save(thumbStream, ImageFormat.Jpeg);
+
+            return $"data:image/jpeg;base64,{Convert.ToBase64String(thumbStream.ToArray())}";
+        }
+
+
+        private string ConvertCoverToJpeg(string base64Image) {
+
+            if (!base64Image.StartsWith("data:image/jpeg;base64")) {
+
+                string base64Data = base64Image.Substring(base64Image.IndexOf(",") + 1);
+                byte[] imageData = Convert.FromBase64String(base64Data);
+
+                using MemoryStream ms = new MemoryStream(imageData);
+                using Image image = Image.FromStream(ms);
+                using MemoryStream jpgStream = new MemoryStream();
+
+                image.Save(jpgStream, ImageFormat.Jpeg);
+
+                return $"data:image/jpeg;base64,{Convert.ToBase64String(jpgStream.ToArray())}";
+
+            } else {
+
+                return base64Image;
 
             }
 
@@ -292,11 +457,17 @@ namespace Library.Services.Collection {
                 book.LastUpdateDate = date;
                 book.IsDeleted = false;
 
+                string base64Image = book.Cover.Data;
+
                 book.Cover.Id = Guid.NewGuid();
+                book.Cover.Data = ConvertCoverToJpeg(base64Image);
+                book.Cover.Thumbnail = CreateCoverThumbnail(base64Image);
                 book.Cover.RegistrationDate = date;
                 book.Cover.LastUpdateDate = date;
 
                 _context.Books.Add(book);
+
+                _context.Covers.Add(book.Cover);
 
                 await _context.SaveChangesAsync();
 
@@ -333,11 +504,15 @@ namespace Library.Services.Collection {
 
                 _context.Attach(book.Cover);
 
+                string base64Image = book.Cover.Data;
+
+                book.Cover.Data = ConvertCoverToJpeg(base64Image);
+                book.Cover.Thumbnail = CreateCoverThumbnail(base64Image);
                 book.Cover.LastUpdateDate = DateTime.Now;
 
                 _context.Entry(book.Cover).State = EntityState.Modified;
 
-                _context.Cover.Update(book.Cover);
+                _context.Covers.Update(book.Cover);
 
                 await _context.SaveChangesAsync();
 
@@ -370,7 +545,7 @@ namespace Library.Services.Collection {
 
                 if (book == null) throw new Exception(bookResp.Message);
 
-                var isBorrowedBookResp = await _collectionService.IsBorrowedBook(book.Id);
+                var isBorrowedBookResp = await _loanService.IsBorrowedBook(book.Id);
 
                 if (!isBorrowedBookResp.Successful) throw new Exception(isBorrowedBookResp.Message);
 

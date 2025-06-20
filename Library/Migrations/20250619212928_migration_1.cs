@@ -19,6 +19,7 @@ namespace Library.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Data = table.Column<string>(type: "text", nullable: false),
+                    Thumbnail = table.Column<string>(type: "text", nullable: true),
                     RegistrationDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     LastUpdateDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },

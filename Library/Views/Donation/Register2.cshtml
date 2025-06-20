@@ -46,7 +46,7 @@
 
         <div class="d-flex justify-content-between mb-3">
 
-            <h3>Doar o Livro</h3>
+            <h4>Doar o Livro</h4>
 
             <div class="d-flex justify-content-between">
 
@@ -110,8 +110,6 @@
 
         </div>
 
-
-        @Html.Hidden("Book.Cover", "")
         @Html.Hidden("Book.Id", "")
         @Html.Hidden("Book.Title", "")
         @Html.Hidden("Book.Subtitle", "")
@@ -127,6 +125,9 @@
         @Html.Hidden("Book.LastUpdateDate", "")
         @Html.Hidden("Book.Summary", "")
         @Html.Hidden("Book.IsDeleted", "")
+        @Html.Hidden("Book.Cover.Id", "")
+        @Html.Hidden("Book.Cover.Data", "")
+        @Html.Hidden("Book.Cover.Thumbnail", "")
 
         @Html.Hidden("Person.Id", "")
         @Html.Hidden("Person.Name", "")

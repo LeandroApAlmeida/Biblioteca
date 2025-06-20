@@ -1,5 +1,4 @@
 ﻿using Library.Services.Model.Dto;
-using Library.Services.Authentication;
 using Library.Services.Session;
 using Library.Services.User;
 using Library.Utils;
@@ -30,7 +29,7 @@ namespace Library.Controllers {
             }
 
             if (!_sessionService.IsAdminSession()) {
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
             }
 
             var usersResp = await _userService.GetUsers();
@@ -53,7 +52,7 @@ namespace Library.Controllers {
 
 
             if (_sessionService.IsSessionActive()) {
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.UserRole = (int)UserRole.Admin;
@@ -68,7 +67,7 @@ namespace Library.Controllers {
         public async Task<IActionResult> RegisterAdm(UserDto admin) {
 
             if (_sessionService.IsSessionActive()) {
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
             }
 
             if (ModelState.IsValid) {
@@ -108,7 +107,7 @@ namespace Library.Controllers {
             }
 
             if (!_sessionService.IsAdminSession()) {
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.UserRole = (int) UserRole.Guest;
@@ -127,7 +126,7 @@ namespace Library.Controllers {
             }
 
             if (!_sessionService.IsAdminSession()) {
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
             }
 
             if (ModelState.IsValid) {
@@ -167,12 +166,12 @@ namespace Library.Controllers {
             }
 
             if (!_sessionService.IsAdminSession()) {
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.UserRole = (int)UserRole.Guest;
 
-            var userResp = await _userService.GetUser(id);
+            var userResp = await _userService.GetUserWithoutHash(id);
 
             if (userResp.Successful) {
 

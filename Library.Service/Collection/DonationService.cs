@@ -10,12 +10,12 @@ namespace Library.Services.Collection {
 
         private readonly ApplicationDbContext _context;
 
-        private readonly ICollectionService _collectionService;
+        private readonly ILoanService _loanService;
 
 
-        public DonationService(ApplicationDbContext context, ICollectionService collectionService) {
+        public DonationService(ApplicationDbContext context, ILoanService loanService) {
             _context = context;
-            _collectionService = collectionService;
+            _loanService = loanService;
         }
 
 
@@ -26,57 +26,10 @@ namespace Library.Services.Collection {
             try {
 
                 List<DonatedBookModel> donatedBooks = await _context.DonatedBooks
-                .Select(db => new DonatedBookModel {
-
-                    Id = db.Id,
-
-                    Book = new BookModel {
-                        Id = db.Book.Id,
-                        Cover = db.Book.Cover,
-                        Title = db.Book.Title,
-                        Subtitle = db.Book.Subtitle,
-                        Author = db.Book.Author,
-                        Publisher = db.Book.Publisher,
-                        Isbn = db.Book.Isbn,
-                        Edition = db.Book.Edition,
-                        Volume = db.Book.Volume,
-                        ReleaseYear = db.Book.ReleaseYear,
-                        NumberOfPages = db.Book.NumberOfPages,
-                        AcquisitionDate = db.Book.AcquisitionDate,
-                        Summary = db.Book.Summary,
-                        LastUpdateDate = db.Book.LastUpdateDate,
-                        RegistrationDate = db.Book.RegistrationDate,
-                        IsDeleted = db.Book.IsDeleted
-                    },
-
-                    Person = new PersonModel {
-                        Id = db.Person.Id,
-                        Name = db.Person.Name,
-                        Street = db.Person.Street,
-                        Complement = db.Person.Complement,
-                        District = db.Person.District,
-                        FederalState = db.Person.FederalState,
-                        Country = db.Person.Country,
-                        City = db.Person.City,
-                        Number = db.Person.Number,
-                        PostalCode = db.Person.PostalCode,
-                        Description = db.Person.Description,
-                        RegistrationDate = db.Person.RegistrationDate,
-                        LastUpdateDate = db.Person.LastUpdateDate,
-                        IsDeleted = db.Person.IsDeleted
-                    },
-
-                    Date = db.Date,
-
-                    RegistrationDate = db.RegistrationDate,
-
-                    LastUpdateDate = db.LastUpdateDate,
-
-                    Notes = db.Notes
-
-                })
-                .OrderBy(b => b.Book.Title)
-                .ThenBy(b => b.Book.Id)
+                .Include(db => db.Person)
+                .Include(db => db.Book)
+                .OrderBy(db => db.Book.Title)
+                .ThenBy(db => db.Book.Id)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -97,6 +50,31 @@ namespace Library.Services.Collection {
         }
 
 
+        public async Task<Response<List<Guid>>> GetDonatedBooksIds() {
+
+            Response<List<Guid>> response = new();
+
+            try {
+
+                List<Guid> booksIds = await _context.DonatedBooks.Select(db => db.Id).ToListAsync();
+
+                response.Data = booksIds;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Data = [];
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
         public async Task<Response<DonatedBookModel>> GetDonatedBook(Guid id) {
 
             Response<DonatedBookModel> response = new();
@@ -106,55 +84,9 @@ namespace Library.Services.Collection {
                 if (id != Guid.Empty) {
 
                     List<DonatedBookModel> donatedBooks = await _context.DonatedBooks
-                    .Select(db => new DonatedBookModel {
-
-                        Id = db.Id,
-
-                        Book = new BookModel {
-                            Id = db.Book.Id,
-                            Title = db.Book.Title,
-                            Subtitle = db.Book.Subtitle,
-                            Author = db.Book.Author,
-                            Publisher = db.Book.Publisher,
-                            Isbn = db.Book.Isbn,
-                            Edition = db.Book.Edition,
-                            Volume = db.Book.Volume,
-                            ReleaseYear = db.Book.ReleaseYear,
-                            NumberOfPages = db.Book.NumberOfPages,
-                            AcquisitionDate = db.Book.AcquisitionDate,
-                            Summary = db.Book.Summary,
-                            LastUpdateDate = db.Book.LastUpdateDate,
-                            RegistrationDate = db.Book.RegistrationDate,
-                            Cover = db.Book.Cover,
-                            IsDeleted = db.Book.IsDeleted
-                        },
-
-                        Person = new PersonModel {
-                            Id = db.Person.Id,
-                            Name = db.Person.Name,
-                            Street = db.Person.Street,
-                            Complement = db.Person.Complement,
-                            District = db.Person.District,
-                            FederalState = db.Person.FederalState,
-                            Country = db.Person.Country,
-                            City = db.Person.City,
-                            Number = db.Person.Number,
-                            PostalCode = db.Person.PostalCode,
-                            Description = db.Person.Description,
-                            RegistrationDate = db.Person.RegistrationDate,
-                            LastUpdateDate = db.Person.LastUpdateDate,
-                            IsDeleted = db.Person.IsDeleted
-                        },
-
-                        Date = db.Date,
-
-                        RegistrationDate = db.RegistrationDate,
-
-                        LastUpdateDate = db.LastUpdateDate,
-
-                        Notes = db.Notes
-
-                    })
+                    .Include(db => db.Person)
+                    .Include (db => db.Book)
+                    .ThenInclude(db => db.Cover)
                     .Where(db => db.Id == id)
                     .AsNoTracking()
                     .ToListAsync();
@@ -188,7 +120,7 @@ namespace Library.Services.Collection {
 
             try {
 
-                var isBorrowedBookResp = await _collectionService.IsBorrowedBook(donatedBook.Book.Id);
+                var isBorrowedBookResp = await _loanService.IsBorrowedBook(donatedBook.Book.Id);
 
                 if (!isBorrowedBookResp.Successful) throw new Exception(isBorrowedBookResp.Message);
 
@@ -285,6 +217,50 @@ namespace Library.Services.Collection {
                 response.Data = donatedBook;
 
                 return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<bool>> IsDonatedBook(Guid id) {
+
+            Response<bool> response = new();
+
+            try {
+
+                if (id != Guid.Empty) {
+
+                    var donatedBooksIds = await _context.DonatedBooks
+                    .Select(db => new { db.Id })
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                    bool isDonated = false;
+
+                    foreach (var bookId in donatedBooksIds) {
+                        if (bookId.Id == id) {
+                            isDonated = true;
+                            break;
+                        }
+                    }
+
+                    response.Data = isDonated;
+
+                    return response;
+
+                } else {
+
+                    throw new Exception("Identificador do livro inválido.");
+
+                }
 
             } catch (Exception ex) {
 

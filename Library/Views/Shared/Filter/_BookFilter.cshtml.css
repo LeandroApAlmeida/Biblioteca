@@ -1,0 +1,27 @@
+﻿
+
+#book-filter-dialog .modal-dialog {
+    width: 650px;
+    max-width: 650px;
+    height: 95%;
+    max-height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+#book-filter-dialog .modal-content {
+    height: 95%;
+    max-height: 95%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#book-filter-dialog .modal-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    overflow: auto;
+    /*height: calc(100% - 78px);*/
+}

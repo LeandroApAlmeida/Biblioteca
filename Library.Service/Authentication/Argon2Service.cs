@@ -68,6 +68,7 @@ namespace Library.Services.Authentication {
             
         }
 
+
         public bool IsTheSamePassword(string password, byte[] passwordHash) {
 
             byte[] salt = new byte[16];

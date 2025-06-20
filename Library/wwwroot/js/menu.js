@@ -24,7 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Identifica a que item de menu a página atual está relacionada e aciona a função
     // para a configuração do menu.
 
-    if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/NoBook")) {
+    if (pathname.startsWith("/Home/Index")) {
+        setMenuOption(0);
+    } else if (pathname.startsWith("/Book/Details") || pathname.startsWith("/Book/NoBook")) {
         setMenuOption(1);
     } else if (pathname.startsWith("/Book")) {
         setMenuOption(2);
@@ -69,6 +71,11 @@ function setMenuOption(menuIndex) {
     var menuId;
 
     switch (menuIndex) {
+
+        case 0:
+            relativePath = '~/img/library_icon_24.png';
+            menuId = 'menu-0';
+            break;
 
         case 1:
             relativePath = '~/img/book_icon_24.png';

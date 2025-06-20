@@ -19,7 +19,7 @@ namespace Library.Services.Model.Dto {
         public required string Password { get; set; }
 
         [Required(ErrorMessage = "Digite a confirmação da senha"),
-        Compare("Password", ErrorMessage ="Senha e Confirme Senha não conferem")]
+        Compare("Password", ErrorMessage ="Campos Senha e Confirme Senha não conferem")]
         public required string ConfPassword { get; set; }
 
     }

@@ -7,6 +7,8 @@ namespace Library.Services.Collection {
 
         public Task<Response<List<LoanModel>>> GetLoans();
 
+        public Task<Response<List<Guid>>> GetBorrowedBooksIds();
+
         public Task<Response<LoanModel?>> GetLoan(Guid id);
 
         public Task<Response<LoanModel>> RegisterLoan(LoanModel loan);
@@ -18,6 +20,9 @@ namespace Library.Services.Collection {
         public Task<Response<LoanModel>> ReturnLoan(LoanModel loan);
 
         public Task<Response<LoanModel>> CancelReturn(Guid id);
+
+        public Task<Response<bool>> IsBorrowedBook(Guid id);
+
 
     }
 

@@ -1,0 +1,9 @@
+﻿.line-spacing td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+
+.align-td td {
+    vertical-align: top;
+}

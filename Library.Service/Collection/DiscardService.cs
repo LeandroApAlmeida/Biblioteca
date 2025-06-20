@@ -10,12 +10,12 @@ namespace Library.Services.Collection {
 
         private readonly ApplicationDbContext _context;
 
-        private readonly ICollectionService _collectionService;
+        private readonly ILoanService _loanService;
 
 
-        public DiscardService(ApplicationDbContext context, ICollectionService collectionService) {
+        public DiscardService(ApplicationDbContext context, ILoanService loanService) {
             _context = context;
-            _collectionService = collectionService;
+            _loanService = loanService;
         }
 
 
@@ -27,8 +27,8 @@ namespace Library.Services.Collection {
 
                 List<DiscardedBookModel> discardedBooks = await _context.DiscardedBooks
                 .Include(db => db.Book)
-                .OrderBy(b => b.Book.Title)
-                .ThenBy(b => b.Id)
+                .OrderBy(db => db.Book.Title)
+                .ThenBy(db => db.Id)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -38,6 +38,31 @@ namespace Library.Services.Collection {
 
             } catch (Exception ex) {
 
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<List<Guid>>> GetDiscardedBooksIds() {
+
+            Response<List<Guid>> response = new();
+
+            try {
+
+                List<Guid> booksIds = await _context.DiscardedBooks.Select(db => db.Id).ToListAsync();
+
+                response.Data = booksIds;
+
+                return response;
+
+            } catch (Exception ex) {
+
+                response.Data = [];
                 response.Message = ex.Message;
                 response.Successful = false;
 
@@ -58,7 +83,7 @@ namespace Library.Services.Collection {
 
                     List<DiscardedBookModel> discardedBook = await _context.DiscardedBooks
                     .Include(db => db.Book)
-                    .ThenInclude(b => b.Cover)
+                    .ThenInclude(db => db.Cover)
                     .Where(db => db.Id == id)
                     .AsNoTracking()
                     .ToListAsync();
@@ -91,7 +116,7 @@ namespace Library.Services.Collection {
 
             try {
 
-                var isBorrowedBookResp = await _collectionService.IsBorrowedBook(discardedBook.Book.Id);
+                var isBorrowedBookResp = await _loanService.IsBorrowedBook(discardedBook.Book.Id);
 
                 if (!isBorrowedBookResp.Successful) throw new Exception(isBorrowedBookResp.Message);
 
@@ -187,6 +212,50 @@ namespace Library.Services.Collection {
                 response.Data = discardedBook;
 
                 return response;
+
+            } catch (Exception ex) {
+
+                response.Message = ex.Message;
+                response.Successful = false;
+
+                return response;
+
+            }
+
+        }
+
+
+        public async Task<Response<bool>> IsDiscardedBook(Guid id) {
+
+            Response<bool> response = new();
+
+            try {
+
+                if (id != Guid.Empty) {
+
+                    var discardedBooksIds = await _context.DiscardedBooks
+                    .Select(db => new { db.Id })
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                    bool isDiscarded = false;
+
+                    foreach (var bookId in discardedBooksIds) {
+                        if (bookId.Id == id) {
+                            isDiscarded = true;
+                            break;
+                        }
+                    }
+
+                    response.Data = isDiscarded;
+
+                    return response;
+
+                } else {
+
+                    throw new Exception("Identificador do livro inválido.");
+
+                }
 
             } catch (Exception ex) {
 

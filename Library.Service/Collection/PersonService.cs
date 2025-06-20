@@ -23,9 +23,9 @@ namespace Library.Services.Collection {
             try {
 
                 List<PersonModel> persons = await _context.Persons
-                .Select(b => b)
-                .Where(b => b.IsDeleted == false)
-                .OrderBy(b => b.Name)
+                .Select(p => p)
+                .Where(p => p.IsDeleted == false)
+                .OrderBy(p => p.Name)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -53,9 +53,9 @@ namespace Library.Services.Collection {
             try {
 
                 List<PersonModel> persons = await _context.Persons
-                .Select(b => b)
-                .Where(b => b.IsDeleted == true)
-                .OrderBy(b => b.Name)
+                .Select(p => p)
+                .Where(p => p.IsDeleted == true)
+                .OrderBy(p => p.Name)
                 .AsNoTracking()
                 .ToListAsync();
 

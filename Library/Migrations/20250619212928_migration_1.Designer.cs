@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Library.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250617204150_migration_1")]
+    [Migration("20250619212928_migration_1")]
     partial class migration_1
     {
         /// <inheritdoc />
@@ -100,6 +100,9 @@ namespace Library.Migrations
 
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

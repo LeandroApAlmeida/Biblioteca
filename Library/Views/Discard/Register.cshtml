@@ -37,7 +37,7 @@
 
         <div class="d-flex justify-content-between mb-3">
 
-            <h3>Descartar o Livro</h3>
+            <h4>Descartar o Livro</h4>
 
             <div class="d-flex justify-content-between">
 
@@ -95,9 +95,9 @@
         @Html.Hidden("Book.LastUpdateDate", @book.LastUpdateDate)
         @Html.Hidden("Book.Summary", @book.Summary)
         @Html.Hidden("Book.IsDeleted", @book.IsDeleted)
-
         @Html.Hidden("Book.Cover.Id", @book.Cover.Id)
         @Html.Hidden("Book.Cover.Data", @book.Cover.Data)
+        @Html.Hidden("Book.Cover.Thumbnail", @book.Cover.Thumbnail)
 
 
     </form>

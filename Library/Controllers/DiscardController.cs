@@ -19,6 +19,8 @@ namespace Library.Controllers {
 
         private readonly IDiscardService _discardService;
 
+        private readonly ILoanService _loanService;
+
         private readonly IBookService _bookService;
 
         private readonly ISessionService _sessionService;
@@ -27,12 +29,14 @@ namespace Library.Controllers {
 
 
         public DiscardController(IDiscardService discardService, IBookService bookService,
-        ICollectionService collectionService, ISessionService sessionService, ISettingsService settingsService) {
+        ICollectionService collectionService, ISessionService sessionService, ISettingsService settingsService,
+        ILoanService loanService) {
             _collectionService = collectionService;
             _discardService = discardService;
             _bookService = bookService;
             _sessionService = sessionService;
             _settingsService = settingsService;
+            _loanService = loanService;
         }
 
 
@@ -78,7 +82,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
+            var isBorrowedBookResp = await _loanService.IsBorrowedBook(id);
 
             if (!isBorrowedBookResp.Successful) return BadRequest(isBorrowedBookResp.Message);
 

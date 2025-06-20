@@ -24,13 +24,13 @@ namespace Library.Services.Authentication {
         }
 
 
-        public async Task<Response<SessionModel?>> Login(LoginDto login, string? ip) {
+        public async Task<Response<SessionModel?>> Login(LoginDto loginData, string? ip) {
 
             Response<SessionModel?> response = new();
 
             try {
 
-                var userResp = await _userService.GetUser(login.UserName);
+                var userResp = await _userService.GetUserWithHash(loginData.UserName);
 
                 if (!userResp.Successful) throw new Exception(userResp.Message);
 
@@ -41,7 +41,7 @@ namespace Library.Services.Authentication {
                     }
 
                     var isTheSamePassword = _passwordService.IsTheSamePassword(
-                        login.Password,
+                        loginData.Password,
                         userResp.Data.PasswordHash
                     );
 

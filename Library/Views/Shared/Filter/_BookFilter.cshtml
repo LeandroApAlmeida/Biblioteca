@@ -1,0 +1,249 @@
+﻿@using Library.Db.Models
+@using Library.Services.Collection
+@using Library.Services.Model.Dto
+@using Library.Services.User
+@using Library.Utils
+
+
+@model List<BookModel>
+
+
+@inject ISettingsService _settingsService
+
+
+@{
+
+
+    SettingsDto settings = new SettingsDto(_settingsService);
+
+
+    // Cores de texto.
+    string? discardedTextColor = settings.DiscardedTextColor;
+    string? donatedTextColor = settings.DonatedTextColor;
+    string? borrowedTextColor = settings.BorrowedTextColor;
+    string? pageBackgroudColor = settings.PageBackgroundColor;
+
+
+    // Tags HTML para efeitos de fonte de livros descartados.
+    string discardedTextStyle = "color:" + discardedTextColor + ";";
+
+    if (settings.IsDiscardedBold != null && settings.IsDiscardedBold == true) {
+        discardedTextStyle += Constants.HTML_FONT_BOLD;
+    }
+
+    if (settings.IsDiscardedUnderline != null && settings.IsDiscardedUnderline == true) {
+        discardedTextStyle += Constants.HTML_FONT_UNDERLINE;
+    }
+
+    if (settings.IsDiscardedItalic != null && settings.IsDiscardedItalic == true) {
+        discardedTextStyle += Constants.HTML_FONT_ITALIC;
+    }
+
+
+    // Tags HTML para efeitos de fonte de livros doados.
+    string donatedTextStyle = "color:" + donatedTextColor + ";";
+
+    if (settings.IsDonatedBold != null && settings.IsDonatedBold == true) {
+        donatedTextStyle += Constants.HTML_FONT_BOLD;
+    }
+
+    if (settings.IsDonatedUnderline != null && settings.IsDonatedUnderline == true) {
+        donatedTextStyle += Constants.HTML_FONT_UNDERLINE;
+    }
+
+    if (settings.IsDonatedItalic != null && settings.IsDonatedItalic == true) {
+        donatedTextStyle += Constants.HTML_FONT_ITALIC;
+    }
+
+
+    // Tags HTML para efeitos de fonte de livros emprestados.
+    string borrowedTextStyle = "color:" + borrowedTextColor + ";";
+
+    if (settings.IsBorrowedBold != null && settings.IsBorrowedBold == true) {
+        borrowedTextStyle += Constants.HTML_FONT_BOLD;
+    }
+
+    if (settings.IsBorrowedUnderline != null && settings.IsBorrowedUnderline == true) {
+        borrowedTextStyle += Constants.HTML_FONT_UNDERLINE;
+    }
+
+    if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) {
+        borrowedTextStyle += Constants.HTML_FONT_ITALIC;
+    }
+
+
+    bool? showFooterCaption = settings.IsShowFooterCaption;
+
+    bool isShowFooterCaption = showFooterCaption != null ? showFooterCaption == true : false;
+
+
+}
+
+
+@*
+    Diálogo para buscar um livro. Se o livro está emprestado, foi doado, ou foi excluído,
+    a linha que corresponde a este livro terá uma cor de fonte e efeitos de texto (negrito,
+    sublinhado, itálico) específicos, conforme foi configurado pelo usuário.
+*@
+
+<div id="book-filter-dialog" class="modal fade">
+
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+
+        <div class="modal-content">
+
+            @*Cabeçalho do diálogo. Contém o título e o botão fechar.*@    
+
+            <div class="modal-header">
+
+                <h6>Pesquisar livro:</h6>
+
+                <button id="close-button" type="button" class="close"
+                        style="background: white;border:0px;padding-top:0px;padding-bottom:0px;"
+                        data-dismiss="modal">
+                    <h3>&times;</h3>
+                </button>
+
+            </div>
+
+            @*Corpo do diálogo. Contém a lista dos livros cadastrados.*@
+
+            <div class="modal-body" style="background:white; ">
+
+                <table id="book-filter-table" class="table table-borderless" border="0">
+
+                    <thead class="text-start">
+
+                        <tr>
+
+                            <th scope="col" style="width: 120px;"></th>
+
+                            <th scope="col" style="width: 80%;"></th>
+
+                            <th scope="col"></th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @if (Model != null) {
+
+                            @foreach (var book in Model) {
+
+                                <tr>
+
+                                    <td scope="row">
+                                        <div style="border: 1px solid gray;">
+                                            <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
+                                                <img src="@book.Cover.Thumbnail" class="center" />
+                                            </a>
+                                        </div>
+                                    </td>
+
+                                    @if (book.IsBorrowed) {
+                                        @if (book.Subtitle != null && book.Subtitle != "") {
+                                            <td scope="row" style="@borrowedTextStyle">
+                                                @book.Title - @book.Subtitle
+                                                <br /><br />
+                                                <i> @book.Author </i>
+                                            </td>
+                                        } else {
+                                            <td scope="row" style="@borrowedTextStyle">
+                                                @book.Title
+                                                <br /><br />
+                                                <i> @book.Author </i>
+                                            </td>
+                                        }
+                                    } else if (book.IsDonated) {
+                                        @if (book.Subtitle != null && book.Subtitle != "") {
+                                            <td scope="row" style="@donatedTextStyle">
+                                                @book.Title - @book.Subtitle 
+                                                <br /><br />
+                                                <i> @book.Author </i>
+                                            </td>
+                                        } else {
+                                            <td scope="row" style="@donatedTextStyle">
+                                                @book.Title
+                                                <br /><br />
+                                                <i> @book.Author </i>
+                                            </td>
+                                        }
+                                    } else if (book.IsDiscarded) {
+                                        @if (book.Subtitle != null && book.Subtitle != "") {
+                                            <td scope="row" style="@discardedTextStyle">
+                                                @book.Title - @book.Subtitle
+                                                <br /><br />
+                                                <i> @book.Author </i>
+                                            </td>
+                                        } else {
+                                            <td scope="row" style="@discardedTextStyle">
+                                                @book.Title
+                                                <br /><br />
+                                                <i> @book.Author </i>
+                                            </td>
+                                        }
+                                    } else {
+                                        @if (book.Subtitle != null && book.Subtitle != "") {
+                                            <td scope="row">
+                                                @book.Title - @book.Subtitle
+                                                <br /><br />
+                                                <i> @book.Author </i>                                                
+                                            </td>
+                                        } else {
+                                            <td scope="row">
+                                                @book.Title
+                                                <br /><br />
+                                                <i> @book.Author </i>
+                                            </td>
+                                        }
+                                    }
+
+                                    <td id="controls-td" scope="row">
+
+                                        <button class="btn btn-select-book btn-info" data-id="@book.Id" type="button">
+                                            <img src="~/img/next_item_icon.png" title="Selecionar o livro" />
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            }
+
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="modal-footer" style="display: flex; justify-content: flex-start; align-items: center;">
+
+                <p style="color: #787878;display:flex;align-items:center;vertical-align:middle;">
+
+                    @if (isShowFooterCaption) {
+                        @(await Html.PartialAsync("_FooterLabel"))
+                    } else {
+                        <spam>&nbsp; &nbsp;</spam>
+                    }
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+
+    <script src="~/js/datatables.min.js"></script>
+
+}

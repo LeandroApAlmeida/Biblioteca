@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Library.Db.Models {
 
 
+    /// <summary>
+    /// Entidade que representa um livro.
+    /// </summary>
     [Table("Book")]
     public class BookModel {
 

@@ -22,7 +22,7 @@ namespace Library.Db.Models {
         public required string UserName { get; set; }
 
         [Required(ErrorMessage = "Digite a senha")]
-        public required byte[] PasswordHash { get; set; }
+        public required byte[] PasswordHash { get; set; } = [0];
 
         [DataType(DataType.DateTime)]
         public required DateTime RegistrationDate { get; set; } = DateTime.Now;

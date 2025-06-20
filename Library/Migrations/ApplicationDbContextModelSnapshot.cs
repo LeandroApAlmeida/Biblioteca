@@ -98,6 +98,9 @@ namespace Library.Migrations
                     b.Property<DateTime>("RegistrationDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Thumbnail")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Cover");

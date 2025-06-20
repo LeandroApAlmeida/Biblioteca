@@ -13,6 +13,8 @@ namespace Library.Db.Models {
         [Required]
         public required string Data { get; set; }
 
+        public string? Thumbnail { get; set; } = null;
+
         [DataType(DataType.DateTime)]
         public required DateTime RegistrationDate { get; set; } = DateTime.Now;
 

@@ -1,5 +1,4 @@
-﻿@using Library.Db.Models
-@using Newtonsoft.Json;
+﻿@using Newtonsoft.Json;
 
 @model DiscardedBookModel
 
@@ -42,7 +41,7 @@
 
         <div class="d-flex justify-content-between mb-3">
 
-            <h3>Descartar o Livro</h3>
+            <h4>Descartar o Livro</h4>
 
             <div class="d-flex justify-content-between">
 
@@ -113,9 +112,9 @@
         @Html.Hidden("Book.LastUpdateDate", "")
         @Html.Hidden("Book.Summary", "")
         @Html.Hidden("Book.IsDeleted", "")
-
         @Html.Hidden("Book.Cover.Id", "")
         @Html.Hidden("Book.Cover.Data", "")
+        @Html.Hidden("Book.Cover.Thumbnail", "")
 
 
     </form>

@@ -1,6 +1,6 @@
 ﻿using Library.Data;
 using Library.Db.Models;
-using Library.Services.Authentication;
+using Library.Services.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -114,6 +114,7 @@ namespace Library.Services.Session {
             }
 
         }
+
 
         public bool IsSessionActive() {
             

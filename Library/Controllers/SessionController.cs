@@ -28,7 +28,7 @@ namespace Library.Controllers {
             }
 
             if (!_sessionService.IsAdminSession()) {
-                return RedirectToAction("Details", "Book");
+                return RedirectToAction("Index", "Home");
             }
 
             if (beginDate == DateTime.MinValue) {

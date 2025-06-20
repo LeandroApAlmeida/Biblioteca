@@ -63,12 +63,13 @@
         <header id="main-menu">
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div id="navbar" class="container-fluid">
-                <a id="logo" class="navbar-brand" asp-controller="Book" asp-action="Details" style="height:60px;display:flex;align-items:center;justify-content:center;vertical-align:middle" >
+                <a id="logo" class="navbar-brand" asp-controller="Home" asp-action="Index" style="height:60px;display:flex;align-items:center;justify-content:center;vertical-align:middle" >
                         <img style="height:48px;padding-left:0px;" src="~/img/library.png" />&nbsp&nbspBiblioteca
                     </a>
                     <div id="navbar-right">
-                        <a id="menu-1" asp-controller="Book" asp-action="Details">Livro</a>
-                        <a id="menu-2" asp-controller="Book" asp-action="Manage">Acervo</a>
+                        <a id="menu-0" asp-controller="Home" asp-action="Index">Acervo</a>
+                        <a id="menu-1" asp-controller="Book" asp-action="Details">Detalhes</a>
+                        <a id="menu-2" asp-controller="Book" asp-action="Manage">Manutenção</a>
                         <a id="menu-3" asp-controller="Discard" asp-action="Manage">Descarte</a>
                         <a id="menu-4" asp-controller="Donation" asp-action="Manage">Doação</a>
                         <a id="menu-5" asp-controller="Loan" asp-action="Manage">Empréstimo</a>

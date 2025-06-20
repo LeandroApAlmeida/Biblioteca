@@ -68,7 +68,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var isBorrowedBookResp = await _collectionService.IsBorrowedBook(id);
+            var isBorrowedBookResp = await _loanService.IsBorrowedBook(id);
 
             if (!isBorrowedBookResp.Successful) return BadRequest(isBorrowedBookResp.Message);
 

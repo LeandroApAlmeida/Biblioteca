@@ -44,7 +44,7 @@
 
         <div class="d-flex justify-content-between mb-3">
 
-            <h3>Doar o Livro</h3>
+            <h4>Doar o Livro</h4>
 
             <div class="d-flex justify-content-between">
 
@@ -64,7 +64,7 @@
         <div class="row g-3" display="flex">
 
             <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
-                <img src="@book!.Cover" class="center" />
+                <img src="@book!.Cover.Data" class="center" />
             </div>
 
             <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
@@ -101,7 +101,6 @@
         </div>
             
 
-        @Html.Hidden("Book.Cover", @book.Cover)
         @Html.Hidden("Book.Id", @book.Id)
         @Html.Hidden("Book.Title", @book.Title)
         @Html.Hidden("Book.Subtitle", @book.Subtitle)
@@ -117,6 +116,9 @@
         @Html.Hidden("Book.LastUpdateDate", @book.LastUpdateDate)
         @Html.Hidden("Book.Summary", @book.Summary)
         @Html.Hidden("Book.IsDeleted", @book.IsDeleted)
+        @Html.Hidden("Book.Cover.Id", @book.Cover.Id)
+        @Html.Hidden("Book.Cover.Data", @book.Cover.Data)
+        @Html.Hidden("Book.Cover.Thumbnail", @book.Cover.Thumbnail)
 
         @Html.Hidden("Person.Id", "")
         @Html.Hidden("Person.Name", "")

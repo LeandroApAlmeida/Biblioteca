@@ -45,7 +45,7 @@ namespace Library.Controllers {
             }
 
             var booksResp = await _collectionService.GetCollectionBooks();
-            var deletedBooksResp = await _collectionService.GetDeletedBooks();
+            var deletedBooksResp = await _bookService.GetDeletedBooks();
 
             if (booksResp.Successful) {
 
@@ -91,7 +91,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var booksIdsResp = await _collectionService.GetBooksIds();
+            var booksIdsResp = await _bookService.GetBooksIds();
 
             if (!booksIdsResp.Successful) return BadRequest(booksIdsResp.Message);
 
@@ -135,7 +135,7 @@ namespace Library.Controllers {
 
                 if (book != null) {
 
-                    var booksResp = await _bookService.GetBooks();
+                    var booksResp = await _bookService.GetBooksWithThumbnails();
 
                     if (booksResp.Successful) {
                         ViewBag.Books = booksResp.Data;

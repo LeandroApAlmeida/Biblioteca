@@ -20,6 +20,15 @@ namespace Library.Services.Collection {
         public Task<Response<List<BookModel>>> GetBooks();
 
 
+        public Task<Response<List<BookModel>>> GetBooksWithThumbnails();
+
+
+        public Task<Response<List<Guid>>> GetBooksIds();
+
+
+        public Task<Response<List<BookModel>>> GetDeletedBooks();
+
+
         /// <summary>
         /// Obter o livro com o Identificador passado no parâmetro.
         /// </summary>

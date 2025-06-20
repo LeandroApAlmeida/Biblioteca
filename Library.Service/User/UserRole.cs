@@ -1,4 +1,4 @@
-﻿namespace Library.Services.Authentication {
+﻿namespace Library.Services.User {
     
     public enum UserRole {
         Admin = 1,

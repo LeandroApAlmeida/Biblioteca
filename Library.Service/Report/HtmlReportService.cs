@@ -147,7 +147,7 @@ namespace Library.Services.Report {
                         
                         </br></br>
                         
-                        <div id=""img-preview""><img src=""{book.Cover}"" class=""center"" /></div>
+                        <div id=""img-preview""><img src=""{book.Cover.Data}"" class=""center"" /></div>
                         
                         </br></br>
                         

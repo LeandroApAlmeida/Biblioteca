@@ -1,7 +1,6 @@
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using Library.Data;
-using Library.Services.Model.Mappings;
 using Library.Services.Authentication;
 using Library.Services.Collection;
 using Library.Services.Report;
@@ -61,9 +60,6 @@ builder.Services.AddScoped<IPdfReportService, PdfReportService>();
 builder.Services.AddScoped<IHtmlReportService, HtmlReportService>();
 
 builder.Services.AddScoped<ISettingsService, SettingsService>();
-
-
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

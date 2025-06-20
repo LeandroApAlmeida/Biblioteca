@@ -1,4 +1,8 @@
+using Library.Db.Models;
+using Library.Services.Collection;
+using Library.Services.Model.Dto;
 using Library.Services.Session;
+using Library.Services.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers {
@@ -8,9 +12,40 @@ namespace Library.Controllers {
 
         private readonly ISessionService _sessionService;
 
+        private readonly ICollectionService _collectionService;
 
-        public HomeController(ISessionService sessionService) {
+        private readonly ISettingsService _settingsService;
+
+
+        public HomeController(ISessionService sessionService, ICollectionService collectionService, 
+        ISettingsService settingsService) {
             _sessionService = sessionService;
+            _collectionService = collectionService;
+            _settingsService = settingsService;
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Index() {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
+            var booksResp = await _collectionService.GetCollectionBooksWithThumbnails();
+
+            if (booksResp.Successful) {
+
+                ViewBag.Settings = new SettingsDto(_settingsService);
+
+                return View(booksResp.Data);
+
+            } else {
+
+                return BadRequest(booksResp.Message);
+
+            }
+
         }
 
 

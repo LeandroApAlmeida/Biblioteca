@@ -36,7 +36,7 @@
 
         <div class="d-flex justify-content-between mb-3">
 
-            <h3>Devolver o Livro</h3>
+            <h4>Devolver o Livro</h4>
 
             <div class="d-flex justify-content-between">
 
@@ -56,7 +56,7 @@
         <div class="row g-3" display="flex">
 
             <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
-                <img src="@Model.Book.Cover" class="center" />
+                <img src="@Model.Book.Cover.Data" class="center" />
             </div>
 
             <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
@@ -95,7 +95,6 @@
         @Html.HiddenFor(m => m.IsReturned)
                   
         @Html.Hidden("Book.Id", Model.Book.Id)
-        @Html.Hidden("Book.Cover", Model.Book.Cover)
         @Html.Hidden("Book.Title", Model.Book.Title)
         @Html.Hidden("Book.Subtitle", Model.Book.Subtitle)
         @Html.Hidden("Book.Author", Model.Book.Author)
@@ -110,6 +109,9 @@
         @Html.Hidden("Book.LastUpdateDate", Model.Book.LastUpdateDate)
         @Html.Hidden("Book.Summary", Model.Book.Summary)
         @Html.Hidden("Book.IsDeleted", Model.Book.IsDeleted)
+        @Html.Hidden("Book.Cover.Id", Model.Book.Cover.Id)
+        @Html.Hidden("Book.Cover.Data", Model.Book.Cover.Data)
+        @Html.Hidden("Book.Cover.Thumbnail", Model.Book.Cover.Thumbnail)
 
         @Html.Hidden("Person.Id", Model.Person.Id)
         @Html.Hidden("Person.Name", Model.Person.Name)
