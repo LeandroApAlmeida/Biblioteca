@@ -48,10 +48,6 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
 }
@@ -66,12 +62,12 @@
             
         <div class="d-flex justify-content-between">
                 
-            <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Donation" asp-action="Register2">
-                <img class="m-0" src="~/img/add_icon_16.png" />&nbspDoar
+            <a id="register-button" class="btn btn-add btn-no-caption" asp-controller="Donation" asp-action="Register2" title="Adicionar doação">
+                <img class="m-0" src="~/img/add_icon_16.png" />
             </a>
                 
-            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="DonatedBooksReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
+            <a id="print-button" class="btn btn-print btn-no-caption" asp-controller="Report" asp-action="DonatedBooksReport" target="_blank" title="Gerar relatório Livros Doados">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
             
         </div>
@@ -85,6 +81,7 @@
 
 
     <table id="book-table" class="table table-light table hover table-striped" border="1">
+
 
         <thead>
 
@@ -110,6 +107,7 @@
 
         </thead>
 
+
         <tbody>
 
             @if (Model != null) {
@@ -134,7 +132,8 @@
                             
                         <td id="controls-td"  scope="row">
 
-                            <div class="modal fade" id="deleteDlg-@donatedBook.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                            <div  id="delete-dialog-@donatedBook.Id" class="modal fade">
 
                                 <div class="modal-dialog modal-dialog-centered">
 
@@ -164,7 +163,8 @@
 
                             </div>
 
-                            <div class="modal fade" id="notesDlg-@donatedBook.Id">
+
+                            <div id="notes-dialog-@donatedBook.Id" class="modal fade">
 
                                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -194,23 +194,26 @@
 
                             </div>
 
-                            <a class="btn btn-light" asp-controller="Donation" asp-action="Edit" asp-route-id="@donatedBook.Id">
-                                <img src="~/img/edit_icon2.png" title="Editar o livro doado" />
+
+                            <a class="btn btn-light" asp-controller="Donation" asp-action="Edit" asp-route-id="@donatedBook.Id" title="Editar o livro doado">
+                                <img src="~/img/edit_icon2.png"/>
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@donatedBook.Id">
-                                <img src="~/img/delete_icon.png" title="Excluir o livro doado" />
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-dialog-@donatedBook.Id" title="Excluir o livro doado">
+                                <img src="~/img/delete_icon.png"/>
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notesDlg-@donatedBook.Id">
-                                <img src="~/img/info_icon_24.png" title="Informações do livro doado" />
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notes-dialog-@donatedBook.Id" title="Informações do livro doado">
+                                <img src="~/img/info_icon_24.png"/>
                             </a>
                                 
-                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@donatedBook.Book.Id">
-                                <img src="~/img/view_icon.png" title="Detalhes do livro doado" />
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@donatedBook.Book.Id" title="Detalhes do livro doado">
+                                <img src="~/img/view_icon.png"/>
                             </a>
                             
+
                         </td>
+
 
                     </tr>
                 }
@@ -218,6 +221,7 @@
             }
 
         </tbody>
+
 
     </table>
 

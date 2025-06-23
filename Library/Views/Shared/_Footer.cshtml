@@ -25,7 +25,7 @@
 
     var sessionData = _sessionService.GetSessionData();
 
-    bool? showFooterCaption = _settingsService.GetBoolean(Constants.SHOW_FOOTER_CAPTION, false);
+    bool? showFooterCaption = _settingsService.GetBoolean(Constants.SHOW_FOOTER_CAPTION_KEY, false);
     bool isShowFooterCaption = showFooterCaption != null ? showFooterCaption == true : false;
 
 }

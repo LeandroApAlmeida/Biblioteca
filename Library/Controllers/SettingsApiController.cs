@@ -147,7 +147,7 @@ namespace Library.Controllers {
 
         [HttpPost("SetShowFooterCaption/{isShow}")]
         public ActionResult SetShowFooterCaption(bool isShow) {
-            return SetBooleanValue(Constants.SHOW_FOOTER_CAPTION, isShow);
+            return SetBooleanValue(Constants.SHOW_FOOTER_CAPTION_KEY, isShow);
         }
 
 

@@ -6,28 +6,21 @@
 
 @using Library.Services.User
 @using Library.Utils
-
-
-@inject ISettingsService settings;
+@using Library.Services.Model.Dto
 
 
 @{
 
     ViewData["Title"] = "Detalhes do Livro";
 
-    var pageBackgroudColor = settings.GetString(
-        Constants.PAGE_BACKGROUND_COLOR_KEY,
-        Constants.DEFAULT_PAGE_BACKGROUND_COLOR
-    );
+    SettingsDto settings = ViewBag.Settings;
+
+    var pageBackgroudColor = settings.PageBackgroundColor;
 
 }
 
 
 @section Styles {
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta charset="utf-8" />
 
     <link rel="stylesheet" href="~/css/book-details.css" asp-append-version="false" />
 

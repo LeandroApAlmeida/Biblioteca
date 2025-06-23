@@ -4,7 +4,9 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     document.getElementById('name').focus();
+
 
     /**
      * Exibe o spinner para indicar um processo eventualmente longo, pois como é utilizado argon2id
@@ -28,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key.toLowerCase() === 's') {
             event.preventDefault();
@@ -37,5 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('cancel-button').click();
         }
     });
+
 
 });

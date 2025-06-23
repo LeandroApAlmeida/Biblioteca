@@ -10,6 +10,7 @@ import { setCoverData } from "./module-cover-data.js"
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     document.getElementById('title').focus();
 
     document.getElementById("acquisition-date").value = formatToDatetimeLocal(new Date());
@@ -18,11 +19,13 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('release-year').value = 2000;
     document.getElementById('num-of-pages').value = 1;
 
+
     document.getElementById("choose-file").addEventListener("change", function (event) {
         const imgPreview = document.getElementById("img-preview");
         const imgData = document.getElementById("cover-data");
         setCoverData(event.target.files[0], imgPreview, imgData);
     });
+
 
     document.getElementById('book-form').addEventListener('submit', function (event) {
 
@@ -47,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key.toLowerCase() === 's') {
             event.preventDefault();
@@ -56,5 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('cancel-button').click();
         }
     });
+
 
 });

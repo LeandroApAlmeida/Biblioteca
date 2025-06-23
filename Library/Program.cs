@@ -16,7 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("TestConnection"),
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        //builder.Configuration.GetConnectionString("TestConnection"),
         b => b.MigrationsAssembly("Library")
     )
 

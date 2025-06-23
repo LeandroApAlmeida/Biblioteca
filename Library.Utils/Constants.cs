@@ -31,7 +31,7 @@
         public const string BORROWED_BOLD_KEY = "borrowed-bold";
 
         public const string APPLY_STYLES_TO_LISTS_KEY = "apply-styles-to-lists";
-        public const string SHOW_FOOTER_CAPTION = "show-footer-caption";
+        public const string SHOW_FOOTER_CAPTION_KEY = "show-footer-caption";
 
         public const string REPORT_FORMAT_KEY = "report-format";
         public const int DEFAULT_REPORT_FORMAT = PDF_FORMAT;

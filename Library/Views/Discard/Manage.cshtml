@@ -44,10 +44,6 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
 }
@@ -62,12 +58,12 @@
             
         <div class="d-flex justify-content-between">
                 
-            <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Discard" asp-action="Register2">
-                <img class="m-0" src="~/img/add_icon_16.png" />&nbsp;Descartar
+            <a id="register-button" class="btn btn-add btn-no-caption" asp-controller="Discard" asp-action="Register2" title="Adicionar descarte">
+                <img class="m-0" src="~/img/add_icon_16.png" />
             </a>
                 
-            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="DiscardedBooksReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbsp;Imprimir
+            <a id="print-button" class="btn btn-print btn-no-caption" asp-controller="Report" asp-action="DiscardedBooksReport" target="_blank" title="Gerar relatório Livros Descartados">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
             
         </div>
@@ -129,7 +125,7 @@
                         <td id="controls-td" scope="row">
 
 
-                            <div id="delete-book-dialog-@discardedBook.Id" class="modal fade">
+                            <div id="delete-dialog-@discardedBook.Id" class="modal fade">
 
                                 <div class="modal-dialog modal-dialog-centered">
 
@@ -191,20 +187,20 @@
                             </div>
 
 
-                            <a class="btn btn-light" asp-controller="Discard" asp-action="Edit" asp-route-id="@discardedBook.Id">
-                                <img src="~/img/edit_icon2.png" title="Editar o livro descartado" />
+                            <a class="btn btn-light" asp-controller="Discard" asp-action="Edit" asp-route-id="@discardedBook.Id" title="Editar o livro descartado">
+                                <img src="~/img/edit_icon2.png"/>
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-book-dialog-@discardedBook.Id">
-                                <img src="~/img/delete_icon.png" title="Excluir o livro descartado" />
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-dialog-@discardedBook.Id" title="Excluir o livro descartado">
+                                <img src="~/img/delete_icon.png"/>
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#reason-dialog-@discardedBook.Id">
-                                <img src="~/img/info_icon_24.png" title="Informações do livro descartado" />
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#reason-dialog-@discardedBook.Id" title="Informações do livro descartado">
+                                <img src="~/img/info_icon_24.png"/>
                             </a>
                                 
-                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@discardedBook.Book.Id">
-                                <img src="~/img/view_icon.png" title="Detalhes do livro descartado" />
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@discardedBook.Book.Id" title="Detalhes do livro descartado">
+                                <img src="~/img/view_icon.png"/>
                             </a>
                             
 

@@ -89,17 +89,31 @@
         borrowedTextStyle += Constants.HTML_FONT_ITALIC;
     }
 
+    string textStyle = "";
+    string textColor = "";
+
+    @if (Model.IsBorrowed) {
+        textStyle = borrowedTextStyle;
+        textColor = borrowedTextColor!;
+    } else if (Model.IsDonated) {
+        textStyle = donatedTextStyle;
+        textColor = donatedTextColor!;
+    } else if (Model.IsDiscarded) {
+        textStyle = discardedTextStyle;
+        textColor = discardedTextColor!;
+    } else {
+        textStyle = "color:black;";
+        textColor = "color:black;";
+    }
+
 
 }
 
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/book-details.css" asp-append-version="false" />
+
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
     <style>
@@ -114,7 +128,6 @@
             border-bottom: 1px solid @pageBackgroudColor;
         }
 
-      
     </style>
 
 }
@@ -233,7 +246,7 @@
         @*Imagem da capa do livro.*@
 
         <div id="image-view" class="mb-2 col-sm-2" style="position:absolute;margin-top:-8px;margin-left:0px;">
-            <img id="img-preview" src="@Model.Cover.Data" class="center" />
+            <img id="img-preview" src="@Model.Cover.Data" class="center" style="box-shadow: 0px 0px 3px 3px @textColor;"/>
         </div>
 
 
@@ -283,7 +296,7 @@
 
                         <div class="mb-3 col-sm-2" style="width:85%;">
                             <label for="title" class="form-label">Título</label>
-                            <input id="title" type="text" class="form-control" style="background-color:white;" asp-for="Title" disabled>
+                            <input id="title" type="text" class="form-control" style="background-color:white;@textStyle" asp-for="Title" disabled>
                         </div>
 
                         @*Campo para exibição da situação do livro.*@
@@ -293,11 +306,11 @@
                             <label for="status" class="form-label">Situação</label>
 
                             @if (Model.IsBorrowed) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;@borrowedTextStyle" value="Emprestado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;@textStyle" value="Emprestado" disabled>
                             } else if (Model.IsDonated) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;@donatedTextStyle" value="Doado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;@textStyle" value="Doado" disabled>
                             } else if (Model.IsDiscarded) {
-                                <input id="status" type="text" class="form-control" style="background-color:white;@discardedTextStyle" value="Descartado" disabled>
+                                <input id="status" type="text" class="form-control" style="background-color:white;@textStyle" value="Descartado" disabled>
                             } else {
                                 <input id="status" type="text" class="form-control" style="background-color:white;" value="Disponível" disabled>
                             }
@@ -310,21 +323,21 @@
 
                     <div class="mb-3">
                         <label for="subtitle" class="form-label">Subtítulo</label>
-                        <input id="subtitle" type="text" class="form-control" style="background-color: white;" asp-for="Subtitle" disabled>
+                        <input id="subtitle" type="text" class="form-control" style="background-color:white;@textStyle" asp-for="Subtitle" disabled>
                     </div>
 
                     @*Campo para exibição do autor do livro.*@
 
                     <div class="mb-3">
                         <label for="author" class="form-label">Autor</label>
-                        <input id="author" type="text" class="form-control" style="background-color:white;" asp-for="Author" disabled>
+                        <input id="author" type="text" class="form-control" style="background-color:white;@textStyle" asp-for="Author" disabled>
                     </div>
 
                     @*Campo para exibição da editora do livro.*@
 
                     <div class="mb-3">
                         <label for="publisher" class="form-label">Editora</label>
-                        <input id="publisher" type="text" class="form-control" style="background-color:white;" asp-for="Publisher" disabled>
+                        <input id="publisher" type="text" class="form-control" style="background-color:white;@textStyle" asp-for="Publisher" disabled>
                     </div>
 
                     <div class="row g-3" display="flex">
@@ -333,42 +346,42 @@
 
                         <div class="mb-3 col-sm-2">
                             <label for="isbn" class="form-label">ISBN</label>
-                            <input id="isbn" type="text" class="form-control" style="background-color:white;" asp-for="Isbn" disabled>
+                            <input id="isbn" type="text" class="form-control" style="background-color:white;@textStyle" asp-for="Isbn" disabled>
                         </div>
 
                         @*Campo para exibição da edição do livro.*@
 
                         <div class="mb-3 col-sm-2">
                             <label for="edition" class="form-label">Edição</label>
-                            <input id="edition" type="number" min="1" class="form-control" style="background-color:white;" asp-for="Edition" disabled>
+                            <input id="edition" type="number" min="1" class="form-control" style="background-color:white;@textStyle" asp-for="Edition" disabled>
                         </div>
 
                         @*Campo para exibição do volume do livro.*@
 
                         <div class="mb-3 col-sm-2">
                             <label for="volume" class="form-label">Volume</label>
-                            <input id="volume" type="number" min="1" class="form-control" style="background-color:white;" asp-for="Volume" disabled>
+                            <input id="volume" type="number" min="1" class="form-control" style="background-color:white;@textStyle" asp-for="Volume" disabled>
                         </div>
 
                         @*Campo para exibição do ano de publicação do livro.*@
 
                         <div class="mb-3 col-sm-2">
                             <label for="release-year" class="form-label">Publicação</label>
-                            <input id="release-year" type="number" min="1" class="form-control" style="background-color:white;" asp-for="ReleaseYear" disabled>
+                            <input id="release-year" type="number" min="1" class="form-control" style="background-color:white;@textStyle" asp-for="ReleaseYear" disabled>
                         </div>
 
                         @*Campo para exibição do número de páginas do livro.*@
 
                         <div class="mb-3 col-sm-2">
                             <label for="num-of-pages" class="form-label">Nº de páginas</label>
-                            <input id="num-of-pages" type="number" min="1" class="form-control" style="background-color:white;" asp-for="NumberOfPages" disabled>
+                            <input id="num-of-pages" type="number" min="1" class="form-control" style="background-color:white;@textStyle" asp-for="NumberOfPages" disabled>
                         </div>
 
                         @*Campo para exibição da data de aquisição do livro.*@
 
                         <div class="mb-3 col-sm-2">
                             <label for="acquisition-date" class="form-label">Aquisição</label>
-                            <input id="acquisition-date" type="text" class="form-control" style="background-color:white;" value="@Model.AcquisitionDate.ToString("dd/MM/yyyy")" asp-for="AcquisitionDate" disabled>
+                            <input id="acquisition-date" type="text" class="form-control" style="background-color:white;@textStyle" value="@Model.AcquisitionDate.ToString("dd/MM/yyyy")" asp-for="AcquisitionDate" disabled>
                         </div>
 
                     </div>
@@ -384,7 +397,7 @@
 
                     @*Campo para exibição da sinopse do livro.*@
 
-                    <textarea id="summary" class="form-control" style="resize:none;background-color:white;height:413px;" asp-for="Summary" disabled></textarea>
+                    <textarea id="summary" class="form-control" style="resize:none;background-color:white;height:413px;@textStyle" asp-for="Summary" disabled></textarea>
 
                 </div>
 

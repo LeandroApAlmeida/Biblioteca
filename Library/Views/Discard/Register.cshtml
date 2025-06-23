@@ -13,11 +13,8 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
+    
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
 }
@@ -41,11 +38,11 @@
 
             <div class="d-flex justify-content-between">
 
-                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                <button id="save-button" class="btn btn-save btn-default" type="submit">
                     <img class="m-0" src="~/img/save_icon_16.png" /> &nbspSalvar
                 </button>
 
-                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Book" asp-action="Manage">
+                <a id="cancel-button" class="btn btn-cancel btn-default" asp-controller="Book" asp-action="Manage">
                     <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbspCancelar
                 </a>
 
@@ -55,7 +52,6 @@
 
 
         <div class="row g-3" display="flex">
-
 
             <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
                 <img src="@book!.Cover.Data" class="center" />

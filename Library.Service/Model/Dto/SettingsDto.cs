@@ -84,7 +84,7 @@ namespace Library.Services.Model.Dto {
             );
 
             IsShowFooterCaption = settingsService.GetBoolean(
-                Constants.SHOW_FOOTER_CAPTION,
+                Constants.SHOW_FOOTER_CAPTION_KEY,
                 false
             );
 

@@ -14,11 +14,8 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
 }
@@ -41,14 +38,14 @@
                     <input id="begin-date" type="date" name="beginDate" value="@beginDate" class="form-control mb-1" required />
                 </div>
 
-                <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-left:20px;width:160px;margin-top:12px;">
+                <div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-right: 20px; margin-left:20px;width:160px;margin-top:12px;">
                     <label for="end-date" style="vertical-align:middle;text-align:center;margin-top:-3px;">&nbspà&nbsp&nbsp</label>
                     <input id="end-date" type="date" name="endDate" value="@endDate" class="form-control mb-1" required />
                 </div>
 
-                <div div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-top:0px;width:140px;">
-                    <button id="filter-button" type="submit" class="btn btn-primary" style="margin-top: 8px;margin-left: 35px;">
-                        <img class="m-0" src="~/img/search_item_icon.png" />&nbspFiltrar
+                <div div class="mb-2 col-sm-2 d-flex align-items-center" style="margin-top:0px;width:40px;">
+                    <button id="filter-button" class="btn btn-primary btn-no-caption" style="margin-top: 8px;margin-left: 0px;" type="submit" title="Listar registros de acesso">
+                        <img class="m-0" src="~/img/search_item_icon.png" />
                     </button>
                 </div>
 

@@ -28,7 +28,7 @@
 
 @{
 
-    ViewData["Title"] = "Manutenção do Acervo";
+    ViewData["Title"] = "Livros no Acervo";
 
     // Configurações do usuário.
     SettingsDto settings = ViewBag.Settings;
@@ -57,10 +57,6 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
 }
@@ -75,22 +71,22 @@
             
         @*Título da página (à esquerda).*@
         
-        <h4>Manutenção do Acervo</h4>
+        <h4>Livros no Acervo</h4>
         
         @*Botões "Cadastrar Livro" e "Imprimir".*@
 
         <div class="d-flex justify-content-between">
                 
-            <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Book" asp-action="Register">
-                <img class="m-0" src="~/img/add_icon_16.png" />&nbsp;Cadastrar
+            <a id="register-button" class="btn btn-add btn-no-caption" asp-controller="Book" asp-action="Register" title="Adicionar livro">
+                <img class="m-0" src="~/img/add_icon_16.png"/>
             </a>
                 
-            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbsp;Imprimir
+            <a id="print-button" class="btn btn-print btn-no-caption" asp-controller="Report" asp-action="BooksInTheCollectionReport" target="_blank" title="Gerar relatório Livros no Acervo">
+                <img class="m-0" src="~/img/printer_icon_16_w.png"/>
             </a>
 
-            <a id="print-button" class="btn btn-dark d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" data-toggle="modal" data-target="#restore-dialog">
-                <img class="m-0" src="~/img/undo_icon_16.png" /> &nbsp;Restaurar
+            <a id="restore-button" class="btn btn-restore btn-no-caption" data-toggle="modal" data-target="#restore-book-dialog" title="Restaurar livro excluído">
+                <img class="m-0" src="~/img/undo_icon_16.png"/>
             </a>
             
         </div>
@@ -219,7 +215,7 @@
                             
                             *@
 
-                            <div id="delete-book-dialog-@book.Id" class="modal fade" >
+                            <div id="delete-dialog-@book.Id" class="modal fade" >
 
                                 <div class="modal-dialog modal-dialog-centered">
 
@@ -250,28 +246,28 @@
                             </div>
                                
                             
-                            <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id">
-                                <img src="~/img/edit_icon2.png" title="Editar o livro" />
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Edit" asp-route-id="@book.Id" title="Editar o livro">
+                                <img src="~/img/edit_icon2.png"/>
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-book-dialog-@book.Id">
-                                <img src="~/img/delete_icon.png" title="Excluir o livro" />
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-dialog-@book.Id" title="Excluir o livro">
+                                <img src="~/img/delete_icon.png"/>
                             </a>
                                 
-                            <a class="btn btn-light" asp-controller="Discard" asp-action="Register" asp-route-id="@book.Id">
-                                <img src="~/img/recycle_icon.png" title="Descartar o livro" />
+                            <a class="btn btn-light" asp-controller="Discard" asp-action="Register" asp-route-id="@book.Id" title="Descartar o livro">
+                                <img src="~/img/recycle_icon.png"/>
                             </a>
                                 
-                            <a class="btn btn-light" asp-controller="Donation" asp-action="Register" asp-route-id="@book.Id">
-                                <img src="~/img/donation_icon.png" title="Doar o livro" />
+                            <a class="btn btn-light" asp-controller="Donation" asp-action="Register" asp-route-id="@book.Id" title="Doar o livro">
+                                <img src="~/img/donation_icon.png"/>
                             </a>
                                 
-                            <a class="btn btn-light" asp-controller="Loan" asp-action="Register" asp-route-id="@book.Id">
-                                <img src="~/img/book_borrow_icon_24.png" title="Emprestar o livro" />
+                            <a class="btn btn-light" asp-controller="Loan" asp-action="Register" asp-route-id="@book.Id" title="Emprestar o livro">
+                                <img src="~/img/book_borrow_icon_24.png"/>
                             </a>
                                 
-                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
-                                <img src="~/img/view_icon.png" title="Detalhes do livro" />
+                            <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" title="Detalhes do livro">
+                                <img src="~/img/view_icon.png"/>
                             </a>
                             
 
@@ -298,7 +294,7 @@
     sublinhado, itálico) específicos, conforme foi configurado pelo usuário.
 *@
 
-<div id="restore-dialog" class="modal fade">
+<div id="restore-book-dialog" class="modal fade">
 
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 

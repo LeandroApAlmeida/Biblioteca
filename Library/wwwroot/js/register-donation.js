@@ -10,6 +10,7 @@ import { setPersonData } from "./module-person-data.js"
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     var selector = document.getElementById("select-person");
 
     selector.focus();
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("donation-date").value = formatToDatetimeLocal(new Date());
 
     selector.dispatchEvent(new Event('change'));
+
 
     document.getElementById('donate-book-form').addEventListener('submit', function (event) {
 
@@ -35,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key.toLowerCase() === 's') {
             event.preventDefault();
@@ -44,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('cancel-button').click();
         }
     });
+
 
 });
 

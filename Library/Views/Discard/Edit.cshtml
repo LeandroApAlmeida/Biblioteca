@@ -17,11 +17,8 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/image-view-2.css" asp-append-version="true" />
+  
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
 }
@@ -51,11 +48,11 @@
 
             <div class="d-flex justify-content-between">
 
-                <button id="save-button" type="submit" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;">
+                <button id="save-button" class="btn btn-save btn-default" type="submit">
                     <img class="m-0" src="~/img/save_icon_16.png" /> &nbsp;Salvar
                 </button>
 
-                <a id="cancel-button" class="btn btn-danger d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Discard" asp-action="Manage">
+                <a id="cancel-button" class="btn btn-cancel btn-default" asp-controller="Discard" asp-action="Manage">
                     <img class="m-0" src="~/img/cancel_icon_16.png" /> &nbsp;Cancelar
                 </a>
 
@@ -81,7 +78,7 @@
 
                 <div class="mb-3 col-sm-2">
                     <label for="discard-date" class="form-label">Data</label>
-                    <input id="discard-date" type="datetime-local" class="form-control" asp-for="Date" required>
+                    <input id="discard-date" class="form-control" type="datetime-local" asp-for="Date" required>
                     <span class="text-danger" asp-validation-for="Date"></span>
                 </div>
 

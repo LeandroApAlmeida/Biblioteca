@@ -175,7 +175,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var availableBooksResp = await _collectionService.GetAvailableBooks();
+            var availableBooksResp = await _collectionService.GetCollectionBooksWithThumbnails();
 
             if (availableBooksResp.Successful) {
 

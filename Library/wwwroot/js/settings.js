@@ -3,6 +3,7 @@ let palleteColor = "#feffff";
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     var discardedTextColorHint = document.getElementById('discarded-text-color');
     var donatedTextColorHint = document.getElementById('donated-text-color');
     var borrowedTextColorHint = document.getElementById('borrowed-text-color');

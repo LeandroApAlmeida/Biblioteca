@@ -13,6 +13,7 @@ import { setBookData } from "./module-book-data.js"
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     var selector = document.getElementById('select-book');
 
     selector.addEventListener('change', onSelectedBook);
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("select-book").focus();
 
     document.getElementById("discard-date").value = formatToDatetimeLocal(new Date());
+
 
     document.getElementById('discard-book-form').addEventListener('submit', function (event) {
 
@@ -38,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key.toLowerCase() === 's') {
             event.preventDefault();
@@ -47,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('cancel-button').click();
         }
     });
+
 
 });
 

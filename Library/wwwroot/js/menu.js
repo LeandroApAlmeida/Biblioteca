@@ -83,7 +83,7 @@ function setMenuOption(menuIndex) {
             break;
 
         case 2:
-            relativePath = '~/img/library_icon_24.png';
+            relativePath = '~/img/register_icon_24.png';
             menuId = 'menu-2';
             break;
 

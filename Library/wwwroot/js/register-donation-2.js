@@ -11,6 +11,7 @@ import { setBookData } from "./module-book-data.js"
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     var personSelector = document.getElementById('select-person');
     var bookSelector = document.getElementById('select-book');
 
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     personSelector.dispatchEvent(new Event('change'));
     bookSelector.dispatchEvent(new Event('change'));
+
 
     document.getElementById('donate-book-form').addEventListener('submit', function (event) {
 
@@ -40,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key.toLowerCase() === 's') {
             event.preventDefault();
@@ -49,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('cancel-button').click();
         }
     });
+
 
 });
 

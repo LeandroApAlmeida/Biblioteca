@@ -7,3 +7,30 @@
 .align-td td {
     vertical-align: top;
 }
+
+
+/*
+.book-table {
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+
+thead {
+    border-top: none;
+}
+
+thead th {
+    position: sticky;
+    top: 70px;
+    background: white;
+    box-shadow: inset 0 -1px 0 #000;
+}
+
+*/
+

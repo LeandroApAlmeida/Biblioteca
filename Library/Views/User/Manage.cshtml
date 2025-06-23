@@ -12,10 +12,6 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
 }
@@ -28,8 +24,8 @@
             
         <h4>Usuários</h4>
             
-        <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:160px;height:38px;margin-top:-2px;" asp-controller="User" asp-action="Register">
-            <img class="m-0" src="~/img/add_icon_16.png" />&nbspCadastrar
+        <a id="register-button" class="btn btn-add btn-no-caption" asp-controller="User" asp-action="Register" title="Adicionar usuário convidado">
+            <img class="m-0" src="~/img/add_icon_16.png" />
         </a>
         
     </div>
@@ -41,6 +37,7 @@
 
 
     <table id="user-table" class="table table-light table hover table-striped" border="1">
+
 
         <thead>
 
@@ -59,6 +56,7 @@
             </tr>
 
         </thead>
+
 
         <tbody>
 
@@ -86,7 +84,8 @@
 
                                 @if (user.Role.Id != (int)UserRole.Admin) {
 
-                                    <div class="modal fade" id="deleteDlg-@user.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                                    <div class="modal fade" id="delete-dialog-@user.Id">
 
                                         <div class="modal-dialog modal-dialog-centered">
 
@@ -116,14 +115,16 @@
 
                                     </div>
 
-                                    <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@user.Id">
-                                        <img src="~/img/delete_icon.png" title="Afastar o usuário" />
+
+                                    <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-dialog-@user.Id" title="Afastar o usuário">
+                                        <img src="~/img/delete_icon.png"/>
                                     </a>
+
 
                                 } else {
 
-                                    <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;">
-                                        <img src="~/img/delete_icon.png" title="Excluir o usuário" />
+                                    <a class="btn btn-light" style="pointer-events: none;background-color:darkgrey;" title="Excluir o usuário">
+                                        <img src="~/img/delete_icon.png"/>
                                     </a>
 
                                 }
@@ -142,7 +143,8 @@
 
                             <td id="controls-td" scope="row">
 
-                                <div class="modal fade" id="undeleteDlg-@user.Id" aria-labelledby="undeleteDlgLabel" aria-hidden="true">
+
+                                <div class="modal fade" id="undelete-dialog-@user.Id">
 
                                     <div class="modal-dialog modal-dialog-centered">
 
@@ -172,13 +174,15 @@
 
                                 </div>
 
-                                <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">
-                                    <img src="~/img/edit_icon2.png" title="Editar o usuário" />
+
+                                <a class="btn btn-light" asp-controller="User" asp-action="Edit" asp-route-id="@user.Id" title="Editar o usuário">
+                                    <img src="~/img/edit_icon2.png"/>
                                 </a>
 
-                                <a class="btn btn-light" href="#" data-toggle="modal" data-target="#undeleteDlg-@user.Id">
-                                    <img src="~/img/return_icon.png" title="Restaurar o usuário" />
+                                <a class="btn btn-light" href="#" data-toggle="modal" data-target="#undelete-dialog-@user.Id" title="Restaurar o usuário">
+                                    <img src="~/img/return_icon.png"/>
                                 </a>
+
 
                             </td>
 
@@ -191,6 +195,7 @@
             }
 
         </tbody>
+
 
     </table>
 

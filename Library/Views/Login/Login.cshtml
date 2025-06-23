@@ -12,15 +12,6 @@
 }
 
 
-@section Styles {
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
-}
-
-
 @await Html.PartialAsync("_MessageSuccessPartial")
 
 @await Html.PartialAsync("_MessageErrorPartial")
@@ -37,6 +28,7 @@
 
         <div id="login-container">
 
+
             <div class="mb-0">
 
                 <h5 class="dynamic-text-shadow m-3" style="text-align: center; padding-bottom:10px;">
@@ -46,6 +38,7 @@
                 <hr style="border: 2px solid white;">
 
             </div>
+
 
             <div class="mb-3" style="padding-top:16px;">
                 <label for="user-name" class="form-label" style="color:white; font-weight:bold;">Usuário</label>
@@ -57,7 +50,9 @@
                 <input id="password" type="password" class="form-control" asp-for="Password">
             </div>
 
+
             <div id="spinner" class="spinner" style="display: none;"></div>
+
 
             <div id="buttons" class="mt-5">
                     
@@ -80,6 +75,7 @@
                 }
 
             </div>
+
 
         </div>
 

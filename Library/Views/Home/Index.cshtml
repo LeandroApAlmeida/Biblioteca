@@ -47,19 +47,19 @@
 
             <tr>
 
-                <th scope="col" style="width: 90px;">Capa</th>
+                <th scope="col" style="width: 90px;">Livro</th>
 
-                <th scope="col" style="width: 30%;">Título</th>
+                <th scope="col" style="width: 27%;"></th>
 
-                <th scope="col" style="width: 17%;">Autor</th>
+                <th scope="col" style="width: 18%;">Autor</th>
 
-                <th scope="col" style="width: 14%;">Editora</th>
+                <th scope="col" style="width: 15%;">Editora</th>
 
                 <th scope="col" style="width: 12%;">ISBN</th>
 
-                <th scope="col" style="width: 2%;">Edic.</th>
+                <th scope="col" style="width: 4%;">Edic.</th>
 
-                <th scope="col" style="width: 2%;">Vol.</th>
+                <th scope="col" style="width: 4%;">Vol.</th>
 
                 <th scope="col" style="width: 5%;">Ano</th>
 
@@ -82,7 +82,7 @@
 
                             <td scope="row">
                                 <div style="border: 1px solid gray;">
-                                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
+                                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" title="Clique para ver detalhes">
                                         <img src="@book.Cover.Thumbnail" class="center" style="width: 90px; height: 120px;" />
                                     </a>
                                 </div>
@@ -115,8 +115,8 @@
                         } else {
 
                             <td scope="row">
-                                <div style="border: 1px solid @borrowedTextColor;">
-                                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id">
+                                <div style="border: 1px solid @borrowedTextColor; box-shadow: 0px 0px 1px 1px @borrowedTextColor;">
+                                    <a asp-controller="Book" asp-action="Details" asp-route-id="@book.Id" title="Clique para ver detalhes">
                                         <img src="@book.Cover.Thumbnail" class="center" style="width: 90px; height: 120px;"/>
                                     </a>
                                 </div>

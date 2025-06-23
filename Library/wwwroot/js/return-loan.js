@@ -3,11 +3,13 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     var returnDate = document.getElementById("return-date");
 
     returnDate.focus();
 
     returnDate.value = formatToDatetimeLocal(new Date());
+
 
     document.getElementById('return-book-form').addEventListener('submit', function (event) {
 
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key.toLowerCase() === 's') {
             event.preventDefault();
@@ -32,5 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('cancel-button').click();
         }
     });
+
 
 });

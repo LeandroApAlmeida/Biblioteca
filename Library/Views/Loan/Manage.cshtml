@@ -7,7 +7,7 @@
 
 @{
 
-    ViewData["Title"] = "Empréstimos";
+    ViewData["Title"] = "Livros Emprestados";
 
     // Configurações do usuário.
     SettingsDto settings = ViewBag.Settings;
@@ -51,10 +51,6 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
     <style>
@@ -79,16 +75,16 @@
 
     <div class="d-flex justify-content-between mb-5" id="button-box">
 
-        <h4>Empréstimos</h4>
+        <h4>Livros Emprestados</h4>
 
         <div class="d-flex justify-content-between">
 
-            <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-right:5px;margin-top:-2px;" asp-controller="Loan" asp-action="Register2">
-                <img class="m-0" src="~/img/add_icon_16.png" />&nbspEmprestar
+            <a id="register-button" class="btn btn-add btn-no-caption" asp-controller="Loan" asp-action="Register2" title="Adicionar empréstimo">
+                <img class="m-0" src="~/img/add_icon_16.png" />
             </a>
 
-            <a id="print-button" class="btn btn-primary d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank">
-                <img class="m-0" src="~/img/printer_icon_16_w.png" /> &nbspImprimir
+            <a id="print-button" class="btn btn-print btn-no-caption" asp-controller="Report" asp-action="BorrowedBooksReport" target="_blank" title="Gerar relatório Livros Emprestados">
+                <img class="m-0" src="~/img/printer_icon_16_w.png" />
             </a>
 
         </div>
@@ -178,7 +174,7 @@
                                     <td id="controls-td" scope="row">
 
 
-                                        <div id="delete-loan-dialog-@loan.Id" class="modal fade">
+                                        <div id="delete-dialog-@loan.Id" class="modal fade">
 
                                             <div class="modal-dialog modal-dialog-centered">
 
@@ -240,24 +236,24 @@
                                         </div>
 
 
-                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Return" asp-route-id="@loan.Id">
-                                            <img src="~/img/return_icon.png" title="Devolver o livro emprestado" />
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Return" asp-route-id="@loan.Id" title="Devolver o livro emprestado">
+                                            <img src="~/img/return_icon.png"/>
                                         </a>
                                             
-                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Edit" asp-route-id="@loan.Id">
-                                            <img src="~/img/edit_icon2.png" title="Editar o livro emprestado" />
+                                        <a class="btn btn-light" asp-controller="Loan" asp-action="Edit" asp-route-id="@loan.Id" title="Editar o livro emprestado">
+                                            <img src="~/img/edit_icon2.png"/>
                                         </a>
 
-                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-loan-dialog-@loan.Id">
-                                            <img src="~/img/delete_icon.png" title="Excluir o livro emprestado" />
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-dialog-@loan.Id" title="Excluir o livro emprestado">
+                                            <img src="~/img/delete_icon.png"/>
                                         </a>
 
-                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notes-dialog-@loan.Id">
-                                            <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#notes-dialog-@loan.Id" title="Informações do livro emprestado">
+                                            <img src="~/img/info_icon_24.png"/>
                                         </a>
                                             
-                                        <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id">
-                                            <img src="~/img/view_icon.png" title="Detalhes do livro emprestado" />
+                                        <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id" title="Detalhes do livro emprestado">
+                                            <img src="~/img/view_icon.png"/>
                                         </a>
                                         
 
@@ -371,7 +367,7 @@
                                         </div>
 
 
-                                        <div id="notes-dialog-@loan.Id" class="modal fade">
+                                        <div id="notes-return-dialog-@loan.Id" class="modal fade">
 
                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
@@ -402,16 +398,16 @@
                                         </div>
 
 
-                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#cancel-return-dialog-@loan.Id">
-                                            <img src="~/img/delete_icon.png" title="Restaurar o empréstimo" />
+                                        <a class="btn btn-light" href="#" data-toggle="modal" data-target="#cancel-return-dialog-@loan.Id" title="Restaurar o empréstimo">
+                                            <img src="~/img/delete_icon.png"/>
                                         </a>
 
-                                        <button class="btn btn-light" data-toggle="modal" data-target="#notes-dialog-@loan.Id">
-                                            <img src="~/img/info_icon_24.png" title="Informações do livro emprestado" />
+                                        <button class="btn btn-light" data-toggle="modal" data-target="#notes-return-dialog-@loan.Id" title="Informações do livro emprestado">
+                                            <img src="~/img/info_icon_24.png"/>
                                         </button>
                                             
-                                        <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id">
-                                            <img src="~/img/view_icon.png" title="Detalhes do livro" />
+                                        <a class="btn btn-light" asp-controller="Book" asp-action="Details" asp-route-id="@loan.Book.Id" title="Detalhes do livro emprestado">
+                                            <img src="~/img/view_icon.png"/>
                                         </a>
                                         
 

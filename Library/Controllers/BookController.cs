@@ -74,6 +74,8 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
+            ViewBag.Settings = new SettingsDto(_settingsService);
+
             return View();
 
         }

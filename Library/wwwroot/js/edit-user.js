@@ -18,6 +18,7 @@ const passwordMask = '####';
 
 document.addEventListener('DOMContentLoaded', function () {
 
+
     document.getElementById('name').focus();
 
     var passwordField = document.getElementById('password');
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
     document.getElementById('user-form').addEventListener('submit', function (event) {
 
         document.getElementById('spinner').style.display = 'block';
@@ -58,6 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
     document.addEventListener('keydown', function (event) {
         if (event.ctrlKey && event.key.toLowerCase() === 's') {
             event.preventDefault();
@@ -67,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('cancel-button').click();
         }
     });
+
 
 });
 

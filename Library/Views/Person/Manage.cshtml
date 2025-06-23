@@ -13,10 +13,6 @@
 
 @section Styles {
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <meta charset="utf-8" />
-
     <link rel="stylesheet" href="~/css/datatables.min.css" asp-append-version="true" />
 
 }
@@ -31,12 +27,12 @@
 
         <div class="d-flex justify-content-between">
             
-            <a id="register-button" class="btn btn-success d-flex justify-content-center align-items-center" style="width:160px;height:38px;margin-top:-2px;margin-right:5px;" asp-controller="Person" asp-action="Register">
-                <img class="m-0" src="~/img/add_icon_16.png" />&nbspCadastrar
+            <a id="register-button" class="btn btn-add btn-no-caption" asp-controller="Person" asp-action="Register" title="Adicionar pessoa">
+                <img class="m-0" src="~/img/add_icon_16.png" />
             </a>
 
-            <a id="print-button" class="btn btn-dark d-flex justify-content-center align-items-center" style="width:150px;height:38px;margin-top:-2px;" data-toggle="modal" data-target="#restore-dialog">
-                <img class="m-0" src="~/img/undo_icon_16.png" /> &nbspRestaurar
+            <a id="restore-button" class="btn btn-restore btn-no-caption" data-toggle="modal" data-target="#restore-person-dialog" title="Restaurar pessoa excluída">
+                <img class="m-0" src="~/img/undo_icon_16.png" />
             </a>
 
         </div>
@@ -50,6 +46,7 @@
 
 
     <table id="person-table" class="table table-light table hover table-striped" border="1">
+
 
         <thead>
 
@@ -69,6 +66,7 @@
 
         </thead>
 
+
         <tbody>
 
             @if (Model != null) {
@@ -87,7 +85,8 @@
                             
                         <td id="controls-td" scope="row">
 
-                            <div class="modal fade" id="deleteDlg-@person.Id" aria-labelledby="deleteDlgLabel" aria-hidden="true">
+
+                            <div class="modal fade" id="delete-dialog-@person.Id">
 
                                 <div class="modal-dialog modal-dialog-centered">
 
@@ -117,14 +116,16 @@
 
                             </div>
                             
-                            <a class="btn btn-light" asp-controller="Person" asp-action="Edit" asp-route-id="@person.Id">
-                                <img src="~/img/edit_icon2.png" title="Editar a pessoa" />
+
+                            <a class="btn btn-light" asp-controller="Person" asp-action="Edit" asp-route-id="@person.Id" title="Editar a pessoa">
+                                <img src="~/img/edit_icon2.png"/>
                             </a>
 
-                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#deleteDlg-@person.Id">
-                                <img src="~/img/delete_icon.png" title="Excluir a pessoa" />
+                            <a class="btn btn-light" href="#" data-toggle="modal" data-target="#delete-dialog-@person.Id" title="Excluir a pessoa">
+                                <img src="~/img/delete_icon.png"/>
                             </a>
                             
+
                         </td>
                         
                     </tr>
@@ -135,13 +136,14 @@
 
         </tbody>
 
+
     </table>
 
 
 </div>
 
 
-<div id="restore-dialog" class="modal fade">
+<div id="restore-person-dialog" class="modal fade">
 
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
 
