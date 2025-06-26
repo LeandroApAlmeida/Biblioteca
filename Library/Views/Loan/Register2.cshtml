@@ -27,10 +27,12 @@
 
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
+    <link rel="stylesheet" href="~/css/register-container.css" asp-append-version="true" />
+
 }
 
 
-<div class="conteiner-fluid">
+<div class="register-container">
 
     
     @await Html.PartialAsync("_MessageErrorPartial")
@@ -61,43 +63,46 @@
         </div>
 
 
+        <hr />
+
+
         <div class="row g-3" display="flex">
 
-            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;"></div>
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;margin-left:10px;"></div>
 
             <div id="book-details" class="mb-2 col-sm-2" style="position:relative;flex-grow:1;margin-left:380px;margin-top:25px;">
+
+                <div class="mb-3">
+                    <label for="select-book" class="form-label">Livro</label>
+                    <select id="select-book" class="form-control classic">
+                        @if (books != null) {
+                            @foreach (var book in books) {
+                                <option value="@book.Id">@book.Title</option>
+                            }
+                        }
+                    </select>
+                </div>
 
                 <div class="row g-3" display="flex">
 
                     <div class="mb-3 col-sm-2" style="width: 80%;">
-                        <label for="select-book" class="form-label">Livro</label>
-                        <select id="select-book" class="form-control classic">
-                            @if (books != null) {
-                                @foreach (var book in books) {
-                                    <option value="@book.Id">@book.Title</option>
+                        <label for="select-person" class="form-label">Tomador</label>
+                        <select id="select-person" class="form-control classic">
+                            @if (persons != null) {
+                                @foreach (var person in persons) {
+                                    <option value="@person.Id">@person.Name</option>
                                 }
                             }
                         </select>
                     </div>
-
+                    
                     <div class="mb-3 col-sm-2" style="width: 20%;">
                         <label for="loan-date" class="form-label">Data</label>
                         <input id="loan-date" type="datetime-local" class="form-control" asp-for="Date">
                         <span class="text-danger" asp-validation-for="Date"></span>
                     </div>
 
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="select-person" class="form-label">Tomador</label>
-                    <select id="select-person" class="form-control classic">
-                        @if (persons != null) {
-                            @foreach (var person in persons) {
-                                <option value="@person.Id">@person.Name</option>
-                            }
-                        }
-                    </select>
-                </div>
+                </div>                
 
                 <div class="mb-3">
                     <label for="notes" class="form-label">Anotações</label>

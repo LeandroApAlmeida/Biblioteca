@@ -20,10 +20,12 @@
    
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
+    <link rel="stylesheet" href="~/css/register-container.css" asp-append-version="true" />
+
 }
 
 
-<div class="conteiner-fluid" style="margin-bottom:20px;">
+<div class="register-container" style="margin-bottom:20px;">
 
 
     @await Html.PartialAsync("_MessageErrorPartial")
@@ -58,6 +60,8 @@
             </div>
 
         </div>
+
+        <hr />
 
 
         @*Renderiza o layout para definição dos atributos de um livro.*@

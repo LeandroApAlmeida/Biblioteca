@@ -67,6 +67,7 @@ namespace Library.Controllers {
                         "Content-Disposition",
                         "inline; filename=" +
                         book.Title
+                        .Replace(",", "")
                         .Replace("\\", "")
                         .Replace("/", "")
                         .Replace("%", " por cento ")

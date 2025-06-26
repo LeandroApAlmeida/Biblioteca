@@ -17,10 +17,12 @@
 
     <link rel="stylesheet" href="~/css/spinner.css" asp-append-version="false" />
 
+    <link rel="stylesheet" href="~/css/register-container.css" asp-append-version="true" />
+
 }
 
 
-<div class="conteiner-fluid">
+<div class="register-container">
 
     
     @await Html.PartialAsync("_MessageErrorPartial")
@@ -51,9 +53,12 @@
         </div>
 
 
+        <hr />
+
+
         <div class="row g-3" display="flex">
 
-            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;">
+            <div id="img-preview" class="mb-2 col-sm-2" style="position:absolute;margin-left:10px;">
                 <img src="@Model.Book.Cover.Data" class="center" />
             </div>
 
