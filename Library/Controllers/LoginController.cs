@@ -1,10 +1,12 @@
-﻿using Library.Services.Model.Dto;
-using Library.Services.Authentication;
+﻿using Library.Services.Authentication;
+using Library.Services.Model.Dto;
 using Library.Services.Session;
 using Library.Services.User;
 using Library.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Runtime.InteropServices;
+
 
 namespace Library.Controllers {
 
@@ -47,23 +49,56 @@ namespace Library.Controllers {
         }
 
 
+        [DllImport("iphlpapi.dll", ExactSpelling = true)]
+        public static extern int SendARP(int destIP, int srcIP, byte[] macAddr, ref uint macAddrLen);
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto login) {
 
             if (ModelState.IsValid) {
 
-                string host = Dns.GetHostName();
-
-                string ip;
+                string hostMetadata;
 
                 try {
-                    ip = "[local]"; // Dns.GetHostAddresses(host)[2].ToString();
-                } catch {
-                    ip = "[local]";
+
+                    IPAddress? remoteIp = HttpContext.Connection.RemoteIpAddress ?? 
+                    throw new Exception("Endereço IP não encontrado");
+
+                    if (!IPAddress.IsLoopback(remoteIp!)) {
+
+                        var hostIp = remoteIp.ToString();
+                        
+                        var hostPort = HttpContext.Connection.RemotePort;
+
+                        var hostMac = "";
+
+                        IPAddress ipAddress = IPAddress.Parse(hostIp);
+                        byte[] macAddr = new byte[6];
+                        uint macAddrLen = (uint)macAddr.Length;
+
+                        int result = SendARP((int)ipAddress.Address, 0, macAddr, ref macAddrLen);
+
+                        if (result == 0)
+                            hostMac = string.Join(
+                            "-", macAddr.Take((int)macAddrLen).Select(b => b.ToString("X2"))
+                        );
+
+                        hostMetadata = hostIp + ":" + hostPort.ToString() + "#" + hostMac;
+
+                    } else {
+
+                        hostMetadata = "[localhost]";
+                    
+                    }
+
+                } catch (Exception ex) {
+
+                    hostMetadata = "[Erro: " + ex.Message + "]";
+
                 }
                  
-                var loginResp = await _loginService.Login(login, ip);
+                var loginResp = await _loginService.Login(login, hostMetadata);
 
                 if (loginResp.Successful) {
 
