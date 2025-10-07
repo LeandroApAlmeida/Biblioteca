@@ -16,7 +16,7 @@ O código-fonte da aplicação foi desenvolvido completamente usando o Visual St
 Para desenvolver o tutorial foi utilizado o LibreOffice.
 
 
-Sobre a estrutura do projeto
+Estrutura do projeto
 ----------------------------
 
 O projeto está estruturado em 4 módulos:
