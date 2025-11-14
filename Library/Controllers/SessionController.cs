@@ -1,16 +1,20 @@
 ﻿using Library.Services.Session;
-using Library.Services.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
 namespace Library.Controllers {
 
 
+    /// <summary>
+    /// Controlador para o gerenciamento de sessão de usuário.
+    /// </summary>
     public class SessionController : Controller {
 
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
+        /// <summary> Objeto para manutenção do log de sessão. </summary>
         private readonly ILogService _logService;
 
 
@@ -20,6 +24,12 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para visualização dos logs de sessão.
+        /// </summary>
+        /// <param name="beginDate">Data inicial do período.</param>
+        /// <param name="endDate">Data final do período.</param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Manage(DateTime beginDate, DateTime endDate) {
 

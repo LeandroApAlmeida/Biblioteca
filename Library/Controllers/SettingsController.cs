@@ -7,11 +7,16 @@ using Library.Services.User;
 namespace Library.Controllers {
 
 
+    /// <summary>
+    /// Controlador para gerenciamento das configurações do usuário.
+    /// </summary>
     public class SettingsController : Controller {
 
 
+        /// <summary> Objeto para acesso às configurações do usuário. </summary>
         private readonly ISettingsService _settingsService;
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
 
@@ -21,6 +26,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para configuração do ambiente.
+        /// </summary>
+        /// <returns>Página para configuração do ambiente.</returns>
         [HttpGet]
         public IActionResult Manage() {
 
@@ -33,6 +42,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Definir a cor de fundo default da página.
+        /// </summary>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         public IActionResult DefaultPageBackgroundColor() {
 
@@ -50,6 +63,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Definir todas as configurações como default.
+        /// </summary>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         public IActionResult Reset() {
 

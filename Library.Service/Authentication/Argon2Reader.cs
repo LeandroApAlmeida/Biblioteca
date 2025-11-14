@@ -2,10 +2,20 @@
 
 namespace Library.Services.Authentication {
 
-
+    /// <summary>
+    /// Classe para leitura dos parâmetros do algoritmo Argon2 a partir do arquivo XML.
+    /// </summary>
+    /// <param name="filePath">Path do arquivo XML com as configurações do Argon2.</param>
     public class Argon2Reader(string filePath) {
 
 
+        /// <summary>
+        /// Ler o arquivo XML para obtenção dos parâmetros para o algoritmo Argon2.
+        /// </summary>
+        /// <param name="defaultIterations">Número default de interações.</param>
+        /// <param name="defaultMemoryPowOfTwo">Valor default de memória alocada.</param>
+        /// <param name="defaultParallelism">Número default de threads.</param>
+        /// <returns>Parâmetros para configuração do algoritmo Argon2.</returns>
         public Argon2Params Read(int defaultIterations, int defaultMemoryPowOfTwo,
         int defaultParallelism) {
 

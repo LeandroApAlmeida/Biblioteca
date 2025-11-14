@@ -5,9 +5,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Library.Services.Session {
 
 
+    /// <summary>
+    /// Classe para gerenciamento dos logs de sessão.
+    /// </summary>
     public class LogService : ILogService {
 
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
 

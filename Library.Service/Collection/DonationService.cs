@@ -5,11 +5,16 @@ using Microsoft.EntityFrameworkCore;
 namespace Library.Services.Collection {
 
 
+    /// <summary>
+    /// Classe para manutenção de livros doados.
+    /// </summary>
     public class DonationService : IDonationService {
 
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
+        /// <summary> Objeto para manutenção de livros emprestados. </summary>
         private readonly ILoanService _loanService;
 
 

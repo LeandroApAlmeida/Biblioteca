@@ -1,7 +1,5 @@
 ﻿using Library.Db.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Logging;
 
 namespace Library.Data {
 
@@ -60,7 +58,9 @@ namespace Library.Data {
 
         public DbSet<SessionModel> Sessions { get; set; }
 
+
         public DbSet<SettingsModel> Settings { get; set; }
+
 
         public DbSet<UserModel> Users { get; set; }
 

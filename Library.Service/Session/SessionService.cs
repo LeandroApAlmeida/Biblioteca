@@ -8,11 +8,16 @@ using Newtonsoft.Json;
 namespace Library.Services.Session {
 
 
+    /// <summary>
+    /// Classe para gerenciamento da sessão de usuário. 
+    /// </summary>
     public class SessionService : ISessionService {
 
 
+        /// <summary> Objeto da sessão. </summary>
         private readonly IHttpContextAccessor _contextAccessor;
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
 
@@ -62,7 +67,6 @@ namespace Library.Services.Session {
         }
 
 
-
         public async Task<Response<SessionModel>> RemoveSession() {
 
             Response<SessionModel> response = new();
@@ -100,7 +104,6 @@ namespace Library.Services.Session {
             }
 
         }
-
 
 
         public SessionModel? GetSessionData() {

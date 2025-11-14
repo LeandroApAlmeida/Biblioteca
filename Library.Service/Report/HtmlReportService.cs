@@ -7,19 +7,28 @@ using Library.Db.Models;
 namespace Library.Services.Report {
 
 
+    /// <summary>
+    /// Classe para geração de relatórios em formato HTML.
+    /// </summary>
     public class HtmlReportService : IHtmlReportService {
 
 
+        /// <summary> Objeto para gerenciamento das configurações do ambiente. </summary>
         private readonly ISettingsService _settingsService;
 
+        /// <summary> Objeto para gerenciamento do acervo. </summary>
         private readonly ICollectionService _collectionService;
 
+        /// <summary> Objeto para manutenção de livros do acervo. </summary>
         private readonly IBookService _bookService;
 
+        /// <summary> Objeto para manutenção de livros descartados. </summary>
         private readonly IDiscardService _discardService;
 
+        /// <summary> Objeto para manutenção de livros doados. </summary>
         private readonly IDonationService _donationService;
 
+        /// <summary> Objeto para manutenção de livros emprestados. </summary>
         private readonly ILoanService _loanService;
 
 
@@ -35,6 +44,11 @@ namespace Library.Services.Report {
         }
 
 
+        /// <summary>
+        /// Formatar o título no cabeçalho do relatório em HTML.
+        /// </summary>
+        /// <param name="reportTitle">Título do relatório.</param>
+        /// <returns>Título no cabeçalho do relatório formatado como HTML.</returns>
         private string FormatReportTitle(string reportTitle) {
 
             DateTime now = DateTime.Now;

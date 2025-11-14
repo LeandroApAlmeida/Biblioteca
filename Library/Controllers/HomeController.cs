@@ -1,4 +1,3 @@
-using Library.Db.Models;
 using Library.Services.Collection;
 using Library.Services.Model.Dto;
 using Library.Services.Session;
@@ -7,6 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers {
 
+
+    /// <summary>
+    /// Controlador principal.
+    /// </summary>
     public class HomeController : Controller {
 
 
@@ -25,6 +28,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página principal do site, que contém a lista de livros do acervo. É a primeira
+        /// página exibida ao realizar o login no site.
+        /// </summary>
+        /// <returns>Página principal do site.</returns>
         [HttpGet]
         public async Task<IActionResult> Index() {
 
@@ -49,6 +57,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página de créditos do site.
+        /// </summary>
+        /// <returns>Página de créditos do site.</returns>
         [HttpGet]
         public IActionResult About() {
 
@@ -60,35 +72,7 @@ namespace Library.Controllers {
         }
 
 
-        [HttpGet]
-        public IActionResult Help() {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "index.html");
-            return PhysicalFile(filePath, "text/html");
-        }
-
-
-        [HttpGet]
-        public IActionResult HelpFirstAccess() {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "user", "register-adm.html");
-            return PhysicalFile(filePath, "text/html");
-        }
-
-
-        [HttpGet]
-        public IActionResult HelpByIndex(int index) {
-            
-            var filePath = "";
-
-            switch (index) {
-                case 10: filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "book-details", "book-details.html"); break;
-                default: filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "index.html"); break;
-            }
-
-            return PhysicalFile(filePath, "text/html");
-
-        }
-
-
     }
+
 
 }

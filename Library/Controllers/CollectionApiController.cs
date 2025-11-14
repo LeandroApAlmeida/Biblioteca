@@ -14,8 +14,10 @@ namespace Library.Controllers {
     public class CollectionApiController : Controller {
 
 
+        /// <summary> Objeto para manutenção de livros. </summary>
         private readonly IBookService _bookService;
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
 

@@ -9,11 +9,16 @@ using Library.Db.Models;
 namespace Library.Services.User {
 
 
+    /// <summary>
+    /// Classe para manutenção de usuários da aplicação.
+    /// </summary>
     public class UserService : IUserService {
 
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
+        /// <summary> Objeto para geração do hash da senha. </summary>
         private readonly IPasswordService _passwordService;
 
 
@@ -269,6 +274,12 @@ namespace Library.Services.User {
         }
 
 
+        /// <summary>
+        /// Verifica se o nome de usuário passado já está vinculado a outro usuário.
+        /// </summary>
+        /// <param name="userName">Nome de usuário a ser analizado.</param>
+        /// <returns>True, o nome já está sendo utilizado. False, o nome não está
+        /// sendo utilizado.</returns>
         private async Task<Response<bool>> UserNameAlreadyExist(string userName) {
 
             Response<bool> response = new();
@@ -303,6 +314,8 @@ namespace Library.Services.User {
 
             try {
 
+                // O tamanho mínimo exigido para senha é de 5 caracteres.
+
                 if (user.Password.Length < 5) {
                     throw new Exception("A senha do usuário deve conter no mínimo 5 caracteres.");
                 }
@@ -315,8 +328,8 @@ namespace Library.Services.User {
 
                 if (userRoleResp.Data!.Id == (int) UserRole.Admin) {
 
-                    // É permitido apenas u usuário administrador cadastrado. Neste
-                    // ponto é feito este controle, de tal forma que se já existir u
+                    // É permitido apenas um usuário administrador cadastrado. Neste
+                    // ponto é feito este controle, de tal forma que se já existir um
                     // administrador, não permite o cadastro de outro.
                     
                     var registeredAdminResp = await RegisteredAdmin();
@@ -349,6 +362,10 @@ namespace Library.Services.User {
                     throw new Exception("Usuário " + user.UserName + " já está cadastrado!");
 
                 }
+
+                // Gera o objeto com base do privilégio de acesso e gerando o hash da senha
+                // com base no método definido via injeção de dependência. No caso, o método
+                // utilizado é o Argon2.
 
                 UserRoleModel role = userRoleResp.Data!;
 
@@ -471,7 +488,7 @@ namespace Library.Services.User {
                 if (user == null) throw new Exception(userResp.Message);
 
                 if (user.Role.Id == (int)UserRole.Admin) {
-                    throw new Exception("Não é permitido excluir u usuário administrador.");
+                    throw new Exception("Não é permitido excluir o usuário administrador.");
                 }
 
                 var userWithHashResp = await GetUserWithHash(user.Id);

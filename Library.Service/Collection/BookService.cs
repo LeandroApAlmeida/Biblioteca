@@ -1,47 +1,57 @@
 ﻿using Library.Data;
 using Library.Db.Models;
+using Library.Services.Cover;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace Library.Services.Collection {
 
 
     /// <summary>
-    /// Service para a manutenção de livros do acervo.
+    /// Classe para a manutenção de livros do acervo.
     /// </summary>
     public class BookService : IBookService {
 
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
+        /// <summary> Objeto para manutenção de livros descartados. </summary>
         private readonly IDiscardService _discardService;
 
+        /// <summary> Objeto para manutenção de livros doados. </summary>
         private readonly IDonationService _donationService;
 
+        /// <summary> Objeto para manutenção de livros emprestados. </summary>
         private readonly ILoanService _loanService;
 
+        /// <summary> Lista com os IDs dos livros emprestados. </summary>
         private List<Guid>? borrowedBooksIds;
 
+        /// <summary> Lista com os IDs dos livros doados. </summary>
         private List<Guid>? donatedBooksIds;
 
+        /// <summary> Lista com os IDs dos livros descartados. </summary>
         private List<Guid>? discardedBooksIds;
 
 
         public BookService(ApplicationDbContext context, IDiscardService discardService,
         ILoanService loanService, IDonationService donationService) {
+            
             _context = context;
             _discardService = discardService;
             _loanService = loanService;
             _donationService = donationService;
+
             FillBooksLists().Wait();
+
         }
 
 
+        /// <summary>
+        /// Preencher as listas de IDs de livros.
+        /// </summary>
+        /// <returns></returns>
         private async Task FillBooksLists() {
             
             var borrowedBooksIdsResp = await _loanService.GetBorrowedBooksIds();
@@ -89,7 +99,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<List<BookModel>>> GetBooksWithThumbnails() {
 
             Response<List<BookModel>> response = new();
@@ -155,7 +165,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<List<Guid>>> GetBooksIds() {
 
             Response<List<Guid>> response = new();
@@ -184,7 +194,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<List<BookModel>>> GetDeletedBooks() {
 
             Response<List<BookModel>> response = new();
@@ -213,7 +223,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<BookModel>> GetBook(Guid id) {
 
             Response<BookModel> response = new();
@@ -264,7 +274,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<Guid>> NextBookId(Guid id) {
 
             Response<Guid> response = new();
@@ -311,7 +321,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+                
         public async Task<Response<Guid>> PreviousBookId(Guid id) {
 
             Response<Guid> response = new();
@@ -355,7 +365,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<Guid>> FirstBookId() {
 
             Response<Guid> response = new();
@@ -379,7 +389,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<Guid>> LastBookId() {
 
             Response<Guid> response = new();
@@ -403,47 +413,7 @@ namespace Library.Services.Collection {
 
         }
 
-
-        private string CreateCoverThumbnail(string imageBase64) {
-            
-            string base64Data = imageBase64.Substring(imageBase64.IndexOf(",") + 1);
-            byte[] imageData = Convert.FromBase64String(base64Data);
-
-            using MemoryStream ms = new MemoryStream(imageData);
-            using Image image = Image.FromStream(ms);
-            using Bitmap thumbnail = new Bitmap(image, new Size(90, 120));
-            using MemoryStream thumbStream = new MemoryStream();
-
-            thumbnail.Save(thumbStream, ImageFormat.Jpeg);
-
-            return $"data:image/jpeg;base64,{Convert.ToBase64String(thumbStream.ToArray())}";
-        }
-
-
-        private string ConvertCoverToJpeg(string base64Image) {
-
-            if (!base64Image.StartsWith("data:image/jpeg;base64")) {
-
-                string base64Data = base64Image.Substring(base64Image.IndexOf(",") + 1);
-                byte[] imageData = Convert.FromBase64String(base64Data);
-
-                using MemoryStream ms = new MemoryStream(imageData);
-                using Image image = Image.FromStream(ms);
-                using MemoryStream jpgStream = new MemoryStream();
-
-                image.Save(jpgStream, ImageFormat.Jpeg);
-
-                return $"data:image/jpeg;base64,{Convert.ToBase64String(jpgStream.ToArray())}";
-
-            } else {
-
-                return base64Image;
-
-            }
-
-        }
-
-
+        
         public async Task<Response<BookModel>> RegisterBook(BookModel book) {
 
             Response<BookModel> response = new();
@@ -459,9 +429,11 @@ namespace Library.Services.Collection {
 
                 string base64Image = book.Cover.Data;
 
+                CoverConverter converter = new CoverConverter();
+
                 book.Cover.Id = Guid.NewGuid();
-                book.Cover.Data = ConvertCoverToJpeg(base64Image);
-                book.Cover.Thumbnail = CreateCoverThumbnail(base64Image);
+                book.Cover.Data = converter.ConvertToJpeg(base64Image);
+                book.Cover.Thumbnail = converter.CreateThumbnail(base64Image);
                 book.Cover.RegistrationDate = date;
                 book.Cover.LastUpdateDate = date;
 
@@ -487,7 +459,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<BookModel>> EditBook(BookModel book) {
 
             Response<BookModel> response = new();
@@ -504,10 +476,12 @@ namespace Library.Services.Collection {
 
                 _context.Attach(book.Cover);
 
+                CoverConverter converter = new CoverConverter();
+
                 string base64Image = book.Cover.Data;
 
-                book.Cover.Data = ConvertCoverToJpeg(base64Image);
-                book.Cover.Thumbnail = CreateCoverThumbnail(base64Image);
+                book.Cover.Data = converter.ConvertToJpeg(base64Image);
+                book.Cover.Thumbnail = converter.CreateThumbnail(base64Image);
                 book.Cover.LastUpdateDate = DateTime.Now;
 
                 _context.Entry(book.Cover).State = EntityState.Modified;
@@ -532,7 +506,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+                
         public async Task<Response<BookModel>> DeleteBook(Guid id) {
 
             Response<BookModel> response = new();
@@ -584,7 +558,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<BookModel>> UndeleteBook(Guid id) {
 
             Response<BookModel> response = new();

@@ -4,11 +4,16 @@ using DinkToPdf.Contracts;
 namespace Library.Services.Report {
 
 
+    /// <summary>
+    /// Classe para geração de relatórios em formato PDF.
+    /// </summary>
     public class PdfReportService: IPdfReportService {
 
 
+        /// <summary> Conversor HTML para PDF do DinkToPdf. </summary>
         private readonly IConverter _converter;
 
+        /// <summary> Objeto para geração de relatórios em HTML. </summary>
         private readonly IHtmlReportService _htmlReportService;
 
 
@@ -18,8 +23,14 @@ namespace Library.Services.Report {
         }
 
 
-        private GlobalSettings GetDefaultGlobalSettings(string title, PaperKind paperSize,
-        Orientation orientation) {
+        /// <summary>
+        /// Obter as configurações globais do PDF.
+        /// </summary>
+        /// <param name="title">Título do relatório.</param>
+        /// <param name="paperSize">Tamanho do papel.</param>
+        /// <param name="orientation">Orientação da página.</param>
+        /// <returns>Configurações globais do PDF.</returns>
+        private GlobalSettings GetGlobalSettings(string title, PaperKind paperSize, Orientation orientation) {
 
             return new GlobalSettings {
 
@@ -38,7 +49,13 @@ namespace Library.Services.Report {
         }
 
 
-        private ObjectSettings GetDefaultObjectSettings(string footerText, string htmlContent) {
+        /// <summary>
+        /// Obter as configurações do PDF.
+        /// </summary>
+        /// <param name="footerText">Texto do rodapé da página.</param>
+        /// <param name="htmlContent">Conteúdo da página, em formato HTML.</param>
+        /// <returns>Configurações do PDF.</returns>
+        private ObjectSettings GetObjectSettings(string footerText, string htmlContent) {
 
 
             return new ObjectSettings {
@@ -75,14 +92,14 @@ namespace Library.Services.Report {
 
         public byte[] BookDetailed(Guid id) {
 
-            var objectSettings = GetDefaultObjectSettings(
+            var objectSettings = GetObjectSettings(
                 "Detalhes do Livro",
                 _htmlReportService.BookDetailed(id, false)
             );
 
             var pdf = new HtmlToPdfDocument {
 
-                GlobalSettings = GetDefaultGlobalSettings(
+                GlobalSettings = GetGlobalSettings(
                     "Detalhes do Livro",
                     PaperKind.A4,
                     Orientation.Portrait
@@ -99,14 +116,14 @@ namespace Library.Services.Report {
 
         public byte[] BooksInTheCollection() {
             
-            var objectSettings = GetDefaultObjectSettings(
+            var objectSettings = GetObjectSettings(
                 "Livros no Acervo",
                 _htmlReportService.BooksInTheCollection(false)
             );
 
             var pdf = new HtmlToPdfDocument {
 
-                GlobalSettings = GetDefaultGlobalSettings(
+                GlobalSettings = GetGlobalSettings(
                     "Livros no Acervo",
                     PaperKind.A4,
                     Orientation.Landscape
@@ -121,16 +138,16 @@ namespace Library.Services.Report {
         }
 
 
-        byte[] IPdfReportService.RegisteredBooks() {
+        public byte[] RegisteredBooks() {
 
-            var objectSettings = GetDefaultObjectSettings(
+            var objectSettings = GetObjectSettings(
                 "Livros Cadastrados",
                 _htmlReportService.RegisteredBooks(false)
             );
 
             var pdf = new HtmlToPdfDocument {
 
-                GlobalSettings = GetDefaultGlobalSettings(
+                GlobalSettings = GetGlobalSettings(
                     "Livros Cadastrados",
                     PaperKind.A4,
                     Orientation.Landscape
@@ -147,14 +164,14 @@ namespace Library.Services.Report {
 
         public byte[] DiscardedBooks() {
 
-            var objectSettings = GetDefaultObjectSettings(
+            var objectSettings = GetObjectSettings(
                 "Livros Descartados",
                 _htmlReportService.DiscardedBooks(false)
             );
 
             var pdf = new HtmlToPdfDocument {
 
-                GlobalSettings = GetDefaultGlobalSettings(
+                GlobalSettings = GetGlobalSettings(
                     "Livros Descartados",
                     PaperKind.A4,
                     Orientation.Landscape
@@ -171,14 +188,14 @@ namespace Library.Services.Report {
 
         public byte[] DonatedBooks() {
 
-            var objectSettings = GetDefaultObjectSettings(
+            var objectSettings = GetObjectSettings(
                 "Livros Doados",
                 _htmlReportService.DonatedBooks(false)
             );
 
             var pdf = new HtmlToPdfDocument {
 
-                GlobalSettings = GetDefaultGlobalSettings(
+                GlobalSettings = GetGlobalSettings(
                     "Livros Doados",
                     PaperKind.A4,
                     Orientation.Landscape
@@ -195,14 +212,14 @@ namespace Library.Services.Report {
 
         public byte[] BorrowedBooks() {
 
-            var objectSettings = GetDefaultObjectSettings(
+            var objectSettings = GetObjectSettings(
                 "Livros Emprestados",
                 _htmlReportService.BorrowedBooks(false)
             );
 
             var pdf = new HtmlToPdfDocument {
 
-                GlobalSettings = GetDefaultGlobalSettings(
+                GlobalSettings = GetGlobalSettings(
                     "Livros Emprestados",
                     PaperKind.A4,
                     Orientation.Landscape

@@ -48,23 +48,66 @@
         <script type="text/javascript">
 
             $(document).ready(function () {
+
                 $(document).keydown(function(event) {
+
                     switch(event.keyCode) {
+
                         case 112: {
+
                             event.preventDefault();
-                            var newWindow = window.open('/Home/HelpFirstAccess', '_blank');
-                            if (newWindow) {
-                                newWindow.focus();
-                            } else {
-                                alert('Por favor, permita pop-ups para este site.');
-                            }
+
                             break;
                         }
+
                     }
+
                 });
+
             });
 
         </script>
+
+        @*
+        <script type="text/javascript">
+
+            let tutorialWindow = null;
+
+            $(document).ready(function () {
+
+                $(document).keydown(function(event) {
+
+                    switch(event.keyCode) {
+
+                        case 112: {
+
+                            event.preventDefault();
+
+                            const width = Math.floor(screen.width * 0.95);
+                            const height = Math.floor(screen.height * 0.8);
+                            const left = Math.floor((screen.width - width) / 2);
+                            const top = Math.floor((screen.height - height) / 2);
+
+                            const specs = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`;
+
+                            if (tutorialWindow && !tutorialWindow.closed) {
+                                tutorialWindow.focus();
+                            } else {
+                                tutorialWindow = window.open('/Help/HelpFirstAccess', '_blank', specs);
+                            }
+
+
+                            break;
+                        }
+
+                    }
+
+                });
+
+            });
+
+        </script>
+        *@
 
 
         @*Renderiza o conteúdo da seção Scripts de uma página.*@

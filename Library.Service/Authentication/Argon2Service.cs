@@ -6,19 +6,33 @@ using System.Text;
 namespace Library.Services.Authentication {
 
 
+    /// <summary>
+    /// Classe para geração de hash de senha com base no algoritmo Argon2.
+    /// </summary>
     public class Argon2Service : IPasswordService {
 
 
+        /// <summary> Parâmetros para o algoritmo Argon2. </summary>
         private readonly Argon2Params _argon2Params;
 
+        /// <summary> Comprimento do hash gerado. </summary>
         private const int HASH_LENGTH = 32;
 
 
+        /// <summary>
+        /// Constructor da classe.
+        /// </summary>
+        /// <param name="argon2Params">Parâmetros para o algoritmo Argon2.</param>
         public Argon2Service(Argon2Params argon2Params) {
             _argon2Params = argon2Params;
         }
 
 
+        /// <summary>
+        /// Gerar o SALT para o algoritmo Argon2.
+        /// </summary>
+        /// <param name="length">comprimento do SALT a ser gerado.</param>
+        /// <returns>SALT com o comprimento definido</returns>
         private byte[] GenerateSalt(int length) {
             var random = new SecureRandom();
             var salt = new byte[length];
@@ -27,6 +41,34 @@ namespace Library.Services.Authentication {
         }
 
 
+        /// <summary>
+        /// Gerar o hash da senha passada como parâmetro. Neste caso, o arranjo retornado é
+        /// composto pelos seguintes campos:
+        /// 
+        /// <br/><br/>
+        /// 
+        /// 1. SALT: Salt gerado para a codificação da senha.
+        /// 
+        /// <br/><br/>
+        /// 
+        /// 2. PARALLELISM: número de threads.
+        /// 
+        /// <br/><br/>
+        /// 
+        /// 3. MEMORY: valor de memória alocada.
+        /// 
+        /// <br/><br/>
+        /// 
+        /// 4. ITERATIONS: número de interações.
+        /// 
+        /// <br/><br/>
+        /// 
+        /// 3. HASH: bytes calculados do hash.
+        /// 
+        /// </summary>
+        /// <param name="password">Senha a ter o hash gerado</param>
+        /// <returns>Arranjo contendo o SALT, PARALLELISM, MEMORY, ITERATIONS e HASH da
+        /// senha, nesta ordem.</returns>
         public byte[] GeneratePasswordHash(string password) {
 
             byte[] salt = GenerateSalt(16);
@@ -59,16 +101,24 @@ namespace Library.Services.Authentication {
             byte[] iterationsArray = BitConverter.GetBytes(iterations);
 
             return [
-                .. salt,
-                .. parallelismArray,
-                .. memoryPowOfTwoArray,
-                .. iterationsArray,
-                .. hash
+                .. salt,                // 16 bytes
+                .. parallelismArray,    // 4 bytes
+                .. memoryPowOfTwoArray, // 4 bytes
+                .. iterationsArray,     // 4 bytes
+                .. hash                 // 32 bytes
             ];
             
         }
 
 
+        /// <summary>
+        /// Verificar se a senha passada é a mesma que foi gerado o hash gravado no banco
+        /// de dados.
+        /// </summary>
+        /// <param name="password">Senha a ser comparada.</param>
+        /// <param name="passwordHash">Arranjo contendo o SALT, PARALLELISM, MEMORY, ITERATIONS
+        /// e HASH da senha, nesta ordem.</param>
+        /// <returns>True, caso a senha seja a mesma que gerou o hash. False, caso o contrário</returns>
         public bool IsTheSamePassword(string password, byte[] passwordHash) {
 
             byte[] salt = new byte[16];

@@ -15,12 +15,16 @@ namespace Library.Controllers {
     public class BookController : Controller {
 
 
+        /// <summary> Objeto para manutenção de livros. </summary>
         private readonly IBookService _bookService;
 
+        /// <summary> Objeto para gerenciamento do acervo. </summary>
         private readonly ICollectionService _collectionService;
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
+        /// <summary> Objeto para acesso às configurações do usuário. </summary>
         private readonly ISettingsService _settingsService;
 
 
@@ -64,9 +68,9 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página de detalhes do livro, sem dados.
+        /// Retornar a página Detalhes do Livro, sem dados.
         /// </summary>
-        /// <returns>Página de detalhes do livro, sem dados.</returns>
+        /// <returns>Página Detalhes do Livro, sem dados.</returns>
         [HttpGet]
         public IActionResult NoBook() {
 
@@ -82,10 +86,10 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página com os detalhes de um livro.
+        /// Retornar a página Detalhes do Livro.
         /// </summary>
-        /// <param name="id">Identificador do livro.</param>
-        /// <returns>Página com os detalhes de um livro.</returns>
+        /// <param name="id">Identificador chave primária do livro.</param>
+        /// <returns>Página Detalhes do livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Details(Guid id) {
 
@@ -171,7 +175,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página com os detalhes do livro adiante do atual na consulta.
         /// </summary>
-        /// <param name="id">Identificador do livro atual.</param>
+        /// <param name="id">Identificador chave primária do livro atual.</param>
         /// <returns>Página com os detalhes do livro.</returns>
         [HttpGet]
         public async Task<IActionResult> NextBook(Guid id) {
@@ -198,7 +202,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página com os detalhes do livro anterior ao atual na consulta.
         /// </summary>
-        /// <param name="id">Identificador do livro atual.</param>
+        /// <param name="id">Identificador chave primária do livro atual.</param>
         /// <returns>Página com os detalhes do livro.</returns>
         [HttpGet]
         public async Task<IActionResult> PreviousBook(Guid id) {
@@ -277,7 +281,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página para cadastro de um novo livro.
         /// </summary>
-        /// <returns>Página de cadastro de um novo livro.</returns>
+        /// <returns>Página para cadastro de um novo livro.</returns>
         [HttpGet]
         public IActionResult Register() {
 
@@ -293,7 +297,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Cadastrar um novo livro.
         /// </summary>
-        /// <param name="book">Novo livro.</param>
+        /// <param name="book">Livro a ser cadastrado.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -335,7 +339,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página para edição de um livro.
         /// </summary>
-        /// <param name="id">Identificador do livro.</param>
+        /// <param name="id">Identificador chave primária do livro.</param>
         /// <returns>Página para edição de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
@@ -404,7 +408,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Excluir o cadastro de um livro.
         /// </summary>
-        /// <param name="id">Identificador do livro.</param>
+        /// <param name="id">Identificador chave primária do livro.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -434,9 +438,9 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Excluir o cadastro de um livro.
+        /// Restaurar o cadastro de um livro.
         /// </summary>
-        /// <param name="id">Identificador do livro.</param>
+        /// <param name="id">Identificador chave primária do livro.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

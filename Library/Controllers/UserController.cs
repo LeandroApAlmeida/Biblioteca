@@ -7,11 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.Controllers {
 
 
+    /// <summary>
+    /// Controlador para a manutenção de usuários.
+    /// </summary>
     public class UserController : Controller {
 
 
+        /// <summary> Objeto para a manutenção de usuários. </summary>
         private readonly IUserService _userService;
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
 
@@ -21,6 +26,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página de manutenção de usuários.
+        /// </summary>
+        /// <returns>Página de manutenção de usuários.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
@@ -47,6 +56,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para cadastro do administrador.
+        /// </summary>
+        /// <returns>Página para cadastro do administrador.</returns>
         [HttpGet]
         public IActionResult RegisterAdm() {
 
@@ -62,6 +75,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Cadastrar o usuário administrador.
+        /// </summary>
+        /// <param name="admin">Usuáro administrador.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAdm(UserDto admin) {
@@ -99,6 +117,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para cadastro de um novo usuário.
+        /// </summary>
+        /// <returns>Página para cadastro de um novo usuário.</returns>
         [HttpGet]
         public IActionResult Register() {
 
@@ -117,6 +139,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Cadastrar um novo usuário.
+        /// </summary>
+        /// <param name="user">Novo usuário.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(UserDto user) {
@@ -158,6 +185,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para edição de um usuário.
+        /// </summary>
+        /// <param name="id">Identificador chave primária do usuário.</param>
+        /// <returns>Página para edição de um usuário.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
 
@@ -205,6 +237,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Alterar o cadastro de um usuário.
+        /// </summary>
+        /// <param name="user">Usuário a ser alterado.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(UserDto user) {
@@ -242,6 +279,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Excluir o cadastro de um usuário (afastar o usuário).
+        /// </summary>
+        /// <param name="id">Identificador chave primária do usuário.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id) {
@@ -269,6 +311,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Restaurar o cadastro de um usuário (retornar o usuário).
+        /// </summary>
+        /// <param name="id">Identificador chave primária do usuário.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Undelete(Guid id) {

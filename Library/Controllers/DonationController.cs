@@ -9,13 +9,19 @@ using Library.Db.Models;
 namespace Library.Controllers {
 
 
+    /// <summary>
+    /// Controlador para a manutenção de livros doados.
+    /// </summary>
     public class DonationController : Controller {
 
 
+        /// <summary> Objeto para manutenção de livros doados. </summary>
         private readonly IDonationService _donationService;
 
+        /// <summary> Objeto para manutenção do acervo. </summary>
         private readonly ICollectionService _collectionService;
 
+        /// <summary> Objeto para manutenção de livros. </summary>
         private readonly IBookService _bookService;
 
         private readonly ILoanService _loanService;
@@ -40,6 +46,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página de manutenção de livros doados.
+        /// </summary>
+        /// <returns>Página de manutenção de livros doados.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
@@ -64,6 +74,13 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para doação de um livro selecionado na página de
+        /// manutenção do acervo. Caso o livro esteja emprestado, não permite a 
+        /// doação antes que seja devolvido.
+        /// </summary>
+        /// <param name="id">Identificador do livro</param>
+        /// <returns>Página para doação de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
 
@@ -112,6 +129,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Doar o livro selecionado na página de manutenção do acervo.
+        /// </summary>
+        /// <param name="donatedBook">Livro a ser doado.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task <IActionResult> Register(DonatedBookModel donatedBook) {
@@ -149,6 +171,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para doação de um livro a partir da página manutenção de livros doados. Esta
+        /// página contém uma lista de livros a selecionar.
+        /// </summary>
+        /// <returns>Página para doação de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Register2() {
 
@@ -183,6 +210,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Doar o livro selecionado na página de manutenção de livros doados.
+        /// </summary>
+        /// <param name="donatedBook">Livro a ser doado.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register2(DonatedBookModel donatedBook) {
@@ -220,6 +252,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para edição de um livro doado.
+        /// </summary>
+        /// <param name="id">Identificador do livro</param>
+        /// <returns>Página para edição de um livro doado.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
 
@@ -252,6 +289,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Alterar o cadastro de um livro doado.
+        /// </summary>
+        /// <param name="donatedBook">Livro a ser doado</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(DonatedBookModel donatedBook) {
@@ -289,6 +331,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Excluir o cadastro de um livro doado.
+        /// </summary>
+        /// <param name="id">Identificador do livro.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id) {

@@ -4,9 +4,16 @@ using Library.Utils;
 namespace Library.Services.Model.Dto {
 
 
+    /// <summary>
+    /// DTO para configuração do ambiente.
+    /// </summary>
     public class SettingsDto {
 
 
+        /// <summary>
+        /// Constructor da classe
+        /// </summary>
+        /// <param name="settingsService">Objeto para gerenciamento das configurações do ambiente.</param>
         public SettingsDto(ISettingsService settingsService) {
 
 
@@ -97,42 +104,58 @@ namespace Library.Services.Model.Dto {
         }
 
 
+        /// <summary> Cor do texto para livros emprestados. </summary>
         public string? BorrowedTextColor { get; set; }
 
+        /// <summary> Cor do texto para livros doados. </summary>
         public string? DonatedTextColor { get; set; }
 
+        /// <summary> Cor do texto para livros descartados. </summary>
         public string? DiscardedTextColor { get; set; }
 
+        /// <summary> Cor de fundo das páginas. </summary>
         public string? PageBackgroundColor { get; set; }
 
 
+        /// <summary> Aplicar negrito para livros descartados. </summary>
         public bool? IsDiscardedBold { get; set; }
 
+        /// <summary> Aplicar sublinhado para livros descartados. </summary>
         public bool? IsDiscardedUnderline { get; set; }
 
+        /// <summary> Aplicar itálico para livros descartados. </summary>
         public bool? IsDiscardedItalic { get; set; }
 
 
+        /// <summary> Aplicar negrito para livros doados. </summary>
         public bool? IsDonatedBold { get; set; }
 
+        /// <summary> Aplicar sublinhado para livros doados. </summary>
         public bool? IsDonatedUnderline { get; set; }
 
+        /// <summary> Aplicar itálico para livros doados. </summary>
         public bool? IsDonatedItalic { get; set; }
 
 
+        /// <summary> Aplicar negrito para livros emprestados. </summary>
         public bool? IsBorrowedBold { get; set; }
 
+        /// <summary> Aplicar sublinhado para livros emprestados. </summary>
         public bool? IsBorrowedUnderline { get; set; }
 
+        /// <summary> Aplicar itálico para livros emprestados. </summary>
         public bool? IsBorrowedItalic { get; set; }
 
 
+        /// <summary> Aplicar os efeitos de fonte à respectivas listas de livros. </summary>
         public bool? IsApplyStylesToLists { get; set; }
 
 
+        /// <summary> Mostrar legenda de cores no rodapé das páginas. </summary>
         public bool? IsShowFooterCaption { get; set; }
 
 
+        /// <summary> Formato do relatório (PDF|HTML). </summary>
         public int? ReportFormat { get; set; }
 
 

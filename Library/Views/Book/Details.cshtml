@@ -1,8 +1,9 @@
 ﻿
 @*
 
-    Página para a exibição dos detalhes de um livro. Permite a navegação pela lista de
-    todos os livros cadastrados e também permite a busca por um título específico.
+Página para a exibição dos detalhes de um livro. Permite a navegação pela lista de
+todos os livros cadastrados e também permite a busca por um título específico. É a 
+página exibida ao clicar no menu Livro.
 
 *@
 
@@ -88,6 +89,8 @@
     if (settings.IsBorrowedItalic != null && settings.IsBorrowedItalic == true) {
         borrowedTextStyle += Constants.HTML_FONT_ITALIC;
     }
+
+    // Identifica o status do cadastro e aplica o estilo.
 
     string textStyle = "";
     string textColor = "";

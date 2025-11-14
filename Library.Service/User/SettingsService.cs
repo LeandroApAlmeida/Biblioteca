@@ -8,11 +8,16 @@ using Microsoft.EntityFrameworkCore;
 namespace Library.Services.User {
 
 
+    /// <summary>
+    /// Classe para leitura/gravação das configurações do usuário no banco de dados.
+    /// </summary>
     public class SettingsService : ISettingsService {
 
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
+        /// <summary> Objeto para gerenciamento da sessão de usuário. </summary>
         private readonly ISessionService _sessionService;
 
 
@@ -22,6 +27,11 @@ namespace Library.Services.User {
         }
 
 
+        /// <summary>
+        /// Obter uma configuração com base na sua chave.
+        /// </summary>
+        /// <param name="key">Chave da configuração.</param>
+        /// <returns>Configuração relacionada.</returns>
         private SettingsModel? GetSetting(string key) {
 
             UserModel user = _sessionService.GetSessionData()!.User;

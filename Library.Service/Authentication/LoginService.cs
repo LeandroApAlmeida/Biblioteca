@@ -6,13 +6,19 @@ using Library.Services.User;
 namespace Library.Services.Authentication {
 
 
+    /// <summary>
+    /// Classe para gerenciamento do acesso à aplicação.
+    /// </summary>
     public class LoginService : ILoginService {
 
 
+        /// <summary> Objeto para manutenção de contas de usuário. </summary>
         private readonly IUserService _userService;
 
+        /// <summary> Objeto para geração de hash da senha. </summary>
         private readonly IPasswordService _passwordService;
 
+        /// <summary> Objeto para manutenção de sessão de usuário. </summary>
         private readonly ISessionService _sessionService;
 
 
@@ -30,22 +36,30 @@ namespace Library.Services.Authentication {
 
             try {
 
+                // Obtém o usuário com o nome definido em loginData.
                 var userResp = await _userService.GetUserWithHash(loginData.UserName);
 
                 if (!userResp.Successful) throw new Exception(userResp.Message);
-
+                 
                 if (userResp.Data != null) {
 
+                    // Se recuperou o usuário...
+
+                    // Se o usuário foi deletado, impede o acesso à aplicação.
                     if (userResp.Data.IsDeleted) {
                         throw new Exception("Acesso negado!");
                     }
 
+                    // Verifica se a senha do usuário confere com a senha que gerou o hash
+                    // salvo no banco de dados.
                     var isTheSamePassword = _passwordService.IsTheSamePassword(
                         loginData.Password,
                         userResp.Data.PasswordHash
                     );
 
                     if (isTheSamePassword) {
+
+                        // Sendo a mesma senha, inicia uma sessão da aplicação.
 
                         var createSessionResp = await _sessionService.CreateSession(userResp.Data, ip);
 
@@ -61,6 +75,8 @@ namespace Library.Services.Authentication {
 
                     } else {
 
+                        // Não sendo a mesma senha, impede o acesso à aplicação.
+
                         response.Message = "Credenciais inválidas!";
 
                         response.Data = null;
@@ -70,6 +86,8 @@ namespace Library.Services.Authentication {
                     }
 
                 } else {
+
+                    // Se não recuperou o usuário, impede o acesso à aplicação.
 
                     response.Message = "Credenciais inválidas!";
 

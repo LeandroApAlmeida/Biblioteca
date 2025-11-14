@@ -5,21 +5,31 @@ using Microsoft.EntityFrameworkCore;
 namespace Library.Services.Collection {
 
 
+    /// <summary>
+    /// Classe para informações sobre o acervo.
+    /// </summary>
     public class CollectionService: ICollectionService {
 
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
+        /// <summary> Objeto para manutenção de livros descartados. </summary>
         private readonly IDiscardService _discardService;
 
+        /// <summary> Objeto para manutenção de livros doados. </summary>
         private readonly IDonationService _donationService;
 
+        /// <summary> Objeto para manutenção de livros emprestados. </summary>
         private readonly ILoanService _loanService;
 
+        /// <summary> Lista com os IDs dos livros emprestados. </summary>
         private List<Guid>? borrowedBooksIds;
 
+        /// <summary> Lista com os IDs dos livros doados. </summary>
         private List<Guid>? donatedBooksIds;
 
+        /// <summary> Lista com os IDs dos livros descartados. </summary>
         private List<Guid>? discardedBooksIds;
 
 
@@ -33,6 +43,10 @@ namespace Library.Services.Collection {
         }
 
 
+        /// <summary>
+        /// Preencher as listas de IDs de livros.
+        /// </summary>
+        /// <returns></returns>
         private async Task FillBooksLists() {
 
             var borrowedBooksIdsResp = await _loanService.GetBorrowedBooksIds();
@@ -45,7 +59,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<List<BookModel>>> GetAvailableBooks() {
 
             Response<List<BookModel>> response = new();
@@ -79,7 +93,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<List<BookModel>>> GetCollectionBooks() {
 
             Response<List<BookModel>> response = new();
@@ -116,7 +130,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<List<BookModel>>> GetCollectionBooksWithThumbnails() {
 
             Response<List<BookModel>> response = new();

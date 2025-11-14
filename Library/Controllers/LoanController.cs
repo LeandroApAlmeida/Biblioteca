@@ -9,19 +9,28 @@ using Library.Db.Models;
 namespace Library.Controllers {
 
 
+    /// <summary>
+    /// Controlador para a manutenção de empréstimos.
+    /// </summary>
     public class LoanController : Controller {
 
 
+        /// <summary> Objeto para manutenção de empréstimos. </summary>
         private readonly ILoanService _loanService;
 
+        /// <summary> Objeto para gerenciamento do acervo. </summary>
         private readonly ICollectionService _collectionService;
 
+        /// <summary> Objeto para manutenção de livros. </summary>
         private readonly IBookService _bookService;
 
+        /// <summary> Objeto para manutenção de pessoas. </summary>
         private readonly IPersonService _personService;
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
+        /// <summary> Objeto para acesso às configurações do usuário. </summary>
         private readonly ISettingsService _settingsService;
 
 
@@ -37,6 +46,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página de manutenção de empréstimos.
+        /// </summary>
+        /// <returns>Página de manutenção de empréstimos.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
@@ -61,6 +74,12 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para empréstimo de um livro selecionado na página de
+        /// manutenção do acervo. 
+        /// </summary>
+        /// <param name="id">Identificador chave primária do livro.</param>
+        /// <returns>Página para empréstimo de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
 
@@ -109,6 +128,12 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Emprestar o livro selecionado na página de manutenção do acervo. Caso o livro já esteja 
+        /// emprestado, não permite o empréstimo antes que seja devolvido.
+        /// </summary>
+        /// <param name="loan">Registro de empréstimo.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(LoanModel loan) {
@@ -146,6 +171,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para empréstimo de um livro a partir da página manutenção de empréstimos. Esta
+        /// página contém uma lista de livros a selecionar.
+        /// </summary>
+        /// <returns>Página para empréstimo de um livro.</returns>
         [HttpGet]
         public async Task <IActionResult> Register2() {
 
@@ -180,6 +210,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Emprestar o livro selecionado na página de manutenção de empréstimos.
+        /// </summary>
+        /// <param name="discardedBook">Registro de empréstimo.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register2(LoanModel loan) {
@@ -217,6 +252,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para edição de um livro emprestado.
+        /// </summary>
+        /// <param name="id">Identificador do registro de empréstimo.</param>
+        /// <returns>Página para edição de um livro emprestado.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
 
@@ -249,6 +289,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Alterar o cadastro de um livro emprestado.
+        /// </summary>
+        /// <param name="loan">Registro de empréstimo a ser alterado.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(LoanModel loan) {
@@ -286,6 +331,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Excluir o cadastro de um livro emprestado.
+        /// </summary>
+        /// <param name="id">Identificador chave primária do registro de empréstimo.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(Guid id) {
@@ -313,6 +363,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar a página para a devolução de um livro emprestado.
+        /// </summary>
+        /// <param name="id">Identificador chave primária do registro de empréstimo.</param>
+        /// <returns>Página para devolução de um livro emprestado.</returns>
         [HttpGet]
         public async Task<IActionResult> Return(Guid id) {
 
@@ -337,6 +392,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Fazer a devolução de um livro emprestado.
+        /// </summary>
+        /// <param name="loan">Registro de empréstimo a ser devolvido.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Return(LoanModel loan) {
@@ -374,6 +434,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Cancelar a devolução de um livro emprestado.
+        /// </summary>
+        /// <param name="id">Identificador chave primária do registro de empréstimo.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cancel(Guid id) {

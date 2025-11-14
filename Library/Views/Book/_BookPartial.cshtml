@@ -2,15 +2,15 @@
 
 @*
 
-    Layout dos campos para o cadastro/edição de um livro.
+Layout dos campos para o cadastro/edição de um livro.
 
-    Use:
+Use:
 
-    @{
-        await Html.RenderPartialAsync("~/Views/Book/_BookPartial.cshtml", Model);
-    }
+@{
+    await Html.RenderPartialAsync("~/Views/Book/_BookPartial.cshtml", Model);
+}
 
-    para renderizar o layout em uma página.
+para renderizar o layout em uma página.
 
 *@
 
@@ -134,7 +134,8 @@
 </div>
 
 
-@*<script>
+@*Ajusta o campo sinopse ao tamanho do texto.*@
+<script>
 
     document.addEventListener('DOMContentLoaded', function() {
         autoResize(document.getElementById('summary'));
@@ -145,4 +146,4 @@
       textarea.style.height = textarea.scrollHeight + 'px';
     }
 
-</script>*@
+</script>

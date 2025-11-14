@@ -15,8 +15,10 @@ namespace Library.Controllers {
     public class PersonController : Controller {
 
 
+        /// <summary> Objeto para manutenção de pessoas. </summary>
         private readonly IPersonService _personService;
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
 
@@ -75,7 +77,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Cadastrar uma nova pessoa.
         /// </summary>
-        /// <param name="book">Nova pessoa</param>
+        /// <param name="book">Pessoa a ser cadastrada.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -117,7 +119,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página para edição de uma pessoa.
         /// </summary>
-        /// <param name="id">Identificador da pessoa</param>
+        /// <param name="id">Identificador chave primária da pessoa</param>
         /// <returns>Página para edição de uma pessoa.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
@@ -190,7 +192,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Excluir o cadastro de uma pessoa.
         /// </summary>
-        /// <param name="book">Pessoa a ser excluída</param>
+        /// <param name="book">Identificador chave primária da pessoa a ser excluída.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -219,6 +221,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Retornar o cadastro de uma pessoa.
+        /// </summary>
+        /// <param name="id">Identificador chave primária da pessoa a ser retornada.</param>
+        /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Undelete(Guid id) {

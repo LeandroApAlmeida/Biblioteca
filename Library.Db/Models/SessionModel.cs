@@ -17,12 +17,14 @@ namespace Library.Db.Models {
         /// <summary> Instância do usuário da sessão. </summary>
         public required UserModel User { get; set; }
 
-        /// <summary> Número do endereçço IP e MAC do host do usuário. </summary>
+        /// <summary> Número do endereço IP e MAC do host do usuário. </summary>
         public string? Ip { get; set; }
 
+        /// <summary> Data da realização do login. </summary>
         [DataType(DataType.DateTime)]
         public required DateTime LoginDate { get; set; }
 
+        /// <summary> Data da realização do logout. </summary>
         [DataType(DataType.DateTime)]
         public required DateTime LogoutDate { get; set; }
 

@@ -5,9 +5,13 @@ using Microsoft.EntityFrameworkCore;
 namespace Library.Services.Collection {
 
 
+    /// <summary>
+    /// Classe para manutenção de livros emprestados.
+    /// </summary>
     public class LoanService : ILoanService {
 
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
 

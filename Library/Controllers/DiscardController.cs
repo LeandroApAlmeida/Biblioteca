@@ -15,16 +15,22 @@ namespace Library.Controllers {
     public class DiscardController : Controller {
 
 
+        /// <summary> Objeto para gerenciamento do acervo. </summary>
         private readonly ICollectionService _collectionService;
 
+        /// <summary> Objeto para manutenção de livros descartados. </summary>
         private readonly IDiscardService _discardService;
 
+        /// <summary> Objeto para manutenção de empréstimos. </summary>
         private readonly ILoanService _loanService;
 
+        /// <summary> Objeto para manutenção de livros. </summary>
         private readonly IBookService _bookService;
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
+        /// <summary> Objeto para acesso às configurações do usuário. </summary>
         private readonly ISettingsService _settingsService;
 
 
@@ -73,7 +79,7 @@ namespace Library.Controllers {
         /// manutenção do acervo. Caso o livro esteja emprestado, não permite o 
         /// descarte antes que seja devolvido.
         /// </summary>
-        /// <param name="id">Identificador do livro</param>
+        /// <param name="id">Identificador chave primária do livro</param>
         /// <returns>Página para descarte de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
@@ -124,7 +130,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Descartar o livro selecionado na página de manutenção do acervo.
         /// </summary>
-        /// <param name="discardedBook">Livro a ser descartado</param>
+        /// <param name="discardedBook">Livro a ser descartado.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -237,7 +243,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página para edição de um livro descartado.
         /// </summary>
-        /// <param name="id">Identificador do livro</param>
+        /// <param name="id">Identificador chave primária do livro</param>
         /// <returns>Página para edição de um livro descartado.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
@@ -268,7 +274,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Alterar o cadastro de um livro descartado.
         /// </summary>
-        /// <param name="book">Livro a ser alterado</param>
+        /// <param name="discardedBook">Livro a ser alterado</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -308,9 +314,9 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Excluir o cadastro de um livro descartado.
+        /// Excluir o cadastro de um livro emprestado.
         /// </summary>
-        /// <param name="book">Livro a ser excluído</param>
+        /// <param name="id">Identificador do livro.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

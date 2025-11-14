@@ -5,11 +5,16 @@ using Microsoft.EntityFrameworkCore;
 namespace Library.Services.Collection {
 
 
+    /// <summary>
+    /// Classe para manutenção de livros descartados.
+    /// </summary>
     public class DiscardService : IDiscardService {
 
 
+        /// <summary> Objeto para acesso ao banco de dados. </summary>
         private readonly ApplicationDbContext _context;
 
+        /// <summary> Objeto para manutenção de livros emprestados. </summary>
         private readonly ILoanService _loanService;
 
 
@@ -18,7 +23,7 @@ namespace Library.Services.Collection {
             _loanService = loanService;
         }
 
-
+        
         public async Task<Response<List<DiscardedBookModel>>> GetDiscardedBooks() {
 
             Response<List<DiscardedBookModel>> response = new();
@@ -109,7 +114,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<DiscardedBookModel>> RegisterDiscardedBook(DiscardedBookModel discardedBook) {
 
             Response<DiscardedBookModel> response = new();
@@ -146,7 +151,6 @@ namespace Library.Services.Collection {
 
                 }
 
-
             } catch (Exception ex) {
 
                 response.Message = ex.Message;
@@ -158,7 +162,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+        
         public async Task<Response<DiscardedBookModel>> EditDiscardedBook(DiscardedBookModel discardedBook) {
 
             Response<DiscardedBookModel> response = new();
@@ -191,7 +195,7 @@ namespace Library.Services.Collection {
 
         }
 
-
+                
         public async Task<Response<DiscardedBookModel>> DeleteDiscardedBook(Guid id) {
 
             Response<DiscardedBookModel> response = new();

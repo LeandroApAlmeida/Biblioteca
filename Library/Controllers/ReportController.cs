@@ -9,25 +9,37 @@ using Microsoft.AspNetCore.Mvc;
 namespace Library.Controllers {
 
 
+    /// <summary>
+    /// Controler para renderização de relatórios.
+    /// </summary>
     public class ReportController : Controller {
 
 
+        /// <summary> Objeto para manutenção de livros. </summary>
         private readonly IBookService _bookService;
 
+        /// <summary> Objeto para gerenciamento do acervo. </summary>
         private readonly ICollectionService _collectionService;
 
+        /// <summary> Objeto para manutenção de livros descartados. </summary>
         private readonly IDiscardService _discardService;
 
+        /// <summary> Objeto para manutenção de livros doados. </summary>
         private readonly IDonationService _donationService;
 
+        /// <summary> Objeto para manutenção de empréstimos. </summary>
         private readonly ILoanService _loanService;
 
+        /// <summary> Objeto para geração de relatórios em formato PDF. </summary>
         private readonly IPdfReportService _pdfReportService;
 
+        /// <summary> Objeto para geração de relatórios em formato HTML. </summary>
         private readonly IHtmlReportService _htmlReportService;
 
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
         private readonly ISessionService _sessionService;
 
+        /// <summary> Objeto para acesso às configurações do usuário. </summary>
         private readonly ISettingsService _settingsService;
 
         
@@ -47,6 +59,11 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Renderizar o relatório "Detalhes do Livro".
+        /// </summary>
+        /// <param name="id">Identificador chave primária do livro.</param>
+        /// <returns>Página "Relatório Detalhes do Livro".</returns>
         [HttpGet]
         public async Task<IActionResult> BookDetailedReport(Guid id) {
 
@@ -62,6 +79,8 @@ namespace Library.Controllers {
 
                 if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
                 Constants.PDF_FORMAT) {
+
+                    // Relatório no formato PDF.
 
                     Response.Headers.Append(
                         "Content-Disposition",
@@ -86,6 +105,8 @@ namespace Library.Controllers {
                     return File(pdfBytes, "application/pdf");
 
                 } else {
+
+                    // Relatório no formato HTML.
 
                     Response.Headers.Append(
                         "Content-Disposition",
@@ -124,6 +145,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Renderizar o relatório "Livros no Acervo".
+        /// </summary>
+        /// <returns>Página "Relatório Livros no Acervo".</returns>
         [HttpGet]
         public IActionResult BooksInTheCollectionReport() {
 
@@ -133,6 +158,8 @@ namespace Library.Controllers {
 
             if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
             Constants.PDF_FORMAT) {
+
+                // Relatório no formato PDF.
 
                 var pdfBytes = _pdfReportService.BooksInTheCollection();
 
@@ -144,6 +171,8 @@ namespace Library.Controllers {
                 return File(pdfBytes, "application/pdf");
 
             } else {
+
+                // Relatório no formato HTML.
 
                 Response.Headers.Append(
                     "Content-Disposition",
@@ -164,6 +193,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Renderizar o relatório "Livros Cadastrados".
+        /// </summary>
+        /// <returns>Página "Relatório Livros Cadastrados".</returns>
         [HttpGet]
         public  IActionResult RegisteredBooksReport() {
 
@@ -173,6 +206,8 @@ namespace Library.Controllers {
 
             if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
             Constants.PDF_FORMAT) {
+
+                // Relatório no formato PDF.
 
                 var pdfBytes = _pdfReportService.RegisteredBooks();
 
@@ -184,6 +219,8 @@ namespace Library.Controllers {
                 return File(pdfBytes, "application/pdf");
 
             } else {
+
+                // Relatório no formato HTML.
 
                 Response.Headers.Append(
                     "Content-Disposition",
@@ -204,6 +241,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Renderizar o relatório "Livros Descartados".
+        /// </summary>
+        /// <returns>Página "Relatório Livros Descartados".</returns>
         [HttpGet]
         public IActionResult DiscardedBooksReport() {
 
@@ -213,6 +254,8 @@ namespace Library.Controllers {
 
             if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
             Constants.PDF_FORMAT) {
+
+                // Relatório no formato PDF.
 
                 var pdfBytes = _pdfReportService.DiscardedBooks();
 
@@ -224,6 +267,8 @@ namespace Library.Controllers {
                 return File(pdfBytes, "application/pdf");
 
             } else {
+
+                // Relatório no formato HTML.
 
                 Response.Headers.Append(
                     "Content-Disposition",
@@ -244,6 +289,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Renderizar o relatório "Livros Doados".
+        /// </summary>
+        /// <returns>Página "Relatório Livros Doados".</returns>
         [HttpGet]
         public IActionResult DonatedBooksReport() {
 
@@ -253,6 +302,8 @@ namespace Library.Controllers {
 
             if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
             Constants.PDF_FORMAT) {
+
+                // Relatório no formato PDF.
 
                 var pdfBytes = _pdfReportService.DonatedBooks();
 
@@ -264,6 +315,8 @@ namespace Library.Controllers {
                 return File(pdfBytes, "application/pdf");
 
             } else {
+
+                // Relatório no formato HTML.
 
                 Response.Headers.Append(
                     "Content-Disposition",
@@ -284,6 +337,10 @@ namespace Library.Controllers {
         }
 
 
+        /// <summary>
+        /// Renderizar o relatório "Livros Emprestados".
+        /// </summary>
+        /// <returns>Página "Relatório Livros Emprestados".</returns>
         [HttpGet]
         public IActionResult BorrowedBooksReport() {
 
@@ -293,6 +350,8 @@ namespace Library.Controllers {
 
             if (_settingsService.GetInt(Constants.REPORT_FORMAT_KEY, Constants.PDF_FORMAT) ==
             Constants.PDF_FORMAT) {
+
+                // Relatório no formato PDF.
 
                 var pdfBytes = _pdfReportService.BorrowedBooks();
 
@@ -304,6 +363,8 @@ namespace Library.Controllers {
                 return File(pdfBytes, "application/pdf");
 
             } else {
+
+                // Relatório no formato HTML.
 
                 Response.Headers.Append(
                     "Content-Disposition",
