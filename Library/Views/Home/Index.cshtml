@@ -32,6 +32,8 @@
         borrowedTextStyle += Constants.HTML_FONT_ITALIC;
     }
 
+    var backgroundColor = settings.PageBackgroundColor;
+
 }
 
 
@@ -50,27 +52,27 @@
     <table id="book-table" class="table line-spacing align-td">
 
 
-        <thead class="text-start">
+        <thead class="text-start" style="background-color:@backgroundColor;">
 
             <tr>
 
-                <th scope="col" style="width: 90px;">Livro</th>
+                <th scope="col" style="width: 90px;background-color:@backgroundColor;">Livro</th>
 
-                <th scope="col" style="width: 27%;"></th>
+                <th scope="col" style="width: 27%;background-color:@backgroundColor;"></th>
 
-                <th scope="col" style="width: 18%;">Autor</th>
+                <th scope="col" style="width: 18%;background-color:@backgroundColor;">Autor</th>
 
-                <th scope="col" style="width: 15%;">Editora</th>
+                <th scope="col" style="width: 15%;background-color:@backgroundColor;">Editora</th>
 
-                <th scope="col" style="width: 12%;">ISBN</th>
+                <th scope="col" style="width: 12%;background-color:@backgroundColor;">ISBN</th>
 
-                <th scope="col" style="width: 4%;">Edic.</th>
+                <th scope="col" style="width: 4%;background-color:@backgroundColor;">Edic.</th>
 
-                <th scope="col" style="width: 4%;">Vol.</th>
+                <th scope="col" style="width: 4%;background-color:@backgroundColor;">Vol.</th>
 
-                <th scope="col" style="width: 5%;">Ano</th>
+                <th scope="col" style="width: 5%;background-color:@backgroundColor;">Ano</th>
 
-                <th scope="col" >Aquisição</th>
+                <th scope="col" style="background-color:@backgroundColor;">Aquisição</th>
 
             </tr>
 

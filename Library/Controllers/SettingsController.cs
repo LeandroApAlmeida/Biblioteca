@@ -10,20 +10,14 @@ namespace Library.Controllers {
     /// <summary>
     /// Controlador para gerenciamento das configurações do usuário.
     /// </summary>
-    public class SettingsController : Controller {
+    public class SettingsController(ISettingsService settingsService, ISessionService sessionService) : Controller {
 
 
         /// <summary> Objeto para acesso às configurações do usuário. </summary>
-        private readonly ISettingsService _settingsService;
+        private readonly ISettingsService _settingsService = settingsService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
-
-
-        public SettingsController(ISettingsService settingsService, ISessionService sessionService) {
-            _settingsService = settingsService;
-            _sessionService = sessionService;
-        }
+        private readonly ISessionService _sessionService = sessionService;
 
 
         /// <summary>

@@ -6,9 +6,9 @@ using Library.Services.Collection;
 using Library.Services.Report;
 using Library.Services.Session;
 using Library.Services.User;
-using Library.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.HttpOverrides;
+using Library;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +25,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 );
 
 
-new CustomAssemblyLoadContext().LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+new CustomAssemblyLoadContext().LoadUnmanagedLibrary(
+    Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll")
+);
 
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
@@ -91,10 +93,7 @@ app.UseAuthorization();
 
 app.UseSession();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Login}/{action=Login}/{id?}"
-);
+app.MapControllerRoute(name: "default", pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto

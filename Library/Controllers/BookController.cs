@@ -12,35 +12,27 @@ namespace Library.Controllers {
     /// <summary>
     /// Controller para a manutenção de livros do acervo.
     /// </summary>
-    public class BookController : Controller {
+    public class BookController(IBookService bookService, ICollectionService collectionService,
+    ISessionService sessionService, ISettingsService settingsService) : Controller {
 
 
         /// <summary> Objeto para manutenção de livros. </summary>
-        private readonly IBookService _bookService;
+        private readonly IBookService _bookService = bookService;
 
         /// <summary> Objeto para gerenciamento do acervo. </summary>
-        private readonly ICollectionService _collectionService;
+        private readonly ICollectionService _collectionService = collectionService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
+        private readonly ISessionService _sessionService = sessionService;
 
         /// <summary> Objeto para acesso às configurações do usuário. </summary>
-        private readonly ISettingsService _settingsService;
-
-
-        public BookController(IBookService bookService, ICollectionService collectionService,
-        ISessionService sessionService, ISettingsService settingsService) {
-            _collectionService = collectionService;
-            _bookService = bookService;
-            _sessionService = sessionService;
-            _settingsService = settingsService;
-        }
+        private readonly ISettingsService _settingsService = settingsService;
 
 
         /// <summary>
-        /// Retornar a página de manutenção do acervo.
+        /// Retornar a página para manutenção do acervo.
         /// </summary>
-        /// <returns>Página de manutenção do acervo.</returns>
+        /// <returns>Página para manutenção do acervo.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 

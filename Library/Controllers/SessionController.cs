@@ -8,20 +8,14 @@ namespace Library.Controllers {
     /// <summary>
     /// Controlador para o gerenciamento de sessão de usuário.
     /// </summary>
-    public class SessionController : Controller {
+    public class SessionController(ISessionService sessionService, ILogService logService) : Controller {
 
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
+        private readonly ISessionService _sessionService = sessionService;
 
         /// <summary> Objeto para manutenção do log de sessão. </summary>
-        private readonly ILogService _logService;
-
-
-        public SessionController(ISessionService sessionService, ILogService logService) {
-            _sessionService = sessionService;
-            _logService = logService;
-        }
+        private readonly ILogService _logService = logService;
 
 
         /// <summary>

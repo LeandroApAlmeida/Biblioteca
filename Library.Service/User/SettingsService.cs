@@ -11,20 +11,14 @@ namespace Library.Services.User {
     /// <summary>
     /// Classe para leitura/gravação das configurações do usuário no banco de dados.
     /// </summary>
-    public class SettingsService : ISettingsService {
+    public class SettingsService(ApplicationDbContext context, ISessionService sessionService) : ISettingsService {
 
 
         /// <summary> Objeto para acesso ao banco de dados. </summary>
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = context;
 
         /// <summary> Objeto para gerenciamento da sessão de usuário. </summary>
-        private readonly ISessionService _sessionService;
-
-
-        public SettingsService(ApplicationDbContext context, ISessionService sessionService) {
-            _context = context;
-            _sessionService = sessionService;
-        }
+        private readonly ISessionService _sessionService = sessionService;
 
 
         /// <summary>

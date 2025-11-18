@@ -12,44 +12,37 @@ namespace Library.Controllers {
     /// <summary>
     /// Controlador para a manutenção de livros doados.
     /// </summary>
-    public class DonationController : Controller {
+    public class DonationController(IDonationService donationService, IBookService bookService,
+    IPersonService personService, ICollectionService collectionService, ISessionService sessionService,
+    ISettingsService settingsService, ILoanService loanService) : Controller {
 
 
         /// <summary> Objeto para manutenção de livros doados. </summary>
-        private readonly IDonationService _donationService;
+        private readonly IDonationService _donationService = donationService;
 
         /// <summary> Objeto para manutenção do acervo. </summary>
-        private readonly ICollectionService _collectionService;
+        private readonly ICollectionService _collectionService = collectionService;
 
         /// <summary> Objeto para manutenção de livros. </summary>
-        private readonly IBookService _bookService;
+        private readonly IBookService _bookService = bookService;
 
-        private readonly ILoanService _loanService;
+        /// <summary> Objeto para manutenção de empréstimos. </summary>
+        private readonly ILoanService _loanService = loanService;
 
-        private readonly IPersonService _personService;
+        /// <summary> Objeto para manutenção de pessoas. </summary>
+        private readonly IPersonService _personService = personService;
 
-        private readonly ISessionService _sessionService;
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
+        private readonly ISessionService _sessionService = sessionService;
 
-        private readonly ISettingsService _settingsService;
-
-
-        public DonationController(IDonationService donationService, IBookService bookService,
-        IPersonService personService, ICollectionService collectionService, ISessionService sessionService,
-        ISettingsService settingsService, ILoanService loanService) {
-            _collectionService = collectionService;
-            _bookService = bookService;
-            _personService = personService;
-            _donationService = donationService;
-            _sessionService = sessionService;
-            _settingsService = settingsService;
-            _loanService = loanService;
-        }
+        /// <summary> Objeto para acesso às configurações do usuário. </summary>
+        private readonly ISettingsService _settingsService = settingsService;
 
 
         /// <summary>
-        /// Retornar a página de manutenção de livros doados.
+        /// Retornar a página para manutenção de livros doados.
         /// </summary>
-        /// <returns>Página de manutenção de livros doados.</returns>
+        /// <returns>Página para manutenção de livros doados.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
@@ -79,7 +72,7 @@ namespace Library.Controllers {
         /// manutenção do acervo. Caso o livro esteja emprestado, não permite a 
         /// doação antes que seja devolvido.
         /// </summary>
-        /// <param name="id">Identificador do livro</param>
+        /// <param name="id">Identificador chave primária do livro.</param>
         /// <returns>Página para doação de um livro.</returns>
         [HttpGet]
         public async Task<IActionResult> Register(Guid id) {
@@ -211,7 +204,7 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Doar o livro selecionado na página de manutenção de livros doados.
+        /// Doar o livro selecionado na página para manutenção de livros doados.
         /// </summary>
         /// <param name="donatedBook">Livro a ser doado.</param>
         /// <returns>Página de redirecionamento.</returns>
@@ -255,7 +248,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página para edição de um livro doado.
         /// </summary>
-        /// <param name="id">Identificador do livro</param>
+        /// <param name="id">Identificador chave primária do livro.</param>
         /// <returns>Página para edição de um livro doado.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
@@ -292,7 +285,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Alterar o cadastro de um livro doado.
         /// </summary>
-        /// <param name="donatedBook">Livro a ser doado</param>
+        /// <param name="donatedBook">Livro a ser alterado.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -334,7 +327,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Excluir o cadastro de um livro doado.
         /// </summary>
-        /// <param name="id">Identificador do livro.</param>
+        /// <param name="id">Identificador chave primária do livro.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -10,38 +10,28 @@ namespace Library.Services.Report {
     /// <summary>
     /// Classe para geração de relatórios em formato HTML.
     /// </summary>
-    public class HtmlReportService : IHtmlReportService {
+    public class HtmlReportService(ISettingsService settingsService, ICollectionService collectionService,
+    IBookService bookService, IDiscardService discardService, IDonationService donationService,
+    ILoanService loanService) : IHtmlReportService {
 
 
         /// <summary> Objeto para gerenciamento das configurações do ambiente. </summary>
-        private readonly ISettingsService _settingsService;
+        private readonly ISettingsService _settingsService = settingsService;
 
         /// <summary> Objeto para gerenciamento do acervo. </summary>
-        private readonly ICollectionService _collectionService;
+        private readonly ICollectionService _collectionService = collectionService;
 
         /// <summary> Objeto para manutenção de livros do acervo. </summary>
-        private readonly IBookService _bookService;
+        private readonly IBookService _bookService = bookService;
 
         /// <summary> Objeto para manutenção de livros descartados. </summary>
-        private readonly IDiscardService _discardService;
+        private readonly IDiscardService _discardService = discardService;
 
         /// <summary> Objeto para manutenção de livros doados. </summary>
-        private readonly IDonationService _donationService;
+        private readonly IDonationService _donationService = donationService;
 
         /// <summary> Objeto para manutenção de livros emprestados. </summary>
-        private readonly ILoanService _loanService;
-
-
-        public HtmlReportService(ISettingsService settingsService, ICollectionService collectionService,
-        IBookService bookService, IDiscardService discardService, IDonationService donationService,
-        ILoanService loanService) {
-            _settingsService = settingsService;
-            _collectionService = collectionService;
-            _bookService = bookService;
-            _discardService = discardService;
-            _donationService = donationService;
-            _loanService = loanService;
-        }
+        private readonly ILoanService _loanService = loanService;
 
 
         /// <summary>

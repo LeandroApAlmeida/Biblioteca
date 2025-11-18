@@ -12,20 +12,14 @@ namespace Library.Services.User {
     /// <summary>
     /// Classe para manutenção de usuários da aplicação.
     /// </summary>
-    public class UserService : IUserService {
+    public class UserService(ApplicationDbContext context, IPasswordService passwordService) : IUserService {
 
 
         /// <summary> Objeto para acesso ao banco de dados. </summary>
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = context;
 
         /// <summary> Objeto para geração do hash da senha. </summary>
-        private readonly IPasswordService _passwordService;
-
-
-        public UserService(ApplicationDbContext context, IPasswordService passwordService) {
-            _context = context;
-            _passwordService = passwordService;
-        }
+        private readonly IPasswordService _passwordService = passwordService;
 
 
         public async Task<Response<List<UserRoleModel>>> GetUserRoles() {

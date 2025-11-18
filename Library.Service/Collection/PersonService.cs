@@ -8,16 +8,11 @@ namespace Library.Services.Collection {
     /// <summary>
     /// Classe para manutenção de pessoas.
     /// </summary>
-    public class PersonService : IPersonService {
+    public class PersonService(ApplicationDbContext context) : IPersonService {
 
 
         /// <summary> Objeto para acesso ao banco de dados. </summary>
-        private readonly ApplicationDbContext _context;
-
-
-        public PersonService(ApplicationDbContext context) {
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
 
 
         public async Task<Response<List<PersonModel>>> GetPersons() {

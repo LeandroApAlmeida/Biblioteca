@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Library.Utils {
+namespace Library {
 
 
     public class CustomAssemblyLoadContext : AssemblyLoadContext {

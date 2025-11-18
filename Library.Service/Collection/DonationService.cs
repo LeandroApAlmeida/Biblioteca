@@ -8,20 +8,14 @@ namespace Library.Services.Collection {
     /// <summary>
     /// Classe para manutenção de livros doados.
     /// </summary>
-    public class DonationService : IDonationService {
+    public class DonationService(ApplicationDbContext context, ILoanService loanService) : IDonationService {
 
 
         /// <summary> Objeto para acesso ao banco de dados. </summary>
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = context;
 
         /// <summary> Objeto para manutenção de livros emprestados. </summary>
-        private readonly ILoanService _loanService;
-
-
-        public DonationService(ApplicationDbContext context, ILoanService loanService) {
-            _context = context;
-            _loanService = loanService;
-        }
+        private readonly ILoanService _loanService = loanService;
 
 
         public async Task<Response<List<DonatedBookModel>>> GetDonatedBooks() {

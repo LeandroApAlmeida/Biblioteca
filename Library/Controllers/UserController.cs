@@ -10,20 +10,14 @@ namespace Library.Controllers {
     /// <summary>
     /// Controlador para a manutenção de usuários.
     /// </summary>
-    public class UserController : Controller {
+    public class UserController(IUserService userService, ISessionService sessionService) : Controller {
 
 
         /// <summary> Objeto para a manutenção de usuários. </summary>
-        private readonly IUserService _userService;
+        private readonly IUserService _userService = userService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
-
-
-        public UserController(IUserService userService, ISessionService sessionService) {
-            _userService = userService;
-            _sessionService = sessionService;
-        }
+        private readonly ISessionService _sessionService = sessionService;
 
 
         /// <summary>

@@ -35,11 +35,14 @@ namespace Library.Services.Collection {
 
         public CollectionService(ApplicationDbContext context, IDiscardService discardService,
         ILoanService loanService, IDonationService donationService) {
+            
             _context = context;
             _discardService = discardService;
             _loanService = loanService;
             _donationService = donationService;
+            
             FillBooksLists().Wait();
+        
         }
 
 

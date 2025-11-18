@@ -12,38 +12,28 @@ namespace Library.Controllers {
     /// <summary>
     /// Controlador para a manutenção de empréstimos.
     /// </summary>
-    public class LoanController : Controller {
+    public class LoanController(ILoanService loanService, IPersonService personService,
+    IBookService bookService, ICollectionService collectionService, ISessionService sessionService,
+    ISettingsService settingsService) : Controller {
 
 
         /// <summary> Objeto para manutenção de empréstimos. </summary>
-        private readonly ILoanService _loanService;
+        private readonly ILoanService _loanService = loanService;
 
         /// <summary> Objeto para gerenciamento do acervo. </summary>
-        private readonly ICollectionService _collectionService;
+        private readonly ICollectionService _collectionService = collectionService;
 
         /// <summary> Objeto para manutenção de livros. </summary>
-        private readonly IBookService _bookService;
+        private readonly IBookService _bookService = bookService;
 
         /// <summary> Objeto para manutenção de pessoas. </summary>
-        private readonly IPersonService _personService;
+        private readonly IPersonService _personService = personService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
+        private readonly ISessionService _sessionService = sessionService;
 
         /// <summary> Objeto para acesso às configurações do usuário. </summary>
-        private readonly ISettingsService _settingsService;
-
-
-        public LoanController(ILoanService loanService, IPersonService personService, 
-        IBookService bookService, ICollectionService collectionService, ISessionService sessionService,
-        ISettingsService settingsService) {
-            _collectionService = collectionService;
-            _loanService = loanService;
-            _bookService = bookService;
-            _personService = personService;
-            _sessionService = sessionService;
-            _settingsService = settingsService;
-        }
+        private readonly ISettingsService _settingsService = settingsService;
 
 
         /// <summary>

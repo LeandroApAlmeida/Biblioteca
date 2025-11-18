@@ -11,20 +11,14 @@ namespace Library.Controllers {
     /// </summary>
     [ApiController]
     [Route("Api/[controller]")]
-    public class SettingsApiController : Controller {
+    public class SettingsApiController(ISettingsService settingsService, ISessionService sessionService) : Controller {
 
 
         /// <summary> Objeto para acesso às configurações do usuário. </summary>
-        private readonly ISettingsService _settingsService;
+        private readonly ISettingsService _settingsService = settingsService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
-
-
-        public SettingsApiController(ISettingsService settingsService, ISessionService sessionService) {
-            _settingsService = settingsService;
-            _sessionService = sessionService;
-        }
+        private readonly ISessionService _sessionService = sessionService;
 
 
         /// <summary>

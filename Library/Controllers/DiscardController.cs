@@ -12,44 +12,34 @@ namespace Library.Controllers {
     /// <summary>
     /// Controlador para a manutenção de livros descartados.
     /// </summary>
-    public class DiscardController : Controller {
+    public class DiscardController(IDiscardService discardService, IBookService bookService,
+    ICollectionService collectionService, ISessionService sessionService, ISettingsService settingsService,
+    ILoanService loanService) : Controller {
 
 
         /// <summary> Objeto para gerenciamento do acervo. </summary>
-        private readonly ICollectionService _collectionService;
+        private readonly ICollectionService _collectionService = collectionService;
 
         /// <summary> Objeto para manutenção de livros descartados. </summary>
-        private readonly IDiscardService _discardService;
+        private readonly IDiscardService _discardService = discardService;
 
         /// <summary> Objeto para manutenção de empréstimos. </summary>
-        private readonly ILoanService _loanService;
+        private readonly ILoanService _loanService = loanService;
 
         /// <summary> Objeto para manutenção de livros. </summary>
-        private readonly IBookService _bookService;
+        private readonly IBookService _bookService = bookService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
+        private readonly ISessionService _sessionService = sessionService;
 
         /// <summary> Objeto para acesso às configurações do usuário. </summary>
-        private readonly ISettingsService _settingsService;
-
-
-        public DiscardController(IDiscardService discardService, IBookService bookService,
-        ICollectionService collectionService, ISessionService sessionService, ISettingsService settingsService,
-        ILoanService loanService) {
-            _collectionService = collectionService;
-            _discardService = discardService;
-            _bookService = bookService;
-            _sessionService = sessionService;
-            _settingsService = settingsService;
-            _loanService = loanService;
-        }
+        private readonly ISettingsService _settingsService = settingsService;
 
 
         /// <summary>
-        /// Retornar a página de manutenção de livros descartados.
+        /// Retornar a página para manutenção de livros descartados.
         /// </summary>
-        /// <returns>Página de manutenção de livros descartados.</returns>
+        /// <returns>Página para manutenção de livros descartados.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
@@ -181,7 +171,7 @@ namespace Library.Controllers {
                 return RedirectToAction("Login", "Login");
             }
 
-            var availableBooksResp = await _collectionService.GetCollectionBooksWithThumbnails();
+            var availableBooksResp = await _collectionService.GetCollectionBooks();
 
             if (availableBooksResp.Successful) {
 
@@ -314,9 +304,9 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Excluir o cadastro de um livro emprestado.
+        /// Excluir o cadastro de um livro descartado.
         /// </summary>
-        /// <param name="id">Identificador do livro.</param>
+        /// <param name="id">Identificador chave primária do livro.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

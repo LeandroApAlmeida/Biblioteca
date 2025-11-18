@@ -7,20 +7,14 @@ namespace Library.Services.Report {
     /// <summary>
     /// Classe para geração de relatórios em formato PDF.
     /// </summary>
-    public class PdfReportService: IPdfReportService {
+    public class PdfReportService(IConverter converter, IHtmlReportService htmlReportService) : IPdfReportService {
 
 
         /// <summary> Conversor HTML para PDF do DinkToPdf. </summary>
-        private readonly IConverter _converter;
+        private readonly IConverter _converter = converter;
 
         /// <summary> Objeto para geração de relatórios em HTML. </summary>
-        private readonly IHtmlReportService _htmlReportService;
-
-
-        public PdfReportService(IConverter converter, IHtmlReportService htmlReportService) {
-            _converter = converter;
-            _htmlReportService = htmlReportService;
-        }
+        private readonly IHtmlReportService _htmlReportService = htmlReportService;
 
 
         /// <summary>

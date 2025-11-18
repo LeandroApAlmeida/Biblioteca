@@ -9,25 +9,18 @@ namespace Library.Services.Authentication {
     /// <summary>
     /// Classe para gerenciamento do acesso à aplicação.
     /// </summary>
-    public class LoginService : ILoginService {
+    public class LoginService(IUserService userService, IPasswordService passwordService,
+    ISessionService sessionService) : ILoginService {
 
 
         /// <summary> Objeto para manutenção de contas de usuário. </summary>
-        private readonly IUserService _userService;
+        private readonly IUserService _userService = userService;
 
         /// <summary> Objeto para geração de hash da senha. </summary>
-        private readonly IPasswordService _passwordService;
+        private readonly IPasswordService _passwordService = passwordService;
 
         /// <summary> Objeto para manutenção de sessão de usuário. </summary>
-        private readonly ISessionService _sessionService;
-
-
-        public LoginService(IUserService userService, IPasswordService passwordService,
-        ISessionService sessionService) {
-            _userService = userService;
-            _passwordService = passwordService;
-            _sessionService = sessionService;
-        }
+        private readonly ISessionService _sessionService = sessionService;
 
 
         public async Task<Response<SessionModel?>> Login(LoginDto loginData, string? ip) {

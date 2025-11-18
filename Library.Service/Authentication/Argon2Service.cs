@@ -9,23 +9,18 @@ namespace Library.Services.Authentication {
     /// <summary>
     /// Classe para geração de hash de senha com base no algoritmo Argon2.
     /// </summary>
-    public class Argon2Service : IPasswordService {
+    /// <remarks>
+    /// Constructor da classe.
+    /// </remarks>
+    /// <param name="argon2Params">Parâmetros para o algoritmo Argon2.</param>
+    public class Argon2Service(Argon2Params argon2Params) : IPasswordService {
 
 
         /// <summary> Parâmetros para o algoritmo Argon2. </summary>
-        private readonly Argon2Params _argon2Params;
+        private readonly Argon2Params _argon2Params = argon2Params;
 
         /// <summary> Comprimento do hash gerado. </summary>
         private const int HASH_LENGTH = 32;
-
-
-        /// <summary>
-        /// Constructor da classe.
-        /// </summary>
-        /// <param name="argon2Params">Parâmetros para o algoritmo Argon2.</param>
-        public Argon2Service(Argon2Params argon2Params) {
-            _argon2Params = argon2Params;
-        }
 
 
         /// <summary>

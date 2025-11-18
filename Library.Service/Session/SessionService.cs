@@ -11,20 +11,14 @@ namespace Library.Services.Session {
     /// <summary>
     /// Classe para gerenciamento da sessão de usuário. 
     /// </summary>
-    public class SessionService : ISessionService {
+    public class SessionService(ApplicationDbContext context, IHttpContextAccessor contextAccessor) : ISessionService {
 
-
-        /// <summary> Objeto da sessão. </summary>
-        private readonly IHttpContextAccessor _contextAccessor;
 
         /// <summary> Objeto para acesso ao banco de dados. </summary>
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = context;
 
-
-        public SessionService(IHttpContextAccessor contextAccessor, ApplicationDbContext context) {
-            _contextAccessor = contextAccessor;
-            _context = context;
-        }
+        /// <summary> Objeto da sessão. </summary>
+        private readonly IHttpContextAccessor _contextAccessor = contextAccessor;
 
 
         public async Task<Response<SessionModel>> CreateSession(UserModel user, string? ip) {

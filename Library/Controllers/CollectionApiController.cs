@@ -11,26 +11,20 @@ namespace Library.Controllers {
     /// </summary>
     [ApiController]
     [Route("Api/[controller]")]
-    public class CollectionApiController : Controller {
+    public class CollectionApiController(IBookService bookService, ISessionService sessionService) : Controller {
 
 
         /// <summary> Objeto para manutenção de livros. </summary>
-        private readonly IBookService _bookService;
+        private readonly IBookService _bookService = bookService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
-
-
-        public CollectionApiController(IBookService bookService, ISessionService sessionService) {
-            _bookService = bookService;
-            _sessionService = sessionService;
-        }
+        private readonly ISessionService _sessionService = sessionService;
 
 
         /// <summary>
         /// Obter a capa de um livro que está gravada no banco de dados no formato string base64.
         /// </summary>
-        /// <param name="id">Identificador do livro</param>
+        /// <param name="id">Identificador chave primária do livro</param>
         /// <returns>String base64 que representa a capa do livro.</returns>
         [HttpGet("GetBookCover/{id}")]
         public async Task<ActionResult> GetBookCover(Guid id) {
@@ -44,17 +38,21 @@ namespace Library.Controllers {
             if (bookResp.Successful) {
 
                 if (bookResp.Data != null) {
+                    
                     return new JsonResult(
                         new { Id = bookResp.Data.Cover.Id, Data = bookResp.Data.Cover.Data },
                         new JsonSerializerOptions { PropertyNamingPolicy = null }
                     );
+                
                 } else {
+                
                     return NotFound(new { message = "Livro não encontrado." });
+                
                 }
 
             } else {
 
-                return StatusCode(500, new { message = "Erro interno ao buscar o livro." });
+                return StatusCode(500, new { message = "Erro ao buscar o livro." });
 
             }
 

@@ -10,22 +10,18 @@ namespace Library.Controllers {
     /// <summary>
     /// Controlador principal.
     /// </summary>
-    public class HomeController : Controller {
+    public class HomeController(ISessionService sessionService, ICollectionService collectionService,
+    ISettingsService settingsService) : Controller {
 
 
-        private readonly ISessionService _sessionService;
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
+        private readonly ISessionService _sessionService = sessionService;
 
-        private readonly ICollectionService _collectionService;
+        /// <summary> Objeto para gerenciamento do acervo. </summary>
+        private readonly ICollectionService _collectionService = collectionService;
 
-        private readonly ISettingsService _settingsService;
-
-
-        public HomeController(ISessionService sessionService, ICollectionService collectionService, 
-        ISettingsService settingsService) {
-            _sessionService = sessionService;
-            _collectionService = collectionService;
-            _settingsService = settingsService;
-        }
+        /// <summary> Objeto para acesso às configurações do usuário. </summary>
+        private readonly ISettingsService _settingsService = settingsService;
 
 
         /// <summary>

@@ -8,22 +8,16 @@ namespace Library.Services.Collection {
     /// <summary>
     /// Classe para manutenção de livros descartados.
     /// </summary>
-    public class DiscardService : IDiscardService {
+    public class DiscardService(ApplicationDbContext context, ILoanService loanService) : IDiscardService {
 
 
         /// <summary> Objeto para acesso ao banco de dados. </summary>
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context = context;
 
         /// <summary> Objeto para manutenção de livros emprestados. </summary>
-        private readonly ILoanService _loanService;
+        private readonly ILoanService _loanService = loanService;
 
 
-        public DiscardService(ApplicationDbContext context, ILoanService loanService) {
-            _context = context;
-            _loanService = loanService;
-        }
-
-        
         public async Task<Response<List<DiscardedBookModel>>> GetDiscardedBooks() {
 
             Response<List<DiscardedBookModel>> response = new();

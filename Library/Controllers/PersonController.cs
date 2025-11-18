@@ -12,20 +12,14 @@ namespace Library.Controllers {
     /// <summary>
     /// Controler para manutenção de pessoas.
     /// </summary>
-    public class PersonController : Controller {
+    public class PersonController(IPersonService personService, ISessionService sessionService) : Controller {
 
 
         /// <summary> Objeto para manutenção de pessoas. </summary>
-        private readonly IPersonService _personService;
+        private readonly IPersonService _personService = personService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
-
-
-        public PersonController(IPersonService personService, ISessionService sessionService) {
-            _personService = personService;
-            _sessionService = sessionService;
-        }
+        private readonly ISessionService _sessionService = sessionService;
 
 
         /// <summary>

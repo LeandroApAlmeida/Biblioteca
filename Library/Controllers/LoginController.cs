@@ -14,25 +14,18 @@ namespace Library.Controllers {
     /// <summary>
     /// Controlador para gerenciamento de login.
     /// </summary>
-    public class LoginController : Controller {
+    public class LoginController(ILoginService loginService, ISessionService sessionService,
+    IUserService userService) : Controller {
 
         
         /// <summary> Objeto para gerenciamento do login. </summary>
-        private readonly ILoginService _loginService;
+        private readonly ILoginService _loginService = loginService;
 
         /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
-        private readonly ISessionService _sessionService;
+        private readonly ISessionService _sessionService = sessionService;
 
         /// <summary> Objeto para manutenção de usuários. </summary>
-        private readonly IUserService _userService;
-
-
-        public LoginController(ILoginService loginService, ISessionService sessionService,
-        IUserService userService) {
-            _loginService = loginService;
-            _sessionService = sessionService;
-            _userService = userService;
-        }
+        private readonly IUserService _userService = userService;
 
 
         /// <summary>

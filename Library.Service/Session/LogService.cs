@@ -8,16 +8,11 @@ namespace Library.Services.Session {
     /// <summary>
     /// Classe para gerenciamento dos logs de sessão.
     /// </summary>
-    public class LogService : ILogService {
+    public class LogService(ApplicationDbContext context) : ILogService {
 
 
         /// <summary> Objeto para acesso ao banco de dados. </summary>
-        private readonly ApplicationDbContext _context;
-
-
-        public LogService(ApplicationDbContext context) {
-            _context = context;
-        }
+        private readonly ApplicationDbContext _context = context;
 
 
         public async Task<Response<List<SessionModel>>> GetSessionLog(DateTime beginDate, DateTime endDate) {

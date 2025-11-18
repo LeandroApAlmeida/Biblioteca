@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.Versioning;
 
 namespace Library.Services.Cover {
 
@@ -15,6 +16,7 @@ namespace Library.Services.Cover {
         /// </summary>
         /// <param name="imageBase64">Imagem de capa do livro, no formato string base64.</param>
         /// <returns>Miniatura da capa do livro, no formato string base64, com codificação JPEG.</returns>
+        [SupportedOSPlatform("windows")]
         public string CreateThumbnail(string imageBase64) {
 
             string base64Data = imageBase64.Substring(imageBase64.IndexOf(",") + 1);
@@ -37,6 +39,7 @@ namespace Library.Services.Cover {
         /// </summary>
         /// <param name="base64Image">Imagem de capa no formato string base64.</param>
         /// <returns>Imagem de capa no formato string base64 codificada como JPEG.</returns>
+        [SupportedOSPlatform("windows")]
         public string ConvertToJpeg(string base64Image) {
 
             if (!base64Image.StartsWith("data:image/jpeg;base64")) {
