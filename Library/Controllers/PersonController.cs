@@ -23,9 +23,9 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página de manutenção de pessoas.
+        /// Retornar a página para manutenção de pessoas.
         /// </summary>
-        /// <returns>Página de manutenção de pessoas.</returns>
+        /// <returns>Página para manutenção de pessoas.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
@@ -113,7 +113,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página para edição de uma pessoa.
         /// </summary>
-        /// <param name="id">Identificador chave primária da pessoa</param>
+        /// <param name="id">Identificador chave primária da pessoa.</param>
         /// <returns>Página para edição de uma pessoa.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {
@@ -144,7 +144,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Alterar o cadastro de uma pessoa.
         /// </summary>
-        /// <param name="book">Pessoa a ser alterada</param>
+        /// <param name="book">Pessoa a ser alterada.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -186,7 +186,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Excluir o cadastro de uma pessoa.
         /// </summary>
-        /// <param name="book">Identificador chave primária da pessoa a ser excluída.</param>
+        /// <param name="book">Identificador chave primária da pessoa.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -218,7 +218,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar o cadastro de uma pessoa.
         /// </summary>
-        /// <param name="id">Identificador chave primária da pessoa a ser retornada.</param>
+        /// <param name="id">Identificador chave primária da pessoa.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

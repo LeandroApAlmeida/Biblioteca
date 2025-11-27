@@ -8,7 +8,7 @@ namespace Library.Controllers {
 
 
     /// <summary>
-    /// Controlador principal.
+    /// Controlador da página principal.
     /// </summary>
     public class HomeController(ISessionService sessionService, ICollectionService collectionService,
     ISettingsService settingsService) : Controller {
@@ -50,21 +50,6 @@ namespace Library.Controllers {
 
             }
 
-        }
-
-
-        /// <summary>
-        /// Retornar a página de créditos do site.
-        /// </summary>
-        /// <returns>Página de créditos do site.</returns>
-        [HttpGet]
-        public IActionResult About() {
-
-            if (!_sessionService.IsSessionActive()) {
-                return RedirectToAction("Login", "Login");
-            }
-
-            return View();
         }
 
 

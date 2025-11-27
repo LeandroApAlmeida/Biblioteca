@@ -1,9 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Library.Services.Session;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Library.Controllers {
 
 
-    public class HelpController : Controller {
+    /// <summary>
+    /// Controler para exibição da ajuda da aplicação.
+    /// </summary>
+    public class HelpController(ISessionService sessionService) : Controller {
+
+
+        /// <summary> Objeto para gerenciamento de sessão do usuário. </summary>
+        private readonly ISessionService _sessionService = sessionService;
 
 
         /// <summary>
@@ -11,44 +19,47 @@ namespace Library.Controllers {
         /// </summary>
         /// <returns>Página de ajuda.</returns>
         public IActionResult Index() {
+
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
+            }
+
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "index.html");
+            
             return PhysicalFile(filePath, "text/html");
+        
         }
 
 
         /// <summary>
         /// Retornar a página de ajuda no primeiro acesso ao sistema.
         /// </summary>
-        /// <returns>Página de ajuda no primeiro acesso ao sistema.</returns>
+        /// <returns>Página de ajuda.</returns>
         [HttpGet]
         public IActionResult HelpFirstAccess() {
+        
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "user", "register-adm.html");
+            
             return PhysicalFile(filePath, "text/html");
+        
         }
 
 
         /// <summary>
-        /// Retornar a página de ajuda, de acordo com o índice.
+        /// Retornar a página de créditos do site.
         /// </summary>
-        /// <param name="index">Índice da página de ajuda.</param>
-        /// <returns>Página de ajuda, de acordo com o índice.</returns>
+        /// <returns>Página de créditos do site.</returns>
         [HttpGet]
-        public IActionResult HelpByIndex(int index) {
+        public IActionResult About() {
 
-            var filePath = "";
-
-            switch (index) {
-                case 10:
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "book-details", "book-details.html");
-                break;
-                default:
-                filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "help", "index.html");
-                break;
+            if (!_sessionService.IsSessionActive()) {
+                return RedirectToAction("Login", "Login");
             }
 
-            return PhysicalFile(filePath, "text/html");
+            return View();
 
         }
+
 
     }
 

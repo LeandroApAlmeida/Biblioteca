@@ -1,7 +1,7 @@
 ﻿
-/*
-    Módulo para tratamento de campos ocultos de uma pessoa na página.
-*/
+/**
+ * Módulo para tratamento de campos ocultos de uma pessoa na página.
+ */
 
 
 /**

@@ -1,8 +1,8 @@
 ﻿
-/*
-    Módulo para conversão do arquivo de imagem de capa selecionado na página em sua representação
-    no formato string base64, que será gravado no banco de dados.
-*/
+/**
+ * Módulo para conversão do arquivo de imagem de capa selecionado na página em sua representação
+ * no formato string base64, que será gravado no banco de dados.
+ */
 
 
 /**

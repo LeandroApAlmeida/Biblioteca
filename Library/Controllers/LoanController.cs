@@ -37,9 +37,9 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página de manutenção de empréstimos.
+        /// Retornar a página para manutenção de empréstimos.
         /// </summary>
-        /// <returns>Página de manutenção de empréstimos.</returns>
+        /// <returns>Página para manutenção de empréstimos.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
@@ -66,7 +66,8 @@ namespace Library.Controllers {
 
         /// <summary>
         /// Retornar a página para empréstimo de um livro selecionado na página de
-        /// manutenção do acervo. 
+        /// manutenção do acervo. Caso o livro já esteja emprestado, é necessário fazer
+        /// a devolução do mesmo.
         /// </summary>
         /// <param name="id">Identificador chave primária do livro.</param>
         /// <returns>Página para empréstimo de um livro.</returns>
@@ -119,8 +120,7 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Emprestar o livro selecionado na página de manutenção do acervo. Caso o livro já esteja 
-        /// emprestado, não permite o empréstimo antes que seja devolvido.
+        /// Emprestar o livro selecionado na página de manutenção do acervo.
         /// </summary>
         /// <param name="loan">Registro de empréstimo.</param>
         /// <returns>Página de redirecionamento.</returns>
@@ -245,7 +245,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Retornar a página para edição de um livro emprestado.
         /// </summary>
-        /// <param name="id">Identificador do registro de empréstimo.</param>
+        /// <param name="id">Identificador chave primária do registro de empréstimo.</param>
         /// <returns>Página para edição de um livro emprestado.</returns>
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id) {

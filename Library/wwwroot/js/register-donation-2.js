@@ -12,61 +12,94 @@ import { setBookData } from "./module-book-data.js"
 document.addEventListener('DOMContentLoaded', function () {
 
 
+    // Componente para seleção do beneficiário da doação.
     var personSelector = document.getElementById('select-person');
+
+    // Componente para seleção do livro a ser doado.
     var bookSelector = document.getElementById('select-book');
 
+    // Move o foco para o componente de seleção do livro a ser doado.
     bookSelector.focus();
 
+    // Atribui os tratadores de eventos aos componentes.
     personSelector.addEventListener('change', onSelectedPerson);
     bookSelector.addEventListener('change', onSelectedBook);
 
-    document.getElementById("donation-date").value = formatToDatetimeLocal(new Date());
-
+    // Força a execução dos eventos nos componentes, para atualizar a página.
     personSelector.dispatchEvent(new Event('change'));
     bookSelector.dispatchEvent(new Event('change'));
 
+    // Atribui a data atual ao campo Data da doação.
+    document.getElementById("donation-date").value = formatToDatetimeLocal(new Date());
 
+
+    /**
+     * Evento disparado ao submeter o form. Neste caso, desabilita os campos de edição, os
+     * botões e exibe o spinner, mostrando que há um processo em execução.
+     */
     document.getElementById('donate-book-form').addEventListener('submit', function (event) {
 
+        // Exibe o spinner.
         document.getElementById('spinner').style.display = 'block';
         document.body.style.overflow = 'hidden';
 
+        // Desabilita os campos da página.
         document.getElementById('select-book').setAttribute('readonly', 'readonly');
         document.getElementById('img-preview').setAttribute('readonly', 'readonly');
         document.getElementById('select-person').setAttribute('readonly', 'readonly');
         document.getElementById('donation-date').setAttribute('readonly', 'readonly');
         document.getElementById('notes').setAttribute('readonly', 'readonly');
 
+        // Desabilita os botões da página.
         document.getElementById('save-button').disabled = true;
         document.getElementById('cancel-button').classList.add('disabled');
 
     });
 
 
+    /**
+     * Evento disparado ao pressionar alguma tecla/atalho de teclado. As teclas tratadas são:
+     * 
+     * CTRL + S: Salvar os campos da página.
+     * 
+     * ESC: Cancelar a edição.
+     */
     document.addEventListener('keydown', function (event) {
+
         if (event.ctrlKey && event.key.toLowerCase() === 's') {
+            // CTRL + S
             event.preventDefault();
             document.getElementById('save-button').click();
         } else if (event.key === 'Escape') {
+            // ESC
             event.preventDefault();
             document.getElementById('cancel-button').click();
         }
+
     });
 
 
 });
 
 
+/**
+ * Tratador do evento de seleção do beneficiário no componente.
+ * 
+ * @param {any} event evento associado.
+ */
 function onSelectedPerson(event) {
 
-    var personsData = window.personsData;
+    // Lista de pessoas cadastradas no banco de dados e listadas no componente.
+    var persons = window.personsData;
 
-    for (var i = 0; i < personsData.length; i++) {
+    for (var i = 0; i < persons.length; i++) {
 
-        var person = personsData[i];
+        var person = persons[i];
 
+        // Compara o Id da pessoa no índice i com o do beneficiário selecionado.
         if (person.Id == event.target.value) {
 
+            // Preenche os campos ocultos na página com os dados do beneficiário.
             setPersonData(document, person);
 
             break;
@@ -78,15 +111,26 @@ function onSelectedPerson(event) {
 }
 
 
+/**
+ * Tratador do evento de seleção do livro no componente.
+ * 
+ * @param {any} event evento associado.
+ */
 function onSelectedBook(event) {
 
-    var booksData = window.booksData;
+    // Lista com os livros cadastrados no banco de dados.
+    var books = window.booksData;
 
-    for (var i = 0; i < booksData.length; i++) {
+    for (var i = 0; i < books.length; i++) {
 
-        var book = booksData[i];
+        var book = books[i];
 
+        // Compara o livro no índice i com o que está selecionado no componente.
         if (book.Id == event.target.value) {
+
+            // Executa uma chamada à API /Api/CollectionApi/GetBookCover para recuperar a capa do
+            // livro, no formato string base 64. Isto é necessário pois a lista books não traz a
+            // capa do livro, por questão de otimização no carregamento da página.
 
             const {
                 host,
@@ -108,10 +152,14 @@ function onSelectedBook(event) {
 
             }).then(cover => {
 
+                // Obtém o componente de vizualização da capa e atualiza a imagem do mesmo.
+
                 const imgPreview = document.getElementById("img-preview");
                 imgPreview.style.display = "block";
                 imgPreview.innerHTML = '<img src="' + cover.Data + '" class="center"/>';
                 imgPreview.removeAttribute("hidden");
+
+                // Preenche os campos ocultos na página com os dados do livro e capa.
 
                 setBookData(document, book, cover);
 

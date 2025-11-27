@@ -14,16 +14,19 @@ using Library;
 var builder = WebApplication.CreateBuilder(args);
 
 
+// Estabelece a conexão com o banco de dados.
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        //builder.Configuration.GetConnectionString("TestConnection"),
+        //builder.Configuration.GetConnectionString("DefaultConnection"),
+        builder.Configuration.GetConnectionString("TestConnection"),
         b => b.MigrationsAssembly("Library")
     )
 
 );
 
+// Carrega a DLL denominada "libwkhtmltox.dll" para geração de PDF.
 
 new CustomAssemblyLoadContext().LoadUnmanagedLibrary(
     Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll")

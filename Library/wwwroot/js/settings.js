@@ -1,4 +1,9 @@
 ﻿
+/**
+ * Tratador de eventos da página de configurações (~\Views\Settings\Manage.cshtml).
+ */
+
+
 let palleteColor = "#feffff";
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -91,17 +96,26 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('apply-styles-to-lists').checked = stringToBool(isApplyStylesToLists);
     document.getElementById('show-footer-caption').checked = stringToBool(isShowFooterCaption);
 
+
     document.getElementById('color-pallete').addEventListener('change', (event) => {
+
         const select = event.target;
+
         if (select.selectedOptions.length > 1) {
+
             const lastSelected = select.selectedOptions[select.selectedOptions.length - 1];
+
             Array.from(select.options).forEach(option => {
                 option.selected = false;
             });
+
             lastSelected.selected = true;
         }
+
         palleteColor = select.value;
+
         document.getElementById('color-view').style.backgroundColor = palleteColor;
+
     });
 
 

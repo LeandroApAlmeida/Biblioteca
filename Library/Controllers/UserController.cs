@@ -21,9 +21,9 @@ namespace Library.Controllers {
 
 
         /// <summary>
-        /// Retornar a página de manutenção de usuários.
+        /// Retornar a página para manutenção de usuários.
         /// </summary>
-        /// <returns>Página de manutenção de usuários.</returns>
+        /// <returns>Página para manutenção de usuários.</returns>
         [HttpGet]
         public async Task<IActionResult> Manage() {
 
@@ -72,7 +72,7 @@ namespace Library.Controllers {
         /// <summary>
         /// Cadastrar o usuário administrador.
         /// </summary>
-        /// <param name="admin">Usuáro administrador.</param>
+        /// <param name="admin">Usuário administrador.</param>
         /// <returns>Página de redirecionamento.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]

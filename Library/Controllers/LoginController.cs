@@ -56,10 +56,10 @@ namespace Library.Controllers {
         /// Função da API do Windows que executa um protocolo ARP no roteador para obter informações
         /// sobre o host remoto conectado.
         /// </summary>
-        /// <param name="destIP">IP de destino, obtido da conexão.</param>
-        /// <param name="srcIP">IP de origem do host remoto.</param>
-        /// <param name="macAddr">Número MAC do host remoto.</param>
-        /// <param name="macAddrLen">Comprimento do número MAC do host remoto.</param>
+        /// <param name="destIP">Endereço IP de destino (o IP que se quer resolver para um MAC).</param>
+        /// <param name="srcIP">Endereço IP de origem (0 para deixar o sistema escolher automaticamente).</param>
+        /// <param name="macAddr">Array de bytes onde o endereço MAC retornado será armazenado.</param>
+        /// <param name="macAddrLen">Comprimento do buffer macAddr.</param>
         /// <returns></returns>
         [DllImport("iphlpapi.dll", ExactSpelling = true)]
         public static extern int SendARP(int destIP, int srcIP, byte[] macAddr, ref uint macAddrLen);

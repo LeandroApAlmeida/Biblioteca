@@ -1,9 +1,9 @@
 ﻿
-/*
-    Configuração da barra de menu das páginas de layout. O menu é utilizado pelos layouts
-    ~\Views\Shared\_Layout.cshtml e ~\Views\Shared\_LayoutAdmin.cshtml. O layout de login
-    ~\Views\Shared\_LoginLayout.cshtml não tem menu.
-*/
+/**
+ * Configuração da barra de menu das páginas de layout. O menu é utilizado pelos layouts
+ * ~\Views\Shared\_Layout.cshtml e ~\Views\Shared\_LayoutAdmin.cshtml. O layout de login
+ * ~\Views\Shared\_LoginLayout.cshtml não tem menu.
+ */
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         setMenuOption(9);
     } else if (pathname.startsWith("/Settings")) {
         setMenuOption(10);
-    } else if (pathname.startsWith("/Home/About")) {
+    } else if (pathname.startsWith("/Help/About")) {
         setMenuOption(8);
     } else {
         setMenuOption(1);
@@ -60,14 +60,16 @@ document.addEventListener('DOMContentLoaded', function () {
  * 
  * 2. Ativa o item de menu para criar a linha horizontal de destaque do menu, configurada via CSS.
  * 
- * O banner da página não recebe esta linha, conduzindo para a página de detalhes de um livro, a
+ * O logotipo da página não recebe esta linha, conduzindo para a página de detalhes de um livro, a
  * qual será configurada no menu.
  * 
  * @param {any} menuIndex índice do menu.
  */
 function setMenuOption(menuIndex) {
 
+    // Caminho do arquivo de ícone da aba do navegador.
     var relativePath;
+    // Índice do menu selecionado.
     var menuId;
 
     switch (menuIndex) {
@@ -134,9 +136,11 @@ function setMenuOption(menuIndex) {
 
     }
 
+    // Obtém o campo que define o caminho do ícone na aba do navegador.
     let icon = document.querySelector('link[rel="icon"]');
 
     if (!icon) {
+        // Se o campo não existe, cria-o na página.
         icon = document.createElement('link');
         icon.setAttribute('rel', 'icon');
         document.head.appendChild(icon);
@@ -150,13 +154,13 @@ function setMenuOption(menuIndex) {
 
     const absolutePath = getAbsolutePath(relativePath.replace('~', ''));
 
-    // Atribui o ícone à aba do navegador.
+    // Atribui o ícone à aba do navegador, com 24x24 pixels.
 
     icon.setAttribute('type', 'image/png');
     icon.setAttribute('sizes', '24x24');
     icon.setAttribute('href', absolutePath);
 
-    // Ativa o item de menu para receber a linha de horizontal
+    // Ativa o item de menu para receber a linha horizontal via CSS.
 
     if (document.getElementById(menuId) != null) {
         document.getElementById(menuId).className = "active";

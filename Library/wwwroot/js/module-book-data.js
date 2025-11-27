@@ -1,7 +1,7 @@
 ﻿
-/*
-    Módulo para tratamento de campos ocultos de um livro na página.
-*/
+/**
+ * Módulo para tratamento de campos ocultos de um livro na página.
+ */
 
 
 /**
