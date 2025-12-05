@@ -2,6 +2,7 @@
 using Library.Db.Models;
 using Library.Services.Cover;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Versioning;
 
 
 namespace Library.Services.Collection {
@@ -413,7 +414,8 @@ namespace Library.Services.Collection {
 
         }
 
-        
+
+        [SupportedOSPlatform("windows")]
         public async Task<Response<BookModel>> RegisterBook(BookModel book) {
 
             Response<BookModel> response = new();
@@ -459,7 +461,8 @@ namespace Library.Services.Collection {
 
         }
 
-        
+
+        [SupportedOSPlatform("windows")]
         public async Task<Response<BookModel>> EditBook(BookModel book) {
 
             Response<BookModel> response = new();

@@ -17,7 +17,6 @@ namespace Library.Services.Session {
 
         public async Task<Response<List<SessionModel>>> GetSessionLog(DateTime beginDate, DateTime endDate) {
 
-
             Response<List<SessionModel>> response = new();
 
             try {
@@ -78,7 +77,6 @@ namespace Library.Services.Session {
                 return response;
 
             }
-
 
         }
 

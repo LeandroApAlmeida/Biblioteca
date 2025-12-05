@@ -40,7 +40,7 @@ página exibida ao clicar no menu Livro.
     string? discardedTextColor = settings.DiscardedTextColor;
     string? donatedTextColor = settings.DonatedTextColor;
     string? borrowedTextColor = settings.BorrowedTextColor;
-    string? pageBackgroudColor = settings.PageBackgroundColor;
+    string? pageBackgroundColor = settings.PageBackgroundColor;
 
 
     // Tags HTML para efeitos de fonte de livros descartados.
@@ -131,7 +131,7 @@ página exibida ao clicar no menu Livro.
         }
 
         #btn-tab-1.active, #btn-tab-2.active {
-            border-bottom: 1px solid @pageBackgroudColor;
+            border-bottom: 1px solid @pageBackgroundColor;
         }
 
     </style>
@@ -213,7 +213,7 @@ página exibida ao clicar no menu Livro.
                 </a>
             }
 
-            @*Botão pesquisar. Será exibido o diálogo para buscar um livro (filter-dialog).*@
+            @*Botão pesquisar. Será exibido o diálogo para buscar um livro (book-filter-dialog).*@
 
             <button id="button-filter" class="btn btn-primary nav-button" data-toggle="modal" data-target="#book-filter-dialog" style="border:hidden;">
                 <img class="m-0" src="~/img/search_item_icon.png" />
@@ -421,6 +421,7 @@ página exibida ao clicar no menu Livro.
 
 
 
+@*Filtro para seleção do livro.*@
 
 @await Html.PartialAsync("~/Views/Shared/Filter/_BookFilter.cshtml", books)
 
